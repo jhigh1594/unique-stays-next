@@ -742,7 +742,7 @@ export default function HomeContent({
       ══════════════════════════════════════════════════════ */}
       <section
         className="py-28 overflow-hidden grain-overlay"
-        style={{ background: 'oklch(0.22 0.01 60)' }}
+        style={{ background: 'oklch(0.38 0.09 155)' }}
         data-dark-section
       >
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -757,7 +757,7 @@ export default function HomeContent({
               >
                 <span
                   className="stamp-badge"
-                  style={{ color: 'oklch(0.68 0.16 145)', borderColor: 'oklch(0.68 0.16 145)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                  style={{ color: 'oklch(0.72 0.10 40)', borderColor: 'oklch(0.72 0.10 40)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                 >
                   Our Editorial Philosophy
                 </span>
@@ -786,7 +786,7 @@ export default function HomeContent({
                 ))}
                 <br />
                 <motion.span
-                  style={{ display: 'inline-block', color: 'oklch(0.75 0.18 145)', fontStyle: 'italic' }}
+                  style={{ display: 'inline-block', color: 'oklch(0.85 0.10 45)', fontStyle: 'italic' }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-80px' }}
@@ -826,9 +826,9 @@ export default function HomeContent({
                   <motion.span
                     className="inline-flex items-center gap-2 text-sm font-semibold"
                     style={{
-                      color: 'oklch(0.68 0.16 145)',
+                      color: 'oklch(0.72 0.10 40)',
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
-                      borderBottom: '1px solid oklch(0.68 0.16 145 / 0.4)',
+                      borderBottom: '1px solid oklch(0.72 0.10 40 / 0.4)',
                       paddingBottom: '2px',
                     }}
                     whileHover={{ gap: '12px' }}
@@ -925,9 +925,9 @@ export default function HomeContent({
                   <span
                     className="stamp-badge"
                     style={{
-                      background: 'oklch(0.38 0.09 155)',
+                      background: 'oklch(0.55 0.14 38)',
                       color: 'oklch(0.99 0.005 85)',
-                      borderColor: 'oklch(0.52 0.08 155)',
+                      borderColor: 'oklch(0.72 0.10 40)',
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
                       fontSize: '0.65rem',
                       padding: '4px 10px',
