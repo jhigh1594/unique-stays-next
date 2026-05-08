@@ -1058,61 +1058,28 @@ export default function HomeContent({
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {categories.slice(0, 2).map((cat, i) => {
+            {categories.map((cat, i) => {
               const palette = [
                 { bg: 'oklch(0.55 0.14 38)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.85 0.10 45)' },
                 { bg: 'oklch(0.38 0.09 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.72 0.12 155)' },
-              ][i]
-              return (
-                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`}>
-                  <motion.div
-                    className="fade-up col-span-1 md:col-span-2 p-6 md:p-8 cursor-pointer"
-                    style={{
-                      background: palette.bg,
-                      borderRadius: '3px',
-                      transitionDelay: `${i * 60}ms`,
-                      minHeight: '160px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                    data-cursor="view"
-                  >
-                    <div className="text-4xl">{cat.emoji}</div>
-                    <div>
-                      <div className="text-2xl md:text-3xl font-bold mb-1" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
-                        {cat.label}
-                      </div>
-                      <div className="stamp-badge" style={{ color: palette.count, borderColor: palette.count, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                        {cat.count} stays
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              )
-            })}
-
-            {categories.slice(2, 6).map((cat, i) => {
-              const palette = [
-                { bg: 'oklch(0.30 0.01 60)', text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
-                { bg: 'oklch(0.72 0.10 40)', text: 'oklch(0.15 0.01 60)', count: 'oklch(0.30 0.04 40)' },
+                { bg: 'oklch(0.30 0.01 60)',  text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
+                { bg: 'oklch(0.72 0.10 40)',  text: 'oklch(0.15 0.01 60)',  count: 'oklch(0.30 0.04 40)' },
                 { bg: 'oklch(0.56 0.09 220)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.82 0.06 220)' },
-                { bg: 'oklch(0.30 0.01 60)', text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
-              ][i]
+                { bg: 'oklch(0.30 0.01 60)',  text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
+                { bg: 'oklch(0.52 0.08 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.80 0.06 155)' },
+                { bg: 'oklch(0.55 0.14 38)',  text: 'oklch(0.99 0.005 85)', count: 'oklch(0.85 0.10 45)' },
+                { bg: 'oklch(0.88 0.04 75)',  text: 'oklch(0.22 0.01 60)',  count: 'oklch(0.50 0.03 60)' },
+                { bg: 'oklch(0.38 0.09 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.72 0.12 155)' },
+              ][i % 10]
               return (
-                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`}>
+                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`} className="block">
                   <motion.div
-                    className="fade-up p-5 cursor-pointer"
+                    className="fade-up cursor-pointer flex flex-col justify-between p-5"
                     style={{
                       background: palette.bg,
                       borderRadius: '3px',
-                      transitionDelay: `${(i + 2) * 60}ms`,
-                      minHeight: '160px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
+                      aspectRatio: '4 / 3',
+                      transitionDelay: `${i * 60}ms`,
                     }}
                     whileHover={{ scale: 1.03 }}
                     transition={{ type: 'spring', stiffness: 320, damping: 22 }}
@@ -1120,45 +1087,7 @@ export default function HomeContent({
                   >
                     <div className="text-3xl">{cat.emoji}</div>
                     <div>
-                      <div className="text-lg font-bold mb-1" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
-                        {cat.label}
-                      </div>
-                      <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: palette.count, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                        {cat.count} stays
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              )
-            })}
-
-            {categories.slice(6).map((cat, i) => {
-              const palette = [
-                { bg: 'oklch(0.52 0.08 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.80 0.06 155)' },
-                { bg: 'oklch(0.55 0.14 38)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.85 0.10 45)' },
-                { bg: 'oklch(0.88 0.04 75)', text: 'oklch(0.22 0.01 60)', count: 'oklch(0.50 0.03 60)' },
-                { bg: 'oklch(0.38 0.09 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.72 0.12 155)' },
-              ][i % 4]
-              return (
-                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`}>
-                  <motion.div
-                    className="fade-up p-5 cursor-pointer"
-                    style={{
-                      background: palette.bg,
-                      borderRadius: '3px',
-                      transitionDelay: `${(i + 6) * 60}ms`,
-                      minHeight: '160px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                    data-cursor="view"
-                  >
-                    <div className="text-2xl">{cat.emoji}</div>
-                    <div>
-                      <div className="text-base font-bold mb-1" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
+                      <div className="font-bold mb-1 text-lg leading-tight" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
                         {cat.label}
                       </div>
                       <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: palette.count, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
