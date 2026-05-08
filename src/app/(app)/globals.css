@@ -83,7 +83,7 @@
 
   html {
     scroll-behavior: smooth;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23A84626' stroke-width='0.75' opacity='0.25'/%3E%3Cpath d='M12 2 L14 12 L10 12 Z' fill='%23A84626'/%3E%3Cpath d='M12 22 L14 12 L10 12 Z' fill='%23A84626' opacity='0.22'/%3E%3Ccircle cx='12' cy='12' r='1.8' fill='%231E1914'/%3E%3C/svg%3E") 12 12, crosshair;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='11' fill='none' stroke='white' stroke-width='3.5' opacity='0.3'/%3E%3Cpath d='M14 3 L16.5 13 L11.5 13 Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round' opacity='0.5'/%3E%3Ccircle cx='14' cy='14' r='3.5' fill='white' opacity='0.4'/%3E%3Ccircle cx='14' cy='14' r='11' fill='none' stroke='%23A84626' stroke-width='1.5'/%3E%3Cpath d='M14 3 L16.5 13 L11.5 13 Z' fill='%23A84626'/%3E%3Cpath d='M14 25 L16.5 15 L11.5 15 Z' fill='%23A84626' opacity='0.3'/%3E%3Ccircle cx='14' cy='14' r='2.2' fill='%231E1914'/%3E%3C/svg%3E") 14 14, crosshair;
   }
 
   body {
@@ -106,7 +106,7 @@
   select:not(:disabled),
   input[type="checkbox"]:not(:disabled),
   input[type="radio"]:not(:disabled) {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23A84626' stroke-width='0.75' opacity='0.35'/%3E%3Cpath d='M12 2 L14 12 L10 12 Z' fill='%23A84626'/%3E%3Cpath d='M12 22 L14 12 L10 12 Z' fill='%23A84626' opacity='0.22'/%3E%3Ccircle cx='12' cy='12' r='1.8' fill='%231E1914'/%3E%3C/svg%3E") 12 2, pointer;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='11' fill='none' stroke='white' stroke-width='3.5' opacity='0.3'/%3E%3Cpath d='M14 3 L16.5 13 L11.5 13 Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round' opacity='0.5'/%3E%3Ccircle cx='14' cy='14' r='3.5' fill='white' opacity='0.4'/%3E%3Ccircle cx='14' cy='14' r='11' fill='none' stroke='%23A84626' stroke-width='1.5'/%3E%3Cpath d='M14 3 L16.5 13 L11.5 13 Z' fill='%23A84626'/%3E%3Cpath d='M14 25 L16.5 15 L11.5 15 Z' fill='%23A84626' opacity='0.3'/%3E%3Ccircle cx='14' cy='14' r='2.2' fill='%231E1914'/%3E%3C/svg%3E") 14 3, pointer;
   }
 }
 
