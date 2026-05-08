@@ -299,6 +299,24 @@
 
 /* Cursor */
 
+/* Dark section cursor — white ring, forest-green north, cream south, arrows inset from ring */
+[data-dark-section],
+[data-dark-section] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='11' fill='none' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 5 L16.5 12 L11.5 12 Z' fill='%23174E2F'/%3E%3Cpath d='M14 23 L16.5 16 L11.5 16 Z' fill='%23F7F0E0'/%3E%3Ccircle cx='14' cy='14' r='1.8' fill='white' opacity='0.65'/%3E%3C/svg%3E") 14 14, crosshair;
+}
+
+[data-dark-section] button:not(:disabled),
+[data-dark-section] [role="button"]:not([aria-disabled="true"]),
+[data-dark-section] [type="button"]:not(:disabled),
+[data-dark-section] [type="submit"]:not(:disabled),
+[data-dark-section] [type="reset"]:not(:disabled),
+[data-dark-section] a[href],
+[data-dark-section] select:not(:disabled),
+[data-dark-section] input[type="checkbox"]:not(:disabled),
+[data-dark-section] input[type="radio"]:not(:disabled) {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='11' fill='none' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 5 L16.5 12 L11.5 12 Z' fill='%23174E2F'/%3E%3Cpath d='M14 23 L16.5 16 L11.5 16 Z' fill='%23F7F0E0'/%3E%3Ccircle cx='14' cy='14' r='1.8' fill='white' opacity='0.65'/%3E%3C/svg%3E") 14 5, pointer;
+}
+
 /* Polaroid develop */
 .polaroid-develop {
   filter: sepia(0.9) brightness(1.35) blur(6px) saturate(0.3);
