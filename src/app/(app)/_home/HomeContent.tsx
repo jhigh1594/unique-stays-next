@@ -281,7 +281,7 @@ function SpokeHubSection() {
                     >
                       {spoke.tagline}
                     </p>
-                    <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-center justify-between mt-auto" style={{ paddingBottom: '6px' }}>
                       <div className="flex gap-3">
                         {spoke.stats.slice(0, 2).map((stat, j) => (
                           <div key={j}>
