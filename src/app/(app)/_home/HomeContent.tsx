@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -211,40 +212,59 @@ function SpokeHubSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 py-4 items-stretch">
           {SPOKES.map((spoke, i) => (
-            <Link key={spoke.slug} href={`/${spoke.slug}`}>
+            <Link key={spoke.slug} href={`/${spoke.slug}`} className="block h-full">
               <motion.div
-                className="fade-up group cursor-pointer"
+                className="group cursor-pointer flex flex-col h-full"
+                initial={{ opacity: 0, y: 24, rotate: SPOKE_TILTS[i] }}
+                whileInView={{ opacity: 1, y: 0, rotate: SPOKE_TILTS[i] }}
+                viewport={{ once: true, margin: '-60px' }}
+                whileHover={{ y: -10, rotate: 0, boxShadow: '0 28px 64px -8px rgba(0,0,0,0.55)' }}
+                transition={{ type: 'spring', stiffness: 280, damping: 22, delay: i * 0.08 }}
                 style={{
-                  transitionDelay: `${i * 80}ms`,
                   padding: '9px 9px 40px 9px',
                   borderRadius: '3px',
                   background: 'oklch(0.97 0.015 85 / 0.94)',
                   border: '1px solid oklch(0.78 0.025 75)',
                   boxShadow: SPOKE_SHADOWS[i],
-                  rotate: SPOKE_TILTS[i],
                 }}
-                whileHover={{ y: -10, rotate: 0, boxShadow: '0 28px 64px -8px rgba(0,0,0,0.55)' }}
-                transition={{ type: 'spring', stiffness: 280, damping: 22 }}
                 data-cursor="view"
               >
                 {/* Photo */}
-                <div className="relative h-52 overflow-hidden" style={{ borderRadius: '1px' }}>
-                  <img
+                <div className="relative h-52 overflow-hidden flex-shrink-0" style={{ borderRadius: '1px' }}>
+                  <Image
                     src={spoke.heroImage}
                     alt={spoke.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div
                     className="absolute inset-0"
                     style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }}
                   />
+                  {/* Postcard stamp */}
+                  <div className="absolute top-3 right-3">
+                    <span
+                      className="stamp-badge"
+                      style={{
+                        background: 'oklch(0.55 0.14 38)',
+                        color: 'oklch(0.99 0.005 85)',
+                        borderColor: 'oklch(0.72 0.10 40)',
+                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontSize: '0.55rem',
+                        padding: '3px 8px',
+                      }}
+                    >
+                      ✦ {i + 1} / 5
+                    </span>
+                  </div>
                 </div>
 
                 {/* Caption — ruled lines via polaroid-caption */}
-                <div className="polaroid-caption relative pt-3 px-1">
-                  <div className="relative" style={{ zIndex: 1 }}>
+                <div className="polaroid-caption relative pt-3 px-1 flex flex-col flex-1">
+                  <div className="relative flex flex-col flex-1" style={{ zIndex: 1 }}>
                     <p
                       className="text-[10px] font-bold uppercase tracking-widest mb-1"
                       style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
@@ -258,12 +278,12 @@ function SpokeHubSection() {
                       {spoke.title}
                     </h3>
                     <p
-                      className="text-[11px] leading-snug mb-2.5"
+                      className="text-[11px] leading-snug mb-2.5 flex-1"
                       style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                     >
                       {spoke.tagline}
                     </p>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-auto">
                       <div className="flex gap-3">
                         {spoke.stats.slice(0, 2).map((stat, j) => (
                           <div key={j}>
@@ -347,10 +367,13 @@ export default function HomeContent({
           className="absolute inset-0 grain-overlay"
           style={{ y: heroImageY }}
         >
-          <img
+          <Image
             src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-treehouse-JWbjZXvAKxUiXAg4QS7BnL.webp"
             alt="Enchanted treehouse in redwood forest"
-            className="w-full h-full object-cover scale-110"
+            fill
+            sizes="100vw"
+            className="object-cover scale-110"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/5 to-black/75" />
         </motion.div>
@@ -666,10 +689,13 @@ export default function HomeContent({
                     whileHover={{ y: -6 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                   >
-                    <img
+                    <Image
                       src={featuredStays[0].imageUrl}
                       alt={featuredStays[0].title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/15 to-transparent" />
                     <div className="absolute top-5 left-5 flex gap-2">
