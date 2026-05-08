@@ -841,7 +841,7 @@ export default function HomeContent({
             </div>
 
             {/* Right — postcard stack with drop animation */}
-            <div className="lg:col-span-5 relative flex justify-center items-center" style={{ minHeight: '560px' }}>
+            <div className="lg:col-span-5 relative flex justify-center items-center" style={{ minHeight: '720px' }}>
               <div
                 className="absolute select-none pointer-events-none"
                 style={{
@@ -866,10 +866,10 @@ export default function HomeContent({
               <motion.div
                 className="absolute overflow-hidden shadow-2xl"
                 style={{
-                  width: '82%',
-                  maxWidth: 380,
+                  width: '88%',
+                  maxWidth: 420,
                   borderRadius: '3px',
-                  top: '4%',
+                  top: '2%',
                   right: '2%',
                   zIndex: 1,
                 }}
@@ -881,7 +881,7 @@ export default function HomeContent({
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-dome-fNq53JMSCre9pYDm759BF5.webp"
                   alt="Desert dome"
-                  className="w-full h-60 object-cover"
+                  className="w-full h-72 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
                   <p style={{ fontFamily: 'Fraunces, serif', fontSize: '0.75rem', color: 'oklch(0.35 0.02 60)', fontStyle: 'italic' }}>
@@ -893,12 +893,12 @@ export default function HomeContent({
               <motion.div
                 className="relative overflow-hidden shadow-2xl"
                 style={{
-                  width: '86%',
-                  maxWidth: 400,
+                  width: '90%',
+                  maxWidth: 440,
                   borderRadius: '3px',
                   border: '10px solid oklch(0.99 0.005 85)',
                   zIndex: 2,
-                  marginTop: '80px',
+                  marginTop: '200px',
                 }}
                 initial={{ y: -120, rotate: 2, opacity: 0 }}
                 whileInView={{ y: 0, rotate: 5, opacity: 1 }}
@@ -908,7 +908,7 @@ export default function HomeContent({
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-banner-mhiZ34LNJ6enqJKTL8o9M4.webp"
                   alt="Unique stays collage"
-                  className="w-full h-72 object-cover"
+                  className="w-full h-80 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
                   <p style={{ fontFamily: 'Fraunces, serif', fontSize: '0.75rem', color: 'oklch(0.35 0.02 60)', fontStyle: 'italic' }}>
