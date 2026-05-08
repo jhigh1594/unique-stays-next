@@ -28,6 +28,17 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com'
   ),
+  icons: {
+    icon: [
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', type: 'image/png', sizes: '180x180' },
+    ],
+  },
+  openGraph: {
+    images: [{ url: '/app-icon-512.png', width: 512, height: 512 }],
+  },
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

@@ -1,14 +1,14 @@
 export const CATEGORIES_CONFIG = [
-  { id: 'Treehouses', emoji: '🌲', label: 'Treehouses' },
-  { id: 'Geodesic Domes', emoji: '🔮', label: 'Geodesic Domes' },
-  { id: 'Houseboats', emoji: '⛵', label: 'Houseboats' },
-  { id: 'Lighthouses', emoji: '🏮', label: 'Lighthouses' },
-  { id: 'Converted Barns', emoji: '🏚️', label: 'Converted Barns' },
-  { id: 'Cave Dwellings', emoji: '🪨', label: 'Cave Dwellings' },
-  { id: 'A-Frame Cabins', emoji: '🏔️', label: 'A-Frame Cabins' },
-  { id: 'Tiny Homes', emoji: '🏡', label: 'Tiny Homes' },
-  { id: 'Glamping', emoji: '⛺', label: 'Glamping' },
-  { id: 'Castles & Estates', emoji: '🏰', label: 'Castles & Estates' },
+  { id: 'treehouses', emoji: '🌲', label: 'Treehouses' },
+  { id: 'geodesic-domes', emoji: '🔮', label: 'Geodesic Domes' },
+  { id: 'houseboats', emoji: '⛵', label: 'Houseboats' },
+  { id: 'lighthouses', emoji: '🏮', label: 'Lighthouses' },
+  { id: 'converted-barns', emoji: '🏚️', label: 'Converted Barns' },
+  { id: 'cave-dwellings', emoji: '🪨', label: 'Cave Dwellings' },
+  { id: 'a-frame-cabins', emoji: '🏔️', label: 'A-Frame Cabins' },
+  { id: 'tiny-homes', emoji: '🏡', label: 'Tiny Homes' },
+  { id: 'glamping', emoji: '⛺', label: 'Glamping' },
+  { id: 'castles-estates', emoji: '🏰', label: 'Castles & Estates' },
 ] as const
 
 export type CategoryId = typeof CATEGORIES_CONFIG[number]['id']

@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Compass, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
@@ -51,38 +52,17 @@ export default function Navbar() {
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
 
-            {/* Logo / Wordmark */}
+            {/* Logo */}
             <Link href="/">
-              <div className="flex items-center gap-2.5 group compass-hover">
-                <div className="w-8 h-8 rounded-full bg-[oklch(0.55_0.14_38)] flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
-                  <Compass className="w-4 h-4 text-[oklch(0.99_0.005_85)]" strokeWidth={2} />
-                </div>
-                <div className="flex flex-col leading-none">
-                  <span
-                    className="font-bold tracking-tight"
-                    style={{
-                      fontFamily: 'Fraunces, serif',
-                      fontSize: '1.1rem',
-                      letterSpacing: '-0.01em',
-                      color:
-                        scrolled || !['/', ...SPOKE_SLUGS.map((s) => `/${s}`)].includes(pathname)
-                          ? 'oklch(0.55 0.14 38)'
-                          : 'oklch(0.99 0.005 85)',
-                    }}
-                  >
-                    Unique Stays
-                  </span>
-                  <span
-                    className="font-semibold tracking-[0.15em] uppercase"
-                    style={{
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
-                      fontSize: '0.55rem',
-                      color: 'oklch(0.38 0.09 155)',
-                    }}
-                  >
-                    USA
-                  </span>
-                </div>
+              <div className="group transition-transform duration-300 hover:scale-105">
+                <Image
+                  src="/logo.png"
+                  alt="Unique Stays USA"
+                  width={96}
+                  height={48}
+                  className="h-10 w-auto object-contain"
+                  priority
+                />
               </div>
             </Link>
 
