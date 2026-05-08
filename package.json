@@ -10,7 +10,8 @@
     "generate:types": "payload generate:types",
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
-    "migrate:down": "payload migrate:down"
+    "migrate:down": "payload migrate:down",
+    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",
