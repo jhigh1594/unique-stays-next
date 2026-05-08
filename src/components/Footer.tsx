@@ -13,7 +13,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div>
             <div className="mb-5">
-              <LogoMark className="h-14 w-auto" />
+              <LogoMark className="h-16 w-auto" />
             </div>
             <p
               className="text-sm leading-relaxed max-w-xs"

@@ -2,37 +2,37 @@ interface LogoMarkProps {
   className?: string
 }
 
-// logo-cards.png: 1024×353 crop of the three polaroid cards (illustrations only, no letters)
-// ViewBox 300×130 → aspect ratio ~2.31:1
-// At h-10 (40px): renders ~92px wide   (navbar)
-// At h-14 (56px): renders ~129px wide  (footer)
+// logo-mark.png: 950×670 transparent PNG — three polaroid cards, letters removed
+// ViewBox 300×248 → aspect ratio ~1.21:1
+// At h-12 (48px): renders ~58px wide  (navbar)
+// At h-16 (64px): renders ~77px wide  (footer)
 export default function LogoMark({ className }: LogoMarkProps) {
   return (
     <svg
-      viewBox="0 0 300 130"
+      viewBox="0 0 300 248"
       xmlns="http://www.w3.org/2000/svg"
       aria-label="Unique Stays USA"
       className={className}
     >
-      {/* Three polaroid card illustrations */}
+      {/* Three polaroid card illustrations — transparent PNG */}
       <image
-        href="/logo-cards.png"
+        href="/logo-mark.png"
         x="0"
         y="0"
         width="300"
-        height="104"
+        height="212"
         preserveAspectRatio="xMidYMid meet"
       />
 
       {/* "Unique Stays USA" handwritten wordmark in Caveat */}
       <text
         x="150"
-        y="124"
+        y="240"
         textAnchor="middle"
         fontFamily="var(--font-caveat), Caveat, cursive"
         fontWeight="700"
         fontSize="22"
-        fill="oklch(0.55 0.14 38)"
+        fill="oklch(0.40 0.12 235)"
         letterSpacing="0.5"
       >
         Unique Stays USA
