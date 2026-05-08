@@ -223,7 +223,7 @@ function SpokeHubSection() {
                 whileHover={{ y: -10, rotate: 0, boxShadow: '0 28px 64px -8px rgba(0,0,0,0.55)' }}
                 transition={{ type: 'spring', stiffness: 280, damping: 22, delay: i * 0.08 }}
                 style={{
-                  padding: '9px 9px 40px 9px',
+                  padding: '9px 9px 28px 9px',
                   borderRadius: '3px',
                   background: 'oklch(0.98 0.010 85)',
                   border: '1px solid oklch(0.78 0.025 75)',
@@ -1078,7 +1078,7 @@ export default function HomeContent({
                     style={{
                       background: palette.bg,
                       borderRadius: '3px',
-                      aspectRatio: '4 / 3',
+                      aspectRatio: '5 / 2',
                       transitionDelay: `${i * 60}ms`,
                     }}
                     whileHover={{ scale: 1.03 }}
