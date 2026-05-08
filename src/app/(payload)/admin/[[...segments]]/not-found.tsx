@@ -3,11 +3,11 @@ import { importMap } from '../importMap'
 import config from '@payload-config'
 
 type Args = {
-  params: Promise<{
-    segments: string[]
-  }>
+  params: Promise<{ segments: string[] }>
+  searchParams: Promise<{ [key: string]: string | string[] }>
 }
 
-const NotFound = ({ params }: Args) => NotFoundPage({ config, params, importMap })
+const NotFound = ({ params, searchParams }: Args) =>
+  NotFoundPage({ config, params, importMap, searchParams })
 
 export default NotFound

@@ -42,4 +42,3 @@ next-env.d.ts
 
 # payload generated
 src/payload-types.ts
-src/migrations/
