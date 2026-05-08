@@ -55,7 +55,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/">
               <div className="group transition-transform duration-300 hover:scale-105">
-                <LogoMark className="h-12 w-auto" />
+                <LogoMark className="h-14 w-auto" />
               </div>
             </Link>
 
