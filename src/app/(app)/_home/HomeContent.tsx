@@ -177,24 +177,33 @@ function GhostNumber({ n, light = false }: { n: string; light?: boolean }) {
 }
 
 // ── Hub & Spoke Collections ────────────────────────────────
+const SPOKE_TILTS = [-1.5, 1.2, -0.8, 1.8, -1.1]
+const SPOKE_SHADOWS = [
+  '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
+  '3px 5px 14px rgba(44,30,20,0.20), 4px 22px 52px -6px rgba(44,30,20,0.26)',
+  '-2px 5px 14px rgba(44,30,20,0.20), -3px 22px 52px -6px rgba(44,30,20,0.26)',
+  '4px 5px 14px rgba(44,30,20,0.20), 5px 22px 52px -6px rgba(44,30,20,0.26)',
+  '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
+]
+
 function SpokeHubSection() {
   return (
     <section className="py-20" style={{ background: 'oklch(0.22 0.01 60)' }} data-dark-section>
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 fade-up">
           <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.12)' }} />
+            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.18)' }} />
             <span
               className="stamp-badge"
               style={{ color: 'oklch(0.72 0.10 40)', borderColor: 'oklch(0.72 0.10 40)', fontFamily: 'Plus Jakarta Sans, sans-serif', padding: '5px 16px' }}
             >
               Five Collections
             </span>
-            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.12)' }} />
+            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.18)' }} />
           </div>
           <p
             className="text-sm text-center max-w-md mx-auto"
-            style={{ color: 'oklch(0.50 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.7 }}
+            style={{ color: 'oklch(0.99 0.005 85)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.7 }}
           >
             Some travelers know exactly what they need. A desk, strong wifi, no distractions.
             Some know only that they need to go somewhere with the dog.
@@ -202,75 +211,79 @@ function SpokeHubSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 py-4">
           {SPOKES.map((spoke, i) => (
             <Link key={spoke.slug} href={`/${spoke.slug}`}>
               <motion.div
-                className="fade-up group relative overflow-hidden rounded-2xl cursor-pointer"
+                className="fade-up group cursor-pointer"
                 style={{
                   transitionDelay: `${i * 80}ms`,
-                  border: '1px solid oklch(0.99 0.005 85 / 0.1)',
+                  padding: '9px 9px 40px 9px',
+                  borderRadius: '3px',
+                  background: 'oklch(0.97 0.015 85 / 0.94)',
+                  border: '1px solid oklch(0.78 0.025 75)',
+                  boxShadow: SPOKE_SHADOWS[i],
+                  rotate: SPOKE_TILTS[i],
                 }}
-                whileHover={{ y: -6, boxShadow: '0 24px 60px -8px rgba(0,0,0,0.5)' }}
-                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                whileHover={{ y: -10, rotate: 0, boxShadow: '0 28px 64px -8px rgba(0,0,0,0.55)' }}
+                transition={{ type: 'spring', stiffness: 280, damping: 22 }}
                 data-cursor="view"
               >
-                <div className="relative h-52 overflow-hidden">
+                {/* Photo */}
+                <div className="relative h-52 overflow-hidden" style={{ borderRadius: '1px' }}>
                   <img
                     src={spoke.heroImage}
                     alt={spoke.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div
                     className="absolute inset-0"
-                    style={{ background: `linear-gradient(to top, oklch(0.12 0.02 60 / 0.95) 0%, oklch(0.12 0.02 60 / 0.4) 60%, transparent 100%)` }}
+                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }}
                   />
-                  <div
-                    className="absolute top-3 left-3 w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                    style={{ background: 'oklch(0.99 0.005 85 / 0.15)', backdropFilter: 'blur(8px)' }}
-                  >
-                    {spoke.heroEmoji}
-                  </div>
-                  <div
-                    className="absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
-                    style={{
-                      background: 'oklch(0.99 0.005 85 / 0.12)',
-                      color: 'oklch(0.85 0.01 85)',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid oklch(0.99 0.005 85 / 0.2)',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
-                    }}
-                  >
-                    {spoke.externalDomain.split('.')[0]}
-                  </div>
                 </div>
-                <div className="p-4" style={{ background: 'oklch(0.18 0.01 60)' }}>
-                  <h3 className="font-bold mb-1 text-base" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.99 0.005 85)' }}>
-                    {spoke.title}
-                  </h3>
-                  <p className="text-xs leading-snug mb-3" style={{ color: 'oklch(0.60 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                    {spoke.tagline}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-3">
-                      {spoke.stats.slice(0, 2).map((stat, j) => (
-                        <div key={j}>
-                          <div className="text-sm font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.85 0.10 45)' }}>
-                            {stat.value}
-                          </div>
-                          <div className="text-[10px]" style={{ color: 'oklch(0.50 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                            {stat.label}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <motion.div
-                      className="flex items-center gap-1 text-xs font-semibold"
-                      style={{ color: spoke.accentColor, fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                      whileHover={{ gap: '8px' }}
+
+                {/* Caption — ruled lines via polaroid-caption */}
+                <div className="polaroid-caption relative pt-3 px-1">
+                  <div className="relative" style={{ zIndex: 1 }}>
+                    <p
+                      className="text-[10px] font-bold uppercase tracking-widest mb-1"
+                      style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                     >
-                      Explore <ArrowRight className="w-3 h-3" />
-                    </motion.div>
+                      Collection
+                    </p>
+                    <h3
+                      className="font-bold leading-tight mb-1"
+                      style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)', fontSize: '1rem' }}
+                    >
+                      {spoke.title}
+                    </h3>
+                    <p
+                      className="text-[11px] leading-snug mb-2.5"
+                      style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                    >
+                      {spoke.tagline}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-3">
+                        {spoke.stats.slice(0, 2).map((stat, j) => (
+                          <div key={j}>
+                            <div className="text-sm font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.30 0.02 60)' }}>
+                              {stat.value}
+                            </div>
+                            <div className="text-[10px]" style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                              {stat.label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <motion.span
+                        className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
+                        style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                        whileHover={{ gap: '6px' }}
+                      >
+                        Explore <ArrowRight className="w-2.5 h-2.5" />
+                      </motion.span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -279,7 +292,7 @@ function SpokeHubSection() {
         </div>
 
         <div className="text-center mt-10 fade-up">
-          <p className="text-xs" style={{ color: 'oklch(0.40 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+          <p className="text-xs" style={{ color: 'oklch(0.48 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
             workfriendlystays.com · stayswithpets.com · rvreadystays.com · evreadystays.com — all redirect here
           </p>
         </div>
@@ -1068,7 +1081,7 @@ export default function HomeContent({
                       background: palette.bg,
                       borderRadius: '3px',
                       transitionDelay: `${(i + 2) * 60}ms`,
-                      minHeight: '140px',
+                      minHeight: '160px',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
@@ -1106,7 +1119,7 @@ export default function HomeContent({
                       background: palette.bg,
                       borderRadius: '3px',
                       transitionDelay: `${(i + 6) * 60}ms`,
-                      minHeight: '130px',
+                      minHeight: '160px',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
@@ -1133,14 +1146,14 @@ export default function HomeContent({
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          03 — FILMSTRIP
-      ══════════════════════════════════════════════════════ */}
-      <FilmstripSection stays={filmstripStays} />
-
-      {/* ══════════════════════════════════════════════════════
           HUB & SPOKE COLLECTIONS
       ══════════════════════════════════════════════════════ */}
       <SpokeHubSection />
+
+      {/* ══════════════════════════════════════════════════════
+          03 — FILMSTRIP
+      ══════════════════════════════════════════════════════ */}
+      <FilmstripSection stays={filmstripStays} />
 
       {/* ══════════════════════════════════════════════════════
           FILTERED BROWSE
@@ -1162,7 +1175,7 @@ export default function HomeContent({
                 }}
               >
                 {categories.find((c) => c.id === activeCategory)?.emoji}{' '}
-                {activeCategory}
+                {categories.find((c) => c.id === activeCategory)?.label ?? activeCategory}
               </h2>
               <p
                 className="text-sm mt-1"
