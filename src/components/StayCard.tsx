@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { Star, MapPin, Users, ExternalLink } from 'lucide-react'
 import type { CSSProperties, ReactNode } from 'react'
@@ -61,12 +62,12 @@ export default function StayCard({
           style={{ borderRadius: '1px' }}
         >
           {stay.imageUrl ? (
-            // TODO: migrate to next/image after Blob migration (Unit 11)
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={stay.imageUrl}
               alt={stay.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />
           ) : (

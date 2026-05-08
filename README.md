@@ -1,31 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UniqueStaysUSA
 
-## Getting Started
+Affiliate directory for unique vacation rentals. Hub-and-spoke model: 5 spokes, ~250 listings.
 
-First, install dependencies and run the development server with pnpm:
+**Stack:** Next.js 16 App Router + Payload CMS 3 + Neon PostgreSQL + Vercel
+
+## Local Development
 
 ```bash
 pnpm install
-pnpm dev
+cp .env.local.example .env.local   # fill in your Neon + Payload credentials
+pnpm migrate                        # run pending migrations against Neon
+pnpm dev                            # starts Next.js + Payload on :3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Site:** http://localhost:3000
+- **Payload Admin:** http://localhost:3000/admin
+- **API:** http://localhost:3000/api/stays (REST, see AGENTS.md for full docs)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Payload CMS CLI
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm generate:types   # regenerate src/payload-types.ts after schema changes
+pnpm migrate          # run pending migrations
+pnpm migrate:create   # generate a new migration from schema diff
+pnpm migrate:down     # roll back the last migration
+```
 
-## Learn More
+After any collection schema change: `pnpm generate:types && pnpm migrate`.
 
-To learn more about Next.js, take a look at the following resources:
+## Seed Script
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Seeds categories, spokes, and stays from a local JSON data file into Payload.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm seed
+```
 
-## Deploy on Vercel
+Requires `DATABASE_URI` and `PAYLOAD_SECRET` in `.env.local`. Idempotent — skips existing records by slug.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Route group | Purpose |
+|---|---|
+| `(app)/` | Public site pages |
+| `(payload)/` | CMS admin + REST API (`/api/[...slug]`) |
+
+## Key Endpoints
+
+| Path | Purpose |
+|---|---|
+| `/keep-alive` | Neon idle-prevention cron (requires `CRON_SECRET` header) |
+| `/api/stays` | Stays collection REST API |
+| `/api/categories` | Categories REST API |
+| `/api/spokes` | Spokes REST API |
+
+## Deployment
+
+Deployed on Vercel with automatic previews. Production uses a daily cron to keep the Neon database warm.
+
+Required env vars on Vercel: `DATABASE_URI`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SERVER_URL`, `CRON_SECRET`.

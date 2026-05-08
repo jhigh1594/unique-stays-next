@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   Star, MapPin, Users, BedDouble, ExternalLink,
@@ -55,10 +56,13 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
       <section className="relative min-h-[420px] md:min-h-[520px] flex items-end overflow-hidden">
         <div className="absolute inset-0">
           {stay.imageUrl ? (
-            <img
+            <Image
               src={stay.imageUrl}
               alt={stay.title}
-              className="w-full h-full object-cover"
+              fill
+              sizes="100vw"
+              className="object-cover"
+              priority
             />
           ) : (
             <div className="w-full h-full" style={{ background: 'oklch(0.22 0.01 60)' }} />

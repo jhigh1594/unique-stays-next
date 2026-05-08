@@ -7,6 +7,12 @@ async function getPayloadInstance() {
   return getPayload({ config })
 }
 
+function resolveImageUrl(doc: Record<string, unknown>): string {
+  const image = doc.image as Record<string, unknown> | null
+  if (image && typeof image === 'object' && image.url) return image.url as string
+  return (doc.imageUrl as string) ?? ''
+}
+
 function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
   const workFriendly = (doc.workFriendly ?? {}) as Record<string, unknown>
   const petDetails = (doc.petDetails ?? {}) as Record<string, unknown>
@@ -28,7 +34,7 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
     spokes: spokes.map((s) => (typeof s === 'object' && s !== null ? (s.slug as string) : (s as unknown as string))),
     platform: doc.platform as NormalizedStay['platform'],
     affiliateUrl: (doc.affiliateUrl as string) ?? '',
-    imageUrl: (doc.imageUrl as string) ?? '',
+    imageUrl: resolveImageUrl(doc),
     price: doc.price as number,
     rating: (doc.rating as number | null) ?? null,
     reviewCount: (doc.reviewCount as number | null) ?? null,

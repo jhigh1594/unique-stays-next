@@ -19,8 +19,7 @@
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "migrate:down": "payload migrate:down",
-    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts",
-    "fix-images": "node --env-file=.env.local --import tsx/esm scripts/fix-images.ts"
+    "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",
@@ -28,6 +27,7 @@
     "@payloadcms/richtext-lexical": "^3.84.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@tailwindcss/postcss": "^4.2.4",
+    "@vercel/blob": "^2.3.3",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
