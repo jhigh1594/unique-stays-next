@@ -225,7 +225,7 @@ function SpokeHubSection() {
                 style={{
                   padding: '9px 9px 40px 9px',
                   borderRadius: '3px',
-                  background: 'oklch(0.97 0.015 85 / 0.94)',
+                  background: 'oklch(0.98 0.010 85)',
                   border: '1px solid oklch(0.78 0.025 75)',
                   boxShadow: SPOKE_SHADOWS[i],
                 }}
@@ -917,9 +917,11 @@ export default function HomeContent({
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ type: 'spring', stiffness: 160, damping: 16, delay: 0.15 }}
               >
-                <img
+                <Image
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-dome-fNq53JMSCre9pYDm759BF5.webp"
                   alt="Desert dome"
+                  width={420}
+                  height={288}
                   className="w-full h-72 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
@@ -944,9 +946,11 @@ export default function HomeContent({
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ type: 'spring', stiffness: 180, damping: 18, delay: 0.3 }}
               >
-                <img
+                <Image
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-banner-mhiZ34LNJ6enqJKTL8o9M4.webp"
                   alt="Unique stays collage"
+                  width={440}
+                  height={320}
                   className="w-full h-80 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
@@ -1450,10 +1454,12 @@ export default function HomeContent({
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 160, damping: 18, delay: 0.1 }}
                 >
-                  <img
+                  <Image
                     src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-dome-fNq53JMSCre9pYDm759BF5.webp"
                     alt="Desert dome glamping"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 1024px) 80vw, 40vw"
+                    className="object-cover"
                   />
                 </motion.div>
                 <motion.div
@@ -1464,10 +1470,12 @@ export default function HomeContent({
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 160, damping: 18, delay: 0.25 }}
                 >
-                  <img
+                  <Image
                     src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-houseboat-6e6D3bBeEjwZSSmSxByNAZ.webp"
                     alt="Houseboat on autumn lake"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 1024px) 60vw, 30vw"
+                    className="object-cover"
                   />
                 </motion.div>
                 <motion.div
