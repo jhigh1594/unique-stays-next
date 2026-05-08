@@ -1,11 +1,28 @@
 import type { CollectionConfig } from 'payload'
 
+function validateHttpsUrl(val: string | null | undefined): string | true {
+  if (!val) return true
+  try {
+    const url = new URL(val)
+    if (url.protocol !== 'https:') return 'URL must use https://'
+  } catch {
+    return 'Must be a valid URL'
+  }
+  return true
+}
+
 export const Stays: CollectionConfig = {
   slug: 'stays',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'platform', 'state', 'price', 'featured'],
     listSearchableFields: ['title', 'location', 'state', 'tags'],
+  },
+  access: {
+    read: () => true,
+    create: ({ req: { user } }) => Boolean(user),
+    update: ({ req: { user } }) => Boolean(user),
+    delete: ({ req: { user } }) => Boolean(user),
   },
   fields: [
     // ── Identity ──────────────────────────────────────────────
@@ -89,7 +106,8 @@ export const Stays: CollectionConfig = {
       name: 'affiliateUrl',
       type: 'text',
       required: true,
-      admin: { description: 'Full booking URL with affiliate tracking' },
+      validate: validateHttpsUrl,
+      admin: { description: 'Full booking URL with affiliate tracking (must be https://)' },
     },
 
     // ── Media ─────────────────────────────────────────────────
@@ -102,8 +120,9 @@ export const Stays: CollectionConfig = {
     {
       name: 'imageUrl',
       type: 'text',
+      validate: validateHttpsUrl,
       admin: {
-        description: 'Fallback: direct image URL (used during migration from legacy data)',
+        description: 'Fallback: direct image URL (used during migration from legacy data) — must be https://',
       },
     },
 

@@ -13,6 +13,16 @@ import { Users } from './collections/Users'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+function requireEnv(key: string): string {
+  const value = process.env[key]
+  if (!value) throw new Error(`Missing required environment variable: ${key}`)
+  return value
+}
+
+const payloadSecret = requireEnv('PAYLOAD_SECRET')
+const databaseUri = requireEnv('DATABASE_URI')
+const serverURL = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -22,15 +32,18 @@ export default buildConfig({
   },
   collections: [Users, Media, Categories, Spokes, Stays],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET ?? '',
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL ?? '',
+  secret: payloadSecret,
+  serverURL,
+  cors: (process.env.ALLOWED_ORIGINS ?? serverURL).split(',').filter(Boolean),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI ?? '',
+      connectionString: databaseUri,
       max: 5,
+      connectionTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000,
     },
     push: false,
   }),
