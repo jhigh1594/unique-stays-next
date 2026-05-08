@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown } from 'lucide-react'
+import LogoMark from '@/components/LogoMark'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
@@ -55,14 +55,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/">
               <div className="group transition-transform duration-300 hover:scale-105">
-                <Image
-                  src="/logo.png"
-                  alt="Unique Stays USA"
-                  width={96}
-                  height={48}
-                  className="h-10 w-auto object-contain"
-                  priority
-                />
+                <LogoMark className="h-10 w-auto" />
               </div>
             </Link>
 

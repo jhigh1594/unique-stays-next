@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { Share2, Mail } from 'lucide-react'
+import LogoMark from '@/components/LogoMark'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
@@ -13,13 +13,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div>
             <div className="mb-5">
-              <Image
-                src="/logo.png"
-                alt="Unique Stays USA"
-                width={120}
-                height={60}
-                className="h-14 w-auto object-contain"
-              />
+              <LogoMark className="h-14 w-auto" />
             </div>
             <p
               className="text-sm leading-relaxed max-w-xs"
