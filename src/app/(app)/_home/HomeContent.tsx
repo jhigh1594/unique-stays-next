@@ -244,26 +244,24 @@ function SpokeHubSection() {
                     className="absolute inset-0"
                     style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }}
                   />
-                  {/* Postcard stamp */}
-                  <div className="absolute top-3 right-3">
-                    <span
-                      className="stamp-badge"
-                      style={{
-                        background: 'oklch(0.55 0.14 38)',
-                        color: 'oklch(0.99 0.005 85)',
-                        borderColor: 'oklch(0.72 0.10 40)',
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
-                        fontSize: '0.55rem',
-                        padding: '3px 8px',
-                      }}
-                    >
-                      ✦ {i + 1} / 5
-                    </span>
-                  </div>
                 </div>
 
                 {/* Caption — ruled lines via polaroid-caption */}
                 <div className="polaroid-caption relative pt-3 px-1 flex flex-col flex-1">
+                  {/* Globe watermark — bottom-right postcard stamp */}
+                  <div
+                    className="absolute bottom-1 right-1 pointer-events-none select-none"
+                    style={{ opacity: 0.07, color: 'oklch(0.30 0.06 50)' }}
+                    aria-hidden="true"
+                  >
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="2"/>
+                      <circle cx="32" cy="32" r="23" stroke="currentColor" strokeWidth="1"/>
+                      <path d="M4 24 Q13 19 22 24 Q31 29 40 24 Q49 19 58 24" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                      <path d="M4 32 Q13 27 22 32 Q31 37 40 32 Q49 27 58 32" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                      <path d="M4 40 Q13 35 22 40 Q31 45 40 40 Q49 35 58 40" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                    </svg>
+                  </div>
                   <div className="relative flex flex-col flex-1" style={{ zIndex: 1 }}>
                     <p
                       className="text-[10px] font-bold uppercase tracking-widest mb-1"
