@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
+import GlobalShell from '@/components/GlobalShell'
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -30,7 +33,12 @@ export const metadata: Metadata = {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${plusJakartaSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        <GlobalShell />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

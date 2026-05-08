@@ -5,10 +5,12 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['sharp', 'pg', '@payloadcms/richtext-lexical'],
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.vercel-storage.com',
-      },
+      { protocol: 'https', hostname: '**.muscache.com' },
+      { protocol: 'https', hostname: '**.vrboassets.com' },
+      { protocol: 'https', hostname: '**.vacasa.com' },
+      { protocol: 'https', hostname: '**.wander.com' },
+      { protocol: 'https', hostname: '**.public.blob.vercel-storage.com' },
+      { protocol: 'https', hostname: '**.vercel-storage.com' },
     ],
   },
 }
