@@ -2,14 +2,17 @@
 
 import Link from 'next/link'
 import { Star, MapPin, Users, ExternalLink } from 'lucide-react'
+import type { CSSProperties, ReactNode } from 'react'
 import type { NormalizedStay } from '@/lib/types'
 
 interface StayCardProps {
   stay: NormalizedStay
   featured?: boolean
-  style?: React.CSSProperties
+  style?: CSSProperties
   accentColor?: string
   index?: number
+  href?: string
+  external?: boolean
 }
 
 const PLATFORM_STYLES: Record<string, { bg: string; text: string; label: string }> = {
@@ -23,18 +26,23 @@ const TILTS = [-1.5, 1.2, -0.8, 1.8, -1.1, 0.7, -1.9, 1.4, -0.6, 2.0, -1.3, 0.9]
 
 const MAT_GRAIN = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")`
 
-export default function StayCard({ stay, featured = false, style, accentColor, index = 0 }: StayCardProps) {
+export default function StayCard({
+  stay,
+  featured = false,
+  style,
+  accentColor,
+  index = 0,
+  href,
+  external = false,
+}: StayCardProps) {
   void accentColor
   const platform = PLATFORM_STYLES[stay.platform] || PLATFORM_STYLES.Direct
   const tilt = TILTS[index % TILTS.length]
   const shadowX = tilt > 0 ? 3 : -3
+  const linkHref = href ?? `/stays/${stay.slug}`
 
-  return (
-    <Link
-      href={`/stays/${stay.slug}`}
-      className="group block"
-      style={style}
-    >
+  const card = (
+    <>
       {/* Polaroid frame */}
       <div
         className="stay-card"
@@ -45,7 +53,7 @@ export default function StayCard({ stay, featured = false, style, accentColor, i
           background: 'white',
           backgroundImage: MAT_GRAIN,
           boxShadow: `${shadowX}px 5px 14px rgba(44, 30, 20, 0.16), ${shadowX * 1.5}px 18px 44px -6px rgba(44, 30, 20, 0.20)`,
-        } as React.CSSProperties}
+        } as CSSProperties}
       >
         {/* Photo */}
         <div
@@ -236,6 +244,31 @@ export default function StayCard({ stay, featured = false, style, accentColor, i
           </div>
         </div>
       </div>
+    </>
+  )
+
+  const linkProps = {
+    className: 'group block',
+    style,
+    'data-cursor': 'view',
+  }
+
+  if (external) {
+    return (
+      <a
+        href={linkHref}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        {...linkProps}
+      >
+        {card}
+      </a>
+    )
+  }
+
+  return (
+    <Link href={linkHref} {...linkProps}>
+      {card as ReactNode}
     </Link>
   )
 }

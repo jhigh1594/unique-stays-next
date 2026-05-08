@@ -729,15 +729,7 @@ export default function HomeContent({
             <div className="flex flex-col gap-7">
               {featuredStays.slice(1, 3).map((stay, i) => (
                 <div key={stay.id} className="fade-up" style={{ transitionDelay: `${180 + i * 100}ms` }}>
-                  <a
-                    href={stay.affiliateUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    data-cursor="view"
-                    className="block"
-                  >
-                    <StayCard stay={stay} index={i} />
-                  </a>
+                  <StayCard stay={stay} href={stay.affiliateUrl} external index={i} />
                 </div>
               ))}
             </div>
@@ -765,7 +757,7 @@ export default function HomeContent({
               >
                 <span
                   className="stamp-badge"
-                  style={{ color: 'oklch(0.72 0.10 40)', borderColor: 'oklch(0.72 0.10 40)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                  style={{ color: 'oklch(0.68 0.16 145)', borderColor: 'oklch(0.68 0.16 145)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                 >
                   Our Editorial Philosophy
                 </span>
@@ -794,7 +786,7 @@ export default function HomeContent({
                 ))}
                 <br />
                 <motion.span
-                  style={{ display: 'inline-block', color: 'oklch(0.85 0.10 45)', fontStyle: 'italic' }}
+                  style={{ display: 'inline-block', color: 'oklch(0.75 0.18 145)', fontStyle: 'italic' }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-80px' }}
@@ -834,9 +826,9 @@ export default function HomeContent({
                   <motion.span
                     className="inline-flex items-center gap-2 text-sm font-semibold"
                     style={{
-                      color: 'oklch(0.72 0.10 40)',
+                      color: 'oklch(0.68 0.16 145)',
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
-                      borderBottom: '1px solid oklch(0.72 0.10 40 / 0.4)',
+                      borderBottom: '1px solid oklch(0.68 0.16 145 / 0.4)',
                       paddingBottom: '2px',
                     }}
                     whileHover={{ gap: '12px' }}
@@ -849,7 +841,7 @@ export default function HomeContent({
             </div>
 
             {/* Right — postcard stack with drop animation */}
-            <div className="lg:col-span-5 relative flex justify-center items-center" style={{ minHeight: '420px' }}>
+            <div className="lg:col-span-5 relative flex justify-center items-center" style={{ minHeight: '560px' }}>
               <div
                 className="absolute select-none pointer-events-none"
                 style={{
@@ -874,10 +866,10 @@ export default function HomeContent({
               <motion.div
                 className="absolute overflow-hidden shadow-2xl"
                 style={{
-                  width: '78%',
-                  maxWidth: 340,
+                  width: '82%',
+                  maxWidth: 380,
                   borderRadius: '3px',
-                  top: '5%',
+                  top: '4%',
                   right: '2%',
                   zIndex: 1,
                 }}
@@ -889,7 +881,7 @@ export default function HomeContent({
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-dome-fNq53JMSCre9pYDm759BF5.webp"
                   alt="Desert dome"
-                  className="w-full h-44 object-cover"
+                  className="w-full h-60 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
                   <p style={{ fontFamily: 'Fraunces, serif', fontSize: '0.75rem', color: 'oklch(0.35 0.02 60)', fontStyle: 'italic' }}>
@@ -901,12 +893,12 @@ export default function HomeContent({
               <motion.div
                 className="relative overflow-hidden shadow-2xl"
                 style={{
-                  width: '82%',
-                  maxWidth: 360,
+                  width: '86%',
+                  maxWidth: 400,
                   borderRadius: '3px',
                   border: '10px solid oklch(0.99 0.005 85)',
                   zIndex: 2,
-                  marginTop: '60px',
+                  marginTop: '80px',
                 }}
                 initial={{ y: -120, rotate: 2, opacity: 0 }}
                 whileInView={{ y: 0, rotate: 5, opacity: 1 }}
@@ -916,7 +908,7 @@ export default function HomeContent({
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-banner-mhiZ34LNJ6enqJKTL8o9M4.webp"
                   alt="Unique stays collage"
-                  className="w-full h-52 object-cover"
+                  className="w-full h-72 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
                   <p style={{ fontFamily: 'Fraunces, serif', fontSize: '0.75rem', color: 'oklch(0.35 0.02 60)', fontStyle: 'italic' }}>
@@ -933,9 +925,9 @@ export default function HomeContent({
                   <span
                     className="stamp-badge"
                     style={{
-                      background: 'oklch(0.55 0.14 38)',
+                      background: 'oklch(0.38 0.09 155)',
                       color: 'oklch(0.99 0.005 85)',
-                      borderColor: 'oklch(0.72 0.10 40)',
+                      borderColor: 'oklch(0.52 0.08 155)',
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
                       fontSize: '0.65rem',
                       padding: '4px 10px',
@@ -991,15 +983,7 @@ export default function HomeContent({
                 className="fade-up"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <a
-                  href={stay.affiliateUrl}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
-                  data-cursor="view"
-                  className="block"
-                >
-                  <StayCard stay={stay} index={i + 3} />
-                </a>
+                <StayCard stay={stay} href={stay.affiliateUrl} external index={i + 3} />
               </div>
             ))}
           </div>
@@ -1195,15 +1179,7 @@ export default function HomeContent({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.07 }}
                 >
-                  <a
-                    href={stay.affiliateUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    data-cursor="view"
-                    className="block"
-                  >
-                    <StayCard stay={stay} index={i + 5} />
-                  </a>
+                  <StayCard stay={stay} href={stay.affiliateUrl} external index={i + 5} />
                 </motion.div>
               ))}
             </div>

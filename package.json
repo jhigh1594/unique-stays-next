@@ -2,6 +2,14 @@
   "name": "unique-stays-next",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@11.0.8",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.8",
+      "onFail": "error"
+    }
+  },
   "type": "module",
   "scripts": {
     "dev": "next dev",
@@ -11,7 +19,8 @@
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "migrate:down": "payload migrate:down",
-    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts"
+    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts",
+    "fix-images": "node --env-file=.env.local --import tsx/esm scripts/fix-images.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",

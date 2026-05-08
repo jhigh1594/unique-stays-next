@@ -83,6 +83,7 @@
 
   html {
     scroll-behavior: smooth;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23A84626' stroke-width='0.75' opacity='0.25'/%3E%3Cpath d='M12 2 L14 12 L10 12 Z' fill='%23A84626'/%3E%3Cpath d='M12 22 L14 12 L10 12 Z' fill='%23A84626' opacity='0.22'/%3E%3Ccircle cx='12' cy='12' r='1.8' fill='%231E1914'/%3E%3C/svg%3E") 12 12, crosshair;
   }
 
   body {
@@ -105,7 +106,7 @@
   select:not(:disabled),
   input[type="checkbox"]:not(:disabled),
   input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23A84626' stroke-width='0.75' opacity='0.35'/%3E%3Cpath d='M12 2 L14 12 L10 12 Z' fill='%23A84626'/%3E%3Cpath d='M12 22 L14 12 L10 12 Z' fill='%23A84626' opacity='0.22'/%3E%3Ccircle cx='12' cy='12' r='1.8' fill='%231E1914'/%3E%3C/svg%3E") 12 2, pointer;
   }
 }
 
@@ -296,34 +297,7 @@
 /* Selection */
 ::selection { background: oklch(0.72 0.10 40 / 0.3); color: oklch(0.22 0.01 60); }
 
-/* Custom Cursor */
-.has-custom-cursor,
-.has-custom-cursor * { cursor: none !important; }
-
-.cursor-stamp {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9995;
-  transform: translate(-50%, -50%);
-}
-.cursor-stamp::before,
-.cursor-stamp::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: stamp-ring 0.65s ease-out forwards;
-}
-.cursor-stamp::before {
-  width: 20px; height: 20px;
-  border: 2px solid oklch(0.55 0.14 38 / 0.5);
-  animation-delay: 0ms;
-}
-.cursor-stamp::after {
-  width: 20px; height: 20px;
-  border: 1.5px solid oklch(0.72 0.10 40 / 0.35);
-  animation-delay: 80ms;
-}
+/* Cursor */
 
 /* Polaroid develop */
 .polaroid-develop {
@@ -333,16 +307,10 @@
 .polaroid-develop.developed { filter: sepia(0) brightness(1) blur(0px) saturate(1); }
 
 /* Filmstrip drag cursor */
-[data-cursor="drag"] { cursor: grab !important; }
-[data-cursor="drag"]:active { cursor: grabbing !important; }
-.has-custom-cursor [data-cursor="drag"],
-.has-custom-cursor [data-cursor="drag"]:active { cursor: none !important; }
+[data-cursor="drag"] { cursor: grab; }
+[data-cursor="drag"]:active { cursor: grabbing; }
 
 /* Keyframes */
-@keyframes stamp-ring {
-  0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 0.7; }
-  100% { transform: translate(-50%, -50%) scale(3.2); opacity: 0; }
-}
 @keyframes countUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -362,5 +330,4 @@
     clip-path: none !important;
     filter: none !important;
   }
-  .cursor-stamp { display: none; }
 }
