@@ -7,20 +7,6 @@ import { CATEGORIES_CONFIG } from '@/lib/categories-config'
 import { REGIONS, type Region, isNaturalLanguage } from '@/lib/search-utils'
 import type { NormalizedStay } from '@/lib/types'
 
-function useScrollReveal() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible')
-        })
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
-    )
-    document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-}
 
 const PAGE_SIZE = 18
 
@@ -35,8 +21,6 @@ function getPageNumbers(current: number, total: number): (number | '…')[] {
 }
 
 export default function DirectoryContent({ allStays }: { allStays: NormalizedStay[] }) {
-  useScrollReveal()
-
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [activeRegion, setActiveRegion] = useState<Region>('All')
@@ -55,14 +39,6 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
     if (cat) setActiveCategory(cat)
     if (q) setSearchQuery(q)
   }, [])
-
-  // Re-reveal cards when AI results replace the grid (avoids fade-up orphans)
-  useEffect(() => {
-    if (aiIds === null) return
-    requestAnimationFrame(() => {
-      document.querySelectorAll<HTMLElement>('.fade-up').forEach((el) => el.classList.add('visible'))
-    })
-  }, [aiIds])
 
   // Debounced NL search — fires 400ms after user stops typing
   useEffect(() => {
@@ -165,6 +141,14 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
   const paginatedResults = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+
+  // Make cards visible after any results change (filter, search, AI, pagination)
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>('.fade-up').forEach((el) => el.classList.add('visible'))
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [paginatedResults])
 
   const clearFilters = () => {
     setSearchQuery('')
