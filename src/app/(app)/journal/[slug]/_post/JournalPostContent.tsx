@@ -2,9 +2,65 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import RichTextRenderer from '@/components/RichTextRenderer'
 import FilmstripSection from '@/components/FilmstripSection'
 import type { NormalizedJournalPost } from '@/lib/types'
+
+// ─── ReadingCompass ────────────────────────────────────────────────────────────
+
+function ReadingCompass() {
+  const [progress, setProgress] = useState(0)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    function onScroll() {
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      const pct = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0
+      setProgress(pct)
+      setVisible(scrollTop > 80)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const r = 18
+  const circumference = 2 * Math.PI * r
+  const dashoffset = circumference * (1 - progress)
+  const needleAngle = progress * 360
+
+  return (
+    <svg
+      className={`reading-compass${visible ? ' visible' : ''}`}
+      viewBox="0 0 52 52"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <circle cx="26" cy="26" r="24" className="compass-ring" />
+      <circle cx="26" cy="26" r={r} className="compass-track" />
+      <circle
+        cx="26"
+        cy="26"
+        r={r}
+        className="compass-progress"
+        strokeDasharray={circumference}
+        strokeDashoffset={dashoffset}
+        transform="rotate(-90 26 26)"
+      />
+      <g className="compass-needle" style={{ transform: `rotate(${needleAngle}deg)` }}>
+        {/* North point — terracotta */}
+        <polygon points="26,10 24.2,26 27.8,26" fill="#A84626" />
+        {/* South point — muted */}
+        <polygon points="26,42 24.2,26 27.8,26" fill="rgba(168,70,38,0.3)" />
+      </g>
+      <circle cx="26" cy="26" r="2.5" fill="#A84626" />
+      <text x="26" y="49" className="compass-label">
+        {Math.round(progress * 100)}%
+      </text>
+    </svg>
+  )
+}
 
 // ─── PostmarkSVG ───────────────────────────────────────────────────────────────
 
@@ -113,6 +169,7 @@ export default function JournalPostContent({ post, relatedPosts }: JournalPostCo
     <main
       style={{ backgroundColor: '#F6F1E8', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans', sans-serif" }}
     >
+      <ReadingCompass />
       {/* ── Dispatch Header ── */}
       <header
         style={{
