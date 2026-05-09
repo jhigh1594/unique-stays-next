@@ -10,26 +10,26 @@ const POST_SLUG = 'best-unique-stays-joshua-tree'
 async function main() {
   const payload = await getPayload({ config })
 
-  // Download image
-  console.log('Downloading hero image...')
-  const res = await fetch(IMAGE_URL)
-  if (!res.ok) throw new Error(`Failed to fetch image: ${res.status}`)
-  const buffer = Buffer.from(await res.arrayBuffer())
-  console.log(`Downloaded ${(buffer.byteLength / 1024).toFixed(0)}KB`)
-
-  // Upload to Payload media
-  console.log('Uploading to Payload media...')
-  const media = await payload.create({
-    collection: 'media',
-    data: { alt: 'Joshua trees in a desert landscape at sunset, Joshua Tree National Park' },
-    file: {
-      data: buffer,
-      mimetype: 'image/jpeg',
-      name: 'joshua-tree-hero.jpg',
-      size: buffer.byteLength,
-    },
-  })
-  console.log(`Media created: id=${media.id}`)
+  // Reuse existing media record if already uploaded, otherwise download + upload
+  const existing = await payload.find({ collection: 'media', where: { filename: { equals: 'joshua-tree-hero.jpg' } }, limit: 1, depth: 0 })
+  let media
+  if (existing.totalDocs > 0) {
+    media = existing.docs[0]
+    console.log(`Media already exists: id=${media.id}`)
+  } else {
+    console.log('Downloading hero image...')
+    const res = await fetch(IMAGE_URL)
+    if (!res.ok) throw new Error(`Failed to fetch image: ${res.status}`)
+    const buffer = Buffer.from(await res.arrayBuffer())
+    console.log(`Downloaded ${(buffer.byteLength / 1024).toFixed(0)}KB`)
+    console.log('Uploading to Payload media...')
+    media = await payload.create({
+      collection: 'media',
+      data: { alt: 'Joshua trees in a desert landscape at sunset, Joshua Tree National Park' },
+      file: { data: buffer, mimetype: 'image/jpeg', name: 'joshua-tree-hero.jpg', size: buffer.byteLength },
+    })
+    console.log(`Media created: id=${media.id}`)
+  }
 
   // Find the blog post
   const posts = await payload.find({ collection: 'blog-posts', where: { slug: { equals: POST_SLUG } }, limit: 1, depth: 0 })
