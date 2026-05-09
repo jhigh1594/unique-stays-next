@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -52,6 +53,15 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  plugins: [
+    vercelBlobStorage({
+      enabled: !!process.env.BLOB_READ_WRITE_TOKEN,
+      token: process.env.BLOB_READ_WRITE_TOKEN ?? '',
+      collections: {
+        media: true,
+      },
+    }),
+  ],
   collections: [Users, Media, Categories, Spokes, Stays, BlogPosts],
   editor: lexicalEditor(),
   secret: payloadSecret,
@@ -74,7 +84,7 @@ export default buildConfig({
     pool: {
       connectionString: databaseUri,
       max: 5,
-      connectionTimeoutMillis: 5000,
+      connectionTimeoutMillis: 30000,
       idleTimeoutMillis: 30000,
     },
     push: false,

@@ -16,7 +16,7 @@ export const Stays: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'platform', 'state', 'price', 'featured'],
-    listSearchableFields: ['title', 'location', 'state', 'tags'],
+    listSearchableFields: ['title', 'location', 'state'],
   },
   access: {
     read: () => true,
