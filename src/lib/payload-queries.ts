@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { NormalizedStay } from './types'
+import type { NormalizedJournalPost, NormalizedStay } from './types'
 
 async function getPayloadInstance() {
   return getPayload({ config })
@@ -213,4 +213,90 @@ export const getCategories = unstable_cache(
   },
   ['categories-all'],
   { tags: ['categories'], revalidate: 3600 }
+)
+
+function normalizeJournalPost(doc: Record<string, unknown>): NormalizedJournalPost {
+  const heroImage = doc.heroImage as Record<string, unknown> | null
+  const heroImageUrl =
+    heroImage && typeof heroImage === 'object' && typeof heroImage.url === 'string'
+      ? heroImage.url
+      : ''
+
+  const rawLinkedStays = (doc.linkedStays ?? []) as Array<Record<string, unknown> | number>
+  const linkedStays = rawLinkedStays
+    .filter((s): s is Record<string, unknown> => typeof s === 'object' && s !== null)
+    .map((s) => {
+      const normalized = normalizeStay(s)
+      // Only pass through affiliate URLs that are valid https:// URLs
+      const safeAffiliateUrl =
+        normalized.affiliateUrl.startsWith('https://') ? normalized.affiliateUrl : ''
+      return { ...normalized, affiliateUrl: safeAffiliateUrl }
+    })
+
+  return {
+    id: doc.id as number,
+    slug: doc.slug as string,
+    title: doc.title as string,
+    subtitle: (doc.subtitle as string) ?? '',
+    excerpt: (doc.excerpt as string) ?? '',
+    heroImageUrl,
+    publishedAt: (doc.publishedAt as string) ?? '',
+    city: (doc.city as string) ?? '',
+    state: (doc.state as string) ?? '',
+    latitude: (doc.latitude as string) ?? '',
+    longitude: (doc.longitude as string) ?? '',
+    metaTitle: (doc.metaTitle as string) ?? '',
+    metaDescription: (doc.metaDescription as string) ?? '',
+    linkedStays,
+    content: doc.content ?? null,
+  }
+}
+
+export const getAllJournalPosts = unstable_cache(
+  async (): Promise<NormalizedJournalPost[]> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'blog-posts',
+      where: { status: { equals: 'published' } },
+      sort: '-publishedAt',
+      limit: 50,
+      depth: 0,
+    })
+    return result.docs.map((doc) => normalizeJournalPost(doc as unknown as Record<string, unknown>))
+  },
+  ['journal-all'],
+  { tags: ['journal'], revalidate: 3600 }
+)
+
+export function getJournalPostBySlug(slug: string): Promise<NormalizedJournalPost | null> {
+  return unstable_cache(
+    async (): Promise<NormalizedJournalPost | null> => {
+      const payload = await getPayloadInstance()
+      const result = await payload.find({
+        collection: 'blog-posts',
+        where: { slug: { equals: slug } },
+        limit: 1,
+        depth: 1,
+      })
+      if (result.totalDocs === 0) return null
+      return normalizeJournalPost(result.docs[0] as unknown as Record<string, unknown>)
+    },
+    [`journal-post-${slug}`],
+    { tags: ['journal', `journal:${slug}`], revalidate: 3600 }
+  )()
+}
+
+export const getAllJournalSlugs = unstable_cache(
+  async (): Promise<string[]> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'blog-posts',
+      where: { status: { equals: 'published' } },
+      limit: 500,
+      depth: 0,
+    })
+    return result.docs.map((doc) => doc.slug as string).filter(Boolean)
+  },
+  ['journal-all-slugs'],
+  { tags: ['journal'], revalidate: 3600 }
 )

@@ -31,6 +31,24 @@ export type NormalizedStay = {
   evDetails: string
 }
 
+export type NormalizedJournalPost = {
+  id: number
+  slug: string
+  title: string
+  subtitle: string
+  excerpt: string
+  heroImageUrl: string
+  publishedAt: string
+  city: string
+  state: string
+  latitude: string
+  longitude: string
+  metaTitle: string
+  metaDescription: string
+  linkedStays: NormalizedStay[]
+  content: unknown
+}
+
 export type SpokeStatItem = {
   value: string
   label: string

@@ -36,6 +36,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/directory', label: 'Full Directory' },
+    { href: '/journal', label: 'Journal' },
     { href: '/about', label: 'About' },
     { href: '/submit', label: 'Submit a Stay' },
   ]

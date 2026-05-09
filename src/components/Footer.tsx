@@ -79,6 +79,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { label: 'All Stays', href: '/directory' },
+                { label: 'Journal', href: '/journal' },
                 { label: 'Treehouses', href: '/directory?category=Treehouses' },
                 { label: 'Geodesic Domes', href: '/directory?category=Geodesic+Domes' },
                 { label: 'Houseboats', href: '/directory?category=Houseboats' },

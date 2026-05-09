@@ -46,3 +46,6 @@ src/payload-types.ts
 
 # AI search index — generated at build time via pnpm index:search
 data/search-index.json
+
+# Claude Code worktrees
+.claude/
