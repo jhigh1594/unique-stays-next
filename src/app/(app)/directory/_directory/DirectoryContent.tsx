@@ -4,10 +4,8 @@ import { useState, useEffect, useMemo } from 'react'
 import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react'
 import StayCard from '@/components/StayCard'
 import { CATEGORIES_CONFIG } from '@/lib/categories-config'
+import { REGIONS, type Region, isNaturalLanguage } from '@/lib/search-utils'
 import type { NormalizedStay } from '@/lib/types'
-
-const REGIONS = ['All', 'West', 'Southwest', 'South', 'Midwest', 'Northeast', 'Southeast'] as const
-type Region = typeof REGIONS[number]
 
 function useScrollReveal() {
   useEffect(() => {
@@ -33,6 +31,8 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
   const [activePlatform, setActivePlatform] = useState<string>('All')
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured')
   const [showFilters, setShowFilters] = useState(false)
+  const [aiIds, setAiIds] = useState<number[] | null>(null)
+  const [aiLoading, setAiLoading] = useState(false)
 
   // Init from URL params on mount
   useEffect(() => {
@@ -43,7 +43,50 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
     if (q) setSearchQuery(q)
   }, [])
 
+  // Debounced NL search — fires 400ms after user stops typing
+  useEffect(() => {
+    if (!isNaturalLanguage(searchQuery)) {
+      setAiIds(null)
+      setAiLoading(false)
+      return
+    }
+
+    setAiLoading(true)
+    const controller = new AbortController()
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`, {
+          signal: controller.signal,
+        })
+        const data = (await res.json()) as { ids: number[] | null }
+        setAiIds(data.ids)
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') return
+        setAiIds(null)
+      } finally {
+        setAiLoading(false)
+      }
+    }, 400)
+
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [searchQuery])
+
   const filtered = useMemo(() => {
+    // AI search path — re-sort by relevance, compose with dropdown filters
+    if (aiIds !== null) {
+      let results = aiIds
+        .map((id) => allStays.find((s) => s.id === id))
+        .filter(Boolean) as NormalizedStay[]
+      if (activeCategory !== 'All') results = results.filter((s) => s.category === activeCategory)
+      if (activeRegion !== 'All') results = results.filter((s) => s.region === activeRegion)
+      if (activePlatform !== 'All') results = results.filter((s) => s.platform === activePlatform)
+      return results
+    }
+
     let results = [...allStays]
 
     if (searchQuery.trim()) {
@@ -92,7 +135,7 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
     }
 
     return results
-  }, [allStays, searchQuery, activeCategory, activeRegion, activePlatform, sortBy])
+  }, [allStays, searchQuery, aiIds, activeCategory, activeRegion, activePlatform, sortBy])
 
   const clearFilters = () => {
     setSearchQuery('')
@@ -166,7 +209,7 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
                 borderRadius: '3px',
               }}
             >
-              <Search className="w-4 h-4 flex-shrink-0" style={{ color: 'oklch(0.55 0.14 38)' }} />
+              <Search className={`w-4 h-4 flex-shrink-0${aiLoading ? ' animate-pulse' : ''}`} style={{ color: 'oklch(0.55 0.14 38)' }} />
               <input
                 type="text"
                 placeholder="Search stays..."

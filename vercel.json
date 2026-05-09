@@ -1,8 +1,9 @@
 {
+  "buildCommand": "pnpm index:search && next build",
   "crons": [
     {
       "path": "/keep-alive",
-      "schedule": "*/5 * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }

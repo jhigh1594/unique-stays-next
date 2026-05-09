@@ -7,6 +7,12 @@ async function getPayloadInstance() {
   return getPayload({ config })
 }
 
+function resolveImageUrl(doc: Record<string, unknown>): string {
+  const image = doc.image as Record<string, unknown> | null
+  if (image && typeof image === 'object' && image.url) return image.url as string
+  return (doc.imageUrl as string) ?? ''
+}
+
 function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
   const workFriendly = (doc.workFriendly ?? {}) as Record<string, unknown>
   const petDetails = (doc.petDetails ?? {}) as Record<string, unknown>
@@ -28,7 +34,7 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
     spokes: spokes.map((s) => (typeof s === 'object' && s !== null ? (s.slug as string) : (s as unknown as string))),
     platform: doc.platform as NormalizedStay['platform'],
     affiliateUrl: (doc.affiliateUrl as string) ?? '',
-    imageUrl: (doc.imageUrl as string) ?? '',
+    imageUrl: resolveImageUrl(doc),
     price: doc.price as number,
     rating: (doc.rating as number | null) ?? null,
     reviewCount: (doc.reviewCount as number | null) ?? null,
@@ -129,6 +135,64 @@ export const getStaysBySpoke = unstable_cache(
     return result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))
   },
   ['stays-by-spoke'],
+  { tags: ['stays'], revalidate: 3600 }
+)
+
+export const getStayBySlug = unstable_cache(
+  async (slug: string): Promise<NormalizedStay | null> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'stays',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 1,
+    })
+    if (result.totalDocs === 0) return null
+    return normalizeStay(result.docs[0] as unknown as Record<string, unknown>)
+  },
+  ['stays-by-slug'],
+  { tags: ['stays'], revalidate: 3600 }
+)
+
+export const getRelatedStays = unstable_cache(
+  async (categorySlug: string, excludeSlug: string): Promise<NormalizedStay[]> => {
+    const payload = await getPayloadInstance()
+    const categoryResult = await payload.find({
+      collection: 'categories',
+      where: { slug: { equals: categorySlug } },
+      limit: 1,
+      depth: 0,
+    })
+    if (categoryResult.totalDocs === 0) return []
+    const categoryId = categoryResult.docs[0].id
+    const result = await payload.find({
+      collection: 'stays',
+      where: {
+        and: [
+          { category: { equals: categoryId } },
+          { slug: { not_equals: excludeSlug } },
+        ],
+      },
+      limit: 4,
+      depth: 1,
+    })
+    return result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))
+  },
+  ['stays-related'],
+  { tags: ['stays'], revalidate: 3600 }
+)
+
+export const getAllStaySlugs = unstable_cache(
+  async (): Promise<string[]> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'stays',
+      limit: 500,
+      depth: 0,
+    })
+    return result.docs.map((doc) => doc.slug as string).filter(Boolean)
+  },
+  ['stays-all-slugs'],
   { tags: ['stays'], revalidate: 3600 }
 )
 

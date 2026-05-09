@@ -69,7 +69,9 @@ export default function CustomCursor() {
 
   const dot = isDark ? 'oklch(0.88 0.025 75)' : 'oklch(0.55 0.14 38)'
   const ring = isDark ? 'oklch(0.88 0.025 75)' : 'oklch(0.55 0.14 38)'
-  const ringFill = state === 'view' ? (isDark ? 'oklch(0.88 0.025 75)' : 'oklch(0.55 0.14 38)') : 'transparent'
+  const ringFill = state === 'view'
+    ? (isDark ? 'oklch(0.88 0.025 75)' : 'oklch(0.55 0.14 38)')
+    : 'oklch(0.55 0.14 38 / 0)'
   const ringSize = state === 'view' ? 68 : state === 'hover' ? 50 : 42
   const dotSize = state === 'hover' || state === 'view' ? 0 : 10
 
@@ -100,7 +102,11 @@ export default function CustomCursor() {
             opacity: state === 'drag' ? 0.4 : 1,
             borderWidth: state === 'drag' ? '1px' : '1.5px',
           }}
-          style={{ borderRadius: '50%', borderStyle: 'solid' }}
+          style={{
+            backgroundColor: 'oklch(0.55 0.14 38 / 0)',
+            borderRadius: '50%',
+            borderStyle: 'solid',
+          }}
           transition={{ type: 'spring', stiffness: 380, damping: 24 }}
         >
           {state === 'view' && (

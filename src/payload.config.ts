@@ -19,8 +19,29 @@ function requireEnv(key: string): string {
   return value
 }
 
+function normalizeDatabaseUri(value: string): string {
+  const url = new URL(value)
+  const sslMode = url.searchParams.get('sslmode')
+
+  if (sslMode === 'prefer' || sslMode === 'require' || sslMode === 'verify-ca') {
+    url.searchParams.set('sslmode', 'verify-full')
+  }
+
+  return url.toString()
+}
+
+function formatEmailRecipients(value: unknown): string {
+  if (Array.isArray(value)) return value.map(formatEmailRecipients).filter(Boolean).join(', ')
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object' && 'address' in value) {
+    const address = (value as { address?: unknown }).address
+    return typeof address === 'string' ? address : ''
+  }
+  return ''
+}
+
 const payloadSecret = requireEnv('PAYLOAD_SECRET')
-const databaseUri = requireEnv('DATABASE_URI')
+const databaseUri = normalizeDatabaseUri(requireEnv('DATABASE_URI'))
 const serverURL = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
 
 export default buildConfig({
@@ -38,6 +59,16 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  email: ({ payload }) => ({
+    name: 'console',
+    defaultFromAddress: 'admin@uniquestaysusa.com',
+    defaultFromName: 'Unique Stays USA',
+    sendEmail: async (message) => {
+      payload.logger.info({
+        msg: `Email written to console. To: '${formatEmailRecipients(message.to)}', Subject: '${message.subject ?? ''}'`,
+      })
+    },
+  }),
   db: postgresAdapter({
     pool: {
       connectionString: databaseUri,

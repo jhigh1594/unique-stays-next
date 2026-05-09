@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Logo Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  background: #ede8d5;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+h2 {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: #999; margin-bottom: 16px;
+}
+.row { display: flex; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
+.swatch { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.swatch label { font-size: 10px; color: #aaa; }
+.bg-cream { background: #ede8d5; padding: 12px 16px; border-radius: 6px; }
+.bg-white { background: #fff; padding: 12px 16px; border-radius: 6px; box-shadow: 0 1px 8px rgba(0,0,0,.08); }
+.bg-dark  { background: #2D2826; padding: 12px 16px; border-radius: 6px; }
+hr { border: none; border-top: 1px solid #ccc9bc; }
+
+/*
+  Original image: 1024×1024
+  Cards span y ≈ 90–760.
+  Letters start: center S ≈ y=595, left/right U ≈ y=625.
+  Safe crop bottom: y=570 (shows illustrations + some white polaroid margin, hides all letters).
+
+  At display width W (scale = W/1024):
+    .cards width  = W px
+    .cards height = (570 - cropTop) × (W/1024) px   ← this IS the crop
+    bg-size       = W × W
+    bg-position-y = -(cropTop × W/1024) px
+*/
+
+.logo { display: flex; flex-direction: column; align-items: center; }
+.logo .cards {
+  background-image: url('public/logo-v2.png');
+  background-repeat: no-repeat;
+  overflow: hidden;   /* belt-and-suspenders */
+}
+.logo .wordmark {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── A: 240px wide, cropTop=100, cropBot=570 ──
+   scale = 240/1024 = 0.234375
+   height = (570-100) × 0.234375 = 470 × 0.234375 = 110.2 → 110px
+   bg-pos-y = -(100 × 0.234375) = -23.4 → -23px               */
+.logo-a .cards  { width:240px; height:110px; background-size:240px 240px; background-position:0 -23px; }
+.logo-a .wordmark { font-size:18px; color:#2d5a8e; margin-top:5px; }
+
+/* ── B: 200px wide, same crop window ──
+   scale = 200/1024 = 0.195313
+   height = 470 × 0.195313 = 91.8 → 92px
+   bg-pos-y = -(100 × 0.195313) = -19.5 → -20px               */
+.logo-b .cards  { width:200px; height:92px; background-size:200px 200px; background-position:0 -20px; }
+.logo-b .wordmark { font-size:16px; color:#2d5a8e; margin-top:4px; }
+
+/* ── C: 280px wide ──
+   scale = 280/1024 = 0.273438
+   height = 470 × 0.273438 = 128.5 → 129px
+   bg-pos-y = -(100 × 0.273438) = -27.3 → -27px               */
+.logo-c .cards  { width:280px; height:129px; background-size:280px 280px; background-position:0 -27px; }
+.logo-c .wordmark { font-size:20px; color:#2d5a8e; margin-top:6px; }
+
+/* ── D: 320px wide ──
+   scale = 320/1024 = 0.3125
+   height = 470 × 0.3125 = 146.9 → 147px
+   bg-pos-y = -(100 × 0.3125) = -31.3 → -31px                 */
+.logo-d .cards  { width:320px; height:147px; background-size:320px 320px; background-position:0 -31px; }
+.logo-d .wordmark { font-size:22px; color:#2d5a8e; margin-top:6px; }
+
+/* ── E: dark wordmark color ── */
+.logo-e .cards  { width:240px; height:110px; background-size:240px 240px; background-position:0 -23px; }
+.logo-e .wordmark { font-size:18px; color:#c9bfa6; margin-top:5px; }
+
+/* ── TWEAKER ── */
+.controls { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; }
+.ctrl { display:flex; flex-direction:column; gap:4px; }
+.ctrl span { font-size:11px; color:#666; display:flex; justify-content:space-between; }
+.ctrl input[type=range] { width:100%; accent-color:#A84626; }
+.ctrl input[type=color] { width:100%; height:30px; border:none; border-radius:4px; }
+#tweaked-row { display:flex; gap:32px; flex-wrap:wrap; margin-top:24px; }
+#t1,#t2,#t3 { display:flex; flex-direction:column; align-items:center; }
+#tc1,#tc2,#tc3 { background-image:url('public/logo-v2.png'); background-repeat:no-repeat; }
+#tw1,#tw2,#tw3 { font-family:'Caveat',cursive; font-weight:700; white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<h2>Logo Prototype</h2>
+
+<hr>
+
+<section>
+  <h2>A — 240px</h2>
+  <div class="row">
+    <div class="swatch">
+      <div class="bg-cream"><div class="logo logo-a"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>Cream bg</label>
+    </div>
+    <div class="swatch">
+      <div class="bg-white"><div class="logo logo-a"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>White bg (scrolled navbar)</label>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>B — 200px</h2>
+  <div class="row">
+    <div class="swatch">
+      <div class="bg-cream"><div class="logo logo-b"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>Cream bg</label>
+    </div>
+    <div class="swatch">
+      <div class="bg-white"><div class="logo logo-b"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>White bg</label>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>C — 280px</h2>
+  <div class="row">
+    <div class="swatch">
+      <div class="bg-cream"><div class="logo logo-c"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>Cream bg</label>
+    </div>
+    <div class="swatch">
+      <div class="bg-white"><div class="logo logo-c"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>White bg</label>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>D — 320px</h2>
+  <div class="row">
+    <div class="swatch">
+      <div class="bg-cream"><div class="logo logo-d"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>Cream bg</label>
+    </div>
+    <div class="swatch">
+      <div class="bg-white"><div class="logo logo-d"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>White bg</label>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>E — Dark footer</h2>
+  <div class="row">
+    <div class="swatch">
+      <div class="bg-dark"><div class="logo logo-e"><div class="cards"></div><span class="wordmark">Unique Stays USA</span></div></div>
+      <label>Dark bg</label>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <h2>Live Tweaker</h2>
+  <div class="controls">
+    <div class="ctrl">
+      <span>Width <em id="vw">240</em>px</span>
+      <input type="range" id="cw" min="120" max="400" value="240">
+    </div>
+    <div class="ctrl">
+      <span>Crop top (orig y=) <em id="vct">100</em></span>
+      <input type="range" id="cct" min="0" max="300" value="100">
+    </div>
+    <div class="ctrl">
+      <span>Crop bottom (orig y=) <em id="vcb">570</em></span>
+      <input type="range" id="ccb" min="300" max="700" value="570">
+    </div>
+    <div class="ctrl">
+      <span>Font size <em id="vfs">18</em>px</span>
+      <input type="range" id="cfs" min="10" max="36" value="18">
+    </div>
+    <div class="ctrl">
+      <span>Gap <em id="vgp">5</em>px</span>
+      <input type="range" id="cgp" min="0" max="24" value="5">
+    </div>
+    <div class="ctrl">
+      <span>Text color</span>
+      <input type="color" id="ccol" value="#2d5a8e">
+    </div>
+  </div>
+  <div id="tweaked-row">
+    <div class="swatch">
+      <div class="bg-cream"><div id="t1"><div id="tc1"></div><span id="tw1">Unique Stays USA</span></div></div>
+      <label>Cream</label>
+    </div>
+    <div class="swatch">
+      <div class="bg-white"><div id="t2"><div id="tc2"></div><span id="tw2">Unique Stays USA</span></div></div>
+      <label>White</label>
+    </div>
+    <div class="swatch">
+      <div class="bg-dark"><div id="t3"><div id="tc3"></div><span id="tw3">Unique Stays USA</span></div></div>
+      <label>Dark</label>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#aaa;margin-top:12px">
+    Adjust until it looks right → screenshot or tell me the values → I'll ship it.
+  </p>
+</section>
+
+<script>
+function update() {
+  const w   = +document.getElementById('cw').value;
+  const ct  = +document.getElementById('cct').value;
+  const cb  = +document.getElementById('ccb').value;
+  const fs  = +document.getElementById('cfs').value;
+  const gap = +document.getElementById('cgp').value;
+  const col = document.getElementById('ccol').value;
+
+  document.getElementById('vw').textContent  = w;
+  document.getElementById('vct').textContent = ct;
+  document.getElementById('vcb').textContent = cb;
+  document.getElementById('vfs').textContent = fs;
+  document.getElementById('vgp').textContent = gap;
+
+  const scale = w / 1024;
+  const h     = Math.round((cb - ct) * scale);
+  const bgY   = -Math.round(ct * scale);
+
+  ['1','2','3'].forEach(n => {
+    const wrap = document.getElementById('t'+n);
+    const card = document.getElementById('tc'+n);
+    const wm   = document.getElementById('tw'+n);
+
+    wrap.style.cssText = `display:flex;flex-direction:column;align-items:center;gap:${gap}px`;
+    card.style.width   = w  + 'px';
+    card.style.height  = h  + 'px';
+    card.style.backgroundSize     = `${w}px ${w}px`;
+    card.style.backgroundPosition = `0 ${bgY}px`;
+
+    wm.style.fontSize = fs + 'px';
+    if (n !== '3') wm.style.color = col;
+    else wm.style.color = '#c9bfa6';
+  });
+}
+
+document.querySelectorAll('.controls input').forEach(el => el.addEventListener('input', update));
+update();
+</script>
+</body>
+</html>

@@ -42,3 +42,7 @@ next-env.d.ts
 
 # payload generated
 src/payload-types.ts
+.env*.local
+
+# AI search index — generated at build time via pnpm index:search
+data/search-index.json
