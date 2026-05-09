@@ -29,7 +29,7 @@ async function embedQuery(q: string): Promise<number[]> {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'baai/bge-m3',
+      model: 'nvidia/nv-embedqa-e5-v5',
       input: q,
       input_type: 'query',
       encoding_format: 'float',

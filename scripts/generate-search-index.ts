@@ -12,7 +12,7 @@ import { CATEGORIES_CONFIG } from '../src/lib/categories-config.ts'
 import { SPOKES_CONFIG } from '../src/lib/spokes-config.ts'
 
 const NIM_ENDPOINT = 'https://integrate.api.nvidia.com/v1/embeddings'
-const NIM_MODEL = 'baai/bge-m3'
+const NIM_MODEL = 'nvidia/nv-embedqa-e5-v5'
 const BATCH_SIZE = 50
 
 type SearchEntry = { id: number; vec: number[] }
