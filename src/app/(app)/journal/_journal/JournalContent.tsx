@@ -1,17 +1,38 @@
 'use client'
-import Link from 'next/link'
+
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowUpRight, MapPin, Newspaper } from 'lucide-react'
+import type { CSSProperties } from 'react'
 import type { NormalizedJournalPost } from '@/lib/types'
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
 function formatPostmarkDate(dateStr: string): string {
-  if (!dateStr) return ''
+  if (!dateStr) return 'OPEN FILE'
   const d = new Date(dateStr)
   return d.toLocaleString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()
 }
 
-// ─── PostmarkSVG ────────────────────────────────────────────────────────────
+function formatTelegramDate(dateStr: string): string {
+  if (!dateStr) return 'Date pending'
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(new Date(dateStr))
+}
+
+function locationLabel(post: NormalizedJournalPost) {
+  return [post.city, post.state].filter(Boolean).join(', ') || 'Undisclosed location'
+}
+
+function coordinateLabel(post: NormalizedJournalPost) {
+  if (post.latitude && post.longitude) return `${post.latitude} N / ${post.longitude} W`
+  return locationLabel(post)
+}
+
+function slugId(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+}
 
 function PostmarkSVG({
   city,
@@ -25,8 +46,9 @@ function PostmarkSVG({
   size?: number
 }) {
   const cityUpper = (city || 'DISPATCH').toUpperCase()
-  const stateUpper = (state || '').toUpperCase()
-  const cityFontSize = cityUpper.length > 8 ? 5.5 : cityUpper.length > 6 ? 6 : 7
+  const stateUpper = (state || 'FIELD NOTES').toUpperCase()
+  const id = slugId(`${cityUpper}-${stateUpper}-${date}-${size}`)
+  const cityFontSize = cityUpper.length > 10 ? 5 : cityUpper.length > 7 ? 5.75 : 6.5
 
   return (
     <svg
@@ -35,550 +57,292 @@ function PostmarkSVG({
       viewBox="0 0 80 80"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      focusable="false"
     >
-      <circle cx="40" cy="40" r="37" fill="rgba(250,248,243,0.92)" />
-      <circle cx="40" cy="40" r="37" fill="none" stroke="#A84626" strokeWidth="1.5" strokeDasharray="3 2.5" />
-      <circle cx="40" cy="40" r="27" fill="none" stroke="#A84626" strokeWidth="0.75" />
+      <circle cx="40" cy="40" r="37" fill="oklch(0.985 0.008 82)" />
+      <circle
+        cx="40"
+        cy="40"
+        r="37"
+        fill="none"
+        stroke="oklch(0.55 0.14 38)"
+        strokeWidth="1.5"
+        strokeDasharray="3 2.5"
+      />
+      <circle cx="40" cy="40" r="27" fill="none" stroke="oklch(0.55 0.14 38)" strokeWidth="0.75" />
       <defs>
-        <path id={`pt-${city}`} d="M 10,40 A 30,30 0 0,1 70,40" />
-        <path id={`pb-${city}`} d="M 10,40 A 30,30 0 0,0 70,40" />
+        <path id={`pt-${id}`} d="M 10,40 A 30,30 0 0,1 70,40" />
+        <path id={`pb-${id}`} d="M 10,40 A 30,30 0 0,0 70,40" />
       </defs>
       <text
-        fill="#A84626"
+        fill="oklch(0.55 0.14 38)"
         fontFamily="Plus Jakarta Sans, sans-serif"
-        fontWeight="600"
+        fontWeight="700"
         fontSize={cityFontSize}
         letterSpacing="2.5"
       >
-        <textPath href={`#pt-${city}`} startOffset="50%" textAnchor="middle">
+        <textPath href={`#pt-${id}`} startOffset="50%" textAnchor="middle">
           {cityUpper}
         </textPath>
       </text>
-      {stateUpper && (
-        <text
-          fill="#A84626"
-          fontFamily="Plus Jakarta Sans, sans-serif"
-          fontWeight="600"
-          fontSize="6"
-          letterSpacing="1.5"
-        >
-          <textPath href={`#pb-${city}`} startOffset="50%" textAnchor="middle">
-            {stateUpper}
-          </textPath>
-        </text>
-      )}
       <text
-        fill="#A84626"
+        fill="oklch(0.55 0.14 38)"
         fontFamily="Plus Jakarta Sans, sans-serif"
-        fontWeight="600"
-        letterSpacing="0.5"
+        fontWeight="700"
+        fontSize="5.5"
+        letterSpacing="1.6"
+      >
+        <textPath href={`#pb-${id}`} startOffset="50%" textAnchor="middle">
+          {stateUpper}
+        </textPath>
+      </text>
+      <text
+        fill="oklch(0.55 0.14 38)"
+        fontFamily="Plus Jakarta Sans, sans-serif"
+        fontWeight="800"
+        letterSpacing="0.6"
         x="40"
         y="43"
         textAnchor="middle"
-        fontSize="7"
+        fontSize="6.5"
       >
         {date}
       </text>
-      <text fill="#A84626" x="26" y="52" textAnchor="middle" fontSize="6">
-        ✦
+      <text fill="oklch(0.55 0.14 38)" x="26" y="53" textAnchor="middle" fontSize="6">
+        *
       </text>
-      <text fill="#A84626" x="54" y="52" textAnchor="middle" fontSize="6">
-        ✦
+      <text fill="oklch(0.55 0.14 38)" x="54" y="53" textAnchor="middle" fontSize="6">
+        *
       </text>
     </svg>
   )
 }
 
-// ─── JournalContent ─────────────────────────────────────────────────────────
+function MiniPostCard({ post, index }: { post: NormalizedJournalPost; index: number }) {
+  return (
+    <Link
+      href={`/journal/${post.slug}`}
+      className="journal-ledger-row"
+      style={{ '--ledger-tilt': `${index % 2 === 0 ? -1.4 : 1.1}deg` } as CSSProperties}
+    >
+      <span className="journal-ledger-row__pin" aria-hidden="true" />
+      <span className="journal-ledger-row__photo" aria-hidden="true">
+        {post.heroImageUrl ? (
+          <Image
+            src={post.heroImageUrl}
+            alt=""
+            fill
+            sizes="(max-width: 760px) 100vw, 360px"
+            style={{ objectFit: 'cover' }}
+          />
+        ) : (
+          <MapPin size={20} aria-hidden="true" />
+        )}
+        <span className="journal-ledger-row__postmark">
+          <PostmarkSVG
+            city={post.city}
+            state={post.state}
+            date={formatPostmarkDate(post.publishedAt)}
+            size={64}
+          />
+        </span>
+      </span>
+      <span className="journal-ledger-row__content">
+        <span className="journal-ledger-row__coords">{coordinateLabel(post)}</span>
+        <span className="journal-ledger-row__number">
+          №{String(index + 1).padStart(3, '0')}
+        </span>
+        <span className="journal-ledger-row__title">{post.title}</span>
+        {post.excerpt && <span className="journal-ledger-row__excerpt">{post.excerpt}</span>}
+        <span className="journal-ledger-row__footer">
+          <span className="journal-ledger-row__place">{locationLabel(post)}</span>
+          <span className="journal-ledger-row__cta">
+            Read Dispatch <ArrowUpRight size={14} aria-hidden="true" />
+          </span>
+        </span>
+      </span>
+    </Link>
+  )
+}
+
+function DispatchCard({
+  post,
+  index,
+}: {
+  post: NormalizedJournalPost
+  index: number
+}) {
+  return (
+    <Link href={`/journal/${post.slug}`} className="dispatch-dossier-link">
+      <article
+        className="dispatch-dossier"
+        style={{ '--tilt': `${(index % 3) * 0.45 - 0.45}deg` } as CSSProperties}
+      >
+        <div className="dispatch-dossier__pin" aria-hidden="true" />
+        <div className="dispatch-dossier__image">
+          {post.heroImageUrl ? (
+            <Image
+              src={post.heroImageUrl}
+              alt={post.title}
+              fill
+              sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
+              style={{ objectFit: 'cover' }}
+            />
+          ) : (
+            <div className="dispatch-dossier__image-fallback">
+              <MapPin size={24} aria-hidden="true" />
+            </div>
+          )}
+          <div className="dispatch-dossier__postmark">
+            <PostmarkSVG
+              city={post.city}
+              state={post.state}
+              date={formatPostmarkDate(post.publishedAt)}
+              size={74}
+            />
+          </div>
+        </div>
+
+        <div className="dispatch-dossier__body">
+          <p className="journal-kicker">File {String(index + 2).padStart(3, '0')}</p>
+          <h2>{post.title}</h2>
+          {post.excerpt && <p>{post.excerpt}</p>}
+          <div className="dispatch-dossier__meta">
+            <span>{locationLabel(post)}</span>
+            <span>Open file</span>
+          </div>
+        </div>
+      </article>
+    </Link>
+  )
+}
 
 export default function JournalContent({ posts }: { posts: NormalizedJournalPost[] }) {
   const featured = posts[0] ?? null
   const rest = posts.slice(1)
+  const recentPosts = posts.slice(0, 5)
+  const states = Array.from(new Set(posts.map((post) => post.state).filter(Boolean)))
 
   return (
-    <main
-      style={{
-        background: '#F6F1E8',
-        minHeight: '100vh',
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-      }}
-    >
-      {/* ── Header ── */}
-      <header
-        style={{
-          position: 'relative',
-          textAlign: 'center',
-          padding: 'clamp(72px, 12vw, 140px) clamp(24px, 5vw, 64px) clamp(48px, 7vw, 96px)',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Ghost watermark */}
-        <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            fontFamily: "'Fraunces', Georgia, serif",
-            fontWeight: 600,
-            fontSize: 'clamp(64px, 13vw, 168px)',
-            color: '#A84626',
-            opacity: 0.032,
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none',
-            userSelect: 'none',
-            letterSpacing: '0.05em',
-          }}
-        >
-          DISPATCHES
-        </span>
-
-        {/* Eyebrow */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '14px',
-            marginBottom: '20px',
-          }}
-        >
-          <span
-            style={{
-              flex: 1,
-              maxWidth: '80px',
-              height: '1px',
-              background: '#A84626',
-              opacity: 0.4,
-            }}
-          />
-          <span
-            style={{
-              color: '#A84626',
-              fontSize: '10px',
-              fontWeight: 700,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-            }}
-          >
-            ✦ UniqueStaysUSA ✦
-          </span>
-          <span
-            style={{
-              flex: 1,
-              maxWidth: '80px',
-              height: '1px',
-              background: '#A84626',
-              opacity: 0.4,
-            }}
-          />
+    <main className="journal-index">
+      <section className="journal-index-hero" aria-labelledby="journal-title">
+        <div className="journal-ticker" aria-hidden="true">
+          <span>Field notes</span>
+          <span>Postmarked routes</span>
+          <span>Vetted stays</span>
+          <span>Slow travel</span>
         </div>
 
-        {/* H1 */}
-        <h1
-          style={{
-            fontFamily: "'Fraunces', Georgia, serif",
-            lineHeight: 1.0,
-            marginBottom: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0',
-          }}
-        >
-          <span
-            style={{
-              fontStyle: 'italic',
-              color: '#8A7D6E',
-              fontSize: 'clamp(28px, 4vw, 48px)',
-              fontWeight: 400,
-              display: 'block',
-            }}
-          >
-            The
-          </span>
-          <span
-            style={{
-              fontStyle: 'normal',
-              color: '#A84626',
-              fontSize: 'clamp(72px, 12vw, 144px)',
-              fontWeight: 300,
-              lineHeight: 0.9,
-              display: 'block',
-            }}
-          >
-            Journal
-          </span>
-        </h1>
-
-        {/* Subhead */}
-        <p
-          style={{
-            fontFamily: "'Fraunces', Georgia, serif",
-            fontStyle: 'italic',
-            fontSize: '16px',
-            color: '#8A7D6E',
-            marginBottom: '12px',
-            maxWidth: '420px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-          Field dispatches from extraordinary places across America.
-        </p>
-
-        {/* Meta line */}
-        <p
-          style={{
-            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-            fontSize: '11px',
-            color: '#8A7D6E',
-            letterSpacing: '0.08em',
-          }}
-        >
-          {posts.length} dispatch{posts.length !== 1 ? 'es' : ''} on record
-        </p>
-      </header>
-
-      {/* ── Board ── */}
-      <section
-        style={{
-          borderTop: '5px solid #D4C4A0',
-          borderBottom: '5px solid #D4C4A0',
-          backgroundColor: '#EDE7D9',
-          backgroundImage:
-            'radial-gradient(circle, rgba(44,40,37,0.09) 1px, transparent 1px)',
-          backgroundSize: '22px 22px',
-          boxShadow: 'inset 0 2px 20px rgba(44,40,37,0.09)',
-          padding: '52px clamp(24px, 5vw, 64px) 80px',
-        }}
-      >
-        {/* Board label */}
-        <p
-          style={{
-            textAlign: 'center',
-            fontSize: '10px',
-            fontWeight: 700,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#8A7D6E',
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            marginBottom: '48px',
-          }}
-        >
-          ✦ Latest Dispatches ✦
-        </p>
-
-        {posts.length === 0 ? (
-          /* ── Empty state ── */
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              padding: '60px 24px',
-            }}
-          >
-            <div
-              className="dispatch-card"
-              style={{
-                padding: '48px 40px',
-                maxWidth: '380px',
-                width: '100%',
-                textAlign: 'center',
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "'Fraunces', Georgia, serif",
-                  fontStyle: 'italic',
-                  fontSize: '18px',
-                  color: '#8A7D6E',
-                  lineHeight: 1.6,
-                }}
-              >
-                The first dispatch is coming soon. ✦
-              </p>
-            </div>
+        <div className="journal-index-hero__grid">
+          <div className="journal-index-hero__copy">
+            <p className="journal-kicker">UniqueStaysUSA dispatch desk</p>
+            <h1 id="journal-title">
+              <span>The Journal</span>
+              <span>is an archive</span>
+              <span>of places</span>
+              <span>with a pulse.</span>
+            </h1>
+            <p>
+              Field reports, route notes, and stay-side observations from the stranger
+              corners of the American map.
+            </p>
           </div>
-        ) : (
-          <>
-            {/* ── Featured dispatch ── */}
-            {featured && (
-              <Link
-                href={`/journal/${featured.slug}`}
-                style={{ display: 'block', marginBottom: '40px', textDecoration: 'none' }}
-              >
-                <article className="dispatch-card dispatch-card--featured">
-                  {/* Image */}
-                  <div className="card-img-wrap">
-                    {featured.heroImageUrl && (
-                      <Image
-                        src={featured.heroImageUrl}
-                        alt={featured.title}
-                        fill
-                        sizes="(max-width: 760px) 100vw, 58vw"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    )}
-                    {/* Latest stamp */}
-                    <div className="latest-stamp">
-                      Latest
-                      <br />
-                      Dispatch
+
+          <aside className="journal-manifest" aria-label="Journal archive manifest">
+            <div>
+              <span className="journal-manifest__label">Open files</span>
+              <strong>{String(posts.length).padStart(2, '0')}</strong>
+            </div>
+            <div>
+              <span className="journal-manifest__label">States logged</span>
+              <strong>{String(states.length || 1).padStart(2, '0')}</strong>
+            </div>
+            <div>
+              <span className="journal-manifest__label">Current brief</span>
+              <strong>Go where the story is</strong>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      {posts.length === 0 ? (
+        <section className="journal-empty">
+          <Newspaper size={34} aria-hidden="true" />
+          <h2>The dispatch desk is still being assembled.</h2>
+          <p>Check back soon for the first field report.</p>
+        </section>
+      ) : (
+        <section className="journal-board" aria-label="Published dispatches">
+          <div className="journal-board__header">
+            <p className="journal-kicker">Pinned now</p>
+            <h2>Latest from the board</h2>
+          </div>
+
+          {featured && (
+            <Link href={`/journal/${featured.slug}`} className="featured-dispatch">
+              <article>
+                <div className="featured-dispatch__image">
+                  {featured.heroImageUrl ? (
+                    <Image
+                      src={featured.heroImageUrl}
+                      alt={featured.title}
+                      fill
+                      priority
+                      sizes="(max-width: 900px) 100vw, 58vw"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <div className="featured-dispatch__fallback">
+                      <MapPin size={32} aria-hidden="true" />
                     </div>
-                    {/* Postmark */}
-                    <div className="card-postmark">
-                      <PostmarkSVG
-                        city={featured.city}
-                        state={featured.state}
-                        date={formatPostmarkDate(featured.publishedAt)}
-                        size={84}
-                      />
-                    </div>
+                  )}
+                  <div className="featured-dispatch__stamp">
+                    <PostmarkSVG
+                      city={featured.city}
+                      state={featured.state}
+                      date={formatPostmarkDate(featured.publishedAt)}
+                      size={92}
+                    />
                   </div>
+                </div>
 
-                  {/* Body */}
-                  <div className="card-body-inner" style={{ padding: '32px 28px 28px' }}>
-                    {/* Coordinates */}
-                    <p
-                      style={{
-                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-                        fontSize: '10px',
-                        color: '#8A7D6E',
-                        letterSpacing: '0.08em',
-                        marginBottom: '8px',
-                      }}
-                    >
-                      {featured.latitude && featured.longitude
-                        ? `${featured.latitude}°N · ${featured.longitude}°W`
-                        : `${featured.city}, ${featured.state}`}
-                    </p>
-
-                    {/* Dispatch number */}
-                    <p
-                      style={{
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                        fontSize: '10px',
-                        fontWeight: 700,
-                        letterSpacing: '0.18em',
-                        textTransform: 'uppercase',
-                        color: '#A84626',
-                        marginBottom: '10px',
-                      }}
-                    >
-                      №{String(1).padStart(3, '0')}
-                    </p>
-
-                    {/* Title */}
-                    <h2
-                      style={{
-                        fontFamily: "'Fraunces', Georgia, serif",
-                        fontSize: 'clamp(22px, 3vw, 32px)',
-                        fontWeight: 400,
-                        color: '#2C2825',
-                        lineHeight: 1.2,
-                        marginBottom: '12px',
-                      }}
-                    >
-                      {featured.title}
-                    </h2>
-
-                    {/* Excerpt */}
-                    {featured.excerpt && (
-                      <p
-                        style={{
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
-                          fontSize: '14px',
-                          color: '#8A7D6E',
-                          lineHeight: 1.65,
-                          marginBottom: '24px',
-                        }}
-                      >
-                        {featured.excerpt}
-                      </p>
-                    )}
-
-                    {/* Footer */}
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        borderTop: '1px solid rgba(212,196,160,0.5)',
-                        paddingTop: '16px',
-                        marginTop: 'auto',
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
-                          fontSize: '11px',
-                          color: '#8A7D6E',
-                          letterSpacing: '0.06em',
-                        }}
-                      >
-                        {featured.city}, {featured.state}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          color: '#A84626',
-                          letterSpacing: '0.04em',
-                        }}
-                      >
-                        Read Dispatch →
-                      </span>
-                    </div>
+                <div className="featured-dispatch__copy">
+                  <div className="featured-dispatch__telegram">
+                    <span>Latest dispatch</span>
+                    <span>{formatTelegramDate(featured.publishedAt)}</span>
                   </div>
-                </article>
-              </Link>
-            )}
+                  <p className="journal-kicker">{coordinateLabel(featured)}</p>
+                  <h2>{featured.title}</h2>
+                  {featured.excerpt && <p>{featured.excerpt}</p>}
+                  <span className="featured-dispatch__cta">
+                    Read the field report <ArrowUpRight size={16} aria-hidden="true" />
+                  </span>
+                </div>
+              </article>
+            </Link>
+          )}
 
-            {/* ── Masonry grid ── */}
+          <div className={`journal-board__lower${rest.length === 0 ? ' journal-board__lower--single' : ''}`}>
+            <aside className="journal-ledger" aria-label="Recent dispatch ledger">
+              <p className="journal-kicker">Desk ledger</p>
+              <h2>Recently filed</h2>
+              <div className="journal-ledger__rows">
+                {recentPosts.map((post, index) => (
+                  <MiniPostCard key={post.id} post={post} index={index} />
+                ))}
+              </div>
+            </aside>
+
             {rest.length > 0 && (
-              <div className="cards-grid" style={{ marginTop: '16px' }}>
-                {rest.map((post, i) => {
-                  const dispatchNum = i + 2
-                  return (
-                    <Link
-                      key={post.id}
-                      href={`/journal/${post.slug}`}
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                      <article className="dispatch-card">
-                        {/* Image */}
-                        <div className="card-img-wrap">
-                          {post.heroImageUrl && (
-                            <Image
-                              src={post.heroImageUrl}
-                              alt={post.title}
-                              fill
-                              sizes="(max-width: 600px) 100vw, (max-width: 1020px) 50vw, 33vw"
-                              style={{ objectFit: 'cover' }}
-                            />
-                          )}
-                          {/* Postmark */}
-                          <div className="card-postmark">
-                            <PostmarkSVG
-                              city={post.city}
-                              state={post.state}
-                              date={formatPostmarkDate(post.publishedAt)}
-                              size={72}
-                            />
-                          </div>
-                        </div>
-
-                        {/* Body */}
-                        <div style={{ padding: '28px 20px 20px' }}>
-                          {/* Coordinates */}
-                          <p
-                            style={{
-                              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-                              fontSize: '10px',
-                              color: '#8A7D6E',
-                              letterSpacing: '0.08em',
-                              marginBottom: '6px',
-                            }}
-                          >
-                            {post.latitude && post.longitude
-                              ? `${post.latitude}°N · ${post.longitude}°W`
-                              : `${post.city}, ${post.state}`}
-                          </p>
-
-                          {/* Dispatch number */}
-                          <p
-                            style={{
-                              fontFamily: "'Plus Jakarta Sans', sans-serif",
-                              fontSize: '10px',
-                              fontWeight: 700,
-                              letterSpacing: '0.18em',
-                              textTransform: 'uppercase',
-                              color: '#A84626',
-                              marginBottom: '8px',
-                            }}
-                          >
-                            №{String(dispatchNum).padStart(3, '0')}
-                          </p>
-
-                          {/* Title */}
-                          <h2
-                            style={{
-                              fontFamily: "'Fraunces', Georgia, serif",
-                              fontSize: 'clamp(18px, 2.2vw, 22px)',
-                              fontWeight: 400,
-                              color: '#2C2825',
-                              lineHeight: 1.25,
-                              marginBottom: '10px',
-                            }}
-                          >
-                            {post.title}
-                          </h2>
-
-                          {/* Excerpt */}
-                          {post.excerpt && (
-                            <p
-                              style={{
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                fontSize: '13px',
-                                color: '#8A7D6E',
-                                lineHeight: 1.6,
-                                marginBottom: '18px',
-                                display: '-webkit-box',
-                                WebkitLineClamp: 3,
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden',
-                              }}
-                            >
-                              {post.excerpt}
-                            </p>
-                          )}
-
-                          {/* Footer */}
-                          <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              borderTop: '1px solid rgba(212,196,160,0.5)',
-                              paddingTop: '12px',
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                fontSize: '10px',
-                                color: '#8A7D6E',
-                                letterSpacing: '0.06em',
-                              }}
-                            >
-                              {post.city}, {post.state}
-                            </span>
-                            <span
-                              style={{
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                fontSize: '11px',
-                                fontWeight: 600,
-                                color: '#A84626',
-                                letterSpacing: '0.04em',
-                              }}
-                            >
-                              Read Dispatch →
-                            </span>
-                          </div>
-                        </div>
-                      </article>
-                    </Link>
-                  )
-                })}
+              <div className="dispatch-dossier-grid">
+                {rest.map((post, index) => (
+                  <DispatchCard key={post.id} post={post} index={index} />
+                ))}
               </div>
             )}
-          </>
-        )}
-      </section>
+          </div>
+        </section>
+      )}
     </main>
   )
 }
