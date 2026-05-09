@@ -2,23 +2,34 @@
   "name": "unique-stays-next",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@11.0.8",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.8",
+      "onFail": "error"
+    }
+  },
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "payload generate:importmap && next build",
     "start": "next start",
     "generate:types": "payload generate:types",
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "migrate:down": "payload migrate:down",
-    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts"
+    "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts",
+    "index:search": "node --env-file-if-exists=.env.local --import tsx/esm scripts/generate-search-index.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",
     "@payloadcms/next": "^3.84.1",
     "@payloadcms/richtext-lexical": "^3.84.1",
+    "@payloadcms/storage-vercel-blob": "^3.84.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@tailwindcss/postcss": "^4.2.4",
+    "@vercel/blob": "^2.3.3",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
@@ -26,6 +37,7 @@
     "lucide-react": "^1.14.0",
     "next": "16.2.6",
     "payload": "^3.84.1",
+    "puppeteer-core": "^24.43.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "sharp": "^0.34.5",

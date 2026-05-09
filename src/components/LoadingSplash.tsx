@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const CIRCUMFERENCE = 2 * Math.PI * 52
+const INNER_CIRCUMFERENCE = 2 * Math.PI * 44
 
 export default function LoadingSplash() {
   const [visible, setVisible] = useState(true)
@@ -48,8 +49,8 @@ export default function LoadingSplash() {
                   fill="none"
                   stroke="oklch(0.55 0.14 38)"
                   strokeWidth="0.5"
-                  strokeDasharray={`${2 * Math.PI * 44}`}
-                  initial={{ strokeDashoffset: `${2 * Math.PI * 44}` }}
+                  strokeDasharray={INNER_CIRCUMFERENCE}
+                  initial={{ strokeDashoffset: INNER_CIRCUMFERENCE }}
                   animate={{ strokeDashoffset: 0 }}
                   transition={{ duration: 0.8, delay: 0.1, ease: 'easeInOut' }}
                   opacity={0.4}

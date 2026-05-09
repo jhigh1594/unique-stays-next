@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Compass, Share2, Mail } from 'lucide-react'
+import { Share2, Mail } from 'lucide-react'
+import LogoMark from '@/components/LogoMark'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
@@ -11,24 +12,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Column */}
           <div>
-            <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 rounded-full bg-[oklch(0.55_0.14_38)] flex items-center justify-center">
-                <Compass className="w-5 h-5 text-[oklch(0.99_0.005_85)]" strokeWidth={2} />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span
-                  className="text-[oklch(0.93_0.025_75)] font-bold"
-                  style={{ fontFamily: 'Fraunces, serif', fontSize: '1.15rem' }}
-                >
-                  Unique Stays USA
-                </span>
-                <span
-                  className="text-[oklch(0.60_0.03_60)] font-semibold tracking-[0.15em] uppercase"
-                  style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.55rem' }}
-                >
-                  Est. 2024
-                </span>
-              </div>
+            <div className="mb-5">
+              <LogoMark src="/logo-illustrated.png" className="h-20 w-auto" />
             </div>
             <p
               className="text-sm leading-relaxed max-w-xs"
@@ -93,12 +78,13 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               {[
-                { label: 'All Stays', href: '/directory' },
-                { label: 'Treehouses', href: '/directory?category=Treehouses' },
-                { label: 'Geodesic Domes', href: '/directory?category=Geodesic+Domes' },
-                { label: 'Houseboats', href: '/directory?category=Houseboats' },
-                { label: 'Lighthouses', href: '/directory?category=Lighthouses' },
-                { label: 'Converted Barns', href: '/directory?category=Converted+Barns' },
+                { label: 'All Stays', href: '/collection' },
+                { label: 'Journal', href: '/journal' },
+                { label: 'Treehouses', href: '/collection?category=Treehouses' },
+                { label: 'Geodesic Domes', href: '/collection?category=Geodesic+Domes' },
+                { label: 'Houseboats', href: '/collection?category=Houseboats' },
+                { label: 'Lighthouses', href: '/collection?category=Lighthouses' },
+                { label: 'Converted Barns', href: '/collection?category=Converted+Barns' },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href}>

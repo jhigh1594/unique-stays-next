@@ -122,7 +122,7 @@ export default function FilmstripSection({ stays }: Props) {
 
       <div
         ref={emblaRef}
-        className="overflow-hidden pl-4 sm:pl-6 lg:pl-[calc((100vw-1320px)/2+2rem)]"
+        className="overflow-hidden pl-4 sm:pl-6 lg:pl-[calc((100vw-1320px)/2+2rem)] pb-8 -mb-8"
         data-cursor="drag"
       >
         <div className="flex gap-5 select-none">
@@ -130,7 +130,7 @@ export default function FilmstripSection({ stays }: Props) {
             <motion.div
               key={stay.id}
               className="flex-shrink-0"
-              style={{ width: 'min(280px, 72vw)' }}
+              style={{ width: 'min(340px, 78vw)' }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}

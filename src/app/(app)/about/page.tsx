@@ -221,7 +221,7 @@ export default function AboutPage() {
           >
             400+ curated stays across 48 states. Your next unforgettable trip starts here.
           </p>
-          <Link href="/directory">
+          <Link href="/collection">
             <button
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold transition-all hover:gap-3 hover:shadow-lg"
               style={{

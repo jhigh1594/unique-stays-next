@@ -31,5 +31,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "../Unique-stays/client/**"]
+  "exclude": ["node_modules", "scripts"]
 }

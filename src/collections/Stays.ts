@@ -1,5 +1,22 @@
 import type { CollectionConfig } from 'payload'
 
+async function revalidateTag(tag: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
+  const secret = process.env.REVALIDATE_SECRET
+  try {
+    await fetch(`${baseUrl}/api/revalidate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-revalidate-secret': secret ?? '',
+      },
+      body: JSON.stringify({ tag }),
+    })
+  } catch {
+    // revalidation failure must never block the save
+  }
+}
+
 function validateHttpsUrl(val: string | null | undefined): string | true {
   if (!val) return true
   try {
@@ -16,7 +33,21 @@ export const Stays: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'platform', 'state', 'price', 'featured'],
-    listSearchableFields: ['title', 'location', 'state', 'tags'],
+    listSearchableFields: ['title', 'location', 'state'],
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc }) => {
+        await revalidateTag('stays')
+        if (doc.slug) await revalidateTag(`stays:${doc.slug}`)
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        await revalidateTag('stays')
+        if (doc.slug) await revalidateTag(`stays:${doc.slug}`)
+      },
+    ],
   },
   access: {
     read: () => true,
@@ -124,6 +155,50 @@ export const Stays: CollectionConfig = {
       admin: {
         description: 'Fallback: direct image URL (used during migration from legacy data) — must be https://',
       },
+    },
+
+    // ── Gallery ───────────────────────────────────────────────
+    {
+      name: 'galleryImages',
+      type: 'array',
+      admin: { description: 'Additional photos for the gallery (up to 5 recommended)' },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+        },
+        {
+          name: 'imageUrl',
+          type: 'text',
+          validate: validateHttpsUrl,
+          admin: { description: 'Fallback external URL (must be https://)' },
+        },
+      ],
+    },
+
+    // ── Editorial Content ─────────────────────────────────────
+    {
+      name: 'editorNote',
+      type: 'textarea',
+      admin: {
+        description: 'One-sentence pull-quote: why we love this stay (shows in Editor\'s Note section)',
+      },
+    },
+    {
+      name: 'bestFor',
+      type: 'text',
+      admin: { description: 'Who this stay is made for (e.g. "Couples seeking solitude")' },
+    },
+    {
+      name: 'bestSeason',
+      type: 'text',
+      admin: { description: 'Best time to visit (e.g. "Fall — October & November")' },
+    },
+    {
+      name: 'vibe',
+      type: 'text',
+      admin: { description: 'The atmosphere in a few words (e.g. "Deep woods, deliberately offline")' },
     },
 
     // ── Pricing & Stats ───────────────────────────────────────

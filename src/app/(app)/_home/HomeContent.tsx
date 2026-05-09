@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -177,24 +178,33 @@ function GhostNumber({ n, light = false }: { n: string; light?: boolean }) {
 }
 
 // ── Hub & Spoke Collections ────────────────────────────────
+const SPOKE_TILTS = [-1.5, 1.2, -0.8, 1.8, -1.1]
+const SPOKE_SHADOWS = [
+  '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
+  '3px 5px 14px rgba(44,30,20,0.20), 4px 22px 52px -6px rgba(44,30,20,0.26)',
+  '-2px 5px 14px rgba(44,30,20,0.20), -3px 22px 52px -6px rgba(44,30,20,0.26)',
+  '4px 5px 14px rgba(44,30,20,0.20), 5px 22px 52px -6px rgba(44,30,20,0.26)',
+  '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
+]
+
 function SpokeHubSection() {
   return (
     <section className="py-20" style={{ background: 'oklch(0.22 0.01 60)' }} data-dark-section>
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 fade-up">
           <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.12)' }} />
+            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.18)' }} />
             <span
               className="stamp-badge"
               style={{ color: 'oklch(0.72 0.10 40)', borderColor: 'oklch(0.72 0.10 40)', fontFamily: 'Plus Jakarta Sans, sans-serif', padding: '5px 16px' }}
             >
               Five Collections
             </span>
-            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.12)' }} />
+            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.18)' }} />
           </div>
           <p
             className="text-sm text-center max-w-md mx-auto"
-            style={{ color: 'oklch(0.50 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.7 }}
+            style={{ color: 'oklch(0.99 0.005 85)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.7 }}
           >
             Some travelers know exactly what they need. A desk, strong wifi, no distractions.
             Some know only that they need to go somewhere with the dog.
@@ -202,75 +212,96 @@ function SpokeHubSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 py-4 items-stretch">
           {SPOKES.map((spoke, i) => (
-            <Link key={spoke.slug} href={`/${spoke.slug}`}>
+            <Link key={spoke.slug} href={`/${spoke.slug}`} className="block h-full">
               <motion.div
-                className="fade-up group relative overflow-hidden rounded-2xl cursor-pointer"
+                className="group cursor-pointer flex flex-col h-full"
+                initial={{ opacity: 0, y: 24, rotate: SPOKE_TILTS[i] }}
+                whileInView={{ opacity: 1, y: 0, rotate: SPOKE_TILTS[i] }}
+                viewport={{ once: true, margin: '-60px' }}
+                whileHover={{ y: -10, rotate: 0, boxShadow: '0 28px 64px -8px rgba(0,0,0,0.55)' }}
+                transition={{ type: 'spring', stiffness: 280, damping: 22, delay: i * 0.08 }}
                 style={{
-                  transitionDelay: `${i * 80}ms`,
-                  border: '1px solid oklch(0.99 0.005 85 / 0.1)',
+                  padding: '9px 9px 28px 9px',
+                  borderRadius: '3px',
+                  background: 'oklch(0.98 0.010 85)',
+                  border: '1px solid oklch(0.78 0.025 75)',
+                  boxShadow: SPOKE_SHADOWS[i],
                 }}
-                whileHover={{ y: -6, boxShadow: '0 24px 60px -8px rgba(0,0,0,0.5)' }}
-                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                 data-cursor="view"
               >
-                <div className="relative h-52 overflow-hidden">
-                  <img
+                {/* Photo */}
+                <div className="relative h-52 overflow-hidden flex-shrink-0" style={{ borderRadius: '1px' }}>
+                  <Image
                     src={spoke.heroImage}
                     alt={spoke.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div
                     className="absolute inset-0"
-                    style={{ background: `linear-gradient(to top, oklch(0.12 0.02 60 / 0.95) 0%, oklch(0.12 0.02 60 / 0.4) 60%, transparent 100%)` }}
+                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }}
                   />
-                  <div
-                    className="absolute top-3 left-3 w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                    style={{ background: 'oklch(0.99 0.005 85 / 0.15)', backdropFilter: 'blur(8px)' }}
-                  >
-                    {spoke.heroEmoji}
-                  </div>
-                  <div
-                    className="absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
-                    style={{
-                      background: 'oklch(0.99 0.005 85 / 0.12)',
-                      color: 'oklch(0.85 0.01 85)',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid oklch(0.99 0.005 85 / 0.2)',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
-                    }}
-                  >
-                    {spoke.externalDomain.split('.')[0]}
-                  </div>
                 </div>
-                <div className="p-4" style={{ background: 'oklch(0.18 0.01 60)' }}>
-                  <h3 className="font-bold mb-1 text-base" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.99 0.005 85)' }}>
-                    {spoke.title}
-                  </h3>
-                  <p className="text-xs leading-snug mb-3" style={{ color: 'oklch(0.60 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                    {spoke.tagline}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-3">
-                      {spoke.stats.slice(0, 2).map((stat, j) => (
-                        <div key={j}>
-                          <div className="text-sm font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.85 0.10 45)' }}>
-                            {stat.value}
-                          </div>
-                          <div className="text-[10px]" style={{ color: 'oklch(0.50 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                            {stat.label}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <motion.div
-                      className="flex items-center gap-1 text-xs font-semibold"
-                      style={{ color: spoke.accentColor, fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                      whileHover={{ gap: '8px' }}
+
+                {/* Caption — ruled lines via polaroid-caption */}
+                <div className="polaroid-caption relative pt-3 px-1 flex flex-col flex-1">
+                  {/* Globe watermark — bottom-right postcard stamp */}
+                  <div
+                    className="absolute bottom-1 right-1 pointer-events-none select-none"
+                    style={{ opacity: 0.07, color: 'oklch(0.30 0.06 50)' }}
+                    aria-hidden="true"
+                  >
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="2"/>
+                      <circle cx="32" cy="32" r="23" stroke="currentColor" strokeWidth="1"/>
+                      <path d="M4 24 Q13 19 22 24 Q31 29 40 24 Q49 19 58 24" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                      <path d="M4 32 Q13 27 22 32 Q31 37 40 32 Q49 27 58 32" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                      <path d="M4 40 Q13 35 22 40 Q31 45 40 40 Q49 35 58 40" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                    </svg>
+                  </div>
+                  <div className="relative flex flex-col flex-1" style={{ zIndex: 1 }}>
+                    <p
+                      className="text-[10px] font-bold uppercase tracking-widest mb-1"
+                      style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                     >
-                      Explore <ArrowRight className="w-3 h-3" />
-                    </motion.div>
+                      Collection
+                    </p>
+                    <h3
+                      className="font-bold leading-tight mb-1"
+                      style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)', fontSize: '1rem' }}
+                    >
+                      {spoke.title}
+                    </h3>
+                    <p
+                      className="text-[11px] leading-snug mb-2.5 flex-1"
+                      style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                    >
+                      {spoke.tagline}
+                    </p>
+                    <div className="flex items-center justify-between mt-auto" style={{ paddingBottom: '6px' }}>
+                      <div className="flex gap-3">
+                        {spoke.stats.slice(0, 2).map((stat, j) => (
+                          <div key={j}>
+                            <div className="text-sm font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.30 0.02 60)' }}>
+                              {stat.value}
+                            </div>
+                            <div className="text-[10px]" style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                              {stat.label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <motion.span
+                        className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
+                        style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                        whileHover={{ gap: '6px' }}
+                      >
+                        Explore <ArrowRight className="w-2.5 h-2.5" />
+                      </motion.span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -279,7 +310,7 @@ function SpokeHubSection() {
         </div>
 
         <div className="text-center mt-10 fade-up">
-          <p className="text-xs" style={{ color: 'oklch(0.40 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+          <p className="text-xs" style={{ color: 'oklch(0.48 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
             workfriendlystays.com · stayswithpets.com · rvreadystays.com · evreadystays.com — all redirect here
           </p>
         </div>
@@ -334,10 +365,13 @@ export default function HomeContent({
           className="absolute inset-0 grain-overlay"
           style={{ y: heroImageY }}
         >
-          <img
+          <Image
             src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-treehouse-JWbjZXvAKxUiXAg4QS7BnL.webp"
             alt="Enchanted treehouse in redwood forest"
-            className="w-full h-full object-cover scale-110"
+            fill
+            sizes="100vw"
+            className="object-cover scale-110"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/5 to-black/75" />
         </motion.div>
@@ -413,7 +447,7 @@ export default function HomeContent({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1.75 }}
             >
-              <Link href="/directory">
+              <Link href="/collection">
                 <motion.span
                   className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold rounded-full cursor-pointer"
                   style={{
@@ -614,7 +648,7 @@ export default function HomeContent({
                   The places we can&apos;t stop thinking about.
                 </p>
               </div>
-              <Link href="/directory">
+              <Link href="/collection">
                 <motion.button
                   className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 border-2 text-sm font-semibold self-start"
                   style={{
@@ -653,10 +687,13 @@ export default function HomeContent({
                     whileHover={{ y: -6 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                   >
-                    <img
+                    <Image
                       src={featuredStays[0].imageUrl}
                       alt={featuredStays[0].title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/15 to-transparent" />
                     <div className="absolute top-5 left-5 flex gap-2">
@@ -729,15 +766,7 @@ export default function HomeContent({
             <div className="flex flex-col gap-7">
               {featuredStays.slice(1, 3).map((stay, i) => (
                 <div key={stay.id} className="fade-up" style={{ transitionDelay: `${180 + i * 100}ms` }}>
-                  <a
-                    href={stay.affiliateUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    data-cursor="view"
-                    className="block"
-                  >
-                    <StayCard stay={stay} index={i} />
-                  </a>
+                  <StayCard stay={stay} href={stay.affiliateUrl} external index={i} />
                 </div>
               ))}
             </div>
@@ -750,7 +779,7 @@ export default function HomeContent({
       ══════════════════════════════════════════════════════ */}
       <section
         className="py-28 overflow-hidden grain-overlay"
-        style={{ background: 'oklch(0.22 0.01 60)' }}
+        style={{ background: 'oklch(0.38 0.09 155)' }}
         data-dark-section
       >
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -849,7 +878,7 @@ export default function HomeContent({
             </div>
 
             {/* Right — postcard stack with drop animation */}
-            <div className="lg:col-span-5 relative flex justify-center items-center" style={{ minHeight: '420px' }}>
+            <div className="lg:col-span-5 relative flex justify-center items-center" style={{ minHeight: '720px' }}>
               <div
                 className="absolute select-none pointer-events-none"
                 style={{
@@ -874,10 +903,10 @@ export default function HomeContent({
               <motion.div
                 className="absolute overflow-hidden shadow-2xl"
                 style={{
-                  width: '78%',
-                  maxWidth: 340,
+                  width: '88%',
+                  maxWidth: 420,
                   borderRadius: '3px',
-                  top: '5%',
+                  top: '2%',
                   right: '2%',
                   zIndex: 1,
                 }}
@@ -886,10 +915,12 @@ export default function HomeContent({
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ type: 'spring', stiffness: 160, damping: 16, delay: 0.15 }}
               >
-                <img
+                <Image
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-dome-fNq53JMSCre9pYDm759BF5.webp"
                   alt="Desert dome"
-                  className="w-full h-44 object-cover"
+                  width={420}
+                  height={288}
+                  className="w-full h-72 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
                   <p style={{ fontFamily: 'Fraunces, serif', fontSize: '0.75rem', color: 'oklch(0.35 0.02 60)', fontStyle: 'italic' }}>
@@ -901,22 +932,24 @@ export default function HomeContent({
               <motion.div
                 className="relative overflow-hidden shadow-2xl"
                 style={{
-                  width: '82%',
-                  maxWidth: 360,
+                  width: '90%',
+                  maxWidth: 440,
                   borderRadius: '3px',
                   border: '10px solid oklch(0.99 0.005 85)',
                   zIndex: 2,
-                  marginTop: '60px',
+                  marginTop: '200px',
                 }}
                 initial={{ y: -120, rotate: 2, opacity: 0 }}
                 whileInView={{ y: 0, rotate: 5, opacity: 1 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ type: 'spring', stiffness: 180, damping: 18, delay: 0.3 }}
               >
-                <img
+                <Image
                   src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-banner-mhiZ34LNJ6enqJKTL8o9M4.webp"
                   alt="Unique stays collage"
-                  className="w-full h-52 object-cover"
+                  width={440}
+                  height={320}
+                  className="w-full h-80 object-cover"
                 />
                 <div className="px-4 py-3" style={{ background: 'oklch(0.99 0.005 85)' }}>
                   <p style={{ fontFamily: 'Fraunces, serif', fontSize: '0.75rem', color: 'oklch(0.35 0.02 60)', fontStyle: 'italic' }}>
@@ -991,15 +1024,7 @@ export default function HomeContent({
                 className="fade-up"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <a
-                  href={stay.affiliateUrl}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
-                  data-cursor="view"
-                  className="block"
-                >
-                  <StayCard stay={stay} index={i + 3} />
-                </a>
+                <StayCard stay={stay} href={stay.affiliateUrl} external index={i + 3} />
               </div>
             ))}
           </div>
@@ -1022,7 +1047,7 @@ export default function HomeContent({
             >
               Browse by type
             </h2>
-            <Link href="/directory">
+            <Link href="/collection">
               <span
                 className="text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all"
                 style={{ color: 'oklch(0.72 0.10 40)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
@@ -1033,61 +1058,28 @@ export default function HomeContent({
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {categories.slice(0, 2).map((cat, i) => {
+            {categories.map((cat, i) => {
               const palette = [
                 { bg: 'oklch(0.55 0.14 38)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.85 0.10 45)' },
                 { bg: 'oklch(0.38 0.09 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.72 0.12 155)' },
-              ][i]
-              return (
-                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`}>
-                  <motion.div
-                    className="fade-up col-span-1 md:col-span-2 p-6 md:p-8 cursor-pointer"
-                    style={{
-                      background: palette.bg,
-                      borderRadius: '3px',
-                      transitionDelay: `${i * 60}ms`,
-                      minHeight: '160px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                    data-cursor="view"
-                  >
-                    <div className="text-4xl">{cat.emoji}</div>
-                    <div>
-                      <div className="text-2xl md:text-3xl font-bold mb-1" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
-                        {cat.label}
-                      </div>
-                      <div className="stamp-badge" style={{ color: palette.count, borderColor: palette.count, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                        {cat.count} stays
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              )
-            })}
-
-            {categories.slice(2, 6).map((cat, i) => {
-              const palette = [
-                { bg: 'oklch(0.30 0.01 60)', text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
-                { bg: 'oklch(0.72 0.10 40)', text: 'oklch(0.15 0.01 60)', count: 'oklch(0.30 0.04 40)' },
+                { bg: 'oklch(0.30 0.01 60)',  text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
+                { bg: 'oklch(0.72 0.10 40)',  text: 'oklch(0.15 0.01 60)',  count: 'oklch(0.30 0.04 40)' },
                 { bg: 'oklch(0.56 0.09 220)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.82 0.06 220)' },
-                { bg: 'oklch(0.30 0.01 60)', text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
-              ][i]
+                { bg: 'oklch(0.30 0.01 60)',  text: 'oklch(0.93 0.025 75)', count: 'oklch(0.60 0.02 60)' },
+                { bg: 'oklch(0.52 0.08 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.80 0.06 155)' },
+                { bg: 'oklch(0.55 0.14 38)',  text: 'oklch(0.99 0.005 85)', count: 'oklch(0.85 0.10 45)' },
+                { bg: 'oklch(0.88 0.04 75)',  text: 'oklch(0.22 0.01 60)',  count: 'oklch(0.50 0.03 60)' },
+                { bg: 'oklch(0.38 0.09 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.72 0.12 155)' },
+              ][i % 10]
               return (
-                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`}>
+                <Link key={cat.id} href={`/collection?category=${encodeURIComponent(cat.id)}`} className="block">
                   <motion.div
-                    className="fade-up p-5 cursor-pointer"
+                    className="fade-up cursor-pointer flex flex-col justify-between p-5"
                     style={{
                       background: palette.bg,
                       borderRadius: '3px',
-                      transitionDelay: `${(i + 2) * 60}ms`,
-                      minHeight: '140px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
+                      aspectRatio: '5 / 2',
+                      transitionDelay: `${i * 60}ms`,
                     }}
                     whileHover={{ scale: 1.03 }}
                     transition={{ type: 'spring', stiffness: 320, damping: 22 }}
@@ -1095,45 +1087,7 @@ export default function HomeContent({
                   >
                     <div className="text-3xl">{cat.emoji}</div>
                     <div>
-                      <div className="text-lg font-bold mb-1" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
-                        {cat.label}
-                      </div>
-                      <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: palette.count, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                        {cat.count} stays
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              )
-            })}
-
-            {categories.slice(6).map((cat, i) => {
-              const palette = [
-                { bg: 'oklch(0.52 0.08 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.80 0.06 155)' },
-                { bg: 'oklch(0.55 0.14 38)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.85 0.10 45)' },
-                { bg: 'oklch(0.88 0.04 75)', text: 'oklch(0.22 0.01 60)', count: 'oklch(0.50 0.03 60)' },
-                { bg: 'oklch(0.38 0.09 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.72 0.12 155)' },
-              ][i % 4]
-              return (
-                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`}>
-                  <motion.div
-                    className="fade-up p-5 cursor-pointer"
-                    style={{
-                      background: palette.bg,
-                      borderRadius: '3px',
-                      transitionDelay: `${(i + 6) * 60}ms`,
-                      minHeight: '130px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                    data-cursor="view"
-                  >
-                    <div className="text-2xl">{cat.emoji}</div>
-                    <div>
-                      <div className="text-base font-bold mb-1" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
+                      <div className="font-bold mb-1 text-lg leading-tight" style={{ fontFamily: 'Fraunces, serif', color: palette.text }}>
                         {cat.label}
                       </div>
                       <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: palette.count, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
@@ -1178,7 +1132,7 @@ export default function HomeContent({
                 }}
               >
                 {categories.find((c) => c.id === activeCategory)?.emoji}{' '}
-                {activeCategory}
+                {categories.find((c) => c.id === activeCategory)?.label ?? activeCategory}
               </h2>
               <p
                 className="text-sm mt-1"
@@ -1195,15 +1149,7 @@ export default function HomeContent({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.07 }}
                 >
-                  <a
-                    href={stay.affiliateUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    data-cursor="view"
-                    className="block"
-                  >
-                    <StayCard stay={stay} index={i + 5} />
-                  </a>
+                  <StayCard stay={stay} href={stay.affiliateUrl} external index={i + 5} />
                 </motion.div>
               ))}
             </div>
@@ -1435,10 +1381,12 @@ export default function HomeContent({
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 160, damping: 18, delay: 0.1 }}
                 >
-                  <img
+                  <Image
                     src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-dome-fNq53JMSCre9pYDm759BF5.webp"
                     alt="Desert dome glamping"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 1024px) 80vw, 40vw"
+                    className="object-cover"
                   />
                 </motion.div>
                 <motion.div
@@ -1449,10 +1397,12 @@ export default function HomeContent({
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 160, damping: 18, delay: 0.25 }}
                 >
-                  <img
+                  <Image
                     src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-houseboat-6e6D3bBeEjwZSSmSxByNAZ.webp"
                     alt="Houseboat on autumn lake"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 1024px) 60vw, 30vw"
+                    className="object-cover"
                   />
                 </motion.div>
                 <motion.div

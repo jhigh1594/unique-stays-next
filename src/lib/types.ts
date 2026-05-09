@@ -18,6 +18,11 @@ export type NormalizedStay = {
   bedrooms: number
   description: string
   tags: string[]
+  galleryImages: string[]
+  editorNote: string
+  bestFor: string
+  bestSeason: string
+  vibe: string
   featured: boolean
   editorsPick: boolean
   isNew: boolean
@@ -29,6 +34,24 @@ export type NormalizedStay = {
   rvDetails: string
   evCharger: boolean
   evDetails: string
+}
+
+export type NormalizedJournalPost = {
+  id: number
+  slug: string
+  title: string
+  subtitle: string
+  excerpt: string
+  heroImageUrl: string
+  publishedAt: string
+  city: string
+  state: string
+  latitude: string
+  longitude: string
+  metaTitle: string
+  metaDescription: string
+  linkedStays: NormalizedStay[]
+  content: unknown
 }
 
 export type SpokeStatItem = {

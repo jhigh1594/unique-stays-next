@@ -1,28 +1,28 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion'
 
-type CursorState = 'default' | 'hover' | 'view' | 'drag'
+// Pin 1 — classic filled, slightly smaller (30×42 display, viewBox 36×50)
+// Tip of pin is at y≈40px in display coords.
+const PIN_OFFSET_X = 15  // half of 30px width
+const PIN_OFFSET_Y = 40  // tip of teardrop at display scale
 
 export default function CustomCursor() {
   const mouseX = useMotionValue(-200)
   const mouseY = useMotionValue(-200)
-  const [state, setState] = useState<CursorState>('default')
-  const [isDark, setIsDark] = useState(false)
+  const [isOverCard, setIsOverCard] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [isDark, setIsDark] = useState(false)
 
-  const dotX = useSpring(mouseX, { damping: 55, stiffness: 700, mass: 0.15 })
-  const dotY = useSpring(mouseY, { damping: 55, stiffness: 700, mass: 0.15 })
-  const ringX = useSpring(mouseX, { damping: 26, stiffness: 280, mass: 0.6 })
-  const ringY = useSpring(mouseY, { damping: 26, stiffness: 280, mass: 0.6 })
+  const x = useSpring(mouseX, { damping: 26, stiffness: 280, mass: 0.6 })
+  const y = useSpring(mouseY, { damping: 26, stiffness: 280, mass: 0.6 })
 
   useEffect(() => {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     setMounted(true)
-    document.documentElement.classList.add('has-custom-cursor')
 
     const move = (e: MouseEvent) => {
       mouseX.set(e.clientX)
@@ -31,111 +31,77 @@ export default function CustomCursor() {
 
     const over = (e: MouseEvent) => {
       const t = e.target as HTMLElement
-      const cursorAttr = t.closest('[data-cursor]') as HTMLElement | null
-      if (cursorAttr?.dataset.cursor === 'view') {
-        setState('view')
-      } else if (cursorAttr?.dataset.cursor === 'drag') {
-        setState('drag')
-      } else if (t.closest('a[href], button, input, select, textarea, [role="button"], label')) {
-        setState('hover')
-      } else {
-        setState('default')
-      }
+      setIsOverCard(t.closest('[data-cursor="view"]') !== null)
       setIsDark(!!t.closest('[data-dark-section]'))
-    }
-
-    const click = (e: MouseEvent) => {
-      const stamp = document.createElement('div')
-      stamp.className = 'cursor-stamp'
-      stamp.style.left = `${e.clientX}px`
-      stamp.style.top = `${e.clientY}px`
-      document.body.appendChild(stamp)
-      setTimeout(() => stamp.remove(), 700)
     }
 
     window.addEventListener('mousemove', move, { passive: true })
     window.addEventListener('mouseover', over, { passive: true })
-    window.addEventListener('click', click, { passive: true })
 
     return () => {
-      document.documentElement.classList.remove('has-custom-cursor')
       window.removeEventListener('mousemove', move)
       window.removeEventListener('mouseover', over)
-      window.removeEventListener('click', click)
     }
   }, [mouseX, mouseY])
 
   if (!mounted) return null
 
-  const dot = isDark ? 'oklch(0.88 0.025 75)' : 'oklch(0.55 0.14 38)'
-  const ring = isDark ? 'oklch(0.88 0.025 75)' : 'oklch(0.55 0.14 38)'
-  const ringFill = state === 'view' ? (isDark ? 'oklch(0.88 0.025 75)' : 'oklch(0.55 0.14 38)') : 'transparent'
-  const ringSize = state === 'view' ? 68 : state === 'hover' ? 50 : 42
-  const dotSize = state === 'hover' || state === 'view' ? 0 : 10
-
   return (
-    <>
-      <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[9998]"
-        style={{ x: dotX, y: dotY, translateX: '-50%', translateY: '-50%' }}
-      >
-        <motion.div
-          animate={{ width: dotSize, height: dotSize, background: dot }}
-          transition={{ duration: 0.15, ease: 'easeOut' }}
-          style={{ borderRadius: '50%' }}
-        />
-      </motion.div>
+    <motion.div
+      className="pointer-events-none fixed top-0 left-0 z-[9997]"
+      style={{ x, y }}
+    >
+      <AnimatePresence>
+        {isOverCard && (
+          <motion.div
+            key="pin"
+            initial={{ opacity: 0, y: -8, scale: 0.82 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85, y: -4 }}
+            transition={{ type: 'spring', stiffness: 420, damping: 20 }}
+            style={{
+              position: 'absolute',
+              left: `-${PIN_OFFSET_X}px`,
+              top:  `-${PIN_OFFSET_Y}px`,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '5px',
+            }}
+          >
+            <svg
+              width="30"
+              height="42"
+              viewBox="0 0 36 50"
+              fill="none"
+              style={{ filter: 'drop-shadow(0 4px 10px rgba(168,70,38,0.38))' }}
+            >
+              <path
+                d="M18 1C8.611 1 1 8.611 1 18c0 12.722 17 31 17 31S35 30.722 35 18C35 8.611 27.389 1 18 1z"
+                fill="#A84626"
+              />
+              <circle cx="18" cy="18" r="9" fill="rgba(255,255,255,0.18)" />
+              <circle cx="18" cy="18" r="4" fill="rgba(255,255,255,0.75)" />
+            </svg>
 
-      <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[9997] flex items-center justify-center"
-        style={{ x: ringX, y: ringY, translateX: '-50%', translateY: '-50%' }}
-      >
-        <motion.div
-          className="flex items-center justify-center"
-          animate={{
-            width: ringSize,
-            height: ringSize,
-            backgroundColor: ringFill,
-            borderColor: ring,
-            opacity: state === 'drag' ? 0.4 : 1,
-            borderWidth: state === 'drag' ? '1px' : '1.5px',
-          }}
-          style={{ borderRadius: '50%', borderStyle: 'solid' }}
-          transition={{ type: 'spring', stiffness: 380, damping: 24 }}
-        >
-          {state === 'view' && (
-            <motion.span
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <span
               style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.52rem',
-                fontWeight: 800,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: isDark ? 'oklch(0.22 0.01 60)' : 'oklch(0.99 0.005 85)',
+                fontFamily: 'Fraunces, serif',
+                fontStyle: 'italic',
+                fontSize: '12px',
+                lineHeight: 1,
+                color: isDark ? 'oklch(0.92 0.01 80)' : 'oklch(0.22 0.01 60)',
+                textShadow: isDark
+                  ? '0 1px 6px rgba(20,15,10,0.7)'
+                  : '0 1px 6px rgba(246,242,236,0.95)',
+                whiteSpace: 'nowrap',
               }}
             >
-              View
-            </motion.span>
-          )}
-          {state === 'drag' && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.52rem',
-                fontWeight: 800,
-                letterSpacing: '0.06em',
-                color: ring,
-              }}
-            >
-              ⟷
-            </motion.span>
-          )}
-        </motion.div>
-      </motion.div>
-    </>
+              visit
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }

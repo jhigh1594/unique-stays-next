@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursor Prototypes — Map Pin × 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tc:  #A84626;
+      --cr:  #F6F2EC;
+      --fg:  #2C2C2C;
+      --mu:  #999;
+      --sd:  #D4C4A0;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --sp:   cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--cr);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      text-align: center;
+      padding: 52px 24px 36px;
+      border-bottom: 1px solid var(--sd);
+    }
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--tc);
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 300;
+    }
+    header h1 em { font-style: italic; color: var(--tc); }
+    header p {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--mu);
+      max-width: 400px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--sd);
+      border-top: 1px solid var(--sd);
+    }
+    .cell {
+      background: var(--cr);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 44px 28px 52px;
+      gap: 24px;
+    }
+    .cell-header { text-align: center; }
+    .opt {
+      display: inline-block;
+      border: 1px solid var(--fg);
+      font-size: 9px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      margin-bottom: 9px;
+    }
+    .cell-header h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 17px;
+      font-weight: 300;
+      margin-bottom: 5px;
+    }
+    .cell-header h2 em { font-style: italic; color: var(--tc); }
+    .cell-header p {
+      font-size: 11px; color: var(--mu);
+      line-height: 1.6; max-width: 210px; margin: 0 auto;
+    }
+
+    .stage {
+      position: relative;
+      background: #FAFAF8;
+      border: 1px solid #E2D9CE;
+      border-radius: 6px;
+      width: 100%; max-width: 310px;
+      min-height: 272px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .stage[data-cursor] { cursor: none; }
+    .stage::before {
+      content: 'hover to preview';
+      position: absolute;
+      top: 11px; left: 0; right: 0;
+      text-align: center;
+      font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--sd); pointer-events: none;
+    }
+
+    .card {
+      width: 216px;
+      background: white;
+      box-shadow: 0 2px 14px rgba(0,0,0,.07), 0 0 0 1px rgba(0,0,0,.04);
+      transform: rotate(-1.5deg);
+      transition: transform .4s var(--sp), box-shadow .3s ease;
+      user-select: none;
+    }
+    .card:hover {
+      transform: rotate(0) translateY(-6px);
+      box-shadow: 0 10px 32px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.04);
+    }
+    .card-img { height: 148px; position: relative; overflow: hidden; }
+    .card-img svg { width:100%; height:100%; display:block; }
+    .card-badge {
+      position: absolute; top:9px; left:9px;
+      background: var(--tc); color: white;
+      font-size: 8px; letter-spacing:.1em; text-transform:uppercase;
+      padding: 3px 7px;
+    }
+    .card-body { padding: 12px 12px 8px; }
+    .card-title { font-family:'Fraunces',serif; font-size:13.5px; font-weight:400; margin-bottom:3px; line-height:1.25; }
+    .card-loc { font-size:10px; color:#bbb; }
+    .card-foot { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-top:1px solid #F0EAE3; }
+    .card-price { font-size:12px; font-weight:600; }
+    .card-price em { font-weight:400; color:#ccc; font-style:normal; font-size:11px; }
+    .card-rating { font-size:11px; color:#ccc; }
+
+    footer { text-align:center; padding:28px; border-top:1px solid var(--sd); font-size:10px; color:var(--sd); letter-spacing:.12em; text-transform:uppercase; }
+
+    /* ═══════════════════
+       CURSORS
+    ═══════════════════ */
+    .cur {
+      position: fixed; top:0; left:0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      will-change: transform, opacity;
+      transition: opacity .1s ease;
+    }
+    .cur.on { opacity: 1; }
+
+    /* All pins share a drop-in entrance */
+    @keyframes pin-drop {
+      0%   { transform: translateY(-10px) scale(0.85); opacity: 0; }
+      65%  { transform: translateY(3px) scale(1.03); }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* Pin wrapper — column, tip at bottom = hotspot */
+    .pin-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .pin-label {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 12px;
+      color: var(--fg);
+      white-space: nowrap;
+      text-shadow: 0 1px 6px rgba(246,242,236,.95);
+    }
+
+    /* entering class triggers animation on the svg */
+    .cur.entering .pin-svg { animation: pin-drop .26s var(--sp) both; }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">UniqueStaysUSA · Map Pin × 4</p>
+  <h1>Map pin — <em>four variations</em></h1>
+  <p>Same concept, four different shapes and treatments. Hover each card from outside to see the pin drop in.</p>
+</header>
+
+<div class="grid">
+
+  <!-- ── 1: Classic filled ── -->
+  <div class="cell">
+    <div class="cell-header">
+      <div class="opt">Pin 1</div>
+      <h2><em>Classic</em> filled</h2>
+      <p>Solid terracotta, white inner ring and dot, "visit" below. The purest form.</p>
+    </div>
+    <div class="stage" data-cursor="p1">
+      <div class="card">
+        <div class="card-img">
+          <svg viewBox="0 0 216 148" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4A7C5F"/>
+              <stop offset="100%" stop-color="#6B4C3B"/>
+            </linearGradient></defs>
+            <rect width="216" height="148" fill="url(#g1)"/>
+            <ellipse cx="65" cy="108" rx="22" ry="30" fill="rgba(0,0,0,.17)"/>
+            <ellipse cx="102" cy="90" rx="18" ry="37" fill="rgba(0,0,0,.21)"/>
+            <ellipse cx="163" cy="112" rx="28" ry="25" fill="rgba(0,0,0,.13)"/>
+            <rect x="89" y="59" width="14" height="9" rx="1" fill="rgba(255,220,100,.45)"/>
+          </svg>
+          <div class="card-badge">Treehouse</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Sequoia Tree Loft</div>
+          <div class="card-loc">Big Sur, California</div>
+        </div>
+        <div class="card-foot">
+          <div class="card-price">$340 <em>/ night</em></div>
+          <div class="card-rating">★ 4.97</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2: Hollow outline ── -->
+  <div class="cell">
+    <div class="cell-header">
+      <div class="opt">Pin 2</div>
+      <h2><em>Hollow</em> outline</h2>
+      <p>Thin terracotta stroke, transparent body, solid dot in center. Lighter hand.</p>
+    </div>
+    <div class="stage" data-cursor="p2">
+      <div class="card">
+        <div class="card-img">
+          <svg viewBox="0 0 216 148" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g2" x1="0%" y1="20%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6EA3B5"/>
+              <stop offset="100%" stop-color="#2C4F5C"/>
+            </linearGradient></defs>
+            <rect width="216" height="148" fill="url(#g2)"/>
+            <rect x="0" y="84" width="216" height="64" fill="rgba(0,0,0,.2)"/>
+            <polygon points="0,84 50,42 100,84" fill="rgba(0,0,0,.18)"/>
+            <polygon points="62,84 132,30 202,84" fill="rgba(0,0,0,.14)"/>
+          </svg>
+          <div class="card-badge">Waterfront</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Glass Lake Pavilion</div>
+          <div class="card-loc">Lake Tahoe, Nevada</div>
+        </div>
+        <div class="card-foot">
+          <div class="card-price">$520 <em>/ night</em></div>
+          <div class="card-rating">★ 4.99</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3: Text inside pin ── -->
+  <div class="cell">
+    <div class="cell-header">
+      <div class="opt">Pin 3</div>
+      <h2>Text <em>inside</em></h2>
+      <p>"visit" written in white italic inside the pin bubble — no separate label.</p>
+    </div>
+    <div class="stage" data-cursor="p3">
+      <div class="card">
+        <div class="card-img">
+          <svg viewBox="0 0 216 148" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C4764F"/>
+              <stop offset="100%" stop-color="#5C3020"/>
+            </linearGradient></defs>
+            <rect width="216" height="148" fill="url(#g3)"/>
+            <ellipse cx="58" cy="148" rx="55" ry="36" fill="rgba(0,0,0,.18)"/>
+            <ellipse cx="152" cy="148" rx="55" ry="42" fill="rgba(0,0,0,.14)"/>
+            <circle cx="150" cy="34" r="18" fill="rgba(255,200,100,.28)"/>
+          </svg>
+          <div class="card-badge">Desert</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Red Rock Casita</div>
+          <div class="card-loc">Sedona, Arizona</div>
+        </div>
+        <div class="card-foot">
+          <div class="card-price">$265 <em>/ night</em></div>
+          <div class="card-rating">★ 4.95</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4: Round/fat Airbnb-style ── -->
+  <div class="cell">
+    <div class="cell-header">
+      <div class="opt">Pin 4</div>
+      <h2><em>Round</em> drop</h2>
+      <p>More circular top, shorter tail — closer to a raindrop or Airbnb-style marker.</p>
+    </div>
+    <div class="stage" data-cursor="p4">
+      <div class="card">
+        <div class="card-img">
+          <svg viewBox="0 0 216 148" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g4" x1="0%" y1="0%" x2="60%" y2="100%">
+              <stop offset="0%" stop-color="#B0C4D8"/>
+              <stop offset="100%" stop-color="#3C5A6E"/>
+            </linearGradient></defs>
+            <rect width="216" height="148" fill="url(#g4)"/>
+            <polygon points="20,148 92,30 164,148" fill="rgba(255,255,255,.07)"/>
+            <polygon points="52,148 92,52 132,148" fill="rgba(0,0,0,.1)"/>
+            <polygon points="78,58 92,30 106,58 99,54 92,56 85,54" fill="rgba(255,255,255,.3)"/>
+            <polygon points="18,148 36,110 54,148" fill="rgba(0,0,0,.2)"/>
+            <polygon points="164,148 182,112 200,148" fill="rgba(0,0,0,.18)"/>
+          </svg>
+          <div class="card-badge">Mountain</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Glacier Peak Yurt</div>
+          <div class="card-loc">North Cascades, WA</div>
+        </div>
+        <div class="card-foot">
+          <div class="card-price">$195 <em>/ night</em></div>
+          <div class="card-rating">★ 4.93</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>UniqueStaysUSA · Map pin exploration</footer>
+
+
+<!-- ═══════════════════════
+     CURSOR ELEMENTS
+     All pins: tip is at the bottom-center of the SVG.
+     ox = half SVG width, oy = SVG height (= tip y position)
+═══════════════════════ -->
+
+<!-- Pin 1: Classic filled — 36×50 SVG, tip at y=50 -->
+<!-- ox=18, oy=50 -->
+<div class="cur" id="cur-p1">
+  <div class="pin-wrap">
+    <svg class="pin-svg" width="36" height="50" viewBox="0 0 36 50"
+         style="filter:drop-shadow(0 5px 12px rgba(168,70,38,.38))">
+      <!-- filled teardrop -->
+      <path d="M18 1C8.611 1 1 8.611 1 18c0 12.722 17 31 17 31S35 30.722 35 18C35 8.611 27.389 1 18 1z"
+            fill="#A84626"/>
+      <!-- inner ring highlight -->
+      <circle cx="18" cy="18" r="9" fill="rgba(255,255,255,.18)"/>
+      <!-- center white dot -->
+      <circle cx="18" cy="18" r="4" fill="rgba(255,255,255,.75)"/>
+    </svg>
+    <span class="pin-label">visit</span>
+  </div>
+</div>
+
+<!-- Pin 2: Hollow outline — 36×50 SVG, tip at y=50 -->
+<!-- ox=18, oy=50 -->
+<div class="cur" id="cur-p2">
+  <div class="pin-wrap">
+    <svg class="pin-svg" width="36" height="50" viewBox="0 0 36 50" fill="none"
+         style="filter:drop-shadow(0 4px 10px rgba(168,70,38,.22))">
+      <!-- outline teardrop -->
+      <path d="M18 1.5C9.163 1.5 2 8.663 2 17.5c0 12.5 16 30 16 30S34 30 34 17.5C34 8.663 26.837 1.5 18 1.5z"
+            stroke="#A84626" stroke-width="1.5"/>
+      <!-- inner subtle ring -->
+      <circle cx="18" cy="17.5" r="7.5" stroke="rgba(168,70,38,.25)" stroke-width="1"/>
+      <!-- solid center dot -->
+      <circle cx="18" cy="17.5" r="4" fill="#A84626"/>
+    </svg>
+    <span class="pin-label">visit</span>
+  </div>
+</div>
+
+<!-- Pin 3: Text inside — 44×54 SVG (wider to fit text), tip at y=54 -->
+<!-- ox=22, oy=54 -->
+<div class="cur" id="cur-p3">
+  <div class="pin-wrap">
+    <svg class="pin-svg" width="44" height="54" viewBox="0 0 44 54"
+         style="filter:drop-shadow(0 5px 12px rgba(168,70,38,.38))">
+      <!-- filled teardrop — wider for text -->
+      <path d="M22 1C10.402 1 1 10.402 1 22c0 14.5 21 33 21 33S43 36.5 43 22C43 10.402 33.598 1 22 1z"
+            fill="#A84626"/>
+      <!-- subtle inner ring for depth -->
+      <circle cx="22" cy="22" r="13" fill="rgba(0,0,0,.1)"/>
+      <!-- "visit" in white italic inside -->
+      <text x="22" y="26"
+            text-anchor="middle"
+            font-family="Fraunces, Georgia, serif"
+            font-style="italic"
+            font-size="12"
+            fill="rgba(255,255,255,.92)">visit</text>
+    </svg>
+  </div>
+</div>
+
+<!-- Pin 4: Round drop — 38×52 SVG, tip at y=52 -->
+<!-- ox=19, oy=52 -->
+<div class="cur" id="cur-p4">
+  <div class="pin-wrap">
+    <svg class="pin-svg" width="38" height="52" viewBox="0 0 38 52"
+         style="filter:drop-shadow(0 5px 12px rgba(168,70,38,.38))">
+      <!-- Large circle top — more round/bulbous, shorter pointed tail -->
+      <path d="M19 2C9.059 2 1 10.059 1 20c0 7 6 14 12 20l6 10 6-10c6-6 12-13 12-20C37 10.059 28.941 2 19 2z"
+            fill="#A84626"/>
+      <!-- inner circle — cream ring -->
+      <circle cx="19" cy="20" r="10" fill="rgba(255,255,255,.18)"/>
+      <!-- center dot -->
+      <circle cx="19" cy="20" r="4.5" fill="rgba(255,255,255,.75)"/>
+    </svg>
+    <span class="pin-label">visit</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     CURSOR LOGIC
+═══════════════════════ -->
+<script>
+  const CURSORS = {
+    p1: { el: document.getElementById('cur-p1'), ox: 18, oy: 50 },
+    p2: { el: document.getElementById('cur-p2'), ox: 18, oy: 50 },
+    p3: { el: document.getElementById('cur-p3'), ox: 22, oy: 54 },
+    p4: { el: document.getElementById('cur-p4'), ox: 19, oy: 52 },
+  };
+
+  let mx=0, my=0, cx=0, cy=0, snap=false, active=null;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    const stage = e.target.closest('[data-cursor]');
+    const key = stage ? stage.dataset.cursor : null;
+
+    if (key !== (active ? active.key : null)) {
+      if (active) active.cfg.el.classList.remove('on', 'entering');
+      active = null;
+      if (key && CURSORS[key]) {
+        const cfg = CURSORS[key];
+        cx = mx; cy = my; snap = true;
+        cfg.el.style.transform = `translate(${mx - cfg.ox}px,${my - cfg.oy}px)`;
+        cfg.el.classList.add('on', 'entering');
+        setTimeout(() => cfg.el.classList.remove('entering'), 300);
+        active = { key, cfg };
+      }
+    }
+  });
+
+  (function loop() {
+    requestAnimationFrame(loop);
+    if (!active) return;
+    const t = snap ? 1 : 0.12;
+    cx += (mx - cx) * t;
+    cy += (my - cy) * t;
+    if (snap && Math.abs(cx - mx) < 0.5) snap = false;
+    const { cfg } = active;
+    cfg.el.style.transform = `translate(${cx - cfg.ox}px,${cy - cfg.oy}px)`;
+  })();
+</script>
+</body>
+</html>
