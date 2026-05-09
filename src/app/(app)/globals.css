@@ -355,3 +355,23 @@
     filter: none !important;
   }
 }
+
+/* StayPolaroidCard */
+.polaroid-float {
+  float: none;
+  width: 100%;
+  margin: 16px 0;
+}
+.polaroid-card:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+  box-shadow: 5px 12px 28px rgba(44,30,20,0.22), 8px 32px 64px -8px rgba(44,30,20,0.28) !important;
+}
+@media (min-width: 768px) {
+  .polaroid-float {
+    float: right;
+    width: auto;
+    margin-left: 24px;
+    margin-bottom: 16px;
+    margin-top: 4px;
+  }
+}
