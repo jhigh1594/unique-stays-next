@@ -50,3 +50,4 @@ data/search-index.json
 # Claude Code worktrees
 .claude/
 .gstack/
+.superpowers/

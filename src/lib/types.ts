@@ -18,6 +18,11 @@ export type NormalizedStay = {
   bedrooms: number
   description: string
   tags: string[]
+  galleryImages: string[]
+  editorNote: string
+  bestFor: string
+  bestSeason: string
+  vibe: string
   featured: boolean
   editorsPick: boolean
   isNew: boolean

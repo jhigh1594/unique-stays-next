@@ -157,6 +157,50 @@ export const Stays: CollectionConfig = {
       },
     },
 
+    // ── Gallery ───────────────────────────────────────────────
+    {
+      name: 'galleryImages',
+      type: 'array',
+      admin: { description: 'Additional photos for the gallery (up to 5 recommended)' },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+        },
+        {
+          name: 'imageUrl',
+          type: 'text',
+          validate: validateHttpsUrl,
+          admin: { description: 'Fallback external URL (must be https://)' },
+        },
+      ],
+    },
+
+    // ── Editorial Content ─────────────────────────────────────
+    {
+      name: 'editorNote',
+      type: 'textarea',
+      admin: {
+        description: 'One-sentence pull-quote: why we love this stay (shows in Editor\'s Note section)',
+      },
+    },
+    {
+      name: 'bestFor',
+      type: 'text',
+      admin: { description: 'Who this stay is made for (e.g. "Couples seeking solitude")' },
+    },
+    {
+      name: 'bestSeason',
+      type: 'text',
+      admin: { description: 'Best time to visit (e.g. "Fall — October & November")' },
+    },
+    {
+      name: 'vibe',
+      type: 'text',
+      admin: { description: 'The atmosphere in a few words (e.g. "Deep woods, deliberately offline")' },
+    },
+
     // ── Pricing & Stats ───────────────────────────────────────
     {
       name: 'price',

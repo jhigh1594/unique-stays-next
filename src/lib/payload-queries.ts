@@ -21,6 +21,7 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
   const category = doc.category as Record<string, unknown> | null
   const spokes = (doc.spokes ?? []) as Array<Record<string, unknown>>
   const tags = (doc.tags ?? []) as Array<{ tag: string }>
+  const rawGallery = (doc.galleryImages ?? []) as Array<Record<string, unknown>>
 
   return {
     id: doc.id as number,
@@ -35,6 +36,15 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
     platform: doc.platform as NormalizedStay['platform'],
     affiliateUrl: (doc.affiliateUrl as string) ?? '',
     imageUrl: resolveImageUrl(doc),
+    galleryImages: rawGallery.map((item) => {
+      const img = item.image as Record<string, unknown> | null
+      if (img && typeof img === 'object' && img.url) return img.url as string
+      return (item.imageUrl as string) ?? ''
+    }).filter(Boolean),
+    editorNote: (doc.editorNote as string) ?? '',
+    bestFor: (doc.bestFor as string) ?? '',
+    bestSeason: (doc.bestSeason as string) ?? '',
+    vibe: (doc.vibe as string) ?? '',
     price: doc.price as number,
     rating: (doc.rating as number | null) ?? null,
     reviewCount: (doc.reviewCount as number | null) ?? null,
