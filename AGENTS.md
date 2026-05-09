@@ -159,3 +159,9 @@ Always run `pnpm generate:types` and `pnpm migrate` after changing any collectio
 - **Keep-alive cron** runs at `/keep-alive` every 5 minutes to prevent Neon idle. Requires `CRON_SECRET` env var.
 - **Payload admin** at `/admin` — use `maxDuration = 60` on any admin-adjacent route file.
 - **Route groups**: `(app)/` = public site, `(payload)/` = CMS admin.
+
+## Learned Workspace Facts
+
+- Use `pnpm` for dependency and dev commands; `npm install` is intentionally blocked by `devEngines` to protect the pnpm lockfile.
+- Vercel builds should run `next build`; `pnpm index:search` is a manual search-index regeneration step that should tolerate missing `.env.local`.
+- Vercel deployments need `PAYLOAD_SECRET` and `DATABASE_URI`; sitemap and public pages import Payload during build.
