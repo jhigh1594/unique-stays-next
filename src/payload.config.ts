@@ -45,6 +45,7 @@ function formatEmailRecipients(value: unknown): string {
 const payloadSecret = requireEnv('PAYLOAD_SECRET')
 const databaseUri = normalizeDatabaseUri(requireEnv('DATABASE_URI'))
 const serverURL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || serverURL).split(',').filter(Boolean)
 
 export default buildConfig({
   admin: {
@@ -66,7 +67,8 @@ export default buildConfig({
   editor: lexicalEditor(),
   secret: payloadSecret,
   serverURL,
-  cors: (process.env.ALLOWED_ORIGINS ?? serverURL).split(',').filter(Boolean),
+  cors: allowedOrigins,
+  csrf: allowedOrigins,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
