@@ -375,3 +375,172 @@
     margin-top: 4px;
   }
 }
+
+/* ─── Journal Dispatch Board ─── */
+.dispatch-card {
+  background: #FAF8F3;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(44,40,37,0.07), 0 4px 14px rgba(44,40,37,0.10), 0 12px 36px rgba(44,40,37,0.07);
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.dispatch-card:hover {
+  box-shadow: 0 2px 4px rgba(44,40,37,0.05), 0 8px 28px rgba(44,40,37,0.14), 0 28px 70px rgba(44,40,37,0.10);
+}
+.dispatch-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 38% 32%, #D85535, #7A2410);
+  border-radius: 50%;
+  box-shadow: 0 3px 7px rgba(0,0,0,0.35), inset 0 -1px 2px rgba(0,0,0,0.2);
+  z-index: 4;
+  transform: translateX(-50%);
+}
+.dispatch-card::after {
+  content: '';
+  position: absolute;
+  top: -7px;
+  width: 5px;
+  height: 5px;
+  background: rgba(255,255,255,0.42);
+  border-radius: 50%;
+  z-index: 5;
+  transform: translateX(-50%);
+}
+.card-img-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.card-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(44,40,37,0.32) 0%, transparent 100%);
+  pointer-events: none;
+}
+.card-postmark {
+  position: absolute;
+  bottom: -22px;
+  right: 16px;
+  z-index: 3;
+  filter: drop-shadow(0 2px 6px rgba(44,40,37,0.22));
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+}
+.latest-stamp {
+  position: absolute;
+  top: 20px; left: 20px; z-index: 10;
+  color: #A84626;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  line-height: 1.5; text-align: center;
+  padding: 6px 10px;
+  border: 2px solid #A84626; border-radius: 2px;
+  background: rgba(250,248,243,0.82);
+  transform: rotate(-5deg);
+  box-shadow: inset 0 0 0 1px rgba(168,70,38,0.15);
+}
+.dispatch-card--featured { transform: rotate(-0.5deg); }
+.dispatch-card--featured:hover { transform: rotate(0deg) translateY(-6px) !important; }
+.dispatch-card--featured::before { left: 35%; }
+.dispatch-card--featured::after  { left: calc(35% - 3px); }
+.dispatch-card--featured .card-img-wrap { height: 260px; border-radius: 2px 2px 0 0; }
+.dispatch-card--featured .card-postmark { width: 84px !important; height: 84px !important; bottom: -26px; right: 20px; transform: rotate(-9deg); }
+.dispatch-card--featured:hover .card-postmark { transform: rotate(0deg) scale(1.06) !important; }
+@media (min-width: 760px) {
+  .dispatch-card--featured { display: grid; grid-template-columns: 58% 42%; }
+  .dispatch-card--featured .card-img-wrap { height: 100%; min-height: 360px; border-radius: 2px 0 0 2px; }
+  .dispatch-card--featured .card-body-inner { display: flex; flex-direction: column; justify-content: center; padding: 40px 36px; }
+}
+.cards-grid { columns: 1; column-gap: 28px; }
+@media (min-width: 600px)  { .cards-grid { columns: 2; } }
+@media (min-width: 1020px) { .cards-grid { columns: 3; } }
+.cards-grid .dispatch-card { break-inside: avoid; display: inline-block; width: 100%; margin-bottom: 28px; }
+.cards-grid .dispatch-card .card-img-wrap { height: 210px; border-radius: 2px 2px 0 0; }
+.cards-grid .dispatch-card .card-postmark { width: 72px !important; height: 72px !important; }
+.cards-grid .dispatch-card:nth-child(3n+1) { transform: rotate(-1.8deg); }
+.cards-grid .dispatch-card:nth-child(3n+2) { transform: rotate(1.4deg); }
+.cards-grid .dispatch-card:nth-child(3n)   { transform: rotate(-0.7deg); }
+.cards-grid .dispatch-card:hover { transform: rotate(0deg) translateY(-8px) !important; }
+.cards-grid .dispatch-card:nth-child(3n+1)::before { left: 42%; }
+.cards-grid .dispatch-card:nth-child(3n+1)::after  { left: calc(42% - 3px); }
+.cards-grid .dispatch-card:nth-child(3n+2)::before { left: 56%; }
+.cards-grid .dispatch-card:nth-child(3n+2)::after  { left: calc(56% - 3px); }
+.cards-grid .dispatch-card:nth-child(3n)::before   { left: 48%; }
+.cards-grid .dispatch-card:nth-child(3n)::after    { left: calc(48% - 3px); }
+.cards-grid .dispatch-card:nth-child(3n+1) .card-postmark { transform: rotate(-12deg); }
+.cards-grid .dispatch-card:nth-child(3n+2) .card-postmark { transform: rotate(6deg); }
+.cards-grid .dispatch-card:nth-child(3n)   .card-postmark { transform: rotate(-4deg); }
+.cards-grid .dispatch-card:hover .card-postmark { transform: rotate(0deg) scale(1.06) !important; opacity: 1; }
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(28px) rotate(var(--r, 0deg)); }
+  to   { opacity: 1; transform: translateY(0) rotate(var(--r, 0deg)); }
+}
+.dispatch-card--featured { animation: card-in 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both; --r: -0.5deg; }
+.cards-grid .dispatch-card { animation: card-in 0.65s cubic-bezier(0.16,1,0.3,1) both; }
+.cards-grid .dispatch-card:nth-child(1) { animation-delay: 0.15s; --r: -1.8deg; }
+.cards-grid .dispatch-card:nth-child(2) { animation-delay: 0.23s; --r: 1.4deg; }
+.cards-grid .dispatch-card:nth-child(3) { animation-delay: 0.31s; --r: -0.7deg; }
+.cards-grid .dispatch-card:nth-child(4) { animation-delay: 0.39s; --r: -1.8deg; }
+.cards-grid .dispatch-card:nth-child(5) { animation-delay: 0.47s; --r: 1.4deg; }
+
+/* ─── Journal Post Template ─── */
+.journal-body {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.journal-body p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #2C2825;
+  margin-bottom: 1.5em;
+}
+.journal-body > p:first-of-type,
+.journal-body > div:first-of-type > p:first-of-type {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.6;
+  color: #2C2825;
+}
+.journal-body h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #A84626;
+  margin-top: 2.5em;
+  margin-bottom: 1.25em;
+  padding: 6px 12px;
+  border: 1.5px solid rgba(168,70,38,0.35);
+  display: inline-block;
+}
+.journal-body blockquote {
+  margin: 2em 0;
+  padding: 16px 20px 16px 24px;
+  border-left: 3px solid #A84626;
+  background: #F6F1E8;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #2C2825;
+}
+.journal-body a {
+  color: #A84626;
+  text-decoration: underline;
+  text-decoration-color: rgba(168,70,38,0.35);
+  transition: text-decoration-color 0.2s;
+}
+.journal-body a:hover {
+  text-decoration-color: #A84626;
+}
