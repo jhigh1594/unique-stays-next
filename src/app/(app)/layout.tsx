@@ -52,7 +52,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${plusJakartaSans.variable} ${caveat.variable}`}>
       <head>
-        <meta name="impact-site-verification" value="86a436ba-c43a-4fec-a4e2-9237cd5ad9f7" />
+        <meta name="impact-site-verification" content="86a436ba-c43a-4fec-a4e2-9237cd5ad9f7" />
       </head>
       <body>
         <Navbar />
