@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
-import { StayEmbedBlock } from '../blocks/StayEmbed.js'
+import { StayEmbedBlock } from '../blocks/StayEmbed'
 
 export const BlogPosts: CollectionConfig = {
   slug: 'blog-posts',
