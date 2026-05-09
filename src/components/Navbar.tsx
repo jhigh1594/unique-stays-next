@@ -35,7 +35,7 @@ export default function Navbar() {
   const isOnSpoke = SPOKE_SLUGS.some((s) => pathname === `/${s}`)
 
   const navLinks = [
-    { href: '/directory', label: 'Full Directory' },
+    { href: '/directory', label: 'The Collection' },
     { href: '/journal', label: 'Journal' },
     { href: '/about', label: 'About' },
     { href: '/submit', label: 'Submit a Stay' },
@@ -144,7 +144,7 @@ export default function Navbar() {
                           style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                           onClick={() => setCollectionsOpen(false)}
                         >
-                          <span>View Full Directory (All Stays)</span>
+                          <span>Browse The Collection</span>
                           <span>→</span>
                         </div>
                       </Link>
