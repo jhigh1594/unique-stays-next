@@ -260,7 +260,7 @@ export const getAllJournalPosts = unstable_cache(
       where: { status: { equals: 'published' } },
       sort: '-publishedAt',
       limit: 50,
-      depth: 0,
+      depth: 1,
     })
     return result.docs.map((doc) => normalizeJournalPost(doc as unknown as Record<string, unknown>))
   },
