@@ -447,7 +447,7 @@ export default function HomeContent({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1.75 }}
             >
-              <Link href="/directory">
+              <Link href="/collection">
                 <motion.span
                   className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold rounded-full cursor-pointer"
                   style={{
@@ -648,7 +648,7 @@ export default function HomeContent({
                   The places we can&apos;t stop thinking about.
                 </p>
               </div>
-              <Link href="/directory">
+              <Link href="/collection">
                 <motion.button
                   className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 border-2 text-sm font-semibold self-start"
                   style={{
@@ -1047,7 +1047,7 @@ export default function HomeContent({
             >
               Browse by type
             </h2>
-            <Link href="/directory">
+            <Link href="/collection">
               <span
                 className="text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all"
                 style={{ color: 'oklch(0.72 0.10 40)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
@@ -1072,7 +1072,7 @@ export default function HomeContent({
                 { bg: 'oklch(0.38 0.09 155)', text: 'oklch(0.99 0.005 85)', count: 'oklch(0.72 0.12 155)' },
               ][i % 10]
               return (
-                <Link key={cat.id} href={`/directory?category=${encodeURIComponent(cat.id)}`} className="block">
+                <Link key={cat.id} href={`/collection?category=${encodeURIComponent(cat.id)}`} className="block">
                   <motion.div
                     className="fade-up cursor-pointer flex flex-col justify-between p-5"
                     style={{

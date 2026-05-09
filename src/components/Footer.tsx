@@ -78,13 +78,13 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               {[
-                { label: 'All Stays', href: '/directory' },
+                { label: 'All Stays', href: '/collection' },
                 { label: 'Journal', href: '/journal' },
-                { label: 'Treehouses', href: '/directory?category=Treehouses' },
-                { label: 'Geodesic Domes', href: '/directory?category=Geodesic+Domes' },
-                { label: 'Houseboats', href: '/directory?category=Houseboats' },
-                { label: 'Lighthouses', href: '/directory?category=Lighthouses' },
-                { label: 'Converted Barns', href: '/directory?category=Converted+Barns' },
+                { label: 'Treehouses', href: '/collection?category=Treehouses' },
+                { label: 'Geodesic Domes', href: '/collection?category=Geodesic+Domes' },
+                { label: 'Houseboats', href: '/collection?category=Houseboats' },
+                { label: 'Lighthouses', href: '/collection?category=Lighthouses' },
+                { label: 'Converted Barns', href: '/collection?category=Converted+Barns' },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href}>

@@ -102,7 +102,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                 </>
               ) : (
                 <>
-                  <Link href="/directory">
+                  <Link href="/collection">
                     <span
                       className="text-xs font-semibold uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity"
                       style={{ color: 'oklch(0.99 0.005 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
@@ -562,7 +562,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   Similar stays you might like
                 </p>
               </div>
-              <Link href="/directory">
+              <Link href="/collection">
                 <span
                   className="text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all"
                   style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}

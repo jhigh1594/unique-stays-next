@@ -2,6 +2,9 @@ import { withPayload } from '@payloadcms/next/withPayload'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [{ source: '/directory', destination: '/collection', permanent: true }]
+  },
   serverExternalPackages: ['sharp', 'pg', '@payloadcms/richtext-lexical'],
   images: {
     remotePatterns: [

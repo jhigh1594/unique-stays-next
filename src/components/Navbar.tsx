@@ -35,7 +35,7 @@ export default function Navbar() {
   const isOnSpoke = SPOKE_SLUGS.some((s) => pathname === `/${s}`)
 
   const navLinks = [
-    { href: '/directory', label: 'The Collection' },
+    { href: '/collection', label: 'The Collection' },
     { href: '/journal', label: 'Journal' },
     { href: '/about', label: 'About' },
     { href: '/submit', label: 'Submit a Stay' },
@@ -138,7 +138,7 @@ export default function Navbar() {
                       className="px-4 py-3 border-t border-[oklch(0.88_0.025_75)]"
                       style={{ background: 'oklch(0.975 0.012 85)' }}
                     >
-                      <Link href="/directory">
+                      <Link href="/collection">
                         <div
                           className="flex items-center justify-between text-sm font-semibold cursor-pointer hover:opacity-80 transition-opacity"
                           style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
