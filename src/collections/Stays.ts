@@ -1,5 +1,22 @@
 import type { CollectionConfig } from 'payload'
 
+async function revalidateTag(tag: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
+  const secret = process.env.REVALIDATE_SECRET
+  try {
+    await fetch(`${baseUrl}/api/revalidate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-revalidate-secret': secret ?? '',
+      },
+      body: JSON.stringify({ tag }),
+    })
+  } catch {
+    // revalidation failure must never block the save
+  }
+}
+
 function validateHttpsUrl(val: string | null | undefined): string | true {
   if (!val) return true
   try {
@@ -17,6 +34,20 @@ export const Stays: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'platform', 'state', 'price', 'featured'],
     listSearchableFields: ['title', 'location', 'state'],
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc }) => {
+        await revalidateTag('stays')
+        if (doc.slug) await revalidateTag(`stays:${doc.slug}`)
+      },
+    ],
+    afterDelete: [
+      async ({ doc }) => {
+        await revalidateTag('stays')
+        if (doc.slug) await revalidateTag(`stays:${doc.slug}`)
+      },
+    ],
   },
   access: {
     read: () => true,
