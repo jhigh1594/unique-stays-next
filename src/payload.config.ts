@@ -44,7 +44,7 @@ function formatEmailRecipients(value: unknown): string {
 
 const payloadSecret = requireEnv('PAYLOAD_SECRET')
 const databaseUri = normalizeDatabaseUri(requireEnv('DATABASE_URI'))
-const serverURL = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
+const serverURL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
 export default buildConfig({
   admin: {
