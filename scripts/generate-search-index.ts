@@ -1,7 +1,7 @@
 // Generate AI semantic search index for /directory
 // Run: pnpm index:search
-// Requires: DATABASE_URI, PAYLOAD_SECRET, NVIDIA_NIM_API_KEY in .env.local
-// Note: runs automatically before next build via vercel.json buildCommand
+// Requires: DATABASE_URI, PAYLOAD_SECRET, NVIDIA_NIM_API_KEY in environment or .env.local
+// Note: run manually after listing changes; Vercel builds use the committed index artifact
 
 import { getPayload } from 'payload'
 import config from '@payload-config'

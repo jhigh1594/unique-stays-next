@@ -20,7 +20,7 @@
     "migrate:create": "payload migrate:create",
     "migrate:down": "payload migrate:down",
     "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts",
-    "index:search": "node --env-file=.env.local --import tsx/esm scripts/generate-search-index.ts"
+    "index:search": "node --env-file-if-exists=.env.local --import tsx/esm scripts/generate-search-index.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",
