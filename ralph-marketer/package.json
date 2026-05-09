@@ -1,0 +1,17 @@
+{
+  "name": "ralph-marketer",
+  "version": "1.0.0",
+  "description": "Adapted for OpenClaw: Autonomous AI copywriter for content marketing",
+  "type": "module",
+  "scripts": {
+    "db:init": "node scripts/db/init.js",
+    "db:seed": "node scripts/db/seed.js",
+    "db:reset": "rm -f data/content.db && npm run db:init && npm run db:seed",
+    "db:status": "node scripts/db/status.js",
+    "content:list": "node scripts/content-list.js",
+    "test": "node scripts/test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  }
+}
