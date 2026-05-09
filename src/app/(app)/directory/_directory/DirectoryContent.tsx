@@ -22,6 +22,18 @@ function useScrollReveal() {
   }, [])
 }
 
+const PAGE_SIZE = 18
+
+function getPageNumbers(current: number, total: number): (number | '…')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+  const pages: (number | '…')[] = [1]
+  if (current > 3) pages.push('…')
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i)
+  if (current < total - 2) pages.push('…')
+  pages.push(total)
+  return pages
+}
+
 export default function DirectoryContent({ allStays }: { allStays: NormalizedStay[] }) {
   useScrollReveal()
 
@@ -33,6 +45,7 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
   const [showFilters, setShowFilters] = useState(false)
   const [aiIds, setAiIds] = useState<number[] | null>(null)
   const [aiLoading, setAiLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   // Init from URL params on mount
   useEffect(() => {
@@ -42,6 +55,14 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
     if (cat) setActiveCategory(cat)
     if (q) setSearchQuery(q)
   }, [])
+
+  // Re-reveal cards when AI results replace the grid (avoids fade-up orphans)
+  useEffect(() => {
+    if (aiIds === null) return
+    requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>('.fade-up').forEach((el) => el.classList.add('visible'))
+    })
+  }, [aiIds])
 
   // Debounced NL search — fires 400ms after user stops typing
   useEffect(() => {
@@ -74,6 +95,11 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
       controller.abort()
     }
   }, [searchQuery])
+
+  // Reset to page 1 whenever results change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery, aiIds, activeCategory, activeRegion, activePlatform, sortBy])
 
   const filtered = useMemo(() => {
     // AI search path — re-sort by relevance, compose with dropdown filters
@@ -137,6 +163,9 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
     return results
   }, [allStays, searchQuery, aiIds, activeCategory, activeRegion, activePlatform, sortBy])
 
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
+  const paginatedResults = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+
   const clearFilters = () => {
     setSearchQuery('')
     setActiveCategory('All')
@@ -181,7 +210,7 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
                   padding: '5px 12px',
                 }}
               >
-                {filtered.length} stays
+                {aiLoading ? '—' : filtered.length} stays
               </span>
               <p
                 className="text-sm"
@@ -369,7 +398,22 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
       {/* ── RESULTS GRID ────────────────────────────────── */}
       <section className="py-12">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          {filtered.length === 0 ? (
+          {aiLoading ? (
+            <div className="flex flex-col items-center justify-center py-24 gap-5">
+              <img
+                src="/logo-v2.png"
+                alt="Searching..."
+                className="h-20 w-auto animate-pulse"
+                style={{ opacity: 0.7 }}
+              />
+              <p
+                className="text-xs uppercase tracking-widest"
+                style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', letterSpacing: '0.2em' }}
+              >
+                Searching the collection…
+              </p>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-24">
               <h3
                 className="text-5xl md:text-6xl font-bold mb-3"
@@ -400,17 +444,82 @@ export default function DirectoryContent({ allStays }: { allStays: NormalizedSta
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-              {filtered.map((stay, i) => (
-                <div
-                  key={stay.id}
-                  className="fade-up"
-                  style={{ transitionDelay: `${Math.min(i * 50, 400)}ms` }}
-                >
-                  <StayCard stay={stay} index={i} />
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {paginatedResults.map((stay, i) => (
+                  <div
+                    key={stay.id}
+                    className="fade-up h-full"
+                    style={{ transitionDelay: `${Math.min(i * 50, 400)}ms` }}
+                  >
+                    <StayCard stay={stay} index={i} />
+                  </div>
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-14">
+                  <button
+                    onClick={() => { setCurrentPage((p) => p - 1); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-30"
+                    style={{
+                      border: '1.5px solid oklch(0.88 0.025 75)',
+                      borderRadius: '2px',
+                      background: 'oklch(0.99 0.005 85)',
+                      color: 'oklch(0.40 0.03 60)',
+                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      letterSpacing: '0.1em',
+                    }}
+                  >
+                    ← Prev
+                  </button>
+
+                  {getPageNumbers(currentPage, totalPages).map((page, i) =>
+                    page === '…' ? (
+                      <span
+                        key={`ellipsis-${i}`}
+                        className="px-1 text-sm"
+                        style={{ color: 'oklch(0.60 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                      >
+                        …
+                      </span>
+                    ) : (
+                      <button
+                        key={page}
+                        onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                        className="w-9 h-9 text-xs font-bold transition-all"
+                        style={{
+                          border: `1.5px solid ${currentPage === page ? 'oklch(0.55 0.14 38)' : 'oklch(0.88 0.025 75)'}`,
+                          borderRadius: '2px',
+                          background: currentPage === page ? 'oklch(0.55 0.14 38)' : 'oklch(0.99 0.005 85)',
+                          color: currentPage === page ? 'oklch(0.99 0.005 85)' : 'oklch(0.40 0.03 60)',
+                          fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        }}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
+
+                  <button
+                    onClick={() => { setCurrentPage((p) => p + 1); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-30"
+                    style={{
+                      border: '1.5px solid oklch(0.88 0.025 75)',
+                      borderRadius: '2px',
+                      background: 'oklch(0.99 0.005 85)',
+                      color: 'oklch(0.40 0.03 60)',
+                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      letterSpacing: '0.1em',
+                    }}
+                  >
+                    Next →
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </section>
