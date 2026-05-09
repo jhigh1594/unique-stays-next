@@ -328,6 +328,12 @@
 [data-cursor="drag"] { cursor: grab; }
 [data-cursor="drag"]:active { cursor: grabbing; }
 
+/* Hide native cursor on listing cards so the React map-pin cursor renders cleanly */
+/* [data-cursor="view"],
+[data-cursor="view"] * {
+  cursor: none !important;
+} */
+
 /* Keyframes */
 @keyframes countUp {
   from { opacity: 0; transform: translateY(12px); }
