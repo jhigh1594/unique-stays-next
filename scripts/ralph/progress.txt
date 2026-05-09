@@ -1,0 +1,27 @@
+## Ralph Progress Log — UniqueStaysUSA Journal
+
+### Sprint 1: Joshua Tree Dispatch
+
+**SETUP-001** ✓ — Ralph initialized, plugin db rebuilt for Node 24, content dirs created.
+
+**PLAN-001** ✓ — Joshua Tree content plan confirmed:
+- Target keyword: "best unique stays in Joshua Tree"
+- 3 stays: wander-joshua-tree-starfall, workfriendly-dome-joshua-tree, autocamp-joshua-tree-ca
+- Format: editorial dispatch (not listicle) — prose with embedded stay cards
+- Word count target: ~1,450 words
+
+**WRITE-001** ✓ — First draft: content/drafts/joshua-tree-unique-stays.md
+
+**REVIEW-001** ✓ — 25 headline candidates. Winner: "The Best Unique Stays in Joshua Tree (Airstreams, Domes & Glass Villas)". Em dashes removed. v2 saved.
+
+**PUBLISH-001** ✓ — content/published/joshua-tree-unique-stays.md
+- Frontmatter: title, subtitle, slug, excerpt, city, state, lat/lng, metaTitle, metaDescription, publishedAt, linkedStays
+- metaTitle: 58 chars. metaDescription: 152 chars.
+
+### Patterns
+- 3 stays was thin for a roundup but worked for a curated dispatch
+- Price + rating callout at end of each stay section = social proof without breaking voice
+- "When to Go" earns its place via seasonal search queries
+
+### Next
+"Best Treehouse Rentals in the USA" — need 8-12 treehouse stays identified from seo-listings.csv first.

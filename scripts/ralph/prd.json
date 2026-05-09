@@ -1,0 +1,85 @@
+{
+  "projectName": "UniqueStaysUSA_Journal",
+  "description": "Travel editorial content for UniqueStaysUSA journal. SEO-first dispatches with affiliate stay embeds. Voice: warm, first-person, slightly literary. Think Kinfolk meets Monocle meets a dog-eared travel journal.",
+  "branchName": "feat/journal-blog",
+  "userStories": [
+    {
+      "id": "SETUP-001",
+      "title": "Initialize ralph and verify setup",
+      "description": "Database initialized, content dirs created, PRD written",
+      "acceptanceCriteria": [
+        "scripts/ralph/prd.json exists",
+        "content/drafts/ directory exists",
+        "content/published/ directory exists",
+        "scripts/ralph/progress.txt exists"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Done — ralph initialized, dirs created"
+    },
+    {
+      "id": "PLAN-001",
+      "title": "Plan the Joshua Tree destination dispatch",
+      "description": "Create a content plan for the first journal post: 'The Best Unique Stays in Joshua Tree'. Target queries: 'unique stays Joshua Tree', 'best Airbnb Joshua Tree', 'unique vacation rentals Joshua Tree CA'. Post should embed 3-5 stay cards from the directory and read as a first-person editorial dispatch.",
+      "acceptanceCriteria": [
+        "Target keyword identified",
+        "Post structure outlined (opening dispatch, stay sections, closing tip)",
+        "Stay slugs to embed identified from the directory",
+        "Word count target set (1200-1800 words)",
+        "Meta title and meta description drafted"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Destination pillar. First post establishes the dispatch format."
+    },
+    {
+      "id": "WRITE-001",
+      "title": "Write first draft of Joshua Tree dispatch",
+      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Not a listicle — it reads like a letter from a friend who scouted the place. Opens with scene-setting desert prose, then weaves stays into the narrative. Ends with a practical tip (best time to visit, what to pack).",
+      "acceptanceCriteria": [
+        "1200-1800 words",
+        "Opening paragraph: atmospheric, sensory desert scene-setting",
+        "3-5 stay recommendations woven into the narrative",
+        "Each stay: name, 2-3 sentences of editorial description, one detail that makes it unique",
+        "Closing section: 'When to Go' practical tip",
+        "SEO keywords naturally integrated (not stuffed)",
+        "Saved to content/drafts/joshua-tree-unique-stays.md"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Use /elite-copywriter for the actual writing. Tone: The Paris Review meets a road trip zine."
+    },
+    {
+      "id": "REVIEW-001",
+      "title": "Review and sharpen the Joshua Tree draft",
+      "description": "Self-review the draft. Strengthen the opening. Cut any generic travel writing clichés. Make sure each stay description earns its place. Add a compelling title and subtitle. Add meta description.",
+      "acceptanceCriteria": [
+        "Opening paragraph revised to be more vivid/specific",
+        "Any clichés removed ('hidden gem', 'off the beaten path', etc.)",
+        "Title: specific + searchable + editorial",
+        "Subtitle: evocative one-liner for the polaroid caption",
+        "Meta title: under 60 chars, includes 'Joshua Tree'",
+        "Meta description: under 160 chars, includes primary keyword",
+        "Version 2 saved to content/drafts/joshua-tree-unique-stays-v2.md"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Be brutal. Cut filler. Every sentence should earn its place."
+    },
+    {
+      "id": "PUBLISH-001",
+      "title": "Finalize and output Joshua Tree post for Payload CMS",
+      "description": "Create the final publish-ready version with all fields needed to create the blog post in Payload CMS admin.",
+      "acceptanceCriteria": [
+        "Final post saved to content/published/joshua-tree-unique-stays.md",
+        "Frontmatter includes: title, subtitle, slug, excerpt, city, state, latitude, longitude, metaTitle, metaDescription, publishedAt",
+        "Body is clean markdown ready for Payload's rich text editor",
+        "Stay embed markers clearly noted as [EMBED: stay-slug] placeholders",
+        "Word count: 1200-1800"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "Output is a file Jon uses to create the post in Payload admin at /admin."
+    }
+  ]
+}
