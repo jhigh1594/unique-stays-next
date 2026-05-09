@@ -8,7 +8,7 @@ export const Users: CollectionConfig = {
   auth: {
     useAPIKey: true,
     cookies: {
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'Strict',
     },
   },
