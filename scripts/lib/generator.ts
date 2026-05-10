@@ -1,8 +1,16 @@
 // AI editorial generation module
 // Transforms scraped data + stay metadata into editorial content in brand voice
+// Uses NVIDIA NIM (free, OpenAI-compatible) via @ai-sdk/openai
 
 import { generateText } from 'ai'
-import { anthropic } from '@ai-sdk/anthropic'
+import { createOpenAI } from '@ai-sdk/openai'
+
+const nim = createOpenAI({
+  baseURL: 'https://integrate.api.nvidia.com/v1',
+  apiKey: process.env.NVIDIA_NIM_API_KEY,
+})
+
+const DEFAULT_MODEL = 'meta/llama-3.3-70b-instruct'
 
 export interface StayMetadata {
   title: string
@@ -137,7 +145,7 @@ export async function generateEditorialContent(
   tier: 1 | 2,
   modelId?: string,
 ): Promise<GeneratedContent> {
-  const model = anthropic(modelId ?? 'claude-sonnet-4-6-20250514')
+  const model = nim(modelId ?? DEFAULT_MODEL)
   const prompt = tier === 1 ? buildTier1Prompt(stay, scraped) : buildTier2Prompt(stay, scraped)
 
   // Determine needsReview based on input richness

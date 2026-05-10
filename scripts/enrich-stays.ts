@@ -1,6 +1,6 @@
 // Enrich stays with scraped + AI-generated editorial content
 // Run: node --env-file=.env.local --import tsx/esm scripts/enrich-stays.ts
-// Requires: DATABASE_URI, PAYLOAD_SECRET, FIRECRAWL_API_KEY, ANTHROPIC_API_KEY, BLOB_READ_WRITE_TOKEN
+// Requires: DATABASE_URI, PAYLOAD_SECRET, FIRECRAWL_API_KEY, NVIDIA_NIM_API_KEY, BLOB_READ_WRITE_TOKEN
 // Flags: --pilot <slugs>  Process only listed slugs (comma-separated)
 //        --force           Re-enrich stays that already have body content
 //        --delay <ms>      Delay between scrapes (default 2000)
