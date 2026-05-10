@@ -33,6 +33,7 @@ export default function Navbar() {
   }, [])
 
   const isOnSpoke = SPOKE_SLUGS.some((s) => pathname === `/${s}`)
+  const isDetailPage = pathname.startsWith('/stays/')
 
   const navLinks = [
     { href: '/collection', label: 'The Collection' },
@@ -45,7 +46,7 @@ export default function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
+          scrolled || isDetailPage
             ? 'bg-[oklch(0.975_0.012_85/0.97)] backdrop-blur-md shadow-[0_1px_0_0_oklch(0.88_0.025_75)]'
             : 'bg-transparent'
         }`}

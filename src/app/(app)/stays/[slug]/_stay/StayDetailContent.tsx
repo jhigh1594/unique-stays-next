@@ -95,37 +95,12 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
   return (
     <div style={{ background: 'oklch(0.90 0.028 75)', minHeight: '100vh' }}>
 
-      {/* ── BREADCRUMB ─────────────────────────────────────────── */}
-      <div style={{ padding: '12px 24px', background: 'oklch(0.90 0.028 75)' }}>
-        <div style={{ maxWidth: 960, margin: '0 auto' }}>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            <Link href="/" style={{ color: 'oklch(0.50 0.03 60)', opacity: 0.7, textDecoration: 'none' }}>
-              Home
-            </Link>
-            <span style={{ color: 'oklch(0.70 0.02 60)' }}>·</span>
-            {primarySpoke ? (
-              <Link href={`/${primarySpoke.slug}`} style={{ color: 'oklch(0.50 0.03 60)', opacity: 0.7, textDecoration: 'none' }}>
-                {primarySpoke.title}
-              </Link>
-            ) : (
-              <Link href="/collection" style={{ color: 'oklch(0.50 0.03 60)', opacity: 0.7, textDecoration: 'none' }}>
-                Directory
-              </Link>
-            )}
-            <span style={{ color: 'oklch(0.70 0.02 60)' }}>·</span>
-            <span style={{ color: 'oklch(0.55 0.14 38)' }}>{stay.title}</span>
-          </nav>
-        </div>
-      </div>
-
       {/* ── DESKTOP SPLIT FRAME ─────────────────────────────────── */}
-      <div className="hidden lg:block" style={{ padding: '0 24px 32px' }}>
+      <div className="hidden lg:block">
         <div
           style={{
-            maxWidth: 960, margin: '0 auto',
-            display: 'flex', borderRadius: 3, overflow: 'hidden',
-            boxShadow: '0 20px 80px rgba(44,30,20,0.28), 0 2px 0 oklch(0.75 0.05 60)',
-            height: 'calc(100dvh - 140px)', minHeight: 500, maxHeight: 860,
+            display: 'flex', overflow: 'hidden',
+            height: '100dvh', minHeight: 500,
           }}
         >
 
@@ -255,10 +230,31 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
           </div>
 
           {/* ── RIGHT: SCROLLABLE PANEL ── */}
-          <div style={{ flex: 1, background: 'oklch(0.975 0.012 85)', overflowY: 'scroll', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+          <div style={{ flex: 1, background: 'oklch(0.975 0.012 85)', overflowY: 'auto', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+
+            {/* Nav-clearance zone + breadcrumb */}
+            <div style={{ padding: '88px 18px 0' }}>
+              <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>
+                <Link href="/" style={{ color: 'oklch(0.50 0.03 60)', opacity: 0.7, textDecoration: 'none' }}>
+                  Home
+                </Link>
+                <span style={{ color: 'oklch(0.70 0.02 60)' }}>·</span>
+                {primarySpoke ? (
+                  <Link href={`/${primarySpoke.slug}`} style={{ color: 'oklch(0.50 0.03 60)', opacity: 0.7, textDecoration: 'none' }}>
+                    {primarySpoke.title}
+                  </Link>
+                ) : (
+                  <Link href="/collection" style={{ color: 'oklch(0.50 0.03 60)', opacity: 0.7, textDecoration: 'none' }}>
+                    Directory
+                  </Link>
+                )}
+                <span style={{ color: 'oklch(0.70 0.02 60)' }}>·</span>
+                <span style={{ color: 'oklch(0.55 0.14 38)' }}>{stay.title}</span>
+              </nav>
+            </div>
 
             {/* ═══ TICKET STUB (sticky) ═══ */}
-            <div style={{ padding: '16px 18px 24px', position: 'sticky', top: 0, zIndex: 10, background: 'oklch(0.975 0.012 85)' }}>
+            <div style={{ padding: '0 18px 24px', position: 'sticky', top: 80, zIndex: 10, background: 'oklch(0.975 0.012 85)' }}>
               <div style={{
                 position: 'relative', overflow: 'hidden', borderRadius: 3,
                 background: 'oklch(0.985 0.008 80)',
@@ -536,11 +532,39 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
             )}
 
             {/* Affiliate disclosure */}
-            <div style={{ padding: '16px 18px 20px', marginTop: 'auto' }}>
+            <div style={{ padding: '16px 18px 0', marginTop: 'auto' }}>
               <p style={{ fontSize: 9, lineHeight: 1.7, color: 'oklch(0.62 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', borderTop: '1px solid oklch(0.88 0.025 75)', paddingTop: 12 }}>
                 Bookings through this link earn us a small commission at no extra cost to you — this helps keep our directory running and our recommendations independent.
               </p>
             </div>
+
+            {/* ═══ RELATED STAYS (desktop, inside right panel) ═══ */}
+            {related.length > 0 && (
+              <div style={{ padding: '0 18px 32px', borderTop: '1px solid oklch(0.88 0.025 75)', marginTop: 20 }}>
+                <div style={{ paddingTop: 24 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+                    <div>
+                      <h2 style={{ fontFamily: 'Fraunces, serif', fontSize: 20, fontWeight: 700, color: 'oklch(0.22 0.01 60)' }}>
+                        More {categoryDisplay}s
+                      </h2>
+                      <p style={{ fontSize: 11, color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginTop: 3 }}>
+                        Similar stays you might like
+                      </p>
+                    </div>
+                    <Link href="/collection" style={{ fontSize: 11, fontWeight: 600, color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>
+                      Browse All <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    {related.map((r, i) => (
+                      <div key={r.id} className="fade-up" style={{ transitionDelay: `${i * 80}ms` }}>
+                        <StayCard stay={r} href={r.affiliateUrl} external index={i} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
         </div>
@@ -629,35 +653,34 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
             </div>
           )}
         </div>
-      </div>
 
-      {/* ── RELATED STAYS ──────────────────────────────────────── */}
-      {related.length > 0 && (
-        <section className="py-16 fade-up" style={{ background: 'oklch(0.99 0.005 85)', borderTop: '1px solid oklch(0.88 0.025 75)' }}>
-          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-10">
+        {/* Mobile related stays */}
+        {related.length > 0 && (
+          <section style={{ background: 'oklch(0.99 0.005 85)', borderTop: '1px solid oklch(0.88 0.025 75)', padding: '40px 16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
               <div>
-                <h2 style={{ fontFamily: 'Fraunces, serif', fontSize: 28, fontWeight: 700, color: 'oklch(0.22 0.01 60)' }}>
+                <h2 style={{ fontFamily: 'Fraunces, serif', fontSize: 22, fontWeight: 700, color: 'oklch(0.22 0.01 60)' }}>
                   More {categoryDisplay}s
                 </h2>
-                <p style={{ fontSize: 13, color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginTop: 4 }}>
+                <p style={{ fontSize: 12, color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginTop: 3 }}>
                   Similar stays you might like
                 </p>
               </div>
-              <Link href="/collection" style={{ fontSize: 13, fontWeight: 600, color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>
+              <Link href="/collection" style={{ fontSize: 12, fontWeight: 600, color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>
                 Browse All <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {related.map((r, i) => (
-                <div key={r.id} className="fade-up" style={{ transitionDelay: `${i * 80}ms` }}>
+                <div key={r.id}>
                   <StayCard stay={r} href={r.affiliateUrl} external index={i} />
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
+      </div>
+
     </div>
   )
 }
