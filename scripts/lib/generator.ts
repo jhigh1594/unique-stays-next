@@ -7,7 +7,8 @@ import { createOpenAI } from '@ai-sdk/openai'
 
 const nim = createOpenAI({
   baseURL: 'https://integrate.api.nvidia.com/v1',
-  apiKey: process.env.NVIDIA_NIM_API_KEY,
+  apiKey: (process.env.NVIDIA_NIM_API_KEY || '').replace(/^["']|["']$/g, ''),
+  compatibility: 'compatible',
 })
 
 const DEFAULT_MODEL = 'meta/llama-3.3-70b-instruct'
@@ -145,7 +146,6 @@ export async function generateEditorialContent(
   tier: 1 | 2,
   modelId?: string,
 ): Promise<GeneratedContent> {
-  const model = nim(modelId ?? DEFAULT_MODEL)
   const prompt = tier === 1 ? buildTier1Prompt(stay, scraped) : buildTier2Prompt(stay, scraped)
 
   // Determine needsReview based on input richness
@@ -156,14 +156,19 @@ export async function generateEditorialContent(
 
   try {
     const result = await generateText({
-      model,
+      model: nim.chat(modelId ?? DEFAULT_MODEL),
       system: buildSystemPrompt(),
       prompt,
       maxTokens: 2000,
       temperature: 0.7,
     })
 
-    const parsed = JSON.parse(result.text)
+    // Strip markdown fences if the model wraps JSON in ```json ... ```
+    let text = result.text.trim()
+    const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
+    if (fenceMatch) text = fenceMatch[1].trim()
+
+    const parsed = JSON.parse(text)
 
     return {
       body: String(parsed.body ?? '').slice(0, 5000),
@@ -185,6 +190,8 @@ export async function generateEditorialContent(
       needsReview,
     }
   } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error(`  LLM generation failed for "${stay.title}": ${message}`)
     // If LLM fails, return minimal content with needsReview flag
     return {
       body: stay.description,

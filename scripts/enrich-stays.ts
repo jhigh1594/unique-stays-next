@@ -76,7 +76,7 @@ async function main() {
     // Idempotency: skip stays that already have body (unless --force)
     if ((stay.body as string) && !force) {
       skipped++
-      process.stdoutWrite(`⊘ ${slug} (already enriched)\n`)
+      process.stdout.write(`⊘ ${slug} (already enriched)\n`)
       continue
     }
 
@@ -93,7 +93,7 @@ async function main() {
         : { description: '', amenities: [], neighborhood: '' }
 
       if (!scrapeResult.success) {
-        process.stdoutWrite(`⚠ ${slug}: scrape failed (${scrapeResult.error})\n`)
+        process.stdout.write(`⚠ ${slug}: scrape failed (${scrapeResult.error})\n`)
       }
 
       // Step 2: Generate editorial content
@@ -117,7 +117,7 @@ async function main() {
 
       // Step 4: Download and upload gallery images
       let galleryImages: Array<{ imageUrl: string }> = []
-      if (scraped.photoUrls.length > 0) {
+      if (scraped.photoUrls && scraped.photoUrls.length > 0) {
         const imageLimit = tier === 1 ? 5 : 3
         galleryImages = await processGalleryImages(scraped.photoUrls, slug, imageLimit)
       }
@@ -144,9 +144,9 @@ async function main() {
 
       if (generated.needsReview) {
         flaggedForReview.push(slug)
-        process.stdoutWrite(`⚑ ${slug} (T${tier}, needs review)\n`)
+        process.stdout.write(`⚑ ${slug} (T${tier}, needs review)\n`)
       } else {
-        process.stdoutWrite(`✓ ${slug} (T${tier})\n`)
+        process.stdout.write(`✓ ${slug} (T${tier})\n`)
       }
 
       succeeded++
@@ -154,7 +154,7 @@ async function main() {
       const message = err instanceof Error ? err.message : String(err)
       failures.push({ slug, error: message })
       failed++
-      process.stdoutWrite(`✗ ${slug}: ${message}\n`)
+      process.stdout.write(`✗ ${slug}: ${message}\n`)
     }
 
     // Rate limiting delay between stays

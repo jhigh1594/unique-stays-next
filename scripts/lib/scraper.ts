@@ -23,8 +23,8 @@ export async function scrapeListing(affiliateUrl: string, apiKey?: string): Prom
   }
 
   try {
-    const client = new Firecrawl({ apiKey: key })
-    const result = await client.scrapeUrl(affiliateUrl, {
+    const client = new Firecrawl({ apiKey: key, apiUrl: 'https://api.firecrawl.dev' })
+    const result = await client.scrape(affiliateUrl, {
       formats: ['markdown', 'html'],
       timeout: 30000,
     })

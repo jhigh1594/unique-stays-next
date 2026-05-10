@@ -272,8 +272,8 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                 </div>
 
                 {/* Ticket body */}
-                <div style={{ position: 'relative', zIndex: 1, padding: '12px 14px 10px' }}>
-                  <div>
+                <div style={{ position: 'relative', zIndex: 1, padding: '12px 14px 10px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 3 }}>
                       Experience
                     </div>
@@ -293,33 +293,38 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                       ))}
                     </div>
 
-                    {stay.rating != null && (
-                      <div style={{
-                        marginTop: 8,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 6,
-                        padding: '4px 8px',
-                        borderRadius: 999,
-                        background: 'oklch(0.955 0.02 78)',
-                        border: '1px solid oklch(0.80 0.04 70)',
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
-                        color: 'oklch(0.35 0.05 60)',
-                      }}>
-                        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                          Rating
-                        </span>
-                        <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '-0.01em' }}>
-                          {stay.rating} ★
-                        </span>
-                        {stay.reviewCount != null && (
-                          <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.75 }}>
-                            {stay.reviewCount} reviews
-                          </span>
-                        )}
-                      </div>
-                    )}
                   </div>
+
+                  {stay.rating != null && (
+                    <div style={{
+                      flexShrink: 0,
+                      minWidth: 68,
+                      padding: '6px 7px 7px',
+                      background: 'oklch(0.965 0.018 78)',
+                      border: '1px solid oklch(0.80 0.04 70)',
+                      borderRadius: 2,
+                      boxShadow: 'inset 0 1px 0 oklch(0.99 0.005 85 / 0.75)',
+                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      textAlign: 'center',
+                    }}>
+                      <div style={{ fontSize: 6, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', marginBottom: 2 }}>
+                        Rating
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 2, color: 'oklch(0.55 0.14 38)' }}>
+                        <span style={{ fontSize: 20, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.04em' }}>
+                          {stay.rating}
+                        </span>
+                        <span style={{ fontSize: 9, fontWeight: 800 }}>
+                          ★
+                        </span>
+                      </div>
+                      {stay.reviewCount != null && (
+                        <div style={{ fontSize: 6.5, fontWeight: 700, letterSpacing: '0.03em', color: 'oklch(0.52 0.04 60)', marginTop: 2, whiteSpace: 'nowrap' }}>
+                          {stay.reviewCount} reviews
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Price band */}
