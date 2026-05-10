@@ -32,7 +32,7 @@ export const Stays: CollectionConfig = {
   slug: 'stays',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'platform', 'state', 'price', 'featured'],
+    defaultColumns: ['title', 'category', 'platform', 'state', 'price', 'featured', 'needsReview'],
     listSearchableFields: ['title', 'location', 'state'],
   },
   hooks: {
@@ -307,6 +307,20 @@ export const Stays: CollectionConfig = {
       type: 'checkbox',
       defaultValue: false,
       admin: { position: 'sidebar' },
+    },
+    {
+      name: 'needsReview',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'reviewReason',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'Why this stay needs review (e.g. dead listing, wrong image)',
+      },
     },
 
     // ── Work-Friendly ─────────────────────────────────────────
