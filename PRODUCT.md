@@ -1,0 +1,46 @@
+## Design Context
+
+### Users
+Curious travelers and aspiring adventurers browsing for inspiration — people who already know they want something extraordinary and are looking for permission to book it. They discover the site through search, newsletter, or social. The job-to-be-done: find a stay that makes a great story. Secondary: trust that what they're clicking through to is genuinely vetted.
+
+### Brand Personality
+Wanderer · Editorial · Nostalgic
+
+UniqueStaysUSA is "The Wanderer's Postcard Collection" — a curated travel editorial masquerading as a directory. The voice is warm, first-person, slightly literary. The visual language draws on analog travel artifacts: polaroids, postage stamps, filmstrips, grain, compass needles. Think Kinfolk meets Monocle meets a dog-eared travel journal.
+
+### Aesthetic Direction
+- **Colors**: Terracotta (`oklch(0.55 0.14 38)` ≈ `#A84626`), cream, forest green, warm charcoal, sand
+- **Type**: Fraunces (serif, display — editorial authority) + Plus Jakarta Sans (body — modern clarity)
+- **Motifs**: polaroid frames, stamp badges (✦), grain overlays, tilted/rotated cards, filmstrip, compass needle, ghost section numbers
+- **Theme mode**: Light only
+- **References**: Kinfolk, Monocle Travel, analog travel ephemera, letterpress print
+- **Anti-references**: generic agency sites, dark-mode SaaS, neon gradients, AI-slop stock imagery
+
+### Design Principles
+1. **Analog warmth over digital polish** — grain, tilt, and imperfection signal authenticity
+2. **Editorial restraint** — whitespace and typographic hierarchy do the heavy lifting; decoration supports, doesn't dominate
+3. **Motion earns its keep** — only animate when it communicates meaning (reveal, entrance, state change); no gratuitous effects
+4. **Brand coherence across micro-details** — cursors, scrollbars, selection color, loading states all speak the same visual language
+5. **Performance is part of the aesthetic** — a laggy site breaks the calm, curated feeling; CSS-only and native-first wherever possible
+
+---
+
+## The Journal — Design Principles
+
+The Journal is not a blog. It is a dispatch board. The metaphor is a letter from a well-traveled correspondent, and every visual decision should reinforce it.
+
+### Anti-patterns (explicitly forbidden in Journal design)
+- Full-bleed hero image → title → body copy (every travel blog does this)
+- Standard H2/H3 bold headings
+- Top-of-viewport reading progress bar
+- Social share button strip (Twitter/Facebook icons)
+- Sidebar with "related posts"
+- Generic "author bio box" at the bottom
+- Standard blockquote styling
+
+### Journal-specific principles
+1. **The dispatch metaphor is total** — telegram header, postmark date, polaroid hero, stamp section headings. Every element earns its place by reinforcing the "field correspondent" conceit.
+2. **Surprise the reader at every scroll** — the hero is not what they expect; the section headings are not what they expect; the reading progress indicator is not what they expect. Memorability comes from consistent surprise.
+3. **Stay cards are artifacts, not UI components** — embedded stays render as polaroid cards floating in the prose, not as a flat grid appended at the bottom. The stays are woven into the story, not listed after it.
+4. **Close with ceremony** — the wax seal ending signals editorial craft and brand promise. The reader should feel like they received something, not just read something.
+5. **The index is a board, not a list** — the `/journal` index is a dispatch board of pinned index cards. The user "finds" the dispatch they want, rather than scanning a list.
