@@ -58,6 +58,77 @@ function useScrollReveal() {
   }, [])
 }
 
+function PolaroidGalleryStrip({
+  images,
+  selectedIdx,
+  onSelect,
+  stayTitle,
+  variant = 'desktop',
+}: {
+  images: string[]
+  selectedIdx: number
+  onSelect: (index: number) => void
+  stayTitle: string
+  variant?: 'desktop' | 'mobile'
+}) {
+  if (images.length <= 1) return null
+
+  const isMobile = variant === 'mobile'
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        zIndex: 3,
+        display: 'flex',
+        gap: isMobile ? 10 : 8,
+        padding: isMobile ? '14px 16px 16px' : '12px 14px 14px',
+        background: 'oklch(0.06 0.02 60 / 0.84)',
+        backdropFilter: 'blur(8px)',
+        overflowX: 'auto',
+        WebkitOverflowScrolling: 'touch',
+      }}
+    >
+      {images.map((img, i) => (
+        <button
+          key={`${img}-${i}`}
+          onClick={() => onSelect(i)}
+          aria-label={`View photo ${i + 1}`}
+          style={{
+            flex: isMobile ? '0 0 74px' : '0 0 clamp(58px, 18%, 92px)',
+            background: 'white',
+            padding: isMobile ? '4px 4px 13px' : '3px 3px 11px',
+            cursor: 'pointer',
+            border: 'none',
+            boxShadow: selectedIdx === i
+              ? '0 6px 24px rgba(168,70,38,0.5)'
+              : '0 2px 10px rgba(0,0,0,0.4)',
+            transform: selectedIdx === i
+              ? 'rotate(0deg) scale(1.08)'
+              : `rotate(${POLAROID_ROTATIONS[i % POLAROID_ROTATIONS.length]}deg)`,
+            outline: selectedIdx === i ? '2px solid oklch(0.55 0.14 38)' : 'none',
+            outlineOffset: 1,
+            transition: 'transform 0.2s, box-shadow 0.2s',
+            position: 'relative',
+            zIndex: selectedIdx === i ? 2 : 1,
+            flexShrink: 0,
+          }}
+        >
+          <div style={{ width: '100%', aspectRatio: '1', position: 'relative', overflow: 'hidden' }}>
+            <Image
+              src={img}
+              alt={`${stayTitle} photo ${i + 1}`}
+              fill
+              sizes={isMobile ? '74px' : '92px'}
+              className="object-cover"
+            />
+          </div>
+        </button>
+      ))}
+    </div>
+  )
+}
+
 // ── Main component ───────────────────────────────────────────────
 interface StayDetailContentProps {
   stay: NormalizedStay
@@ -184,44 +255,12 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
               </div>
             </div>
 
-            {/* Polaroid strip */}
-            {allImages.length > 1 && (
-              <div style={{
-                position: 'relative', zIndex: 3,
-                display: 'flex', gap: 8, padding: '12px 14px 14px',
-                background: 'oklch(0.06 0.02 60 / 0.8)', backdropFilter: 'blur(8px)',
-              }}>
-                {allImages.slice(0, 4).map((img, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedIdx(i)}
-                    aria-label={`View photo ${i + 1}`}
-                    style={{
-                      flex: 1, background: 'white', padding: '3px 3px 11px',
-                      cursor: 'pointer', border: 'none',
-                      boxShadow: selectedIdx === i ? '0 6px 24px rgba(168,70,38,0.5)' : '0 2px 10px rgba(0,0,0,0.4)',
-                      transform: selectedIdx === i
-                        ? 'rotate(0deg) scale(1.1)'
-                        : `rotate(${POLAROID_ROTATIONS[i % POLAROID_ROTATIONS.length]}deg)`,
-                      outline: selectedIdx === i ? '2px solid oklch(0.55 0.14 38)' : 'none',
-                      outlineOffset: 1,
-                      transition: 'transform 0.2s, box-shadow 0.2s',
-                      position: 'relative', zIndex: selectedIdx === i ? 2 : 1,
-                    }}
-                  >
-                    <div style={{ width: '100%', aspectRatio: '1', position: 'relative', overflow: 'hidden' }}>
-                      <Image
-                        src={img}
-                        alt={`${stay.title} photo ${i + 1}`}
-                        fill
-                        sizes="80px"
-                        className="object-cover"
-                      />
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+            <PolaroidGalleryStrip
+              images={allImages}
+              selectedIdx={selectedIdx}
+              onSelect={setSelectedIdx}
+              stayTitle={stay.title}
+            />
           </div>
 
           {/* ── RIGHT: SCROLLABLE PANEL ── */}
@@ -632,20 +671,29 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
       {/* ── MOBILE LAYOUT ──────────────────────────────────────── */}
       <div className="lg:hidden">
         {currentImage && (
-          <div className="relative" style={{ height: 320 }}>
-            <Image src={currentImage} alt={stay.title} fill sizes="100vw" className="object-cover" priority />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 40%, oklch(0.10 0.02 60 / 0.82) 100%)' }} />
-            <div className="absolute bottom-0 left-0 right-0" style={{ padding: '0 20px 20px' }}>
-              <h1 style={{ fontFamily: 'Fraunces, serif', fontSize: 28, fontWeight: 700, color: 'oklch(0.99 0.005 85)', marginBottom: 4, textShadow: '0 2px 10px rgba(0,0,0,0.4)', lineHeight: 1.1 }}>
-                {stay.title}
-              </h1>
-              {stay.subtitle && (
-                <p style={{ fontFamily: 'Fraunces, serif', fontSize: 13, fontStyle: 'italic', color: 'oklch(0.80 0.01 85)' }}>{stay.subtitle}</p>
-              )}
-              <p style={{ fontSize: 11, color: 'oklch(0.72 0.01 85)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginTop: 4 }}>
-                {stay.location} · {stay.state}
-              </p>
+          <div>
+            <div className="relative" style={{ height: 320 }}>
+              <Image src={currentImage} alt={stay.title} fill sizes="100vw" className="object-cover" priority />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 40%, oklch(0.10 0.02 60 / 0.82) 100%)' }} />
+              <div className="absolute bottom-0 left-0 right-0" style={{ padding: '0 20px 20px' }}>
+                <h1 style={{ fontFamily: 'Fraunces, serif', fontSize: 28, fontWeight: 700, color: 'oklch(0.99 0.005 85)', marginBottom: 4, textShadow: '0 2px 10px rgba(0,0,0,0.4)', lineHeight: 1.1 }}>
+                  {stay.title}
+                </h1>
+                {stay.subtitle && (
+                  <p style={{ fontFamily: 'Fraunces, serif', fontSize: 13, fontStyle: 'italic', color: 'oklch(0.80 0.01 85)' }}>{stay.subtitle}</p>
+                )}
+                <p style={{ fontSize: 11, color: 'oklch(0.72 0.01 85)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginTop: 4 }}>
+                  {stay.location} · {stay.state}
+                </p>
+              </div>
             </div>
+            <PolaroidGalleryStrip
+              images={allImages}
+              selectedIdx={selectedIdx}
+              onSelect={setSelectedIdx}
+              stayTitle={stay.title}
+              variant="mobile"
+            />
           </div>
         )}
 

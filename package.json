@@ -15,6 +15,7 @@
     "dev": "next dev",
     "build": "payload generate:importmap && next build",
     "start": "next start",
+    "test": "vitest run",
     "generate:types": "payload generate:types",
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
@@ -48,11 +49,15 @@
   "devDependencies": {
     "@ai-sdk/openai": "^3.0.63",
     "@mendable/firecrawl-js": "^4.22.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "ai": "^6.0.177",
+    "jsdom": "^29.1.1",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.5"
   }
 }
