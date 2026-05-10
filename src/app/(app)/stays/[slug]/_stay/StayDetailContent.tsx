@@ -267,7 +267,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                     ✦ &nbsp; Unique Stays USA
                   </span>
                   <span style={{ fontSize: 6.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'oklch(0.85 0.10 45 / 0.8)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                    Curated Listing
+                    Curated Stay
                   </span>
                 </div>
 
@@ -275,20 +275,21 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                 <div style={{ position: 'relative', zIndex: 1, padding: '12px 14px 10px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 3 }}>
-                      Experience
+                      Passage
                     </div>
-                    <div style={{ fontFamily: 'Fraunces, serif', fontSize: 17, fontWeight: 700, color: 'oklch(0.18 0.01 60)', lineHeight: 1.15, letterSpacing: '-0.01em', marginBottom: 6 }}>
+                    <div style={{ fontFamily: 'Fraunces, serif', fontSize: 18, fontWeight: 700, color: 'oklch(0.18 0.01 60)', lineHeight: 1.12, letterSpacing: '-0.015em', marginBottom: 6 }}>
                       One-of-a-Kind {categoryDisplay}
                     </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
                       {[
-                        { label: 'Location', value: `${stay.location.split(',')[0]}, ${stay.state}` },
                         { label: 'Region', value: stay.region },
+                        { label: 'Location', value: `${stay.location.split(',')[0]}, ${stay.state}` },
+                        { label: 'Bedrooms', value: `${stay.bedrooms} ${stay.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}` },
                         { label: 'Capacity', value: `Sleeps ${stay.sleeps}` },
                       ].map(({ label, value }) => (
-                        <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                          <span style={{ fontSize: 6, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.65 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{label}</span>
-                          <span style={{ fontSize: 10.5, fontWeight: 600, color: 'oklch(0.28 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{value}</span>
+                        <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                          <span style={{ fontSize: 6.8, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.65 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{label}</span>
+                          <span style={{ fontSize: 12, fontWeight: 700, color: 'oklch(0.28 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{value}</span>
                         </div>
                       ))}
                     </div>
@@ -298,28 +299,29 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   {stay.rating != null && (
                     <div style={{
                       flexShrink: 0,
-                      minWidth: 68,
-                      padding: '6px 7px 7px',
-                      background: 'oklch(0.965 0.018 78)',
+                      minWidth: 88,
+                      padding: '8px 10px 9px',
+                      background: 'oklch(0.955 0.026 76)',
                       border: '1px solid oklch(0.80 0.04 70)',
                       borderRadius: 2,
-                      boxShadow: 'inset 0 1px 0 oklch(0.99 0.005 85 / 0.75)',
+                      boxShadow: 'inset 0 1px 0 oklch(0.99 0.005 85 / 0.75), 2px 2px 0 oklch(0.80 0.04 70 / 0.45)',
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
                       textAlign: 'center',
                     }}>
-                      <div style={{ fontSize: 6, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', marginBottom: 2 }}>
-                        Rating
+                      <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', marginBottom: 4 }}>
+                        Guest Rating
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 2, color: 'oklch(0.55 0.14 38)' }}>
-                        <span style={{ fontSize: 20, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.04em' }}>
+                      <div style={{ width: '100%', borderTop: '1px solid oklch(0.72 0.04 70 / 0.55)', margin: '0 0 4px' }} />
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, color: 'oklch(0.55 0.14 38)' }}>
+                        <span style={{ fontSize: 10, lineHeight: 1, transform: 'translateY(-1px)' }}>✦</span>
+                        <span style={{ fontFamily: 'Fraunces, serif', fontSize: 26, fontWeight: 750, lineHeight: 0.95, letterSpacing: '-0.055em' }}>
                           {stay.rating}
                         </span>
-                        <span style={{ fontSize: 9, fontWeight: 800 }}>
-                          ★
-                        </span>
+                        <span style={{ fontSize: 10, lineHeight: 1, transform: 'translateY(-1px)' }}>✦</span>
                       </div>
+                      <div style={{ width: '100%', borderTop: '1px dashed oklch(0.72 0.04 70)', margin: '5px 0 0' }} />
                       {stay.reviewCount != null && (
-                        <div style={{ fontSize: 6.5, fontWeight: 700, letterSpacing: '0.03em', color: 'oklch(0.52 0.04 60)', marginTop: 2, whiteSpace: 'nowrap' }}>
+                        <div style={{ fontSize: 8, fontWeight: 750, letterSpacing: '0.045em', color: 'oklch(0.44 0.045 60)', marginTop: 4, whiteSpace: 'nowrap' }}>
                           {stay.reviewCount} reviews
                         </div>
                       )}
@@ -336,7 +338,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   padding: '8px 14px', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
                 }}>
                   <div>
-                    <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Admission</div>
+                    <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Nightly Fare</div>
                     <div>
                       <span style={{ fontFamily: 'Fraunces, serif', fontSize: 30, fontWeight: 700, color: 'oklch(0.18 0.01 60)', letterSpacing: '-0.02em', lineHeight: 1 }}>${stay.price}</span>
                       <span style={{ fontSize: 11, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginLeft: 3 }}>/night</span>
@@ -345,13 +347,6 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                     via {platformLabel}
                   </div>
-                </div>
-
-                {/* Perforation */}
-                <div style={{ position: 'relative', zIndex: 1, height: 14, display: 'flex', alignItems: 'center', background: 'oklch(0.985 0.008 80)' }}>
-                  <div style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: -7, width: 13, height: 13, borderRadius: '50%', background: 'oklch(0.975 0.012 85)', border: '1px solid oklch(0.80 0.04 70)', zIndex: 2 }} />
-                  <div style={{ flex: 1, margin: '0 8px', borderBottom: '1.5px dashed oklch(0.75 0.04 70)' }} />
-                  <div style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -7, width: 13, height: 13, borderRadius: '50%', background: 'oklch(0.975 0.012 85)', border: '1px solid oklch(0.80 0.04 70)', zIndex: 2 }} />
                 </div>
 
                 {/* Stub */}
@@ -363,7 +358,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                     data-cursor="view"
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                      width: '100%', padding: 12, marginBottom: 10,
+                      width: '100%', padding: 12,
                       background: 'oklch(0.55 0.14 38)', color: 'white',
                       fontSize: 9, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase',
                       fontFamily: 'Plus Jakarta Sans, sans-serif', borderRadius: 1, textDecoration: 'none',
@@ -372,14 +367,6 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   >
                     Book on {platformLabel} &nbsp; ↗
                   </a>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.1em', color: 'oklch(0.68 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', opacity: 0.7 }}>
-                      {serialNo}
-                    </span>
-                    <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.1em', color: 'oklch(0.68 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', opacity: 0.7, textTransform: 'uppercase' }}>
-                      Boarding Pass
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
