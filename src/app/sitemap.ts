@@ -1,31 +1,42 @@
 import type { MetadataRoute } from 'next'
-import { getAllJournalSlugs, getAllStaySlugs } from '@/lib/payload-queries'
+import { getAllJournalSlugs, getAllStaySlugs, getPseoSitemapInventory } from '@/lib/payload-queries'
 import { SPOKE_SLUGS } from '@/lib/spokes-config'
-import { STATE_SLUGS } from '@/lib/states'
+import { getPseoInventoryCounts, getPseoSitemapPaths } from '@/lib/pseo'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [journalSlugs, staySlugs] = await Promise.all([
-    getAllJournalSlugs(),
-    getAllStaySlugs(),
-  ])
-  const baseUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com').replace(/\/$/, '')
-  const lastModified = new Date()
+export function normalizeBaseUrl(baseUrl: string) {
+  return baseUrl.replace(/\/$/, '')
+}
+
+export function buildSitemapEntries({
+  baseUrl,
+  journalSlugs,
+  staySlugs,
+  pseoPaths,
+  lastModified,
+}: {
+  baseUrl: string
+  journalSlugs: string[]
+  staySlugs: string[]
+  pseoPaths: string[]
+  lastModified: Date
+}): MetadataRoute.Sitemap {
+  const normalizedBaseUrl = normalizeBaseUrl(baseUrl)
 
   const staticEntries: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
+      url: normalizedBaseUrl,
       lastModified,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/collection`,
+      url: `${normalizedBaseUrl}/collection`,
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/journal`,
+      url: `${normalizedBaseUrl}/journal`,
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -33,30 +44,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   const spokeEntries: MetadataRoute.Sitemap = SPOKE_SLUGS.map((spoke) => ({
-    url: `${baseUrl}/${spoke}`,
+    url: `${normalizedBaseUrl}/${spoke}`,
     lastModified,
     changeFrequency: 'weekly',
     priority: 0.9,
   }))
 
-  const programmaticEntries: MetadataRoute.Sitemap = SPOKE_SLUGS.flatMap((spoke) => (
-    STATE_SLUGS.map((state) => ({
-      url: `${baseUrl}/${spoke}/${state}`,
-      lastModified,
-      changeFrequency: 'weekly' as const,
-      priority: 0.75,
-    }))
-  ))
+  const programmaticEntries: MetadataRoute.Sitemap = pseoPaths.map((path) => ({
+    url: `${normalizedBaseUrl}${path}`,
+    lastModified,
+    changeFrequency: 'weekly',
+    priority: 0.75,
+  }))
 
   const stayEntries: MetadataRoute.Sitemap = staySlugs.map((slug) => ({
-    url: `${baseUrl}/stays/${slug}`,
+    url: `${normalizedBaseUrl}/stays/${slug}`,
     lastModified,
     changeFrequency: 'weekly',
     priority: 0.8,
   }))
 
   const journalEntries: MetadataRoute.Sitemap = journalSlugs.map((slug) => ({
-    url: `${baseUrl}/journal/${slug}`,
+    url: `${normalizedBaseUrl}/journal/${slug}`,
     lastModified,
     changeFrequency: 'weekly',
     priority: 0.7,
@@ -69,4 +78,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...stayEntries,
     ...journalEntries,
   ]
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [journalSlugs, staySlugs, pseoInventory] = await Promise.all([
+    getAllJournalSlugs(),
+    getAllStaySlugs(),
+    getPseoSitemapInventory(),
+  ])
+
+  return buildSitemapEntries({
+    baseUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com',
+    journalSlugs,
+    staySlugs,
+    pseoPaths: getPseoSitemapPaths(getPseoInventoryCounts(pseoInventory)),
+    lastModified: new Date(),
+  })
 }

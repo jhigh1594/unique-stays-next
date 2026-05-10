@@ -200,9 +200,16 @@ The decisive factor is ISR. When an editor publishes a new listing in Payload, N
 | `/` | ISR | On-demand + 1hr fallback | Featured listings change infrequently |
 | `/stays/[slug]` | ISR | On-demand (Payload webhook) | Immediate after editor publishes |
 | `/[spoke]` | ISR | On-demand + 1hr fallback | Spoke content changes infrequently |
+| `/[spoke]/[state]` | ISR | On-demand + 1hr fallback | Programmatic pSEO intersections generated from spoke/state config and stay inventory |
 | `/blog/[slug]` | ISR | On-demand (Payload webhook) | Immediate after editor publishes |
 | `/directory` | Static shell + Client | N/A | Search UI is fully client-side via Typesense |
 | `/sitemap.xml` | ISR | 24hr | Regenerated daily |
+
+**Spoke × state pSEO policy:**
+
+Programmatic pages at `/[spoke]/[state]` are database-generated discovery pages, not Journal posts. They should feel editorial through generated titles, intro copy, listings, related state/spoke links, and `ItemList` structured data, but they remain outside `/journal` unless Jon explicitly wants a human-authored article.
+
+All 5 × 50 route combinations can render so internal links do not break as inventory grows. Indexability and sitemap inclusion should depend on matching stay inventory: pages with at least one matching stay can be indexed and included in the sitemap; empty pages should render fallback navigation with `noindex, follow` and stay out of the sitemap until listings exist. The threshold is centralized in the pSEO helper layer so it can be adjusted without editing every route.
 
 **The Directory page architecture:**
 

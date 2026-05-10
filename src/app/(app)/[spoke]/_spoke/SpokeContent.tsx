@@ -9,6 +9,7 @@ import {
 import StayCard from '@/components/StayCard'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 import type { SpokeSlug } from '@/lib/spokes-config'
+import { getPseoStateLinks } from '@/lib/pseo'
 import type { NormalizedStay, SpokeConfig } from '@/lib/types'
 
 const REGIONS = ['All', 'West', 'Southwest', 'South', 'Midwest', 'Northeast', 'Southeast'] as const
@@ -194,6 +195,7 @@ export default function SpokeContent({ slug, config, stays }: SpokeContentProps)
   }, [stays, searchQuery, activeFilter, activeRegion, spokeSlug])
 
   const siblings = SPOKE_SLUGS.filter((s) => s !== spokeSlug).map((s) => SPOKES_CONFIG[s])
+  const stateLinks = getPseoStateLinks(spokeSlug)
 
   return (
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
@@ -427,6 +429,57 @@ export default function SpokeContent({ slug, config, stays }: SpokeContentProps)
 
       {/* ── SPOKE-SPECIFIC CALLOUT ───────────────────────── */}
       <SpokeCallout slug={spokeSlug} config={config} />
+
+      {/* ── STATE INTERSECTIONS ──────────────────────────── */}
+      <section
+        className="py-16 border-t border-[oklch(0.88_0.025_75)]"
+        style={{ background: 'oklch(0.965 0.015 85)' }}
+      >
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 fade-up">
+            <p
+              className="text-xs font-bold uppercase tracking-widest mb-2"
+              style={{ color: config.accentColor, fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+            >
+              Browse by state
+            </p>
+            <h2
+              className="text-3xl font-bold mb-3"
+              style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+            >
+              Find {config.title.toLowerCase()} near your next route
+            </h2>
+            <p
+              className="max-w-2xl text-sm leading-relaxed"
+              style={{ color: 'oklch(0.45 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+            >
+              Jump into state-level shortlists built for discovery, from regional road trips to long-weekend escapes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {stateLinks.map((stateLink) => (
+              <Link
+                key={stateLink.slug}
+                href={stateLink.href}
+                className="group flex items-center justify-between border px-3 py-2 text-sm font-semibold transition-colors hover:bg-[oklch(0.99_0.005_85)]"
+                style={{
+                  borderColor: 'oklch(0.84 0.025 75)',
+                  borderRadius: '6px',
+                  color: 'oklch(0.34 0.025 60)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                <span>{stateLink.name}</span>
+                <ArrowRight
+                  className="h-3.5 w-3.5 opacity-45 transition-transform group-hover:translate-x-0.5 group-hover:opacity-100"
+                  style={{ color: config.accentColor }}
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── CROSS-LINK TO OTHER SPOKES ───────────────────── */}
       <section

@@ -118,53 +118,6 @@ function PostmarkSVG({
   )
 }
 
-function MiniPostCard({ post, index }: { post: NormalizedJournalPost; index: number }) {
-  return (
-    <Link
-      href={`/journal/${post.slug}`}
-      className="journal-ledger-row"
-      style={{ '--ledger-tilt': `${index % 2 === 0 ? -1.4 : 1.1}deg` } as CSSProperties}
-    >
-      <span className="journal-ledger-row__pin" aria-hidden="true" />
-      <span className="journal-ledger-row__photo" aria-hidden="true">
-        {post.heroImageUrl ? (
-          <Image
-            src={post.heroImageUrl}
-            alt=""
-            fill
-            sizes="(max-width: 760px) 100vw, 360px"
-            style={{ objectFit: 'cover' }}
-          />
-        ) : (
-          <MapPin size={20} aria-hidden="true" />
-        )}
-        <span className="journal-ledger-row__postmark">
-          <PostmarkSVG
-            city={post.city}
-            state={post.state}
-            date={formatPostmarkDate(post.publishedAt)}
-            size={64}
-          />
-        </span>
-      </span>
-      <span className="journal-ledger-row__content">
-        <span className="journal-ledger-row__coords">{coordinateLabel(post)}</span>
-        <span className="journal-ledger-row__number">
-          №{String(index + 1).padStart(3, '0')}
-        </span>
-        <span className="journal-ledger-row__title">{post.title}</span>
-        {post.excerpt && <span className="journal-ledger-row__excerpt">{post.excerpt}</span>}
-        <span className="journal-ledger-row__footer">
-          <span className="journal-ledger-row__place">{locationLabel(post)}</span>
-          <span className="journal-ledger-row__cta">
-            Read Dispatch <ArrowUpRight size={14} aria-hidden="true" />
-          </span>
-        </span>
-      </span>
-    </Link>
-  )
-}
-
 function DispatchCard({
   post,
   index,
@@ -172,15 +125,20 @@ function DispatchCard({
   post: NormalizedJournalPost
   index: number
 }) {
+  const hasImage = Boolean(post.heroImageUrl)
+  const cardVariant = index === 0 && hasImage ? 'dispatch-dossier--lead' : 'dispatch-dossier--compact'
+  const paperVariant = hasImage ? '' : ' dispatch-dossier--paper'
+  const tilt = index % 4 === 0 ? '-0.55deg' : index % 4 === 1 ? '0.45deg' : index % 4 === 2 ? '-0.25deg' : '0.35deg'
+
   return (
     <Link href={`/journal/${post.slug}`} className="dispatch-dossier-link">
       <article
-        className="dispatch-dossier"
-        style={{ '--tilt': `${(index % 3) * 0.45 - 0.45}deg` } as CSSProperties}
+        className={`dispatch-dossier ${cardVariant}${paperVariant}`}
+        style={{ '--tilt': tilt } as CSSProperties}
       >
         <div className="dispatch-dossier__pin" aria-hidden="true" />
-        <div className="dispatch-dossier__image">
-          {post.heroImageUrl ? (
+        {hasImage ? (
+          <div className="dispatch-dossier__image">
             <Image
               src={post.heroImageUrl}
               alt={post.title}
@@ -188,23 +146,26 @@ function DispatchCard({
               sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
               style={{ objectFit: 'cover' }}
             />
-          ) : (
-            <div className="dispatch-dossier__image-fallback">
-              <MapPin size={24} aria-hidden="true" />
-            </div>
-          )}
-          <div className="dispatch-dossier__postmark">
-            <PostmarkSVG
-              city={post.city}
-              state={post.state}
-              date={formatPostmarkDate(post.publishedAt)}
-              size={74}
-            />
           </div>
-        </div>
+        ) : (
+          <div className="dispatch-dossier__paper-map" aria-hidden="true">
+            <MapPin size={22} aria-hidden="true" />
+            <span>{coordinateLabel(post)}</span>
+          </div>
+        )}
 
         <div className="dispatch-dossier__body">
-          <p className="journal-kicker">File {String(index + 2).padStart(3, '0')}</p>
+          <div className="dispatch-dossier__heading">
+            <p className="journal-kicker">File {String(index + 2).padStart(3, '0')}</p>
+            <div className="dispatch-dossier__postmark">
+              <PostmarkSVG
+                city={post.city}
+                state={post.state}
+                date={formatPostmarkDate(post.publishedAt)}
+                size={hasImage ? 64 : 72}
+              />
+            </div>
+          </div>
           <h2>{post.title}</h2>
           {post.excerpt && <p>{post.excerpt}</p>}
           <div className="dispatch-dossier__meta">
@@ -220,7 +181,6 @@ function DispatchCard({
 export default function JournalContent({ posts }: { posts: NormalizedJournalPost[] }) {
   const featured = posts[0] ?? null
   const rest = posts.slice(1)
-  const recentPosts = posts.slice(0, 5)
   const states = Array.from(new Set(posts.map((post) => post.state).filter(Boolean)))
 
   return (
@@ -322,25 +282,19 @@ export default function JournalContent({ posts }: { posts: NormalizedJournalPost
             </Link>
           )}
 
-          <div className={`journal-board__lower${rest.length === 0 ? ' journal-board__lower--single' : ''}`}>
-            <aside className="journal-ledger" aria-label="Recent dispatch ledger">
-              <p className="journal-kicker">Desk ledger</p>
-              <h2>Recently filed</h2>
-              <div className="journal-ledger__rows">
-                {recentPosts.map((post, index) => (
-                  <MiniPostCard key={post.id} post={post} index={index} />
-                ))}
+          {rest.length > 0 && (
+            <div className="journal-archive-board" aria-label="Filed dispatches">
+              <div className="journal-archive-board__header">
+                <p className="journal-kicker">Filed dispatches</p>
+                <h2>Routes from the desk</h2>
               </div>
-            </aside>
-
-            {rest.length > 0 && (
-              <div className="dispatch-dossier-grid">
+              <div className="journal-archive-board__grid">
                 {rest.map((post, index) => (
                   <DispatchCard key={post.id} post={post} index={index} />
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </section>
       )}
     </main>

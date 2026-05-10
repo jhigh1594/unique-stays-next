@@ -129,6 +129,31 @@ export const getAllStays = unstable_cache(
   { tags: ['stays'], revalidate: 3600 }
 )
 
+export const getPseoSitemapInventory = unstable_cache(
+  async (): Promise<Array<Pick<NormalizedStay, 'state' | 'spokes'>>> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'stays',
+      limit: 10000,
+      depth: 1,
+    })
+
+    return result.docs.map((doc) => {
+      const record = doc as unknown as Record<string, unknown>
+      const spokes = (record.spokes ?? []) as Array<Record<string, unknown> | string>
+
+      return {
+        state: record.state as string,
+        spokes: spokes.map((spoke) => (
+          typeof spoke === 'object' && spoke !== null ? (spoke.slug as string) : spoke
+        )).filter(Boolean),
+      }
+    })
+  },
+  ['stays-pseo-sitemap-inventory'],
+  { tags: ['stays'], revalidate: 3600 }
+)
+
 export const getStaysBySpoke = unstable_cache(
   async (spokeSlug: string): Promise<NormalizedStay[]> => {
     const payload = await getPayloadInstance()

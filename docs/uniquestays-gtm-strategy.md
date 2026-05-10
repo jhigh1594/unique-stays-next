@@ -28,6 +28,8 @@ The five spoke pages (`/unique`, `/work-friendly`, `/pet-friendly`, `/rv-ready`,
 **Tier 2: Spoke × State Intersection Pages (250 pages)**
 These are the highest-leverage programmatic SEO pages in the entire architecture. Each page targets a query like "pet-friendly unique stays in California" or "work-friendly vacation rentals Colorado" — long-tail keywords with genuine commercial intent and relatively low competition. At 5 spokes × 50 states, this generates 250 pages automatically from the existing listings database. A page for `/pet-friendly/california` that lists all pet-friendly stays in California, with a unique introductory paragraph, will rank for dozens of related queries within 3–6 months.
 
+Implementation note: the full 250-route matrix should remain valid and renderable, but sitemap inclusion and indexability should follow inventory quality. Intersections with matching stays can be indexable and sitemap-eligible; empty intersections should render useful fallback navigation while carrying `noindex, follow` and staying out of the XML sitemap until inventory exists. Keep this policy centralized so route metadata and sitemap output cannot drift.
+
 **Tier 3: City Guide Blog Posts (52 pages/year)**
 Each newsletter issue becomes a permanent SEO page at `/journal/best-unique-stays-in-[city]-[state]`. These pages target navigational and informational queries ("unique stays near Austin Texas") and serve as the primary organic traffic driver after Month 6. The city guide format — combining local recommendations with curated stays — creates a content type that is genuinely useful and difficult for AI-generated content farms to replicate authentically.
 
