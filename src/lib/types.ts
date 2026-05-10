@@ -17,6 +17,9 @@ export type NormalizedStay = {
   sleeps: number
   bedrooms: number
   description: string
+  body?: string
+  areaGuide?: string
+  faqs?: Array<{ question: string; answer: string }>
   tags: string[]
   galleryImages: string[]
   editorNote: string

@@ -17,12 +17,6 @@ const STICKER_VARIANTS = [
 ]
 const STICKER_ROTATIONS = [-1.4, 0, 0.9, -0.6, 0, 1.2, 0, -1.4]
 const POLAROID_ROTATIONS = [-2.2, 1.5, -0.8, 2.1]
-const BARCODE_BARS: [number, number][] = [
-  [1.5, 14], [3, 14], [1.5, 9], [1.5, 14], [3, 11],
-  [1.5, 14], [3, 9], [1.5, 14], [1.5, 11], [3, 14],
-  [1.5, 14], [1.5, 9], [3, 14],
-]
-
 // ── Helpers ─────────────────────────────────────────────────────
 const CATEGORY_LABELS: Record<string, string> = {
   'treehouses': 'Treehouse', 'a-frames': 'A-Frame', 'yurts': 'Yurt',
@@ -81,7 +75,8 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
   const serialNo = generateSerial(stay.id, stay.region)
   const primarySpoke = stay.spokes.map((s) => SPOKES_CONFIG[s]).find(Boolean)
   const hasFastFacts = stay.bestFor || stay.bestSeason || stay.vibe
-  const pullQuote = stay.editorNote || (stay.description ? stay.description.split('.')[0] + '.' : '')
+  const firstSentence = (text: string) => { const s = text.split('.')[0]; return s ? s + '.' : '' }
+  const pullQuote = stay.editorNote || (stay.body ? firstSentence(stay.body) : (stay.description ? firstSentence(stay.description) : ''))
 
   const now = new Date()
   const postmarkDate = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
@@ -93,14 +88,14 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
   const platformLabel = PLATFORM_LABELS[stay.platform] ?? stay.platform
 
   return (
-    <div style={{ background: 'oklch(0.90 0.028 75)', minHeight: '100vh' }}>
+    <div style={{ background: 'oklch(0.90 0.028 75)', minHeight: '100vh', paddingTop: 80 }}>
 
       {/* ── DESKTOP SPLIT FRAME ─────────────────────────────────── */}
       <div className="hidden lg:block">
         <div
           style={{
             display: 'flex', overflow: 'hidden',
-            height: '100dvh', minHeight: 500,
+            height: 'calc(100dvh - 80px)', minHeight: 500,
           }}
         >
 
@@ -233,7 +228,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
           <div style={{ flex: 1, background: 'oklch(0.975 0.012 85)', overflowY: 'auto', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 
             {/* Nav-clearance zone + breadcrumb */}
-            <div style={{ padding: '88px 18px 0' }}>
+            <div style={{ padding: '16px 18px 0' }}>
               <nav style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>
                 <Link href="/" style={{ color: 'oklch(0.50 0.03 60)', opacity: 0.7, textDecoration: 'none' }}>
                   Home
@@ -254,7 +249,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
             </div>
 
             {/* ═══ TICKET STUB (sticky) ═══ */}
-            <div style={{ padding: '0 18px 24px', position: 'sticky', top: 80, zIndex: 10, background: 'oklch(0.975 0.012 85)' }}>
+            <div style={{ padding: '0 18px 24px', position: 'sticky', top: 16, zIndex: 10, background: 'oklch(0.975 0.012 85)' }}>
               <div style={{
                 position: 'relative', overflow: 'hidden', borderRadius: 3,
                 background: 'oklch(0.985 0.008 80)',
@@ -277,8 +272,8 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                 </div>
 
                 {/* Ticket body */}
-                <div style={{ position: 'relative', zIndex: 1, padding: '12px 14px 10px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
-                  <div style={{ flex: 1 }}>
+                <div style={{ position: 'relative', zIndex: 1, padding: '12px 14px 10px' }}>
+                  <div>
                     <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 3 }}>
                       Experience
                     </div>
@@ -297,30 +292,34 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                         </div>
                       ))}
                     </div>
-                  </div>
 
-                  {/* Rubber stamp rating */}
-                  {stay.rating != null && (
-                    <div style={{
-                      width: 64, height: 64, borderRadius: '50%', flexShrink: 0,
-                      border: '2.5px solid oklch(0.55 0.14 38 / 0.4)',
-                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                      transform: 'rotate(10deg)',
-                      background: 'oklch(0.55 0.14 38 / 0.07)',
-                      boxShadow: 'inset 0 0 0 5px oklch(0.55 0.14 38 / 0.05)',
-                      marginTop: 2,
-                    }}>
-                      <span style={{ color: 'oklch(0.55 0.14 38)', fontSize: 10, display: 'block', lineHeight: 1, marginBottom: 1 }}>★</span>
-                      <span style={{ fontSize: 20, fontWeight: 800, color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1, letterSpacing: '-0.02em' }}>
-                        {stay.rating}
-                      </span>
-                      {stay.reviewCount != null && (
-                        <span style={{ fontSize: 6, fontWeight: 600, color: 'oklch(0.55 0.14 38 / 0.65)', fontFamily: 'Plus Jakarta Sans, sans-serif', letterSpacing: '0.04em', marginTop: 1 }}>
-                          {stay.reviewCount} reviews
+                    {stay.rating != null && (
+                      <div style={{
+                        marginTop: 8,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        padding: '4px 8px',
+                        borderRadius: 999,
+                        background: 'oklch(0.955 0.02 78)',
+                        border: '1px solid oklch(0.80 0.04 70)',
+                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        color: 'oklch(0.35 0.05 60)',
+                      }}>
+                        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                          Rating
                         </span>
-                      )}
-                    </div>
-                  )}
+                        <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '-0.01em' }}>
+                          {stay.rating} ★
+                        </span>
+                        {stay.reviewCount != null && (
+                          <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.75 }}>
+                            {stay.reviewCount} reviews
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Price band */}
@@ -372,11 +371,9 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                     <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.1em', color: 'oklch(0.68 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', opacity: 0.7 }}>
                       {serialNo}
                     </span>
-                    <div style={{ display: 'flex', gap: 1.5, alignItems: 'flex-end', height: 16 }}>
-                      {BARCODE_BARS.map(([w, h], i) => (
-                        <span key={i} style={{ display: 'block', width: w, height: h, background: 'oklch(0.55 0.14 38 / 0.28)' }} />
-                      ))}
-                    </div>
+                    <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.1em', color: 'oklch(0.68 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', opacity: 0.7, textTransform: 'uppercase' }}>
+                      Boarding Pass
+                    </span>
                   </div>
                 </div>
               </div>
@@ -436,7 +433,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
 
                 {/* Magazine body */}
                 <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 11.5, lineHeight: 1.88, color: 'oklch(0.40 0.02 60)', position: 'relative', zIndex: 1 }}>
-                  {stay.description}
+                  {stay.body || stay.description}
                 </p>
               </div>
             </div>
@@ -531,6 +528,68 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
               </SpokeDetail>
             )}
 
+            {/* ═══ AREA GUIDE ═══ */}
+            {stay.areaGuide && (
+              <div style={{ padding: '10px 18px 0' }}>
+                <div style={{
+                  background: 'oklch(0.995 0.004 85)',
+                  border: '1.5px solid oklch(0.86 0.028 75)',
+                  borderRadius: 1, padding: '20px 18px 18px',
+                  position: 'relative', overflow: 'hidden',
+                  boxShadow: '3px 4px 0 oklch(0.86 0.028 75), 6px 8px 0 oklch(0.88 0.025 75 / 0.5)',
+                }}>
+                  {/* Paper texture */}
+                  <div className="absolute inset-0 pointer-events-none" style={{
+                    background: 'radial-gradient(ellipse at 85% 15%, oklch(0.93 0.03 75 / 0.55) 0%, transparent 50%), radial-gradient(ellipse at 10% 88%, oklch(0.90 0.03 60 / 0.4) 0%, transparent 48%)',
+                  }} />
+
+                  {/* Compass needle */}
+                  <div style={{
+                    position: 'absolute', top: 14, right: 14, zIndex: 2,
+                    width: 40, height: 40,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: 'oklch(0.55 0.14 38 / 0.3)', fontSize: 22,
+                    fontFamily: 'Fraunces, serif', transform: 'rotate(-12deg)',
+                    pointerEvents: 'none',
+                  }}>
+                    ⊹
+                  </div>
+
+                  {/* Section label */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 14, fontSize: 7.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', position: 'relative', zIndex: 1 }}>
+                    ✦ &nbsp; The Neighborhood
+                  </div>
+
+                  <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 11.5, lineHeight: 1.88, color: 'oklch(0.40 0.02 60)', position: 'relative', zIndex: 1 }}>
+                    {stay.areaGuide}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* ═══ FAQs ═══ */}
+            {stay.faqs && stay.faqs.length > 0 && (
+              <div style={{ padding: '10px 18px 0' }}>
+                <div style={{ borderTop: '1.5px solid oklch(0.86 0.028 75)', paddingTop: 16 }}>
+                  <div style={{ fontSize: 7.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <span style={{ color: 'oklch(0.55 0.14 38 / 0.5)', fontSize: 8 }}>✦</span> Questions &amp; Answers
+                  </div>
+                  <dl style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {stay.faqs.map((faq, i) => (
+                      <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        <dt style={{ fontFamily: 'Fraunces, serif', fontSize: 13.5, fontWeight: 600, color: 'oklch(0.22 0.01 60)', lineHeight: 1.4 }}>
+                          {faq.question}
+                        </dt>
+                        <dd style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 11.5, lineHeight: 1.7, color: 'oklch(0.40 0.02 60)', margin: 0 }}>
+                          {faq.answer}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            )}
+
             {/* Affiliate disclosure */}
             <div style={{ padding: '16px 18px 0', marginTop: 'auto' }}>
               <p style={{ fontSize: 9, lineHeight: 1.7, color: 'oklch(0.62 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', borderTop: '1px solid oklch(0.88 0.025 75)', paddingTop: 12 }}>
@@ -615,7 +674,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
 
           {/* Mobile description */}
           <p style={{ fontSize: 15, lineHeight: 1.8, color: 'oklch(0.35 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-            {stay.description}
+            {stay.body || stay.description}
           </p>
 
           {/* Mobile fast facts */}
@@ -650,6 +709,39 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   )
                 })}
               </div>
+            </div>
+          )}
+
+          {/* Mobile area guide */}
+          {stay.areaGuide && (
+            <div style={{ borderTop: '1px solid oklch(0.85 0.025 75)', paddingTop: 16 }}>
+              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ fontSize: 11 }}>✦</span> The Neighborhood
+              </div>
+              <p style={{ fontSize: 14, lineHeight: 1.8, color: 'oklch(0.38 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                {stay.areaGuide}
+              </p>
+            </div>
+          )}
+
+          {/* Mobile FAQs */}
+          {stay.faqs && stay.faqs.length > 0 && (
+            <div style={{ borderTop: '1px solid oklch(0.85 0.025 75)', paddingTop: 16 }}>
+              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ fontSize: 11 }}>✦</span> Questions &amp; Answers
+              </div>
+              <dl style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {stay.faqs.map((faq, i) => (
+                  <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    <dt style={{ fontFamily: 'Fraunces, serif', fontSize: 15, fontWeight: 600, color: 'oklch(0.22 0.01 60)', lineHeight: 1.4 }}>
+                      {faq.question}
+                    </dt>
+                    <dd style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 13.5, lineHeight: 1.7, color: 'oklch(0.38 0.02 60)', margin: 0 }}>
+                      {faq.answer}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           )}
         </div>

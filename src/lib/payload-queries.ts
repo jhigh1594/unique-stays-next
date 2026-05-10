@@ -51,6 +51,11 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
     sleeps: doc.sleeps as number,
     bedrooms: doc.bedrooms as number,
     description: doc.description as string,
+    body: (doc.body as string) ?? undefined,
+    areaGuide: (doc.areaGuide as string) ?? undefined,
+    faqs: Array.isArray(doc.faqs)
+      ? (doc.faqs as Array<{ question: string; answer: string }>)
+      : undefined,
     tags: tags.map((t) => t.tag),
     featured: (doc.featured as boolean) ?? false,
     editorsPick: (doc.editorsPick as boolean) ?? false,

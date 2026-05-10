@@ -241,6 +241,42 @@ export const Stays: CollectionConfig = {
       required: true,
     },
     {
+      name: 'body',
+      type: 'textarea',
+      maxLength: 5000,
+      admin: {
+        description: 'Rich editorial description (2-3 paragraphs for Tier 1, 1-2 for Tier 2)',
+      },
+    },
+    {
+      name: 'areaGuide',
+      type: 'textarea',
+      maxLength: 2000,
+      admin: {
+        description: 'Neighborhood/area guide (Tier 1 only)',
+      },
+    },
+    {
+      name: 'faqs',
+      type: 'array',
+      maxRows: 10,
+      admin: {
+        description: 'FAQ pairs for AEO (Tier 1 only)',
+      },
+      fields: [
+        {
+          name: 'question',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'answer',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'tags',
       type: 'array',
       fields: [

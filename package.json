@@ -46,9 +46,12 @@
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
+    "@ai-sdk/anthropic": "^3.0.76",
+    "@mendable/firecrawl-js": "^4.22.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "ai": "^6.0.177",
     "tsx": "^4.21.0",
     "typescript": "^5"
   }
