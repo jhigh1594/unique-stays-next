@@ -25,7 +25,7 @@ export const BlogPosts: CollectionConfig = {
         const isUnpublish = previousDoc?.status === 'published' && doc.status === 'draft'
         if (!isPublish && !isUnpublish) return
 
-        const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
+        const baseUrl = process.env.REVALIDATE_BASE_URL ?? process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
         const secret = process.env.REVALIDATE_SECRET
 
         const revalidate = async (tag: string) => {
