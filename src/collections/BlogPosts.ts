@@ -10,7 +10,10 @@ export const BlogPosts: CollectionConfig = {
     listSearchableFields: ['title', 'city', 'state', 'excerpt'],
   },
   access: {
-    read: () => true,
+    read: ({ req: { user } }) => {
+      if (user) return true
+      return { status: { equals: 'published' } }
+    },
     create: ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),

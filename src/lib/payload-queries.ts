@@ -153,6 +153,36 @@ export const getStaysBySpoke = unstable_cache(
   { tags: ['stays'], revalidate: 3600 }
 )
 
+export const getStaysBySpokeAndState = unstable_cache(
+  async (spokeSlug: string, stateName: string): Promise<NormalizedStay[]> => {
+    const payload = await getPayloadInstance()
+    const spokeResult = await payload.find({
+      collection: 'spokes',
+      where: { slug: { equals: spokeSlug } },
+      limit: 1,
+      depth: 0,
+    })
+    if (spokeResult.totalDocs === 0) return []
+
+    const spokeId = spokeResult.docs[0].id
+    const result = await payload.find({
+      collection: 'stays',
+      where: {
+        and: [
+          { spokes: { in: [spokeId] } },
+          { state: { equals: stateName } },
+        ],
+      },
+      limit: 100,
+      depth: 1,
+    })
+
+    return result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))
+  },
+  ['stays-by-spoke-and-state'],
+  { tags: ['stays'], revalidate: 3600 }
+)
+
 export const getStayBySlug = unstable_cache(
   async (slug: string): Promise<NormalizedStay | null> => {
     const payload = await getPayloadInstance()
@@ -289,7 +319,10 @@ export function getJournalPostBySlug(slug: string): Promise<NormalizedJournalPos
       const payload = await getPayloadInstance()
       const result = await payload.find({
         collection: 'blog-posts',
-        where: { slug: { equals: slug } },
+        where: {
+          slug: { equals: slug },
+          status: { equals: 'published' },
+        },
         limit: 1,
         depth: 1,
       })

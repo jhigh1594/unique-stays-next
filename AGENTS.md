@@ -22,6 +22,7 @@ Stack: Next.js 16 App Router + Payload CMS 3.84 + Neon PostgreSQL + Vercel.
 | Stays | `stays` | Vacation rental listings (primary content) |
 | Categories | `categories` | Property types (treehouses, a-frames, etc.) |
 | Spokes | `spokes` | Hub sections (unique, work-friendly, etc.) |
+| Blog Posts | `blog-posts` | Journal articles published at `/journal/{slug}` |
 | Media | `media` | Uploaded images |
 | Users | `users` | Admin users (auth) |
 
@@ -65,6 +66,122 @@ GET /api/stays?where[slug][equals]=treehouse-catskills-pine&depth=0&limit=1
 Use `depth=0` when you only need IDs. Use `depth=1` to populate relationship fields.
 
 Same pattern applies to categories and spokes (look up by `slug` field).
+
+## Blog post publishing via Payload API
+
+Agents with Jon's admin API key may create and publish journal posts through the Payload REST API. Do not hardcode the key in files or logs; read it from the runtime secret/context the agent was given and send it only in the auth header.
+
+**Endpoint:** `${NEXT_PUBLIC_SERVER_URL}/api/blog-posts`
+
+**Auth header:**
+```bash
+Authorization: users API-Key <admin_api_key>
+```
+
+### Blog post fields
+
+Required for create:
+- `slug` — URL-safe unique slug, used at `/journal/{slug}`.
+- `title`
+- `excerpt` — 1–2 sentence summary for cards and meta description.
+
+Publish controls:
+- `status` — `draft` or `published`. New posts default to `draft`.
+- `publishedAt` — ISO datetime string. Set when publishing.
+
+Optional editorial fields:
+- `subtitle`
+- `heroImage` — media collection ID.
+- `content` — Payload Lexical JSON.
+- `linkedStays` — array of stay IDs.
+- `city`, `state`, `latitude`, `longitude`
+- `metaTitle`, `metaDescription`
+
+### Minimal Lexical content shape
+
+Use Payload's Lexical JSON shape for `content`. A simple paragraph can be sent like this:
+
+```json
+{
+  "root": {
+    "type": "root",
+    "format": "",
+    "indent": 0,
+    "version": 1,
+    "direction": "ltr",
+    "children": [
+      {
+        "type": "paragraph",
+        "format": "",
+        "indent": 0,
+        "version": 1,
+        "direction": "ltr",
+        "children": [
+          {
+            "type": "text",
+            "text": "Write the article body here.",
+            "format": 0,
+            "style": "",
+            "mode": "normal",
+            "detail": 0,
+            "version": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Idempotent publish workflow
+
+1. Build a URL-safe slug from the final headline.
+2. Check for an existing post by slug:
+   ```bash
+   GET /api/blog-posts?where[slug][equals]=best-unique-stays-in-vermont&depth=0&limit=1
+   ```
+3. If `totalDocs === 0`, create it with `POST /api/blog-posts`.
+4. If `totalDocs === 1`, update it with `PATCH /api/blog-posts/{id}`.
+5. To publish, set `status: "published"` and `publishedAt` to an ISO timestamp. If publishing immediately and no date was provided, use the current time.
+6. Verify the API record:
+   ```bash
+   GET /api/blog-posts?where[slug][equals]=best-unique-stays-in-vermont&depth=1&limit=1
+   ```
+7. Verify the public page loads at `/journal/{slug}`. The public journal index and sitemap include only `status: "published"` posts.
+
+### Create-and-publish example
+
+```bash
+curl -X POST "$NEXT_PUBLIC_SERVER_URL/api/blog-posts" \
+  -H "Authorization: users API-Key $PAYLOAD_ADMIN_API_KEY" \
+  -H "Content-Type: application/json" \
+  --data '{
+    "slug": "best-unique-stays-in-vermont",
+    "title": "Best Unique Stays in Vermont",
+    "subtitle": "Design-forward cabins, treehouses, and off-grid escapes",
+    "status": "published",
+    "publishedAt": "2026-05-10T12:00:00.000Z",
+    "excerpt": "A concise guide to memorable Vermont stays with distinctive settings and practical booking notes.",
+    "city": "Stowe",
+    "state": "Vermont",
+    "metaTitle": "Best Unique Stays in Vermont",
+    "metaDescription": "Explore unique Vermont cabins, treehouses, and off-grid stays for memorable getaways."
+  }'
+```
+
+### Publish an existing draft
+
+```bash
+curl -X PATCH "$NEXT_PUBLIC_SERVER_URL/api/blog-posts/{id}" \
+  -H "Authorization: users API-Key $PAYLOAD_ADMIN_API_KEY" \
+  -H "Content-Type: application/json" \
+  --data '{
+    "status": "published",
+    "publishedAt": "2026-05-10T12:00:00.000Z"
+  }'
+```
+
+Publishing or unpublishing triggers journal cache revalidation in `src/collections/BlogPosts.ts`.
 
 ## Relationship ID resolution
 
