@@ -298,33 +298,41 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
 
                   {stay.rating != null && (
                     <div style={{
+                      position: 'relative',
                       flexShrink: 0,
                       minWidth: 88,
-                      padding: '8px 10px 9px',
-                      background: 'oklch(0.955 0.026 76)',
-                      border: '1px solid oklch(0.80 0.04 70)',
+                      padding: 3,
+                      background: 'oklch(0.985 0.008 80 / 0.34)',
+                      border: '1.5px solid oklch(0.55 0.14 38 / 0.54)',
                       borderRadius: 2,
-                      boxShadow: 'inset 0 1px 0 oklch(0.99 0.005 85 / 0.75), 2px 2px 0 oklch(0.80 0.04 70 / 0.45)',
+                      boxShadow: 'inset 0 0 0 1px oklch(0.55 0.14 38 / 0.12), 1.5px 1.5px 0 oklch(0.80 0.04 70 / 0.32)',
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
                       textAlign: 'center',
+                      transform: 'rotate(-0.9deg)',
+                      overflow: 'hidden',
                     }}>
-                      <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', marginBottom: 4 }}>
-                        Guest Rating
-                      </div>
-                      <div style={{ width: '100%', borderTop: '1px solid oklch(0.72 0.04 70 / 0.55)', margin: '0 0 4px' }} />
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, color: 'oklch(0.55 0.14 38)' }}>
-                        <span style={{ fontSize: 10, lineHeight: 1, transform: 'translateY(-1px)' }}>✦</span>
-                        <span style={{ fontFamily: 'Fraunces, serif', fontSize: 26, fontWeight: 750, lineHeight: 0.95, letterSpacing: '-0.055em' }}>
-                          {stay.rating}
-                        </span>
-                        <span style={{ fontSize: 10, lineHeight: 1, transform: 'translateY(-1px)' }}>✦</span>
-                      </div>
-                      <div style={{ width: '100%', borderTop: '1px dashed oklch(0.72 0.04 70)', margin: '5px 0 0' }} />
-                      {stay.reviewCount != null && (
-                        <div style={{ fontSize: 8, fontWeight: 750, letterSpacing: '0.045em', color: 'oklch(0.44 0.045 60)', marginTop: 4, whiteSpace: 'nowrap' }}>
-                          {stay.reviewCount} reviews
+                      <div style={{
+                        position: 'relative',
+                        border: '1px dashed oklch(0.55 0.14 38 / 0.42)',
+                        padding: '3px 6px 4px',
+                      }}>
+                        <div style={{ fontSize: 6.1, fontWeight: 900, letterSpacing: '0.17em', textTransform: 'uppercase', color: 'oklch(0.55 0.14 38 / 0.72)', marginBottom: 2 }}>
+                          Guest Rated
                         </div>
-                      )}
+                        <div style={{ width: '100%', borderTop: '1px solid oklch(0.55 0.14 38 / 0.4)', margin: '0 0 3px' }} />
+                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 4, color: 'oklch(0.55 0.14 38)' }}>
+                          <span style={{ fontFamily: 'Fraunces, serif', fontSize: 26, fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.06em' }}>
+                            {stay.rating}
+                          </span>
+                          <span style={{ fontSize: 7.5, fontWeight: 900, lineHeight: 1, letterSpacing: '0.02em', transform: 'translateY(-2px)' }}>/5</span>
+                        </div>
+                        <div style={{ width: '100%', borderTop: '1px solid oklch(0.55 0.14 38 / 0.38)', margin: '4px 0 0' }} />
+                        {stay.reviewCount != null && (
+                          <div style={{ fontSize: 7.7, fontWeight: 850, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'oklch(0.44 0.045 60)', marginTop: 2, whiteSpace: 'nowrap' }}>
+                            {stay.reviewCount} reviews
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
