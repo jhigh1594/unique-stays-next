@@ -99,3 +99,47 @@ Candidates for Sprint 3: "Best Cabin Rentals in the USA" or "The Work-From-Anywh
 
 ### Next
 Candidates for Sprint 4: Stargazing Getaways (calendar), Fishing Cabins (calendar), or "Skip the Crowds" expanded version
+
+### Sprint 4: Skip the Crowds — National Park Alternatives
+
+**PLAN-004** ✓ — National park alternatives curated roundup plan confirmed:
+- Target keywords: "national park alternatives", "less crowded national parks", "alternatives to overcrowded national parks"
+- 10 stays across 10 states (VA, UT, MT, CA, ME, UT, CO, WV, OR, AZ), 4 regions
+- Format: Curated Roundup (Type 2) — organized by the kind of crowd you're escaping
+- Word count target: ~2,200 words
+- Hero image: TBD (no hero image uploaded yet)
+
+**RESEARCH-004** ✓ — Stay data collected for all 10 stays:
+- Specific details identified: Bortle-class dark skies (VA), 5 NP access from camp (UT), North Fork "wild" entry (MT), giant sequoia groves (CA), pine-ringed freshwater lake (ME), A.C. Ekker cave home (UT), ranked #1 safari tent (CO), 320M-year-old river (WV), Timberline Lodge + PCT (OR), 1.8M acres ponderosa forest (AZ)
+
+**WRITE-004** ✓ — First draft: content/drafts/skip-the-crowds-national-park-alternatives.md
+- ~2,200 words, 10 park/stay pairs with distinct editorial voices
+- Each section titled by the feeling of the escape (Dark Skies, Slot Canyons, Wild North Fork, etc.)
+- "How to Plan Your Escape" closing section with practical decision framework
+
+**SEO-004** ✓ — Keyword optimized:
+- Primary keyword in title, metaTitle (56 chars), first 100 words, H2s, metaDescription (153 chars), excerpt
+- FAQ section with 5 questions
+- 2 internal links (treehouses post, A-frames post)
+
+**REVIEW-004** ✓ — Quality score: 8.7/10
+- Zero banned words, zero exclamation marks, zero em dashes
+- All 10 stays pass Irish Storytelling Test
+- Feeling-first score at 7 (structural choice: "vs." format opens with crowd problem before pivoting to alternative)
+- v2: content/drafts/skip-the-crowds-national-park-alternatives-v2.md
+
+**PUBLISH-004** ✓ — Published at: /journal/skip-the-crowds-national-park-alternatives (Payload ID: 8)
+- 10 stayEmbed blocks linked
+- Status: published
+- No hero image uploaded yet (no external image source available)
+
+### Patterns (Sprint 4)
+- "Vs." format (crowded park → alternative) is a natural structure for editorial comparison content
+- The contrast structure (problem first, solution second) works better than pure feeling-first for this article type
+- NPS visitation statistics provide concrete credibility anchors — the numbers do the work
+- A.C. Ekker's cave home is the strongest specific detail in the article — a real person, a real story, a real cliff
+- At $123/night, the Montana safari tent is the cheapest stay we've featured — good for "budget" angle in roundup content
+- No hero image uploaded — production API unreachable from local machine, need to upload separately
+
+### Next
+Candidates for Sprint 5: Stargazing Getaways (calendar Week 2 Aug), Fishing Cabins (calendar Week 3 Aug), or "Work-From-Anywhere Dispatch" (calendar Week 4 Jul)

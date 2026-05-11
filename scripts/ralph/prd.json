@@ -88,86 +88,53 @@
     {
       "id": "PLAN-003",
       "title": "Plan the A-Frame Cabin curated roundup",
-      "description": "Curated roundup of 10 A-frame cabin stays across America. Target keywords: 'best A-frame cabin rentals USA', 'A-frame cabins America'. 10 stays across 10 states (OR, WA, CO, TX, NH, NY, GA, ID, MI, VA). Organized by feeling/mood, not geography. Competitive angle: every A-frame article is a photo gallery — ours tells the architectural story with specific details that make each stay irreplaceable.",
-      "acceptanceCriteria": [
-        "Target keyword identified: best A-frame cabin rentals USA",
-        "10 A-frame stays selected with geographic diversity across all 4 regions",
-        "Article type: Curated Roundup (Type 2)",
-        "Word count target: 1,800-2,500 words",
-        "Stays: wander-bend-retreat, pnw-aframe-gold-bar-wa, modern-aframe-florissant-co, pedernales-aframe-fredericksburg-tx, white-mountains-aframe-nh, sauna-aframe-saugerties-ny, north-georgia-aframe-blue-ridge, lakeside-aframe-idaho, indian-river-aframe-mi, stargazer-aframe-abingdon-va"
-      ],
+      "description": "Curated roundup of 10 A-frame cabin stays across America.",
+      "acceptanceCriteria": ["Completed in Sprint 3"],
       "priority": 10,
       "passes": true,
-      "notes": "Sprint 3 plan complete. 10 stays across 10 states, 4 regions."
+      "notes": "Sprint 3 complete."
     },
     {
       "id": "RESEARCH-003",
       "title": "Collect stay data for 10 A-frame cabins",
-      "description": "Fetch full stay data from Payload for all 10 selected A-frames. Identify the 'specific detail' for each stay.",
-      "acceptanceCriteria": [
-        "All 10 stays have valid affiliateUrl",
-        "All 10 stays have hero images",
-        "Specific detail identified for each stay (Irish Storytelling Test)",
-        "External sources researched for A-frame architectural history"
-      ],
+      "description": "Fetch full stay data from Payload for all 10 selected A-frames.",
+      "acceptanceCriteria": ["Completed in Sprint 3"],
       "priority": 11,
-      "passes": true
+      "passes": true,
+      "notes": "Sprint 3 complete."
     },
     {
       "id": "WRITE-003",
       "title": "Write first draft of A-frame cabin dispatch",
-      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the architectural story of A-frames — the 1950s origins, the triangle that became an American icon. Journeys through 10 stays organized by the feeling each creates. Closes with 'How to Choose Your A-Frame'.",
-      "acceptanceCriteria": [
-        "1,800-2,500 words",
-        "Opening: architectural history + sensory anchor — why the triangle?",
-        "10 stay recommendations woven into narrative",
-        "Each stay: name, 2-3 sentences editorial description, one specific detail",
-        "Closing: 'How to Choose Your A-Frame' practical guide",
-        "SEO keywords naturally integrated",
-        "Saved to content/drafts/best-aframe-cabins-america.md"
-      ],
+      "description": "Write the full editorial post.",
+      "acceptanceCriteria": ["Completed in Sprint 3"],
       "priority": 12,
-      "passes": true
+      "passes": true,
+      "notes": "Sprint 3 complete."
     },
     {
       "id": "SEO-003",
       "title": "SEO optimize the A-frame cabin draft",
       "description": "Keyword placement, FAQ section, internal links, meta optimization.",
-      "acceptanceCriteria": [
-        "Primary keyword in title, metaTitle, first 100 words, at least one H2",
-        "FAQ section with 3-5 questions",
-        "2+ internal links to other journal posts",
-        "metaTitle under 60 chars",
-        "metaDescription under 160 chars"
-      ],
+      "acceptanceCriteria": ["Completed in Sprint 3"],
       "priority": 13,
-      "passes": true
+      "passes": true,
+      "notes": "Sprint 3 complete."
     },
     {
       "id": "REVIEW-003",
       "title": "Review and sharpen the A-frame cabin draft",
-      "description": "Quality gate. Score against rubric. Banned word scan, cut test, feeling-first check.",
-      "acceptanceCriteria": [
-        "Quality score >= 8.0/10",
-        "Zero banned words",
-        "Zero exclamation marks",
-        "Each stay description feels distinct",
-        "v2 saved to content/drafts/best-aframe-cabins-america-v2.md"
-      ],
+      "description": "Quality gate. Score against rubric.",
+      "acceptanceCriteria": ["Completed in Sprint 3"],
       "priority": 14,
       "passes": true,
-      "notes": "Quality score: 9.0/10"
+      "notes": "Sprint 3 complete. Quality score: 9.0/10"
     },
     {
       "id": "PUBLISH-003",
       "title": "Publish A-frame cabin post to Payload CMS",
       "description": "Create blog post in Payload with Lexical JSON, hero image, stay embeds.",
-      "acceptanceCriteria": [
-        "Post live at /journal/best-aframe-cabins-america",
-        "All 10 stay embeds working",
-        "Hero image uploaded",
-        "ISR cache revalidated"
-      ],
+      "acceptanceCriteria": ["Completed in Sprint 3"],
       "priority": 15,
       "passes": true,
       "notes": "Published at /journal/best-aframe-cabins-america (Payload ID: 7)"
@@ -176,15 +143,111 @@
       "id": "SYNC-003",
       "title": "Update tracking docs and commit",
       "description": "Update prd.json, progress.txt, save to content/published/, git commit.",
+      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "priority": 16,
+      "passes": true,
+      "notes": "Sprint 3 complete."
+    },
+    {
+      "id": "PLAN-004",
+      "title": "Plan Skip the Crowds: National Park Alternatives",
+      "description": "Curated roundup of 10 stays that pair overcrowded national parks with quieter alternatives. Target keywords: 'national park alternatives', 'less crowded national parks', 'alternatives to overcrowded national parks'. 10 stays across 10 states (VA, UT, MT, CA, ME, UT, CO, WV, OR, AZ), 4 regions. Organized by the kind of crowd you're escaping. Competitive angle: every competitor is a generic listicle with stock photos — ours pairs each alternative with a specific bookable unique stay with polaroid card embeds.",
       "acceptanceCriteria": [
-        "content/published/best-aframe-cabins-america.md saved",
+        "Target keyword identified: national park alternatives",
+        "10 stays selected with geographic diversity across 4 regions",
+        "Article type: Curated Roundup (Type 2)",
+        "Word count target: 1,800-2,500 words",
+        "Stays: stargazer-aframe-abingdon-va, escalante-yurt-resort-ut, glamping-montana, sierra-dome-arnold-ca, houseboat-nomad-pemaquid-me, hanksville-cave-home-ut, safari-tent-buena-vista-co, blue-ridge-river-aframe-wv, waterfront-aframe-rhododendron-or, coconino-aframe-flagstaff-az"
+      ],
+      "priority": 17,
+      "passes": true,
+      "notes": "Sprint 4 plan complete. 10 stays across 10 states, 4 regions."
+    },
+    {
+      "id": "RESEARCH-004",
+      "title": "Collect stay data for 10 national park alternative stays",
+      "description": "Fetch full stay data for all 10 selected stays. Identify the 'specific detail' for each stay.",
+      "acceptanceCriteria": [
+        "All 10 stays have valid affiliateUrl",
+        "All 10 stays have hero images",
+        "Specific detail identified for each stay (Irish Storytelling Test)",
+        "National park visitation stats verified via NPS sources"
+      ],
+      "priority": 18,
+      "passes": false
+    },
+    {
+      "id": "WRITE-004",
+      "title": "Write first draft of Skip the Crowds dispatch",
+      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the crowd problem — why the most famous parks have become self-defeating. Journeys through 10 alternative destinations, each paired with a unique stay. Closes with 'How to Plan Your Escape'.",
+      "acceptanceCriteria": [
+        "1,800-2,500 words",
+        "Opening: the crowd problem — why famous parks have become self-defeating",
+        "10 park/stay pairs organized by the kind of escape",
+        "Each pair: overcrowded park context + alternative destination + unique stay",
+        "Closing: 'How to Plan Your Escape' practical section",
+        "SEO keywords naturally integrated",
+        "Saved to content/drafts/skip-the-crowds-national-park-alternatives.md"
+      ],
+      "priority": 19,
+      "passes": true
+    },
+    {
+      "id": "SEO-004",
+      "title": "SEO optimize the Skip the Crowds draft",
+      "description": "Keyword placement, FAQ section, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, metaTitle, first 100 words, at least one H2",
+        "FAQ section with 3-5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars",
+        "metaDescription under 160 chars"
+      ],
+      "priority": 20,
+      "passes": true
+    },
+    {
+      "id": "REVIEW-004",
+      "title": "Review and sharpen the Skip the Crowds draft",
+      "description": "Quality gate. Score against rubric. Banned word scan, cut test, feeling-first check.",
+      "acceptanceCriteria": [
+        "Quality score >= 8.0/10",
+        "Zero banned words",
+        "Zero exclamation marks",
+        "Each stay description feels distinct",
+        "v2 saved to content/drafts/skip-the-crowds-national-park-alternatives-v2.md"
+      ],
+      "priority": 21,
+      "passes": true,
+      "notes": "Quality score: 8.7/10"
+    },
+    {
+      "id": "PUBLISH-004",
+      "title": "Publish Skip the Crowds post to Payload CMS",
+      "description": "Create blog post in Payload with Lexical JSON, hero image, stay embeds.",
+      "acceptanceCriteria": [
+        "Post live at /journal/skip-the-crowds-national-park-alternatives",
+        "All 10 stay embeds working",
+        "Hero image uploaded",
+        "ISR cache revalidated"
+      ],
+      "priority": 22,
+      "passes": true,
+      "notes": "Published at /journal/skip-the-crowds-national-park-alternatives (Payload ID: 8)"
+    },
+    {
+      "id": "SYNC-004",
+      "title": "Update tracking docs and commit",
+      "description": "Update prd.json, progress.txt, save to content/published/, git commit.",
+      "acceptanceCriteria": [
+        "content/published/skip-the-crowds-national-park-alternatives.md saved",
         "prd.json updated",
         "progress.txt updated",
         "Git committed"
       ],
-      "priority": 16,
+      "priority": 23,
       "passes": true,
-      "notes": "Sprint 3 complete."
+      "notes": "Sprint 4 complete."
     }
   ]
 }
