@@ -62,7 +62,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       className={`${fraunces.variable} ${newsreader.variable} ${plusJakartaSans.variable} ${caveat.variable}`}
     >
       <head>
-        <meta name="impact-site-verification" content="86a436ba-c43a-4fec-a4e2-9237cd5ad9f7" />
+        <meta
+          name="impact-site-verification"
+          content="6aeda553-2b8f-415e-b0fc-cff364c52b61"
+        />
         <script
           {...{
             nowprocket: '',

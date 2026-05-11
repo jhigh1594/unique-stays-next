@@ -71,8 +71,8 @@ function PostmarkSVG({
       />
       <circle cx="40" cy="40" r="27" fill="none" stroke="oklch(0.55 0.14 38)" strokeWidth="0.75" />
       <defs>
-        <path id={`pt-${id}`} d="M 10,40 A 30,30 0 0,1 70,40" />
-        <path id={`pb-${id}`} d="M 10,40 A 30,30 0 0,0 70,40" />
+        <path id={`pt-${id}`} d="M 7,40 A 33,33 0 0,1 73,40" />
+        <path id={`pb-${id}`} d="M 7,40 A 33,33 0 0,0 73,40" />
       </defs>
       <text
         fill="oklch(0.55 0.14 38)"
