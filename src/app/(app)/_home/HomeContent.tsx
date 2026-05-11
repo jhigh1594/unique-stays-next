@@ -7,15 +7,10 @@ import {
   ArrowRight,
   ChevronRight,
   Search,
-  Sparkles,
   CheckCircle2,
 } from 'lucide-react'
 import {
   motion,
-  useScroll,
-  useTransform,
-  useInView,
-  animate,
 } from 'framer-motion'
 import StayCard from '@/components/StayCard'
 import FilmstripSection from '@/components/FilmstripSection'
@@ -23,6 +18,7 @@ import CorkboardTestimonials from '@/components/CorkboardTestimonials'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 import type { NormalizedStay } from '@/lib/types'
 import type { CategoryConfig } from '@/lib/categories-config'
+import Hero from './Hero'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
@@ -52,78 +48,6 @@ function useClipReveal() {
     )
     return () => observer.disconnect()
   }, [])
-}
-
-// ── Animated counter ──────────────────────────────────────
-function AnimatedStat({
-  to,
-  suffix = '',
-  prefix = '',
-  duration = 1.4,
-}: {
-  to: number
-  suffix?: string
-  prefix?: string
-  duration?: number
-}) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
-
-  useEffect(() => {
-    if (!isInView || !ref.current) return
-    const controls = animate(0, to, {
-      duration,
-      ease: 'easeOut',
-      onUpdate: (v) => {
-        if (ref.current) ref.current.textContent = prefix + Math.round(v) + suffix
-      },
-    })
-    return controls.stop
-  }, [isInView, to, suffix, prefix, duration])
-
-  return (
-    <span ref={ref}>
-      {prefix}0{suffix}
-    </span>
-  )
-}
-
-// ── Word-by-word reveal ───────────────────────────────────
-function SplitReveal({
-  text,
-  delay = 0,
-  className,
-  style,
-}: {
-  text: string
-  delay?: number
-  className?: string
-  style?: React.CSSProperties
-}) {
-  return (
-    <span className={className} style={style}>
-      {text.split(' ').map((word, i) => (
-        <span
-          key={i}
-          className="word-overflow"
-          style={{ marginRight: '0.28em' }}
-        >
-          <motion.span
-            style={{ display: 'inline-block' }}
-            initial={{ y: '110%', opacity: 0 }}
-            animate={{ y: '0%', opacity: 1 }}
-            transition={{
-              duration: 0.72,
-              delay: delay + i * 0.09,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            {word}
-          </motion.span>
-        </span>
-      ))}
-    </span>
-  )
 }
 
 // ── Cycling search placeholder ───────────────────────────
@@ -335,15 +259,6 @@ export default function HomeContent({
   const categoryScrollRef = useRef<HTMLDivElement>(null)
   const { placeholder, visible: placeholderVisible } = useCyclingPlaceholder()
 
-  // Hero parallax
-  const heroRef = useRef<HTMLElement>(null)
-  const { scrollYProgress: heroProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  })
-  const heroImageY = useTransform(heroProgress, [0, 1], ['0%', '22%'])
-  const heroContentY = useTransform(heroProgress, [0, 1], ['0%', '10%'])
-
   // Category-filtered content
   const filteredStays =
     activeCategory === 'All'
@@ -354,190 +269,16 @@ export default function HomeContent({
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
 
       {/* ══════════════════════════════════════════════════════
-          HERO — Parallax · Word Reveal · Stat Counters
+          HERO — Cinematic slideshow · Ken Burns · Film strip
       ══════════════════════════════════════════════════════ */}
-      <section
-        ref={heroRef}
-        className="relative min-h-[100svh] flex items-end overflow-hidden"
-      >
-        {/* Background image — parallax layer */}
-        <motion.div
-          className="absolute inset-0 grain-overlay"
-          style={{ y: heroImageY }}
-        >
-          <Image
-            src="https://d2xsxph8kpxj0f.cloudfront.net/86702083/ByQr52J2uJxPcTScSSaduY/hero-treehouse-JWbjZXvAKxUiXAg4QS7BnL.webp"
-            alt="Enchanted treehouse in redwood forest"
-            fill
-            sizes="100vw"
-            className="object-cover scale-110"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/5 to-black/75" />
-        </motion.div>
-
-        {/* Hero content */}
-        <motion.div
-          className="relative z-10 w-full max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24"
-          style={{ y: heroContentY }}
-        >
-          <div className="max-w-2xl">
-            {/* Eyebrow */}
-            <motion.div
-              className="flex items-center gap-2 mb-6"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-            >
-              <span
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest"
-                style={{
-                  background: 'oklch(0.55 0.14 38 / 0.88)',
-                  color: 'oklch(0.99 0.005 85)',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
-                  backdropFilter: 'blur(8px)',
-                }}
-              >
-                <Sparkles className="w-3 h-3" />
-                Curated Stays Across America
-              </span>
-            </motion.div>
-
-            {/* Main Headline — word by word */}
-            <h1
-              className="font-bold mb-2 text-white"
-              style={{
-                fontFamily: 'Fraunces, serif',
-                fontSize: 'clamp(3.4rem, 8vw, 7rem)',
-                lineHeight: 0.97,
-                textShadow: '0 2px 24px rgba(0,0,0,0.25)',
-              }}
-            >
-              <SplitReveal text="Sleep somewhere" delay={1.05} />
-              <br />
-              <SplitReveal
-                text="extraordinary."
-                delay={1.22}
-                style={{ color: 'oklch(0.85 0.10 45)', fontStyle: 'italic' }}
-              />
-            </h1>
-
-            {/* Subheadline */}
-            <motion.p
-              className="text-lg md:text-xl text-white/82 mb-8 max-w-lg leading-relaxed mt-5"
-              style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                textShadow: '0 1px 8px rgba(0,0,0,0.25)',
-              }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.55 }}
-            >
-              Treehouses. Domes. Caves. Castles. Houseboats. We find the stays
-              that make you say{' '}
-              <em className="not-italic font-semibold" style={{ color: 'oklch(0.85 0.10 45)' }}>
-                &ldquo;I can&apos;t believe this is real.&rdquo;
-              </em>
-            </motion.p>
-
-            {/* CTA buttons */}
-            <motion.div
-              className="flex flex-wrap gap-3"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.75 }}
-            >
-              <Link href="/collection">
-                <motion.span
-                  className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold rounded-full cursor-pointer"
-                  style={{
-                    background: 'oklch(0.55 0.14 38)',
-                    color: 'oklch(0.99 0.005 85)',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
-                  }}
-                  whileHover={{ gap: '12px', paddingRight: '24px' }}
-                  transition={{ duration: 0.2 }}
-                >
-                  Browse All Stays <ArrowRight className="w-4 h-4" />
-                </motion.span>
-              </Link>
-              <a href="#newsletter">
-                <motion.span
-                  className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold rounded-full cursor-pointer"
-                  style={{
-                    background: 'oklch(0.99 0.005 85 / 0.18)',
-                    color: 'oklch(0.99 0.005 85)',
-                    border: '1.5px solid oklch(0.99 0.005 85 / 0.35)',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                  whileHover={{ background: 'oklch(0.99 0.005 85 / 0.28)' }}
-                  transition={{ duration: 0.18 }}
-                >
-                  Get Weekly Picks
-                </motion.span>
-              </a>
-            </motion.div>
-
-            {/* Hero stats */}
-            <motion.div
-              className="flex flex-wrap items-center gap-x-8 gap-y-3 mt-10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 2.0 }}
-            >
-              {[
-                { to: 231, suffix: '+', label: 'Curated Stays' },
-                { to: 10, suffix: '', label: 'Unique Categories' },
-                { to: 12000, suffix: '+', label: 'Newsletter Readers' },
-              ].map((stat) => (
-                <div key={stat.label} className="flex items-baseline gap-1.5">
-                  <span
-                    className="text-2xl font-bold"
-                    style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.99 0.005 85)' }}
-                  >
-                    <AnimatedStat to={stat.to} suffix={stat.suffix} />
-                  </span>
-                  <span
-                    className="text-xs uppercase tracking-wider"
-                    style={{ color: 'oklch(0.70 0.04 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                  >
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.4 }}
-        >
-          <span
-            className="text-[10px] font-bold uppercase tracking-widest"
-            style={{ color: 'oklch(0.80 0.02 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-          >
-            Scroll
-          </span>
-          <div
-            className="w-px h-10 overflow-hidden relative"
-            style={{ background: 'oklch(0.80 0.02 85 / 0.3)' }}
-          >
-            <div
-              className="absolute w-full"
-              style={{
-                height: '40%',
-                background: 'oklch(0.80 0.02 85)',
-                animation: 'scrollLine 1.4s ease-in-out infinite',
-              }}
-            />
-          </div>
-        </motion.div>
-      </section>
+      <Hero
+        categories={categories}
+        stats={[
+          { value: 231, suffix: '+', label: 'Curated Stays' },
+          { value: 10, suffix: '', label: 'Unique Categories' },
+          { value: 12000, suffix: '+', label: 'Weekly Readers' },
+        ]}
+      />
 
       {/* ══════════════════════════════════════════════════════
           CATEGORIES STRIP
@@ -1435,10 +1176,6 @@ export default function HomeContent({
       </section>
 
       <style>{`
-        @keyframes scrollLine {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(300%); }
-        }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .line-clamp-2 {
           display: -webkit-box;
