@@ -126,15 +126,20 @@ function DispatchCard({
   index: number
 }) {
   const hasImage = Boolean(post.heroImageUrl)
-  const cardVariant = index === 0 && hasImage ? 'dispatch-dossier--lead' : 'dispatch-dossier--compact'
   const paperVariant = hasImage ? '' : ' dispatch-dossier--paper'
-  const tilt = index % 4 === 0 ? '-0.55deg' : index % 4 === 1 ? '0.45deg' : index % 4 === 2 ? '-0.25deg' : '0.35deg'
+  const tilts = ['-1.5deg', '1.2deg', '-0.8deg', '2deg']
+  const pinXs = ['35%', '60%', '45%', '50%']
+  const tilt = tilts[index % 4]
+  const pinX = pinXs[index % 4]
+  const isNew =
+    post.publishedAt &&
+    Date.now() - new Date(post.publishedAt).getTime() < 14 * 86400000
 
   return (
     <Link href={`/journal/${post.slug}`} className="dispatch-dossier-link">
       <article
-        className={`dispatch-dossier ${cardVariant}${paperVariant}`}
-        style={{ '--tilt': tilt } as CSSProperties}
+        className={`dispatch-dossier${paperVariant}`}
+        style={{ '--tilt': tilt, '--pin-x': pinX } as CSSProperties}
       >
         <div className="dispatch-dossier__pin" aria-hidden="true" />
         {hasImage ? (
@@ -143,34 +148,45 @@ function DispatchCard({
               src={post.heroImageUrl}
               alt={post.title}
               fill
-              sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
+              sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
               style={{ objectFit: 'cover' }}
             />
-          </div>
-        ) : (
-          <div className="dispatch-dossier__paper-map" aria-hidden="true">
-            <MapPin size={22} aria-hidden="true" />
-            <span>{coordinateLabel(post)}</span>
-          </div>
-        )}
-
-        <div className="dispatch-dossier__body">
-          <div className="dispatch-dossier__heading">
-            <p className="journal-kicker">File {String(index + 2).padStart(3, '0')}</p>
             <div className="dispatch-dossier__postmark">
               <PostmarkSVG
                 city={post.city}
                 state={post.state}
                 date={formatPostmarkDate(post.publishedAt)}
-                size={hasImage ? 64 : 72}
+                size={56}
               />
             </div>
           </div>
+        ) : (
+          <div className="dispatch-dossier__paper-map">
+            <MapPin size={22} aria-hidden="true" />
+            <span>{coordinateLabel(post)}</span>
+            <div className="dispatch-dossier__postmark">
+              <PostmarkSVG
+                city={post.city}
+                state={post.state}
+                date={formatPostmarkDate(post.publishedAt)}
+                size={56}
+              />
+            </div>
+          </div>
+        )}
+
+        {isNew && (
+          <div className="dispatch-dossier__stamp" aria-hidden="true">
+            New
+          </div>
+        )}
+
+        <div className="dispatch-dossier__body">
           <h2>{post.title}</h2>
-          {post.excerpt && <p>{post.excerpt}</p>}
+          {post.excerpt && <p className="excerpt">{post.excerpt}</p>}
           <div className="dispatch-dossier__meta">
-            <span>{locationLabel(post)}</span>
-            <span>Open file</span>
+            {(post.city || post.state) && <span>{locationLabel(post)}</span>}
+            <span>Read now</span>
           </div>
         </div>
       </article>
@@ -285,8 +301,8 @@ export default function JournalContent({ posts }: { posts: NormalizedJournalPost
           {rest.length > 0 && (
             <div className="journal-archive-board" aria-label="Filed dispatches">
               <div className="journal-archive-board__header">
-                <p className="journal-kicker">Filed dispatches</p>
-                <h2>Routes from the desk</h2>
+                <p className="journal-kicker">Pinned to the board</p>
+                <h2>Routes from <em>the desk</em></h2>
               </div>
               <div className="journal-archive-board__grid">
                 {rest.map((post, index) => (
