@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['sharp', 'pg'],
   images: {
     remotePatterns: [
+      { protocol: 'https', hostname: 'uniquestaysusa.com' },
       { protocol: 'https', hostname: '**.muscache.com' },
       { protocol: 'https', hostname: '**.vrboassets.com' },
       { protocol: 'https', hostname: '**.vacasa.com' },
