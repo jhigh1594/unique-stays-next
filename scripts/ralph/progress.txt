@@ -54,3 +54,48 @@
 
 ### Next
 Candidates for Sprint 3: "Best Cabin Rentals in the USA" or "The Work-From-Anywhere Dispatch" (already drafted as remote-work-unique-stays)
+
+### Sprint 3: A-Frame Cabin Roundup
+
+**PLAN-003** ✓ — A-frame cabin curated roundup plan confirmed:
+- Target keywords: "best A-frame cabin rentals USA", "A-frame cabins America"
+- 10 stays across 10 states (OR, WA, CO, TX, NH, NY, GA, ID, MI, VA)
+- Format: Curated Roundup (Type 2) — organized by feeling/mood
+- Word count target: ~2,000 words
+- Hero image: sauna-aframe-saugerties-ny.jpg
+
+**RESEARCH-003** ✓ — Stay data collected for all 10 A-frames:
+- Specific details identified: cedar barrel sauna (NY), Pikes Peak at 9,000 ft (CO), Pedernales River bend (TX), 312 five-star reviews (NH), Toccoa River + wine country (GA), private beach + docks (ID), Inland Waterway canoe (MI), Bortle-class dark skies (VA), Starlink WiFi (OR), Stevens Pass views (WA)
+
+**WRITE-003** ✓ — First draft: content/drafts/best-aframe-cabins-america.md
+- ~2,000 words, 10 stays with distinct editorial voices
+- Organized by feeling: Cedar/Steam, Triangle/Peak, River Bend, Agreements, Clouds, Lake/Dock, Glass/Water, River Talking, Dark Skies, Mountain/Signal
+
+**SEO-003** ✓ — Keyword optimized:
+- Primary keyword in title, metaTitle (43 chars), first 100 words, H2, metaDescription (156 chars), excerpt
+- Definition block added in opening paragraph
+- FAQ section with 5 questions
+- 2 internal links (treehouses post, workcation post)
+- Long-tail variations woven naturally
+
+**REVIEW-003** ✓ — Quality score: 9.0/10
+- Zero banned words, zero exclamation marks
+- All 10 stays pass Irish Storytelling Test
+- Feeling-first principle maintained throughout
+- "How to Choose Your A-Frame" section with decision framework
+
+**PUBLISH-003** ✓ — content/published/best-aframe-cabins-america.md
+- Published at: /journal/best-aframe-cabins-america (Payload ID: 7)
+- 10 stayEmbed blocks linked
+- Status: published
+
+### Patterns (Sprint 3)
+- A-frame article benefits from architectural history angle — the 1957 Sunset magazine origin gives credibility
+- Definition block in opening serves double duty (SEO + AI citation)
+- FAQ section feels more natural for a category roundup than for a destination dispatch
+- 10 stays at 10 states is the sweet spot for geographic diversity in a roundup
+- "How to Choose" section with bold categories (couples, families, budget, seasonal) is a useful decision framework that competitors don't provide
+- The Workcation Manifesto internal link fit naturally into the Wander Bend section (Starlink WiFi → remote work)
+
+### Next
+Candidates for Sprint 4: Stargazing Getaways (calendar), Fishing Cabins (calendar), or "Skip the Crowds" expanded version
