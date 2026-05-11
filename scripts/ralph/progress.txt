@@ -18,10 +18,39 @@
 - Frontmatter: title, subtitle, slug, excerpt, city, state, lat/lng, metaTitle, metaDescription, publishedAt, linkedStays
 - metaTitle: 58 chars. metaDescription: 152 chars.
 
+### Sprint 2: Extraordinary Treehouses
+
+**PLAN-002** ✓ — Treehouse roundup plan confirmed:
+- Target keywords: "best treehouse rentals USA", "extraordinary treehouses America"
+- 10 stays across 8 states, 4 regions (West, South, Midwest, Northeast)
+- Format: curated journey, not listicle — editorial dispatch organized by feeling/mood
+- Word count target: ~2,000 words
+- Hero image: Redwood Treehouse (redwood-treehouse-ca.jpeg)
+
+**WRITE-002** ✓ — First draft: content/drafts/extraordinary-treehouses-america.md
+- ~2,000 words, 10 stays with distinct editorial voices
+- Each section titled by the feeling it creates (not by location)
+- "How to Choose Your Treehouse" closing section
+
+**REVIEW-002** ✓ — Critic pass:
+- Reframed "we slept in trees" to honest editorial curation
+- Cut "resets your nervous system" wellness-blogger language
+- Removed duplicate "most photographed" (Toccoa + Rocky Mountain)
+- Fixed fireplace grammar, varied sentence structures
+- Strengthened closing CTC
+- v2: content/drafts/extraordinary-treehouses-america-v2.md
+
+**PUBLISH-002** ✓ — content/published/extraordinary-treehouses-america.md
+- Frontmatter: title, subtitle, slug, excerpt, metaTitle (49 chars), metaDescription (153 chars), publishedAt, heroImage, 10 linkedStays
+- Hero image: redwood-treehouse-ca.jpeg (Vercel Blob)
+
 ### Patterns
 - 3 stays was thin for a roundup but worked for a curated dispatch
 - Price + rating callout at end of each stay section = social proof without breaking voice
 - "When to Go" earns its place via seasonal search queries
+- 10 stays at ~150 words each hits the sweet spot — enough detail, not exhausting
+- Organizing by feeling (not geography) keeps readers from skipping ahead
+- Pete Nelson appearing twice is a feature, not a bug — his name is search-relevant authority
 
 ### Next
-"Best Treehouse Rentals in the USA" — need 8-12 treehouse stays identified from seo-listings.csv first.
+Candidates for Sprint 3: "Best Cabin Rentals in the USA" or "The Work-From-Anywhere Dispatch" (already drafted as remote-work-unique-stays)

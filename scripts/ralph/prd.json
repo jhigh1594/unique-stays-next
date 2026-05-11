@@ -1,7 +1,7 @@
 {
   "projectName": "UniqueStaysUSA_Journal",
   "description": "Travel editorial content for UniqueStaysUSA journal. SEO-first dispatches with affiliate stay embeds. Voice: warm, first-person, slightly literary. Think Kinfolk meets Monocle meets a dog-eared travel journal.",
-  "branchName": "feat/journal-blog",
+  "branchName": "feat/journal-polaroid-grid",
   "userStories": [
     {
       "id": "SETUP-001",
@@ -20,66 +20,105 @@
     {
       "id": "PLAN-001",
       "title": "Plan the Joshua Tree destination dispatch",
-      "description": "Create a content plan for the first journal post: 'The Best Unique Stays in Joshua Tree'. Target queries: 'unique stays Joshua Tree', 'best Airbnb Joshua Tree', 'unique vacation rentals Joshua Tree CA'. Post should embed 3-5 stay cards from the directory and read as a first-person editorial dispatch.",
-      "acceptanceCriteria": [
-        "Target keyword identified",
-        "Post structure outlined (opening dispatch, stay sections, closing tip)",
-        "Stay slugs to embed identified from the directory",
-        "Word count target set (1200-1800 words)",
-        "Meta title and meta description drafted"
-      ],
+      "description": "Create a content plan for the first journal post: 'The Best Unique Stays in Joshua Tree'.",
+      "acceptanceCriteria": ["Completed in Sprint 1"],
       "priority": 2,
-      "passes": false,
-      "notes": "Destination pillar. First post establishes the dispatch format."
+      "passes": true,
+      "notes": "Sprint 1 complete."
     },
     {
       "id": "WRITE-001",
       "title": "Write first draft of Joshua Tree dispatch",
-      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Not a listicle — it reads like a letter from a friend who scouted the place. Opens with scene-setting desert prose, then weaves stays into the narrative. Ends with a practical tip (best time to visit, what to pack).",
-      "acceptanceCriteria": [
-        "1200-1800 words",
-        "Opening paragraph: atmospheric, sensory desert scene-setting",
-        "3-5 stay recommendations woven into the narrative",
-        "Each stay: name, 2-3 sentences of editorial description, one detail that makes it unique",
-        "Closing section: 'When to Go' practical tip",
-        "SEO keywords naturally integrated (not stuffed)",
-        "Saved to content/drafts/joshua-tree-unique-stays.md"
-      ],
+      "description": "Write the full editorial post.",
+      "acceptanceCriteria": ["Completed in Sprint 1"],
       "priority": 3,
-      "passes": false,
-      "notes": "Use /elite-copywriter for the actual writing. Tone: The Paris Review meets a road trip zine."
+      "passes": true,
+      "notes": "Sprint 1 complete."
     },
     {
       "id": "REVIEW-001",
       "title": "Review and sharpen the Joshua Tree draft",
-      "description": "Self-review the draft. Strengthen the opening. Cut any generic travel writing clichés. Make sure each stay description earns its place. Add a compelling title and subtitle. Add meta description.",
-      "acceptanceCriteria": [
-        "Opening paragraph revised to be more vivid/specific",
-        "Any clichés removed ('hidden gem', 'off the beaten path', etc.)",
-        "Title: specific + searchable + editorial",
-        "Subtitle: evocative one-liner for the polaroid caption",
-        "Meta title: under 60 chars, includes 'Joshua Tree'",
-        "Meta description: under 160 chars, includes primary keyword",
-        "Version 2 saved to content/drafts/joshua-tree-unique-stays-v2.md"
-      ],
+      "description": "Self-review the draft.",
+      "acceptanceCriteria": ["Completed in Sprint 1"],
       "priority": 4,
-      "passes": false,
-      "notes": "Be brutal. Cut filler. Every sentence should earn its place."
+      "passes": true,
+      "notes": "Sprint 1 complete."
     },
     {
       "id": "PUBLISH-001",
       "title": "Finalize and output Joshua Tree post for Payload CMS",
-      "description": "Create the final publish-ready version with all fields needed to create the blog post in Payload CMS admin.",
+      "description": "Create the final publish-ready version.",
+      "acceptanceCriteria": ["Completed in Sprint 1"],
+      "priority": 5,
+      "passes": true,
+      "notes": "Sprint 1 complete."
+    },
+    {
+      "id": "PLAN-002",
+      "title": "Plan the 10 Most Extraordinary Treehouses in America",
+      "description": "Create a content plan for the treehouse roundup post. Target queries: 'best treehouse rentals USA', 'extraordinary treehouses America', 'treehouse Airbnb vacation', 'unique treehouse stays'. Post should embed 10 stay cards from the directory and read as a first-person editorial dispatch — not a numbered listicle, but a curated journey across American landscapes.",
       "acceptanceCriteria": [
-        "Final post saved to content/published/joshua-tree-unique-stays.md",
-        "Frontmatter includes: title, subtitle, slug, excerpt, city, state, latitude, longitude, metaTitle, metaDescription, publishedAt",
+        "Target keyword identified",
+        "10 treehouse stays selected with geographic diversity",
+        "Post structure outlined (opening dispatch, stay sections organized by region/mood, closing tip)",
+        "Stay slugs to embed identified from the directory",
+        "Word count target set (1800-2500 words for 10 stays)",
+        "Meta title and meta description drafted"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Sprint 2 complete. 10 stays selected across 8 states, 4 regions."
+    },
+    {
+      "id": "WRITE-002",
+      "title": "Write first draft of extraordinary treehouses dispatch",
+      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Not a numbered listicle — it reads like a letter from someone who spent a year sleeping in trees across America. Opens with scene-setting prose about the primal appeal of sleeping in a treehouse, then journeys through 10 stays. Organize by a narrative arc (maybe by geography or by the feeling each stay creates). Ends with a practical section.",
+      "acceptanceCriteria": [
+        "1800-2500 words",
+        "Opening paragraph: atmospheric, sensory — why treehouses? the primal pull",
+        "10 stay recommendations woven into a narrative journey",
+        "Each stay: name, 2-3 sentences of editorial description, one detail that makes it extraordinary",
+        "Closing section: practical 'How to Choose Your Treehouse' tip",
+        "SEO keywords naturally integrated",
+        "Saved to content/drafts/extraordinary-treehouses-america.md"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Sprint 2 complete. ~2,000 words, 10 stays."
+    },
+    {
+      "id": "REVIEW-002",
+      "title": "Review and sharpen the extraordinary treehouses draft",
+      "description": "Self-review the draft. Strengthen the opening. Cut any generic travel writing cliches. Make sure each stay description earns its place and feels distinct (no two descriptions should sound alike). Add a compelling title and subtitle. Add meta description.",
+      "acceptanceCriteria": [
+        "Opening paragraph revised to be more vivid/specific",
+        "Any cliches removed ('hidden gem', 'off the beaten path', 'like something out of a fairy tale', etc.)",
+        "Title: specific + searchable + editorial",
+        "Subtitle: evocative one-liner for the polaroid caption",
+        "Meta title: under 60 chars, includes 'Treehouse'",
+        "Meta description: under 160 chars, includes primary keyword",
+        "Each of the 10 stay descriptions feels distinct in voice and detail",
+        "Version 2 saved to content/drafts/extraordinary-treehouses-america-v2.md"
+      ],
+      "priority": 8,
+      "passes": true,
+      "notes": "Sprint 2 complete. Cut cliches, fixed grammar, varied structures."
+    },
+    {
+      "id": "PUBLISH-002",
+      "title": "Finalize and output extraordinary treehouses post for Payload CMS",
+      "description": "Create the final publish-ready version with all fields needed to create the blog post in Payload CMS.",
+      "acceptanceCriteria": [
+        "Final post saved to content/published/extraordinary-treehouses-america.md",
+        "Frontmatter includes: title, subtitle, slug, excerpt, city, state, latitude, longitude, metaTitle, metaDescription, publishedAt, heroImage",
         "Body is clean markdown ready for Payload's rich text editor",
         "Stay embed markers clearly noted as [EMBED: stay-slug] placeholders",
-        "Word count: 1200-1800"
+        "All 10 stays included with correct slugs",
+        "Word count: 1800-2500"
       ],
-      "priority": 5,
-      "passes": false,
-      "notes": "Output is a file Jon uses to create the post in Payload admin at /admin."
+      "priority": 9,
+      "passes": true,
+      "notes": "Sprint 2 complete. Published version at content/published/extraordinary-treehouses-america.md"
     }
   ]
 }
