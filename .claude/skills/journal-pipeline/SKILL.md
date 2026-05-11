@@ -248,11 +248,24 @@ GET /api/stays?where[slug][equals]={stay-slug}&depth=0&limit=1
 # Collect: docs[0].id
 ```
 
-**Step 2: Upload hero image** (if external URL, not already in media collection)
+**Step 2: Upload hero image** (REQUIRED — every post needs one)
+
+Use the reusable CLI utility — it handles download, Vercel Blob upload, media record creation/patching, heroImage linking, ISR revalidation, and verification in one call:
+
 ```bash
-# Fetch image, then upload to Payload media
-# Use the two-step pattern from existing scripts
+pnpm exec tsx --env-file=.env.local scripts/set-hero-image.ts \
+  --slug "{post-slug}" \
+  --image "https://images.unsplash.com/photo-xxx?fm=jpg&q=85&w=2400&auto=format&fit=crop" \
+  --alt "Descriptive alt text for the image"
 ```
+
+Or programmatically in a publish script:
+```typescript
+import { uploadHeroImage } from './lib/upload-hero.js'
+await uploadHeroImage({ imageUrl, filename: `${slug}-hero.jpg`, alt, postSlug: slug })
+```
+
+The utility lives at `scripts/lib/upload-hero.ts`. It always uploads via `@vercel/blob` `put()` directly (not through Payload's upload pipeline, which stores locally in script context).
 
 **Step 3: Check for existing post**
 ```bash
