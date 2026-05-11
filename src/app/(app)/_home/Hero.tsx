@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence, useInView, animate } from 'framer-motion'
@@ -68,9 +68,18 @@ interface HeroProps {
 }
 
 export default function Hero({ categories, stats }: HeroProps) {
-  const slides = useMemo(() => shuffle(HERO_POOL).slice(0, SHOW_COUNT), [])
+  const [slides, setSlides] = useState(() => HERO_POOL.slice(0, SHOW_COUNT))
   const [active, setActive] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const mountedRef = useRef(false)
+
+  // Shuffle on client only to avoid hydration mismatch
+  useEffect(() => {
+    if (!mountedRef.current) {
+      setSlides(shuffle(HERO_POOL).slice(0, SHOW_COUNT))
+      mountedRef.current = true
+    }
+  }, [])
 
   const resetTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current)
