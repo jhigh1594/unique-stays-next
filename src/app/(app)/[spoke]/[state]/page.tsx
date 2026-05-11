@@ -4,6 +4,9 @@ import type { Metadata } from 'next'
 import { ArrowRight, ChevronRight } from 'lucide-react'
 import StayCard from '@/components/StayCard'
 import {
+  getPseoBreadcrumbJsonLd,
+  getPseoFaqs,
+  getPseoFaqJsonLd,
   getPseoIntro,
   getPseoItemListJsonLd,
   getPseoMetadata,
@@ -57,6 +60,9 @@ export default async function SpokeStatePage({
   const pageTitle = getPseoPageTitle(config, stateConfig.name)
   const intro = getPseoIntro(config, stateConfig.name, stays.length)
   const itemListJsonLd = getPseoItemListJsonLd({ baseUrl, config, stateName: stateConfig.name, stays })
+  const breadcrumbJsonLd = getPseoBreadcrumbJsonLd({ baseUrl, config, stateConfig })
+  const faqs = getPseoFaqs(config, stateConfig.name)
+  const faqJsonLd = faqs.length > 0 ? getPseoFaqJsonLd(faqs) : null
 
   return (
     <main className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
@@ -64,6 +70,16 @@ export default async function SpokeStatePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <section className="relative overflow-hidden border-b border-[oklch(0.88_0.025_75)]">
         <div className="absolute inset-0">
@@ -185,6 +201,44 @@ export default async function SpokeStatePage({
           )}
         </div>
       </section>
+
+      {faqs.length > 0 && (
+        <section
+          className="py-14 border-t border-[oklch(0.88_0.025_75)]"
+          style={{ background: 'oklch(0.965 0.015 85)' }}
+        >
+          <div className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
+            <h2
+              className="mb-6 text-2xl font-bold"
+              style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+            >
+              Frequently asked questions
+            </h2>
+            <div className="space-y-3">
+              {faqs.map((faq, i) => (
+                <details
+                  key={i}
+                  className="group border"
+                  style={{ borderColor: 'oklch(0.84 0.025 75)', borderRadius: '6px' }}
+                >
+                  <summary
+                    className="cursor-pointer px-5 py-4 text-sm font-semibold"
+                    style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: 'oklch(0.22 0.01 60)' }}
+                  >
+                    {faq.question}
+                  </summary>
+                  <p
+                    className="px-5 pb-4 text-sm leading-relaxed"
+                    style={{ color: 'oklch(0.45 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                  >
+                    {faq.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section
         className="border-t border-[oklch(0.88_0.025_75)] py-14"

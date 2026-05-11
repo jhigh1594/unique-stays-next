@@ -78,7 +78,7 @@ describe('pSEO route helpers', () => {
     const context = resolvePseoRouteContext({ spoke: 'pet-friendly', state: 'california' })
     expect(context).not.toBeNull()
 
-    const richMetadata = getPseoMetadata(context!, 2)
+    const richMetadata = getPseoMetadata(context!, 4)
     expect(richMetadata.title).toBe('Pet-Friendly Stays in California | UniqueStaysUSA')
     expect(richMetadata.alternates?.canonical).toBe('/pet-friendly/california')
     expect(richMetadata.robots).toBeUndefined()
@@ -115,9 +115,14 @@ describe('pSEO route helpers', () => {
   })
 
   it('keeps indexing and sitemap eligibility behind one policy', () => {
-    expect(getPseoIndexPolicy(1)).toEqual({
+    expect(getPseoIndexPolicy(3)).toEqual({
       isIndexable: true,
       isSitemapEligible: true,
+      stayCount: 3,
+    })
+    expect(getPseoIndexPolicy(1)).toEqual({
+      isIndexable: false,
+      isSitemapEligible: false,
       stayCount: 1,
     })
     expect(getPseoIndexPolicy(0)).toEqual({
@@ -131,15 +136,17 @@ describe('pSEO route helpers', () => {
     const counts = getPseoInventoryCounts([
       stay(),
       stay({ id: 2, state: 'California', spokes: ['unique', 'pet-friendly'] }),
-      stay({ id: 3, state: 'Atlantis', spokes: ['pet-friendly'] }),
-      stay({ id: 4, state: 'California', spokes: ['unknown-spoke'] }),
+      stay({ id: 3, state: 'California', spokes: ['pet-friendly'] }),
+      stay({ id: 4, state: 'California', spokes: ['unique', 'pet-friendly'] }),
+      stay({ id: 5, state: 'California', spokes: ['unknown-spoke'] }),
     ])
 
-    expect(counts.get(getPseoInventoryKey('pet-friendly', 'california'))).toBe(2)
-    expect(counts.get(getPseoInventoryKey('unique', 'california'))).toBe(1)
+    expect(counts.get(getPseoInventoryKey('pet-friendly', 'california'))).toBe(4)
+    expect(counts.get(getPseoInventoryKey('unique', 'california'))).toBe(2)
     expect(getPseoSitemapPaths(counts)).toEqual(
-      expect.arrayContaining(['/pet-friendly/california', '/unique/california'])
+      expect.arrayContaining(['/pet-friendly/california'])
     )
+    expect(getPseoSitemapPaths(counts)).not.toContain('/unique/california')
     expect(getPseoSitemapPaths(counts)).not.toContain('/rv-ready/california')
   })
 })
