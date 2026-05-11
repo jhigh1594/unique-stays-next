@@ -40,14 +40,18 @@ Research what to write before writing a single word.
 3. `scripts/ralph/progress.txt` — what's been done, learned patterns
 
 **If no topic specified — auto-select from calendar:**
-1. Parse the current month's table entries
-2. For each journal post entry, check if a matching published post exists:
+1. Parse `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md` — scan all monthly tables
+2. For each "Journal Post" entry, check the `Status` column:
+   - `Published` → skip (already done)
+   - `Planned` → candidate for this sprint
+3. Select the first `Planned` Journal Post entry (chronological order)
+4. Double-check by querying Payload for a matching slug/keyword (catches manual publishes):
    ```bash
    GET ${NEXT_PUBLIC_SERVER_URL}/api/blog-posts?where[status][equals]=published&depth=0&limit=50
    ```
-3. Select the first uncompleted entry
-4. Announce: "Starting autonomous creation of [topic] — next in calendar queue"
-5. Proceed directly to Phase 2
+5. If the Payload check finds a match, update the calendar Status to `Published` and move to next entry
+6. Announce: "Starting autonomous creation of [topic] — next in calendar queue"
+7. Proceed directly to Phase 2
 
 **Keyword research (always run):**
 1. Use WebSearch to check keyword volumes and difficulty for the target keyword
@@ -367,6 +371,11 @@ Append a sprint summary:
 - Word count: {N}
 - Quality score: {X}/10
 ```
+
+**Update `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md`:**
+1. Find the matching entry in the monthly tables
+2. Change the `Status` column from `Planned` to `Published`
+3. If the post doesn't match any calendar entry, add it to the "Completed (Pre-Calendar)" table at the top of the calendar
 
 **Record learned patterns** in the progress file (what worked, what to do differently next sprint).
 

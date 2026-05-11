@@ -69,65 +69,75 @@ Based on competitive analysis and existing content, here are our priority keywor
 
 ## Part 2: Content Calendar (Q3-Q4 2026)
 
+### Completed (Pre-Calendar)
+**Published before calendar was formalized — May 2026**
+
+| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+|------|--------------|-------------|-----------------|------|--------|
+| - | Journal Post | "The Best Unique Stays in Joshua Tree (Airstreams, Domes & Glass Villas)" | best unique stays in Joshua Tree | Authority building | Published |
+| - | Journal Post | "The 10 Most Extraordinary Treehouses in America" | best treehouse rentals USA, extraordinary treehouses America | Authority building, backlinks | Published |
+| - | Journal Post | "The Workcation Manifesto: Remote Work from a Treehouse" | remote work treehouse, work from anywhere unique stays | Target work-friendly spoke | Published |
+| - | Journal Post | "The 10 Best A-Frame Cabin Rentals in America" | best A-frame cabin rentals USA, A-frame cabins America | Authority building, backlinks | Published |
+
 ### July 2026: Foundation Building
 **Theme:** Launch core content pillars and lead magnets
 
-| Week | Content Type | Title/Topic | Target Keywords | Goal |
-|------|--------------|-------------|-----------------|------|
-| 1 | Lead Magnet | Glamping Cost Calculator v1 | glamping cost calculator, is glamping cheaper than a hotel | Email capture (aim: 500 emails) |
-| 2 | Journal Post | "Skip the Crowds: 10 Hidden Alternatives to National Parks" (expanded version) | alternatives to yellowstone, zion alternatives, less crowded national parks | Authority building, backlinks |
-| 3 | Programmatic | Launch all `[spoke]/[state]` pages (250 pages) | work-friendly cabins california, pet friendly treehouses colorado, etc. | Organic traffic foundation |
-| 4 | Journal Post | "The Remote Worker's Guide to Unique Stays: WiFi, Desks & Location" | remote work cabins, work from anywhere glamping, digital nomad unique stays | Target work-friendly spoke |
+| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+|------|--------------|-------------|-----------------|------|--------|
+| 1 | Lead Magnet | Glamping Cost Calculator v1 | glamping cost calculator, is glamping cheaper than a hotel | Email capture (aim: 500 emails) | Planned |
+| 2 | Journal Post | "Skip the Crowds: 10 Hidden Alternatives to National Parks" (expanded version) | alternatives to yellowstone, zion alternatives, less crowded national parks | Authority building, backlinks | Published |
+| 3 | Programmatic | Launch all `[spoke]/[state]` pages (250 pages) | work-friendly cabins california, pet friendly treehouses colorado, etc. | Organic traffic foundation | Planned |
+| 4 | Journal Post | "The Remote Worker's Guide to Unique Stays: WiFi, Desks & Location" | remote work cabins, work from anywhere glamping, digital nomad unique stays | Target work-friendly spoke | Planned |
 
 ### August 2026: Seasonal & Activity Focus
 **Theme:** Late summer/fall activities and seasonal planning
 
-| Week | Content Type | Title/Topic | Target Keywords | Goal |
-|------|--------------|-------------|-----------------|------|
-| 1 | Lead Magnet | Fall Foliage Unique Stay Finder | fall foliage cabins, autumn treehouse rentals, leaf peeping accommodations | Seasonal email capture |
-| 2 | Journal Post | "Stargazing Getaways: Best Dark Sky Unique Stays for Milky Way Views" | stargazing cabins, dark sky glamping, astronomy unique stays | Target experiential travelers |
-| 3 | Journal Post | "Fishing Cabins: Top Unique Stays for Anglers Across America" | fishing cabins, fly fishing retreats, anglers unique stays | Niche activity targeting |
-| 4 | Programmatic | Add activity filters to spoke/state pages (e.g., `/work-friendly/california?hasDesk=true`) | remote work cabins with desk california, pet friendly cabins fenced yard | Long-tail expansion |
+| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+|------|--------------|-------------|-----------------|------|--------|
+| 1 | Lead Magnet | Fall Foliage Unique Stay Finder | fall foliage cabins, autumn treehouse rentals, leaf peeping accommodations | Seasonal email capture | Planned |
+| 2 | Journal Post | "Stargazing Getaways: Best Dark Sky Unique Stays for Milky Way Views" | stargazing cabins, dark sky glamping, astronomy unique stays | Target experiential travelers | Planned |
+| 3 | Journal Post | "Fishing Cabins: Top Unique Stays for Anglers Across America" | fishing cabins, fly fishing retreats, anglers unique stays | Niche activity targeting | Planned |
+| 4 | Programmatic | Add activity filters to spoke/state pages (e.g., `/work-friendly/california?hasDesk=true`) | remote work cabins with desk california, pet friendly cabins fenced yard | Long-tail expansion | Planned |
 
 ### September 2026: Pre-October Push
 **Theme:** Peak fall travel planning and winter preparation
 
-| Week | Content Type | Title/Topic | Target Keywords | Goal |
-|------|--------------|-------------|-----------------|------|
-| 1 | Journal Post | "October Unique Stays: Fall Color, Fewer Crowds, Cozy Nights" | october cabin getaways, fall foliage treehouses, autumn glamping deals | Capture fall planners |
-| 2 | Lead Magnet | Winter Escape Budget Calculator | winter cabin getaways under $150, affordable ski town lodging | Winter season prep |
-| 3 | Journal Post | "Snow Globe Stays: Unique Cabins with Hot Tub & Fireplace Access" | winter cabins with hot tub, ski in ski out glamping, fireplace cabins | Target winter travelers |
-| 4 | Journal Post | "Thanksgiving Getaways: Unique Stays for Holiday Celebrations" | thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals | Holiday travel capture |
+| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+|------|--------------|-------------|-----------------|------|--------|
+| 1 | Journal Post | "October Unique Stays: Fall Color, Fewer Crowds, Cozy Nights" | october cabin getaways, fall foliage treehouses, autumn glamping deals | Capture fall planners | Planned |
+| 2 | Lead Magnet | Winter Escape Budget Calculator | winter cabin getaways under $150, affordable ski town lodging | Winter season prep | Planned |
+| 3 | Journal Post | "Snow Globe Stays: Unique Cabins with Hot Tub & Fireplace Access" | winter cabins with hot tub, ski in ski out glamping, fireplace cabins | Target winter travelers | Planned |
+| 4 | Journal Post | "Thanksgiving Getaways: Unique Stays for Holiday Celebrations" | thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals | Holiday travel capture | Planned |
 
 ### October 2026: Peak Season Content
 **Theme:** Peak fall foliage and Halloween/Thanksgiving travel
 
-| Week | Content Type | Title/Topic | Target Keywords | Goal |
-|------|--------------|-------------|-----------------|------|
-| 1 | Journal Post | "Halloween Getaways: Spooky & Secluded Unique Stays" | halloween cabin rentals, spooky treehouse stays, october 31 unique stays | Seasonal event traffic |
-| 2 | Lead Magnet | Thanksgiving Meal Planner for Cabins | thanksgiving dinner cabin rental, friendsgiving cooking facilities | Holiday-specific capture |
-| 3 | Journal Post | "Black Friday to Cyber Monday: Unique Stay Deals & Early Booking Guide" | black friday cabin deals, cyber monday glamping discounts, november travel deals | Commercial intent capture |
-| 4 | Programmatic | Review & optimize underperforming spoke/state pages | [analyze via GSC] | Continuous improvement |
+| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+|------|--------------|-------------|-----------------|------|--------|
+| 1 | Journal Post | "Halloween Getaways: Spooky & Secluded Unique Stays" | halloween cabin rentals, spooky treehouse stays, october 31 unique stays | Seasonal event traffic | Planned |
+| 2 | Lead Magnet | Thanksgiving Meal Planner for Cabins | thanksgiving dinner cabin rental, friendsgiving cooking facilities | Holiday-specific capture | Planned |
+| 3 | Journal Post | "Black Friday to Cyber Monday: Unique Stay Deals & Early Booking Guide" | black friday cabin deals, cyber monday glamping discounts, november travel deals | Commercial intent capture | Planned |
+| 4 | Programmatic | Review & optimize underperforming spoke/state pages | [analyze via GSC] | Continuous improvement | Planned |
 
 ### November 2026: Winter & Holiday Focus
 **Theme:** Winter travel planning and year-end content
 
-| Week | Content Type | Title/Topic | Target Keywords | Goal |
-|------|--------------|-------------|-----------------|------|
-| 1 | Journal Post | "Winter Wonderland: Top Unique Stays for Snowshoeing & Cross-Country Skiing" | winter cabin rentals, snowshoeing accommodations, cross country ski cabins | Winter activity targeting |
-| 2 | Lead Magnet | New Year's Eve Stay Finder | new year's eve cabin rentals, december 31 unique stays, party cabin nyc | Holiday capture |
-| 3 | Journal Post | "Year in Review: Most Booked Unique Stays of 2026 & Trends for 2027" | most popular treehouse rentals, unique stays trends 2027, best glamping spots 2026 | Authority + future planning |
-| 4 | Journal Post | "Solstice Stays: Unique Properties for Winter & Summer Solstice Celebrations" | winter solstice cabin rental, summer solstice unique stays, longest day getaways | Niche seasonal content |
+| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+|------|--------------|-------------|-----------------|------|--------|
+| 1 | Journal Post | "Winter Wonderland: Top Unique Stays for Snowshoeing & Cross-Country Skiing" | winter cabin rentals, snowshoeing accommodations, cross country ski cabins | Winter activity targeting | Planned |
+| 2 | Lead Magnet | New Year's Eve Stay Finder | new year's eve cabin rentals, december 31 unique stays, party cabin nyc | Holiday capture | Planned |
+| 3 | Journal Post | "Year in Review: Most Booked Unique Stays of 2026 & Trends for 2027" | most popular treehouse rentals, unique stays trends 2027, best glamping spots 2026 | Authority + future planning | Planned |
+| 4 | Journal Post | "Solstice Stays: Unique Properties for Winter & Summer Solstice Celebrations" | winter solstice cabin rental, summer solstice unique stays, longest day getaways | Niche seasonal content | Planned |
 
 ### December 2026: Planning & Reflection
 **Theme:** Year-end planning and inspiration for 2027
 
-| Week | Content Type | Title/Topic | Target Keywords | Goal |
-|------|--------------|-------------|-----------------|------|
-| 1 | Lead Magnet | 2027 Travel Planner: Unique Stays Edition | 2027 travel plans, bucket list unique stays, travel goals cabin rental | Early 2027 capture |
-| 2 | Journal Post | "Indoor-Outdoor Living: Unique Stays with Screened Porches & Sunrooms" | screened porch cabins, sunroom unique stays, indoor outdoor glamping | Amenity-focused content |
-| 3 | Journal Post | "The Art of Slow Travel: Why Unique Stays Beat Hotels for Deeper Experiences" | slow travel accommodations, mindful travel unique stays, disconnect to reconnect | Brand building |
-| 4 | Planning | Q1 2027 Content Strategy Review | [internal] | Strategy refinement |
+| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+|------|--------------|-------------|-----------------|------|--------|
+| 1 | Lead Magnet | 2027 Travel Planner: Unique Stays Edition | 2027 travel plans, bucket list unique stays, travel goals cabin rental | Early 2027 capture | Planned |
+| 2 | Journal Post | "Indoor-Outdoor Living: Unique Stays with Screened Porches & Sunrooms" | screened porch cabins, sunroom unique stays, indoor outdoor glamping | Amenity-focused content | Planned |
+| 3 | Journal Post | "The Art of Slow Travel: Why Unique Stays Beat Hotels for Deeper Experiences" | slow travel accommodations, mindful travel unique stays, disconnect to reconnect | Brand building | Planned |
+| 4 | Planning | Q1 2027 Content Strategy Review | [internal] | Strategy refinement | Planned |
 
 ## Part 3: Content Creation Guidelines
 
@@ -181,9 +191,11 @@ Based on competitive analysis and existing content, here are our priority keywor
 
 ### Current Assets to Leverage
 1. **Existing Content**:
-   - "Skip the Crowds: 10 Alternatives to America's Most Overcrowded Destinations"
-   - "The Best Unique Stays in Joshua Tree"
-   - Top 10 Hidden Untouched Places USA
+   - "The Best Unique Stays in Joshua Tree" — `/journal/best-unique-stays-joshua-tree`
+   - "The 10 Most Extraordinary Treehouses in America" — `/journal/most-extraordinary-treehouses-america`
+   - "The Workcation Manifesto: Remote Work from a Treehouse" — `/journal/workcation-manifesto-remote-work-treehouse`
+   - "The 10 Best A-Frame Cabin Rentals in America" — `/journal/best-aframe-cabins-america`
+   - "Skip the Crowds: 10 National Park Alternatives With Extraordinary Places to Stay" — `/journal/skip-the-crowds-national-park-alternatives`
 
 2. **Planned Infrastructure**:
    - Journal section at `/journal` (already in codebase)
