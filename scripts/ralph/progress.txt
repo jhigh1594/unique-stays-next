@@ -143,3 +143,50 @@ Candidates for Sprint 4: Stargazing Getaways (calendar), Fishing Cabins (calenda
 
 ### Next
 Candidates for Sprint 5: Stargazing Getaways (calendar Week 2 Aug), Fishing Cabins (calendar Week 3 Aug), or "Work-From-Anywhere Dispatch" (calendar Week 4 Jul)
+
+### Sprint 5: Stargazing Getaways
+
+**PLAN-005** ✓ — Stargazing getaways activity-based guide:
+- Target keywords: "stargazing cabins", "dark sky glamping", "astronomy unique stays"
+- 10 stays across 10 states (GA, NC, CA, UT, TX, WI, UT, AR, VA, OR), 4 regions
+- Format: Activity-Based Guide — organized by the kind of darkness
+- Word count target: ~2,100 words
+- Competitive angle: every competitor is a generic listicle — ours pairs each stay with specific dark-sky context (Bortle scale, DarkSky certifications) and bookable polaroid embeds
+
+**RESEARCH-005** ✓ — Stay data collected for all 10 stargazing stays:
+- Specific details identified: 313 five-star reviews + skydeck at 20 feet (GA), skylight over bed + creek sounds (NC), purpose-built dome + $579/16 people math (CA), fifteen-minute eye adjustment (UT), International Dark Sky Park designation (TX), 20-foot Colorado Yurt + Apostle Islands (WI), DarkSky certification + 2,140 reviews (UT), OMG Fund 1 of 100 from 40k entries (AR), Appalachian light barriers (VA), ponderosa forest + working tree farm (OR)
+
+**WRITE-005** ✓ — First draft: content/drafts/stargazing-getaways-dark-sky-unique-stays.md
+- ~2,100 words, 10 stays with distinct editorial voices
+- Organized by the kind of darkness: Skydeck, Stargazing from Bed, Purpose-Built Dome, Darkest Southwest, Big Bend, Lake Superior, DarkSky Certified, Planetarium, Blue Ridge, Silo
+- "How Dark Is Dark Enough" closing section with Bortle scale framework and decision guide
+
+**SEO-005** ✓ — Keyword optimized:
+- Primary keyword in title, metaTitle (42 chars), first 100 words, H2, metaDescription (145 chars), excerpt
+- Definition block added in opening paragraph
+- FAQ section with 5 questions (Bortle scale, Milky Way visibility, dark sky locations, timing, cost)
+- 2 internal links (Joshua Tree post, Skip the Crowds post)
+- Long-tail variations woven naturally (dark sky glamping, astronomy unique stays, stargazing cabins)
+
+**REVIEW-005** ✓ — Quality score: 8.85/10
+- Zero banned words (fixed "cozy" → "intimate"), zero exclamation marks
+- All 10 stays pass Irish Storytelling Test
+- Feeling-first principle maintained throughout
+- "How Dark Is Dark Enough" section with Bortle scale framework is a decision tool competitors don't provide
+
+**PUBLISH-005** ✓ — Published at: /journal/stargazing-getaways-dark-sky-unique-stays (Payload ID: 9)
+- 10 stayEmbed blocks linked
+- Status: published
+- No hero image uploaded yet (no external image source available)
+
+### Patterns (Sprint 5)
+- "The kind of darkness" organizational theme works better than geography for stargazing — readers care about sky quality, not state lines
+- Bortle scale framework provides genuine practical value that competitors lack — it's a decision tool, not just advice
+- Big Bend's International Dark Sky Park designation is the strongest credibility anchor — an objective, verifiable standard
+- Under Canvas Moab at 2,140 reviews is an order of magnitude beyond any other stay — the DarkSky certification + review volume combo is compelling
+- The OMG Fund detail (1 of 100 from 40k entries) gives the Arkansas treehouse instant credibility — a third-party validation no other stay has
+- Price range from $125 to $579 gives genuine budget diversity — the "How Dark Is Dark Enough" section cross-references this well
+- No hero image uploaded — need to source one separately (Milky Way over geodesic dome)
+
+### Next
+Candidates for Sprint 6: Fishing Cabins (calendar Week 3 Aug), Work-From-Anywhere Dispatch (calendar Week 4 Jul), or October Unique Stays (calendar Week 1 Sep)

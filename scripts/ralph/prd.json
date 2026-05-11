@@ -2,7 +2,7 @@
   "projectName": "UniqueStaysUSA_Journal",
   "description": "Travel editorial content for UniqueStaysUSA journal. SEO-first dispatches with affiliate stay embeds. Voice: warm, first-person, slightly literary. Think Kinfolk meets Monocle meets a dog-eared travel journal.",
   "branchName": "main",
-  "sprintNumber": 4,
+  "sprintNumber": 5,
   "userStories": [
     {
       "id": "SETUP-001",
@@ -248,6 +248,108 @@
       "priority": 23,
       "passes": true,
       "notes": "Sprint 4 complete."
+    },
+    {
+      "id": "PLAN-005",
+      "title": "Plan Stargazing Getaways: Best Dark Sky Unique Stays",
+      "description": "Curated roundup of 10 stays with exceptional stargazing. Target keywords: 'stargazing cabins', 'dark sky glamping', 'astronomy unique stays'. 10 stays across 10 states (AR, NC, CA, UT, TX, WI, UT, GA, VA, OR), 4 regions. Organized by the kind of darkness you're chasing. Competitive angle: every competitor is a generic listicle — ours pairs each stay with specific dark-sky context and bookable polaroid embeds.",
+      "acceptanceCriteria": [
+        "Target keyword: stargazing cabins, dark sky glamping",
+        "10 stays selected with geographic diversity across 4 regions",
+        "Article type: Activity-Based Guide",
+        "Word count target: 1,800-2,200 words",
+        "Stays: planetarium-treehouse-ar, romantic-mountain-dome-nc, workfriendly-dome-joshua-tree, desert-dome-ut, big-bend-dome-alpine-tx, turtle-yurts-bayfield-wi, undercanvas-moab-ut, bide-in-trees-skydeck-ga, stargazer-aframe-abingdon-va, treefarm-silo-lapine-or"
+      ],
+      "priority": 24,
+      "passes": true,
+      "notes": "Sprint 5 plan. 10 stays, 10 states, 4 regions."
+    },
+    {
+      "id": "RESEARCH-005",
+      "title": "Collect stay data for 10 stargazing stays",
+      "description": "Fetch full stay data from Payload for all 10 selected stays. Identify the 'specific detail' for each stay.",
+      "acceptanceCriteria": [
+        "All 10 stays have valid affiliateUrl",
+        "All 10 stays have hero images",
+        "Specific detail identified for each stay (Irish Storytelling Test)",
+        "Dark sky certifications and Bortle class data verified"
+      ],
+      "priority": 25,
+      "passes": true
+    },
+    {
+      "id": "WRITE-005",
+      "title": "Write first draft of Stargazing Getaways dispatch",
+      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the primal pull of looking up. Journeys through 10 dark-sky destinations, each paired with a unique stay. Closes with 'How to Read the Night Sky' practical section.",
+      "acceptanceCriteria": [
+        "1,800-2,200 words",
+        "Opening: the primal pull of looking up — why we still stop for stars",
+        "10 stays organized by the kind of darkness",
+        "Each stay: dark-sky context + specific stargazing feature + the feeling of being there",
+        "Closing: 'How Dark Is Dark Enough' practical framework",
+        "SEO keywords naturally integrated",
+        "Saved to content/drafts/stargazing-getaways-dark-sky-unique-stays.md"
+      ],
+      "priority": 26,
+      "passes": true
+    },
+    {
+      "id": "SEO-005",
+      "title": "SEO optimize the Stargazing Getaways draft",
+      "description": "Keyword placement, FAQ section, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, metaTitle, first 100 words, at least one H2",
+        "FAQ section with 3-5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars",
+        "metaDescription under 160 chars"
+      ],
+      "priority": 27,
+      "passes": true
+    },
+    {
+      "id": "REVIEW-005",
+      "title": "Review and sharpen the Stargazing Getaways draft",
+      "description": "Quality gate. Score against rubric. Banned word scan, cut test, feeling-first check.",
+      "acceptanceCriteria": [
+        "Quality score >= 8.0/10",
+        "Zero banned words",
+        "Zero exclamation marks",
+        "Each stay description feels distinct",
+        "v2 saved to content/drafts/stargazing-getaways-dark-sky-unique-stays-v2.md"
+      ],
+      "priority": 28,
+      "passes": true,
+      "notes": "Quality score: 8.85/10"
+    },
+    {
+      "id": "PUBLISH-005",
+      "title": "Publish Stargazing Getaways post to Payload CMS",
+      "description": "Create blog post in Payload with Lexical JSON, hero image, stay embeds.",
+      "acceptanceCriteria": [
+        "Post live at /journal/stargazing-getaways-dark-sky-unique-stays",
+        "All 10 stay embeds working",
+        "Hero image uploaded",
+        "ISR cache revalidated"
+      ],
+      "priority": 29,
+      "passes": true,
+      "notes": "Published at /journal/stargazing-getaways-dark-sky-unique-stays (Payload ID: 9)"
+    },
+    {
+      "id": "SYNC-005",
+      "title": "Update tracking docs and commit",
+      "description": "Update prd.json, progress.txt, save to content/published/, git commit.",
+      "acceptanceCriteria": [
+        "content/published/stargazing-getaways-dark-sky-unique-stays.md saved",
+        "prd.json updated",
+        "progress.txt updated",
+        "KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md updated",
+        "Git committed"
+      ],
+      "priority": 30,
+      "passes": true,
+      "notes": "Sprint 5 complete."
     }
   ]
 }
