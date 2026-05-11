@@ -87,7 +87,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 | 1 | Lead Magnet | Glamping Cost Calculator v1 | glamping cost calculator, is glamping cheaper than a hotel | Email capture (aim: 500 emails) | Planned |
 | 2 | Journal Post | "Skip the Crowds: 10 Hidden Alternatives to National Parks" (expanded version) | alternatives to yellowstone, zion alternatives, less crowded national parks | Authority building, backlinks | Published |
 | 3 | Programmatic | Launch all `[spoke]/[state]` pages (250 pages) | work-friendly cabins california, pet friendly treehouses colorado, etc. | Organic traffic foundation | Planned |
-| 4 | Journal Post | "The Remote Worker's Guide to Unique Stays: WiFi, Desks & Location" | remote work cabins, work from anywhere glamping, digital nomad unique stays | Target work-friendly spoke | Planned |
+| 4 | Journal Post | "The Remote Worker's Guide to Unique Stays: WiFi, Desks & Location" | remote work cabins, work from anywhere glamping, digital nomad unique stays | Target work-friendly spoke | Published |
 
 ### August 2026: Seasonal & Activity Focus
 **Theme:** Late summer/fall activities and seasonal planning

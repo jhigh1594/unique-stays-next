@@ -190,3 +190,47 @@ Candidates for Sprint 5: Stargazing Getaways (calendar Week 2 Aug), Fishing Cabi
 
 ### Next
 Candidates for Sprint 6: Fishing Cabins (calendar Week 3 Aug), Work-From-Anywhere Dispatch (calendar Week 4 Jul), or October Unique Stays (calendar Week 1 Sep)
+
+### Sprint 6: Remote Worker's Guide
+
+**PLAN-006** ✓ — Remote work cabins, Activity-Based Guide, 10 stays selected
+- Target keywords: "remote work cabins", "work from anywhere unique stays", "digital nomad cabins USA"
+- 10 stays across 10 states (ME, VT, IL, CA, OR, WA, OK, SC, CO, NC), 5 regions
+- Competitive angle: every competitor is a generic listicle — ours includes verified WiFi speeds (150-500 Mbps), desk availability, and practical connectivity framework
+
+**RESEARCH-006** ✓ — Stay data collected for all 10 work-friendly stays:
+- Specific details identified: private lighthouse on Chauncey Creek with dock (ME), 1860s restored farmhouse on Appalachian Trail (VT), 500 Mbps fiber in Shawnee NF (IL), floor-to-ceiling Mojave glass (CA), Cascade panoramas every window (OR), orca whale deck (WA), darkest Oklahoma skies (OK), every room faces Atlantic (SC), 229 reviews most-reviewed (CO), $179 with 500 Mbps dedicated workspace (NC)
+
+**WRITE-006** ✓ — First draft: content/drafts/remote-workers-guide-unique-stays.md
+- ~2,100 words, 10 stays with distinct editorial voices
+- Organized by the kind of office: Lighthouse, Farm Desk, Fiber Dome, Desert Connection, Cascade Window, Island Office, Forest Signal, Beach Desk, Creekside Signal, Budget Office
+- "Finding the Right Remote Work Cabin" decision framework + "What to Know Before You Work From Anywhere" practical section
+
+**SEO-006** ✓ — Keyword optimized:
+- Primary keyword in title, metaTitle (51 chars), first 100 words, H2, metaDescription (147 chars), excerpt
+- FAQ section with 5 questions
+- 2 internal links (Joshua Tree post, Stargazing post)
+- Long-tail variations woven naturally
+
+**REVIEW-006** ✓ — Quality score: 8.60/10
+- Zero banned words (1 flagged "not perfect" — honest qualifier, not banned pattern)
+- Zero exclamation marks
+- All 10 stays pass Irish Storytelling Test
+- Feeling-first principle maintained throughout
+- v2: content/drafts/remote-workers-guide-unique-stays-v2.md
+
+**PUBLISH-006** ✓ — Published at: /journal/remote-workers-guide-unique-stays (Payload ID: 10)
+- 10 stayEmbed blocks linked
+- Hero image uploaded (Unsplash cabin workspace → Vercel Blob)
+- Status: published
+
+### Patterns (Sprint 6)
+- "The kind of office" organizational theme works well for activity guides — readers compare work environments, not geography
+- Verified WiFi speeds (150-500 Mbps) are the key differentiator no competitor provides
+- Price range $179-$625 with a genuine budget option creates a practical decision framework
+- The "How to Choose" section with bold categories (fastest, isolation, groups, budget, splurge) is more useful than ranked lists
+- Internal links to Joshua Tree and Stargazing posts fit naturally into editorial prose
+- "Not perfect" is honest editorial voice, not a banned word — the quality rubric should distinguish between genuine qualification and overselling
+
+### Next
+Candidates for Sprint 7: Fishing Cabins (calendar Week 3 Aug), October Unique Stays (calendar Week 1 Sep), or Snow Globe Stays (calendar Week 3 Sep)

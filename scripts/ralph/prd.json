@@ -2,7 +2,7 @@
   "projectName": "UniqueStaysUSA_Journal",
   "description": "Travel editorial content for UniqueStaysUSA journal. SEO-first dispatches with affiliate stay embeds. Voice: warm, first-person, slightly literary. Think Kinfolk meets Monocle meets a dog-eared travel journal.",
   "branchName": "main",
-  "sprintNumber": 5,
+  "sprintNumber": 6,
   "userStories": [
     {
       "id": "SETUP-001",
@@ -350,6 +350,107 @@
       "priority": 30,
       "passes": true,
       "notes": "Sprint 5 complete."
+    },
+    {
+      "id": "PLAN-006",
+      "title": "Plan The Remote Worker's Guide to Unique Stays",
+      "description": "Activity-based guide covering 10 work-friendly stays with verified WiFi speeds, desk availability, and practical connectivity framework. Target keywords: 'remote work cabins', 'work from anywhere unique stays', 'digital nomad cabins USA'. 10 stays across 10 states (ME, VT, IL, CA, OR, WA, OK, SC, CO, NC), 5 regions. Organized by the kind of office you're escaping to.",
+      "acceptanceCriteria": [
+        "Target keyword: remote work cabins, work from anywhere unique stays",
+        "10 stays selected with geographic diversity across 5 regions",
+        "Article type: Activity-Based Guide (Type 4)",
+        "Word count target: 1,800-2,200 words",
+        "Stays: lighthouse-maine, workfriendly-farmhouse-vermont, shawnee-forest-dome-il, wander-joshua-tree-starfall, wander-bend-retreat, wander-friday-harbor, wander-broken-bow-trails, wander-folly-beach, aframe-colorado, nomad-cabin-asheville"
+      ],
+      "priority": 31,
+      "passes": true,
+      "notes": "Sprint 6 plan. 10 stays, 10 states, 5 regions."
+    },
+    {
+      "id": "RESEARCH-006",
+      "title": "Collect stay data for 10 work-friendly stays",
+      "description": "Fetch full stay data from Payload for all 10 selected stays. Identify the 'specific detail' for each stay.",
+      "acceptanceCriteria": [
+        "All 10 stays have valid affiliateUrl",
+        "All 10 stays have hero images",
+        "Specific detail identified for each stay (Irish Storytelling Test)",
+        "WiFi speeds verified (150-500 Mbps range)"
+      ],
+      "priority": 32,
+      "passes": true
+    },
+    {
+      "id": "WRITE-006",
+      "title": "Write first draft of Remote Worker's Guide",
+      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the Wednesday afternoon dread. Journeys through 10 work environments, each with verified connectivity data. Closes with practical 'How to Choose' framework and FAQ.",
+      "acceptanceCriteria": [
+        "1,800-2,200 words",
+        "Opening: the Wednesday afternoon dread — the creative edge is gone",
+        "10 stays organized by the kind of office",
+        "Each stay: WiFi speed + specific work detail + the feeling of being there",
+        "Closing: 'How to Choose' practical framework + FAQ",
+        "Saved to content/drafts/remote-workers-guide-unique-stays.md"
+      ],
+      "priority": 33,
+      "passes": true
+    },
+    {
+      "id": "SEO-006",
+      "title": "SEO optimize the Remote Worker's Guide draft",
+      "description": "Keyword placement, FAQ section, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, metaTitle, first 100 words, at least one H2",
+        "FAQ section with 5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars",
+        "metaDescription under 160 chars"
+      ],
+      "priority": 34,
+      "passes": true
+    },
+    {
+      "id": "REVIEW-006",
+      "title": "Review and sharpen the Remote Worker's Guide draft",
+      "description": "Quality gate. Score against rubric. Banned word scan, cut test, feeling-first check.",
+      "acceptanceCriteria": [
+        "Quality score >= 8.0/10",
+        "Zero banned words",
+        "Zero exclamation marks",
+        "Each stay description feels distinct",
+        "v2 saved to content/drafts/remote-workers-guide-unique-stays-v2.md"
+      ],
+      "priority": 35,
+      "passes": true,
+      "notes": "Quality score: 8.60/10"
+    },
+    {
+      "id": "PUBLISH-006",
+      "title": "Publish Remote Worker's Guide to Payload CMS",
+      "description": "Create blog post in Payload with Lexical JSON, hero image, stay embeds.",
+      "acceptanceCriteria": [
+        "Post live at /journal/remote-workers-guide-unique-stays",
+        "All 10 stay embeds working",
+        "Hero image uploaded",
+        "ISR cache revalidated"
+      ],
+      "priority": 36,
+      "passes": true,
+      "notes": "Published at /journal/remote-workers-guide-unique-stays (Payload ID: 10)"
+    },
+    {
+      "id": "SYNC-006",
+      "title": "Update tracking docs and commit",
+      "description": "Update prd.json, progress.txt, calendar, save to content/published/, git commit.",
+      "acceptanceCriteria": [
+        "content/published/remote-workers-guide-unique-stays.md saved",
+        "prd.json updated",
+        "progress.txt updated",
+        "KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md updated",
+        "Git committed"
+      ],
+      "priority": 37,
+      "passes": true,
+      "notes": "Sprint 6 complete."
     }
   ]
 }
