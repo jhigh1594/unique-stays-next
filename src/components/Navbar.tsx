@@ -34,7 +34,6 @@ export default function Navbar() {
 
   const isOnSpoke = SPOKE_SLUGS.some((s) => pathname === `/${s}`)
   const isDetailPage = pathname.startsWith('/stays/')
-  const hideNav = pathname === '/journal'
   const usesLightNav = scrolled || isDetailPage
 
   const navLinks = [
@@ -43,8 +42,6 @@ export default function Navbar() {
     { href: '/about', label: 'About' },
     { href: '/submit', label: 'Submit a Stay' },
   ]
-
-  if (hideNav) return null
 
   return (
     <>
