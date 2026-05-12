@@ -494,6 +494,7 @@ body:has(.journal-hero) nextjs-portal {
 }
 
 .journal-hero__wrap {
+  --hero-nav-clearance: clamp(3.25rem, 3.4vw, 3.6rem);
   position: relative;
   z-index: 1;
   width: min(100vw, calc(100svh * 1606 / 979));
@@ -576,7 +577,7 @@ body:has(.journal-hero) nextjs-portal {
 .journal-hero__text {
   position: absolute;
   left: 7.1%;
-  top: 5.9%;
+  top: calc(5.9% + var(--hero-nav-clearance));
   z-index: 10;
   width: 55.1%;
 }
@@ -653,7 +654,7 @@ body:has(.journal-hero) nextjs-portal {
 
 .journal-hero__polaroid--lighthouse {
   left: 33.62%;
-  top: 52.6%;
+  top: calc(52.6% + var(--hero-nav-clearance));
   width: 18.24%;
   height: 38.81%;
   transform: rotate(-6.1deg);
@@ -661,7 +662,7 @@ body:has(.journal-hero) nextjs-portal {
 
 .journal-hero__polaroid--treehouse {
   left: 54.36%;
-  top: 31.66%;
+  top: calc(31.66% + var(--hero-nav-clearance));
   width: 18.37%;
   height: 37.38%;
   transform: rotate(-4deg);
@@ -669,7 +670,7 @@ body:has(.journal-hero) nextjs-portal {
 
 .journal-hero__polaroid--dome {
   left: 75.97%;
-  top: 9.4%;
+  top: calc(9.4% + var(--hero-nav-clearance));
   width: 19.49%;
   height: 42.19%;
   transform: rotate(5.6deg);
@@ -788,6 +789,7 @@ body:has(.journal-hero) nextjs-portal {
   height: 100%;
   overflow: visible;
   pointer-events: none;
+  transform: translateY(var(--hero-nav-clearance));
 }
 
 .journal-hero__route-path {
@@ -838,27 +840,27 @@ body:has(.journal-hero) nextjs-portal {
 
 .journal-hero__pin--lighthouse {
   left: 42.34%;
-  top: 50.15%;
+  top: calc(50.15% + var(--hero-nav-clearance));
 }
 
 .journal-hero__pin--treehouse {
   left: 63.2%;
-  top: 29.31%;
+  top: calc(29.31% + var(--hero-nav-clearance));
 }
 
 .journal-hero__pin--dome {
   left: 85.93%;
-  top: 7.87%;
+  top: calc(7.87% + var(--hero-nav-clearance));
 }
 
 .journal-hero__pin--route-a {
   left: 26.4%;
-  top: 82.64%;
+  top: calc(82.64% + var(--hero-nav-clearance));
 }
 
 .journal-hero__pin--route-b {
   left: 73.41%;
-  top: 19.82%;
+  top: calc(19.82% + var(--hero-nav-clearance));
   width: 1.18cqw;
   height: 1.18cqw;
 }
