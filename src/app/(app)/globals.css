@@ -450,12 +450,25 @@
   position: relative;
   z-index: 1;
   display: grid;
-  place-items: center;
-  min-height: 100svh;
+  place-items: start center;
   background:
     radial-gradient(circle at 50% 35%, rgba(236, 218, 179, 0.08), transparent 38%),
     linear-gradient(180deg, #1f211f, #070807 72%);
   overflow: hidden;
+}
+
+.journal-hero::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 38;
+  height: clamp(5rem, 9vw, 9rem);
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent, rgba(12, 13, 9, 0.42) 34%, oklch(0.88 0.035 72) 100%),
+    radial-gradient(ellipse at 50% 100%, oklch(0.76 0.05 70 / 0.45), transparent 62%);
 }
 
 body:has(.journal-hero) nextjs-portal {
@@ -1071,14 +1084,18 @@ body:has(.journal-hero) nextjs-portal {
 
 .journal-board {
   position: relative;
-  margin: 0 clamp(0.75rem, 2vw, 2rem) clamp(4rem, 8vw, 7rem);
-  padding: clamp(1.25rem, 4vw, 4rem);
+  z-index: 4;
+  margin: clamp(0.75rem, 1.4vw, 1.5rem) clamp(0.75rem, 2vw, 2rem) clamp(4rem, 8vw, 7rem);
+  padding: clamp(1.75rem, 4.5vw, 4.5rem) clamp(1.25rem, 4vw, 4rem) clamp(1.25rem, 4vw, 4rem);
   background:
+    linear-gradient(180deg, oklch(0.91 0.032 74 / 0.98), transparent 11rem),
     radial-gradient(ellipse at 30% 20%, oklch(0.82 0.04 75 / 0.15), transparent 60%),
     radial-gradient(ellipse at 70% 80%, oklch(0.72 0.05 65 / 0.1), transparent 50%),
     linear-gradient(175deg, oklch(0.88 0.035 72), oklch(0.82 0.04 68));
   border: 1px solid oklch(0.70 0.055 70);
+  border-top-color: oklch(0.76 0.052 72);
   box-shadow:
+    0 -1.25rem 3.5rem oklch(0.18 0.018 80 / 0.22),
     inset 0 0 0 0.55rem oklch(0.50 0.07 58 / 0.12),
     0 2rem 5rem oklch(0.22 0.012 60 / 0.16);
 }
