@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 
 const ASSET_BASE = '/prototypes/journal-hero-pixel-match'
 const HERO_IMAGE = `${ASSET_BASE}/background.png`
@@ -98,15 +97,6 @@ export default function JournalHero() {
             </h1>
 
             <p className="journal-hero__sub">{SUB}</p>
-
-            <div className="journal-hero__ctas">
-              <Link href="#board" className="journal-hero__btn journal-hero__btn--primary">
-                Browse All Stories &rarr;
-              </Link>
-              <Link href="#board" className="journal-hero__btn journal-hero__btn--ghost">
-                This week&rsquo;s pick
-              </Link>
-            </div>
           </div>
 
           {POLAROIDS.map((polaroid) => (
