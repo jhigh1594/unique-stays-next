@@ -1,10 +1,14 @@
 'use client'
 
 import { useScroll, useSpring, motion } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
 export default function ScrollProgress() {
+  const pathname = usePathname()
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { damping: 30, stiffness: 200 })
+
+  if (pathname === '/journal') return null
 
   return (
     <motion.div

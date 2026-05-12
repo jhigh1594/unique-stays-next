@@ -2,10 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
-const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=2400&q=88&auto=format&fit=crop'
+const ASSET_BASE = '/prototypes/journal-hero-pixel-match'
+const HERO_IMAGE = `${ASSET_BASE}/background.png`
 
 const EYEBROW = 'The Wayfinder Journal · Vol. 2 · 2026'
 const LINE1 = 'Slow mornings.'
@@ -13,164 +12,136 @@ const LINE2 = 'Wild places.'
 const SUB =
   'Stories from the extraordinary places we find — and the people brave enough to stay in them.'
 
-const ACCENT = 'oklch(0.75 0.12 40)'
-
 const POLAROIDS = [
   {
-    src: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
-    alt: 'A green valley under soft mountain light',
-    title: 'Where the road forgets itself',
-    tag: 'Blue Ridge · Open file',
+    className: 'journal-hero__polaroid--lighthouse',
+    pinClassName: 'journal-hero__pin--lighthouse',
+    src: `${ASSET_BASE}/polaroid-lighthouse.png`,
+    alt: 'A lighthouse on a rocky coast at sunset',
+    caption: (
+      <>
+        where the wild
+        <br />
+        meets the sea
+      </>
+    ),
+    mark: '♡',
   },
   {
-    src: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80',
-    alt: 'Sunlit forest with a narrow path',
-    title: 'Notes from the moss line',
-    tag: 'Cascade route · Field desk',
+    className: 'journal-hero__polaroid--treehouse',
+    pinClassName: 'journal-hero__pin--treehouse',
+    src: `${ASSET_BASE}/polaroid-treehouse.png`,
+    alt: 'A warm treehouse tucked into a forest',
+    caption: (
+      <>
+        rooted in nature,
+        <br />
+        reaching for magic
+      </>
+    ),
+    mark: '❧',
   },
   {
-    src: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=600&q=80',
-    alt: 'A desert road stretching into warm evening light',
-    title: 'The long way is the point',
-    tag: 'Southwest · Latest dispatch',
+    className: 'journal-hero__polaroid--dome',
+    pinClassName: 'journal-hero__pin--dome',
+    src: `${ASSET_BASE}/polaroid-dome.png`,
+    alt: 'A glowing geodesic dome beneath mountains',
+    caption: (
+      <>
+        wake up to
+        <br />
+        wonder
+      </>
+    ),
+    mark: '♡',
   },
 ]
 
 export default function JournalHero() {
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 120)
-    return () => clearTimeout(t)
-  }, [])
-
   return (
-    <section className={`journal-hero${visible ? ' is-visible' : ''}`} aria-label="Journal hero">
-      {/* Ken Burns background */}
-      <div className="journal-hero__bg">
-        <Image
-          src={HERO_IMAGE}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          quality={88}
-          className="journal-hero__img"
-        />
-      </div>
-
-      {/* Overlay gradient — warm cinematic */}
-      <div className="journal-hero__overlay" />
-      <div className="journal-hero__tint" />
-
-      {/* Text — absolutely positioned on left */}
-      <div className="journal-hero__text">
-          {/* Eyebrow */}
-          <div className="journal-hero__eyebrow">{EYEBROW}</div>
-
-          {/* Headline */}
-          <h1 className="journal-hero__headline">
-            <span className="journal-hero__word">{LINE1}</span>
-            <span className="journal-hero__word journal-hero__word--accent" style={{ color: ACCENT }}>
-              {LINE2}
-            </span>
-          </h1>
-
-          {/* Subline */}
-          <p className="journal-hero__sub">{SUB}</p>
-
-          {/* CTAs */}
-          <div className="journal-hero__ctas">
-            <Link href="#board" className="journal-hero__btn journal-hero__btn--primary">
-              Browse All Stories &rarr;
-            </Link>
-            <Link href="#board" className="journal-hero__btn journal-hero__btn--ghost">
-              This week&rsquo;s pick
-            </Link>
+    <section className="journal-hero" aria-label="Journal hero">
+      <div className="journal-hero__wrap">
+        <div className="journal-hero__artboard">
+          <div className="journal-hero__bg" aria-hidden="true">
+            <Image
+              src={HERO_IMAGE}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="journal-hero__img"
+            />
           </div>
-        </div>
+          <div className="journal-hero__forest" aria-hidden="true" />
 
-        {/* Polaroid stage — full viewport overlay */}
-        <div className="journal-hero__stage" aria-hidden="true">
-          {/* SVG route lines */}
-          <svg
-            className="journal-hero__route-svg"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            {/* Route lines — white dashed, connecting card positions */}
+          <svg className="journal-hero__routes" viewBox="0 0 1606 979" aria-hidden="true">
             <path
-              className="journal-hero__route-path journal-hero__route-path--base"
-              d="M 15 30 Q 30 55, 48 60"
+              className="journal-hero__route-path journal-hero__route-path--light"
+              d="M 428 831 C 448 740, 504 706, 579 735 C 642 762, 705 778, 781 744 C 842 717, 870 651, 893 607"
             />
             <path
-              className="journal-hero__route-path journal-hero__route-path--base"
-              d="M 48 60 Q 65 35, 78 22"
-            />
-            {/* Animated draw paths */}
-            <path
-              className="journal-hero__route-path journal-hero__route-path--draw"
-              d="M 15 30 Q 30 55, 48 60"
-              style={{ '--path-len': 100, '--draw-delay': '1.8s' } as React.CSSProperties}
+              className="journal-hero__route-path journal-hero__route-path--dark"
+              d="M 786 479 C 815 426, 863 431, 889 452 C 926 481, 900 532, 944 542 C 1009 556, 1044 492, 1056 452"
             />
             <path
-              className="journal-hero__route-path journal-hero__route-path--draw"
-              d="M 48 60 Q 65 35, 78 22"
-              style={{ '--path-len': 80, '--draw-delay': '3.2s' } as React.CSSProperties}
+              className="journal-hero__route-path journal-hero__route-path--dark"
+              d="M 1142 397 C 1114 330, 1139 245, 1191 223 C 1232 206, 1268 224, 1273 256"
             />
           </svg>
 
-          {/* Polaroid 1 — left, mid-height */}
-          <div className="journal-hero__polaroid journal-hero__polaroid--1">
-            <div className="journal-hero__polaroid-frame">
-              <Image
-                src={POLAROIDS[0].src}
-                alt={POLAROIDS[0].alt}
-                fill
-                sizes="280px"
-                className="journal-hero__polaroid-img"
-              />
-            </div>
-            <div className="journal-hero__polaroid-caption">
-              <strong>{POLAROIDS[0].title}</strong>
-              <span>{POLAROIDS[0].tag}</span>
+          <div className="journal-hero__text">
+            <div className="journal-hero__eyebrow">{EYEBROW}</div>
+
+            <h1 className="journal-hero__headline">
+              <span>{LINE1}</span>
+              <span className="journal-hero__headline-accent">{LINE2}</span>
+            </h1>
+
+            <p className="journal-hero__sub">{SUB}</p>
+
+            <div className="journal-hero__ctas">
+              <Link href="#board" className="journal-hero__btn journal-hero__btn--primary">
+                Browse All Stories &rarr;
+              </Link>
+              <Link href="#board" className="journal-hero__btn journal-hero__btn--ghost">
+                This week&rsquo;s pick
+              </Link>
             </div>
           </div>
 
-          {/* Polaroid 2 — center, below midpoint */}
-          <div className="journal-hero__polaroid journal-hero__polaroid--2">
-            <div className="journal-hero__polaroid-frame">
-              <Image
-                src={POLAROIDS[1].src}
-                alt={POLAROIDS[1].alt}
-                fill
-                sizes="280px"
-                className="journal-hero__polaroid-img"
-              />
-            </div>
-            <div className="journal-hero__polaroid-caption">
-              <strong>{POLAROIDS[1].title}</strong>
-              <span>{POLAROIDS[1].tag}</span>
-            </div>
-          </div>
+          {POLAROIDS.map((polaroid) => (
+            <article
+              className={`journal-hero__polaroid ${polaroid.className}`}
+              key={polaroid.className}
+              aria-hidden="true"
+            >
+              <div className="journal-hero__photo">
+                <Image
+                  src={polaroid.src}
+                  alt={polaroid.alt}
+                  fill
+                  sizes="(max-width: 700px) 22vw, 320px"
+                  className="journal-hero__photo-img"
+                />
+              </div>
+              <div className="journal-hero__caption">{polaroid.caption}</div>
+              <div className="journal-hero__mark">{polaroid.mark}</div>
+            </article>
+          ))}
 
-          {/* Polaroid 3 — right, upper */}
-          <div className="journal-hero__polaroid journal-hero__polaroid--3">
-            <div className="journal-hero__polaroid-frame">
-              <Image
-                src={POLAROIDS[2].src}
-                alt={POLAROIDS[2].alt}
-                fill
-                sizes="280px"
-                className="journal-hero__polaroid-img"
-              />
-            </div>
-            <div className="journal-hero__polaroid-caption">
-              <strong>{POLAROIDS[2].title}</strong>
-              <span>{POLAROIDS[2].tag}</span>
-            </div>
-          </div>
+          {POLAROIDS.map((polaroid) => (
+            <span
+              className={`journal-hero__pin ${polaroid.pinClassName}`}
+              key={polaroid.pinClassName}
+              aria-hidden="true"
+            />
+          ))}
+          <span className="journal-hero__pin journal-hero__pin--route-a" aria-hidden="true" />
+          <span className="journal-hero__pin journal-hero__pin--route-b" aria-hidden="true" />
+
+          <div className="journal-hero__grain" aria-hidden="true" />
         </div>
+      </div>
     </section>
   )
 }
