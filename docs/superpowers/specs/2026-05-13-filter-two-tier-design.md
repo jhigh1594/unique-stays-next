@@ -78,7 +78,7 @@ Always visible. Three rows, broadsheet typographic style. No pill buttons, no bo
 
 ### Row 3 — Category Index
 
-- Middot-separated: `Treehouses · A-Frames · Cabins · Domes · Tiny Homes · Yurts`
+- Middot-separated list of all categories from `CATEGORIES_CONFIG` (all 10, not truncated to 5 like current implementation)
 - Active category: Fraunces italic, terracotta
 - Others: Plus Jakarta Sans regular, charcoal
 - Single-select (one category at a time)
@@ -115,6 +115,7 @@ Push sidebar, default closed. Field-notes journal aesthetic.
 3. **Price Per Night** — Min/max inputs with dollar signs in Fraunces. Dashed-border inputs. Em-dash separator in Caveat. Debounced filter on input.
 
 4. **Editor's Pick** — Postmark circle toggle (48px, terracotta border, dashed inner ring, "EDITOR'S PICK" in tiny caps at -12deg rotation). Active: terracotta tint fill, rotates to 0deg with spring animation.
+5. **Spoke-specific filters** — When `FilterEngine` receives a `spokeSlug` prop, spoke-specific sections append after Editor's Pick. For example: WiFi speed range for `work-friendly`, pet policy toggle for `pet-friendly`, RV hookup toggle for `rv-ready`, EV charger toggle for `ev-ready`. Same field-notes visual treatment (Caveat label, dashed-rule divider).
 
 ### Footer — Reset
 
