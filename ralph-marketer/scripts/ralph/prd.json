@@ -1,0 +1,197 @@
+{
+  "projectName": "UniqueStaysUSA_Content_Sprint_1",
+  "description": "Launch content for uniquestaysusa.com — blog posts, spoke hub pages, social campaigns, and newsletter. Voice: The Wanderer's Postcard Collection. Warm, editorial, slightly literary.",
+  "branchName": "content/sprint-1",
+  "userStories": [
+    {
+      "id": "HUB-001",
+      "title": "Write hero homepage copy",
+      "description": "Compelling hero section copy for the landing page. 150-250 words. Must capture the brand voice instantly.",
+      "acceptanceCriteria": [
+        "Opens with a sensory hook, not a value prop",
+        "Captures 'The Wanderer's Postcard Collection' voice",
+        "Mentions the 5 spokes naturally",
+        "Includes a soft CTA to explore",
+        "Under 250 words",
+        "No clichés from avoid_patterns list"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "This is the first thing people read. It needs to feel like opening a travel journal, not landing on a startup page."
+    },
+    {
+      "id": "SPOKE-001",
+      "title": "Write hub page for 'Unique Stays' spoke",
+      "description": "800-1200 word editorial hub page for the primary spoke: treehouses, yurts, geodomes, tiny homes, houseboats. This is the broadest umbrella.",
+      "acceptanceCriteria": [
+        "800-1200 words",
+        "Editorial tone — reads like a travel essay, not a directory",
+        "References at least 3 specific stay types with evocative descriptions",
+        "SEO keywords woven naturally (unique stays, treehouse rental, etc.)",
+        "Ends with invitation to explore listings",
+        "No 'nestled in' or 'escape the ordinary'"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "This is the flagship spoke page. Sets the editorial bar for all others."
+    },
+    {
+      "id": "SPOKE-002",
+      "title": "Write hub page for 'Work-Friendly Stays' spoke",
+      "description": "600-900 word hub page for remote workers seeking workcation properties with good WiFi and desk space.",
+      "acceptanceCriteria": [
+        "600-900 words",
+        "Captures the workcation trend with specific data",
+        "Tone shifts slightly — more pragmatic but still warm",
+        "Mentions WiFi speed expectations honestly",
+        "Appeals to remote workers who want more than a hotel room"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Work-friendly is the most pragmatic spoke. Still editorial but with more utility."
+    },
+    {
+      "id": "BLOG-001",
+      "title": "Write launch blog: 'Why We Built UniqueStaysUSA'",
+      "description": "Founder story blog post explaining the 'why' behind the site. Personal, honest, editorial.",
+      "acceptanceCriteria": [
+        "1000-1500 words",
+        "First person voice",
+        "Tells the origin story authentically",
+        "Addresses the affiliate model honestly",
+        "Includes the 'too many boring places' frustration",
+        "Ends with invitation, not hard sell",
+        "No AI-slop patterns"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "This is the 'about us' as a blog post. The kind of thing that makes people trust you."
+    },
+    {
+      "id": "BLOG-002",
+      "title": "Write blog: 'The 10 Most Extraordinary Treehouses in America'",
+      "description": "Curated list blog post with editorial descriptions of 10 real treehouse listings.",
+      "acceptanceCriteria": [
+        "1500-2000 words",
+        "Each treehouse gets 100-150 words of evocative editorial",
+        "Specific details — location, what makes it special, who it's for",
+        "Honest about trade-offs where relevant",
+        "Each links to a listing page (affiliate URL placeholder)",
+        "SEO-optimized for 'treehouse rentals USA' queries"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "High SEO value. Treehouse is the highest search volume unique stay category."
+    },
+    {
+      "id": "SOCIAL-001",
+      "title": "Create launch social media batch",
+      "description": "10 social posts for Twitter/Instagram announcing the site launch. Mix of styles.",
+      "acceptanceCriteria": [
+        "10 posts total: 5 Twitter-style (280 chars), 5 Instagram-style (longer)",
+        "Mix of: sensory hooks, behind-the-scenes, data points, humor, invitation",
+        "All in brand voice — warm, editorial, no corporate tone",
+        "Include 2-3 hashtag sets",
+        "No exclamation marks, no 'escape the ordinary'"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "These need to feel like a traveler posting, not a brand marketing."
+    },
+    {
+      "id": "SOCIAL-002",
+      "title": "Create 'Stay of the Week' social template",
+      "description": "Reusable template for weekly 'Stay of the Week' social posts. Should be fill-in-the-blank for future use.",
+      "acceptanceCriteria": [
+        "Template with clear fill-in sections",
+        "Includes sensory hook template",
+        "Includes 'honest context' section",
+        "Includes CTA template",
+        "Works for Twitter thread OR Instagram carousel",
+        "Example filled out with a real listing style"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "This becomes a repeatable content engine. Get the template right once."
+    },
+    {
+      "id": "NEWSLETTER-001",
+      "title": "Write launch newsletter",
+      "description": "Email newsletter announcing the site. 500-800 words. Needs subject line options.",
+      "acceptanceCriteria": [
+        "3 subject line options (A/B test ready)",
+        "500-800 words",
+        "Opens with the 'why' not the 'what'",
+        "Features 3 standout stays as examples",
+        "Soft CTA — invite to explore, not buy",
+        "Includes forward-to-a-friend prompt"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "The newsletter needs to feel like receiving a postcard, not a marketing email."
+    },
+    {
+      "id": "SPOKE-003",
+      "title": "Write hub page for 'Pet-Friendly Stays' spoke",
+      "description": "600-900 word hub page for travelers who won't leave their pets behind.",
+      "acceptanceCriteria": [
+        "600-900 words",
+        "Warm tone — pet people are emotional about this",
+        "Addresses common pain points (pet fees, restrictions)",
+        "Highlights what makes a pet-friendly stay genuinely great",
+        "SEO for 'pet-friendly vacation rentals'"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Pet owners are loyal audiences. Get this right and they come back."
+    },
+    {
+      "id": "SPOKE-004",
+      "title": "Write hub page for 'EV-Ready Stays' spoke",
+      "description": "600-900 word hub page for EV road trippers seeking stays with charging.",
+      "acceptanceCriteria": [
+        "600-900 words",
+        "Pragmatic but still editorial",
+        "References EV travel trend data",
+        "Addresses range anxiety honestly",
+        "SEO for 'EV-friendly vacation rentals'"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "EV is the most nascent spoke but growing fast. Early content = SEO advantage."
+    },
+    {
+      "id": "BLOG-003",
+      "title": "Write blog: 'The Workcation Manifesto — Why Your Next Remote Work Week Should Be in a Treehouse'",
+      "description": "Thought leadership piece combining work-friendly + unique stays spokes with data.",
+      "acceptanceCriteria": [
+        "1200-1800 words",
+        "Leads with the contrarian angle (work from a treehouse, not a WeWork)",
+        "References 3+ data points from trends/research",
+        "Includes practical tips (WiFi expectations, booking length, etc.)",
+        "Positions UniqueStaysUSA as the solution naturally",
+        "Strong opening hook"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": "This is a flagship SEO piece. Combines two high-value spokes."
+    },
+    {
+      "id": "METRICS-001",
+      "title": "Final review and quality audit",
+      "description": "Review all content created. Check voice consistency, SEO optimization, and quality. Document learnings.",
+      "acceptanceCriteria": [
+        "Every piece passes the 'Would I publish this under the UniqueStaysUSA name?' test",
+        "No AI-slop patterns detected",
+        "Voice consistency across all pieces",
+        "SEO keywords present in blog and spoke content",
+        "Total word count logged",
+        "Learnings documented in progress.txt",
+        "All tests pass: npm test"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": "Final gate. Nothing ships that wouldn't make the brand stronger."
+    }
+  ]
+}

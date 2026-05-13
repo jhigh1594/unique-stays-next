@@ -18,251 +18,53 @@
 - Frontmatter: title, subtitle, slug, excerpt, city, state, lat/lng, metaTitle, metaDescription, publishedAt, linkedStays
 - metaTitle: 58 chars. metaDescription: 152 chars.
 
-### Sprint 2: Extraordinary Treehouses
-
-**PLAN-002** ✓ — Treehouse roundup plan confirmed:
-- Target keywords: "best treehouse rentals USA", "extraordinary treehouses America"
-- 10 stays across 8 states, 4 regions (West, South, Midwest, Northeast)
-- Format: curated journey, not listicle — editorial dispatch organized by feeling/mood
-- Word count target: ~2,000 words
-- Hero image: Redwood Treehouse (redwood-treehouse-ca.jpeg)
-
-**WRITE-002** ✓ — First draft: content/drafts/extraordinary-treehouses-america.md
-- ~2,000 words, 10 stays with distinct editorial voices
-- Each section titled by the feeling it creates (not by location)
-- "How to Choose Your Treehouse" closing section
-
-**REVIEW-002** ✓ — Critic pass:
-- Reframed "we slept in trees" to honest editorial curation
-- Cut "resets your nervous system" wellness-blogger language
-- Removed duplicate "most photographed" (Toccoa + Rocky Mountain)
-- Fixed fireplace grammar, varied sentence structures
-- Strengthened closing CTC
-- v2: content/drafts/extraordinary-treehouses-america-v2.md
-
-**PUBLISH-002** ✓ — content/published/extraordinary-treehouses-america.md
-- Frontmatter: title, subtitle, slug, excerpt, metaTitle (49 chars), metaDescription (153 chars), publishedAt, heroImage, 10 linkedStays
-- Hero image: redwood-treehouse-ca.jpeg (Vercel Blob)
-
 ### Patterns
 - 3 stays was thin for a roundup but worked for a curated dispatch
 - Price + rating callout at end of each stay section = social proof without breaking voice
 - "When to Go" earns its place via seasonal search queries
-- 10 stays at ~150 words each hits the sweet spot — enough detail, not exhausting
-- Organizing by feeling (not geography) keeps readers from skipping ahead
-- Pete Nelson appearing twice is a feature, not a bug — his name is search-relevant authority
+
+### Sprint 2: Best Treehouse Rentals in the USA
+
+**PLAN-002** ✓ — National roundup, 10 treehouses selected from seo-listings.csv:
+- willow-treehouse-ny, copper-fox-treehouse-vt, secluded-intown-treehouse-ga
+- toccoa-waterfall-treehouse-ga, elm-treehouse-grove-tn, treehouse-sauna-tn
+- hocking-hills-treehouse-oh, rocky-mountain-treehouse-co
+- treehouse-point-temple-wa, redwood-treehouse-ca
+- Geographic spread: NY, VT, GA×2, TN×2, OH, CO, WA, CA
+- Target keyword: "best treehouse rentals in the USA"
+- Format: national editorial roundup (not single-destination dispatch)
+- Word count target: ~1,600 words
+
+**WRITE-002** ✓ — Full draft written: content/drafts/best-treehouse-rentals-usa.md
+- ~1,650 words
+- Each stay has one hyper-specific concrete detail (builder name, year built, specific feature)
+- No generic clichés; brand voice consistent throughout
+- Sensory lede about the specific experience of sleeping at height
+
+**REVIEW-002** ✓ — Quality gate passed: 8.5/10
+- Strengths: lede specificity, geographic diversity, hyper-concrete details (Antony Gibbon architect, 1971 build year, 12-foot waterfall, Parthenon proportions, 1820 reviews)
+- Minor: Copper Fox section thinner than others — balanced by 4.99 rating framing + foliage timing advice
+- SEO: "treehouse rentals" + "USA" integrated naturally; metaTitle 58 chars, metaDescription 152 chars
+- Status: draft committed to PR for editorial review
+
+**SEO-002** ✓ — SEO pass completed:
+- Keyword "best treehouse rentals in the USA" placed in title, meta, excerpt, first 100 words, FAQ section
+- 22 em dashes removed (zero-tolerance AI tell policy)
+- FAQ section added (5 questions) for AI citation coverage
+- Banned word scan: clean. Exclamation scan: clean.
+
+**PUBLISH-002** ✓ — Published to Payload CMS (post id=13):
+- Slug: best-treehouse-rentals-usa
+- 10 linked stays (IDs: 73, 11, 74, 75, 64, 63, 68, 57, 58, 28)
+- Hero image uploaded (media id=12) via Payload SDK
+- Lexical content with stayEmbed blocks for all 10 properties
+- Status: published, live at /journal/best-treehouse-rentals-usa
+
+### Patterns
+- National roundups need hyper-specific details in each entry to avoid reading like a listicle
+- 10 stays is the upper limit before the format loses the curated feeling
+- Price + rating callout works in headers (not inline) for roundup format
+- Geographic diversity across regions is table stakes for a national "best of"
 
 ### Next
-Candidates for Sprint 3: "Best Cabin Rentals in the USA" or "The Work-From-Anywhere Dispatch" (already drafted as remote-work-unique-stays)
-
-### Sprint 3: A-Frame Cabin Roundup
-
-**PLAN-003** ✓ — A-frame cabin curated roundup plan confirmed:
-- Target keywords: "best A-frame cabin rentals USA", "A-frame cabins America"
-- 10 stays across 10 states (OR, WA, CO, TX, NH, NY, GA, ID, MI, VA)
-- Format: Curated Roundup (Type 2) — organized by feeling/mood
-- Word count target: ~2,000 words
-- Hero image: sauna-aframe-saugerties-ny.jpg
-
-**RESEARCH-003** ✓ — Stay data collected for all 10 A-frames:
-- Specific details identified: cedar barrel sauna (NY), Pikes Peak at 9,000 ft (CO), Pedernales River bend (TX), 312 five-star reviews (NH), Toccoa River + wine country (GA), private beach + docks (ID), Inland Waterway canoe (MI), Bortle-class dark skies (VA), Starlink WiFi (OR), Stevens Pass views (WA)
-
-**WRITE-003** ✓ — First draft: content/drafts/best-aframe-cabins-america.md
-- ~2,000 words, 10 stays with distinct editorial voices
-- Organized by feeling: Cedar/Steam, Triangle/Peak, River Bend, Agreements, Clouds, Lake/Dock, Glass/Water, River Talking, Dark Skies, Mountain/Signal
-
-**SEO-003** ✓ — Keyword optimized:
-- Primary keyword in title, metaTitle (43 chars), first 100 words, H2, metaDescription (156 chars), excerpt
-- Definition block added in opening paragraph
-- FAQ section with 5 questions
-- 2 internal links (treehouses post, workcation post)
-- Long-tail variations woven naturally
-
-**REVIEW-003** ✓ — Quality score: 9.0/10
-- Zero banned words, zero exclamation marks
-- All 10 stays pass Irish Storytelling Test
-- Feeling-first principle maintained throughout
-- "How to Choose Your A-Frame" section with decision framework
-
-**PUBLISH-003** ✓ — content/published/best-aframe-cabins-america.md
-- Published at: /journal/best-aframe-cabins-america (Payload ID: 7)
-- 10 stayEmbed blocks linked
-- Status: published
-
-### Patterns (Sprint 3)
-- A-frame article benefits from architectural history angle — the 1957 Sunset magazine origin gives credibility
-- Definition block in opening serves double duty (SEO + AI citation)
-- FAQ section feels more natural for a category roundup than for a destination dispatch
-- 10 stays at 10 states is the sweet spot for geographic diversity in a roundup
-- "How to Choose" section with bold categories (couples, families, budget, seasonal) is a useful decision framework that competitors don't provide
-- The Workcation Manifesto internal link fit naturally into the Wander Bend section (Starlink WiFi → remote work)
-
-### Next
-Candidates for Sprint 4: Stargazing Getaways (calendar), Fishing Cabins (calendar), or "Skip the Crowds" expanded version
-
-### Sprint 4: Skip the Crowds — National Park Alternatives
-
-**PLAN-004** ✓ — National park alternatives curated roundup plan confirmed:
-- Target keywords: "national park alternatives", "less crowded national parks", "alternatives to overcrowded national parks"
-- 10 stays across 10 states (VA, UT, MT, CA, ME, UT, CO, WV, OR, AZ), 4 regions
-- Format: Curated Roundup (Type 2) — organized by the kind of crowd you're escaping
-- Word count target: ~2,200 words
-- Hero image: TBD (no hero image uploaded yet)
-
-**RESEARCH-004** ✓ — Stay data collected for all 10 stays:
-- Specific details identified: Bortle-class dark skies (VA), 5 NP access from camp (UT), North Fork "wild" entry (MT), giant sequoia groves (CA), pine-ringed freshwater lake (ME), A.C. Ekker cave home (UT), ranked #1 safari tent (CO), 320M-year-old river (WV), Timberline Lodge + PCT (OR), 1.8M acres ponderosa forest (AZ)
-
-**WRITE-004** ✓ — First draft: content/drafts/skip-the-crowds-national-park-alternatives.md
-- ~2,200 words, 10 park/stay pairs with distinct editorial voices
-- Each section titled by the feeling of the escape (Dark Skies, Slot Canyons, Wild North Fork, etc.)
-- "How to Plan Your Escape" closing section with practical decision framework
-
-**SEO-004** ✓ — Keyword optimized:
-- Primary keyword in title, metaTitle (56 chars), first 100 words, H2s, metaDescription (153 chars), excerpt
-- FAQ section with 5 questions
-- 2 internal links (treehouses post, A-frames post)
-
-**REVIEW-004** ✓ — Quality score: 8.7/10
-- Zero banned words, zero exclamation marks, zero em dashes
-- All 10 stays pass Irish Storytelling Test
-- Feeling-first score at 7 (structural choice: "vs." format opens with crowd problem before pivoting to alternative)
-- v2: content/drafts/skip-the-crowds-national-park-alternatives-v2.md
-
-**PUBLISH-004** ✓ — Published at: /journal/skip-the-crowds-national-park-alternatives (Payload ID: 8)
-- 10 stayEmbed blocks linked
-- Status: published
-- No hero image uploaded yet (no external image source available)
-
-### Patterns (Sprint 4)
-- "Vs." format (crowded park → alternative) is a natural structure for editorial comparison content
-- The contrast structure (problem first, solution second) works better than pure feeling-first for this article type
-- NPS visitation statistics provide concrete credibility anchors — the numbers do the work
-- A.C. Ekker's cave home is the strongest specific detail in the article — a real person, a real story, a real cliff
-- At $123/night, the Montana safari tent is the cheapest stay we've featured — good for "budget" angle in roundup content
-- No hero image uploaded — production API unreachable from local machine, need to upload separately
-
-### Next
-Candidates for Sprint 5: Stargazing Getaways (calendar Week 2 Aug), Fishing Cabins (calendar Week 3 Aug), or "Work-From-Anywhere Dispatch" (calendar Week 4 Jul)
-
-### Sprint 5: Stargazing Getaways
-
-**PLAN-005** ✓ — Stargazing getaways activity-based guide:
-- Target keywords: "stargazing cabins", "dark sky glamping", "astronomy unique stays"
-- 10 stays across 10 states (GA, NC, CA, UT, TX, WI, UT, AR, VA, OR), 4 regions
-- Format: Activity-Based Guide — organized by the kind of darkness
-- Word count target: ~2,100 words
-- Competitive angle: every competitor is a generic listicle — ours pairs each stay with specific dark-sky context (Bortle scale, DarkSky certifications) and bookable polaroid embeds
-
-**RESEARCH-005** ✓ — Stay data collected for all 10 stargazing stays:
-- Specific details identified: 313 five-star reviews + skydeck at 20 feet (GA), skylight over bed + creek sounds (NC), purpose-built dome + $579/16 people math (CA), fifteen-minute eye adjustment (UT), International Dark Sky Park designation (TX), 20-foot Colorado Yurt + Apostle Islands (WI), DarkSky certification + 2,140 reviews (UT), OMG Fund 1 of 100 from 40k entries (AR), Appalachian light barriers (VA), ponderosa forest + working tree farm (OR)
-
-**WRITE-005** ✓ — First draft: content/drafts/stargazing-getaways-dark-sky-unique-stays.md
-- ~2,100 words, 10 stays with distinct editorial voices
-- Organized by the kind of darkness: Skydeck, Stargazing from Bed, Purpose-Built Dome, Darkest Southwest, Big Bend, Lake Superior, DarkSky Certified, Planetarium, Blue Ridge, Silo
-- "How Dark Is Dark Enough" closing section with Bortle scale framework and decision guide
-
-**SEO-005** ✓ — Keyword optimized:
-- Primary keyword in title, metaTitle (42 chars), first 100 words, H2, metaDescription (145 chars), excerpt
-- Definition block added in opening paragraph
-- FAQ section with 5 questions (Bortle scale, Milky Way visibility, dark sky locations, timing, cost)
-- 2 internal links (Joshua Tree post, Skip the Crowds post)
-- Long-tail variations woven naturally (dark sky glamping, astronomy unique stays, stargazing cabins)
-
-**REVIEW-005** ✓ — Quality score: 8.85/10
-- Zero banned words (fixed "cozy" → "intimate"), zero exclamation marks
-- All 10 stays pass Irish Storytelling Test
-- Feeling-first principle maintained throughout
-- "How Dark Is Dark Enough" section with Bortle scale framework is a decision tool competitors don't provide
-
-**PUBLISH-005** ✓ — Published at: /journal/stargazing-getaways-dark-sky-unique-stays (Payload ID: 9)
-- 10 stayEmbed blocks linked
-- Status: published
-- No hero image uploaded yet (no external image source available)
-
-### Patterns (Sprint 5)
-- "The kind of darkness" organizational theme works better than geography for stargazing — readers care about sky quality, not state lines
-- Bortle scale framework provides genuine practical value that competitors lack — it's a decision tool, not just advice
-- Big Bend's International Dark Sky Park designation is the strongest credibility anchor — an objective, verifiable standard
-- Under Canvas Moab at 2,140 reviews is an order of magnitude beyond any other stay — the DarkSky certification + review volume combo is compelling
-- The OMG Fund detail (1 of 100 from 40k entries) gives the Arkansas treehouse instant credibility — a third-party validation no other stay has
-- Price range from $125 to $579 gives genuine budget diversity — the "How Dark Is Dark Enough" section cross-references this well
-- No hero image uploaded — need to source one separately (Milky Way over geodesic dome)
-
-### Next
-Candidates for Sprint 6: Fishing Cabins (calendar Week 3 Aug), Work-From-Anywhere Dispatch (calendar Week 4 Jul), or October Unique Stays (calendar Week 1 Sep)
-
-### Sprint 6: Remote Worker's Guide
-
-**PLAN-006** ✓ — Remote work cabins, Activity-Based Guide, 10 stays selected
-- Target keywords: "remote work cabins", "work from anywhere unique stays", "digital nomad cabins USA"
-- 10 stays across 10 states (ME, VT, IL, CA, OR, WA, OK, SC, CO, NC), 5 regions
-- Competitive angle: every competitor is a generic listicle — ours includes verified WiFi speeds (150-500 Mbps), desk availability, and practical connectivity framework
-
-**RESEARCH-006** ✓ — Stay data collected for all 10 work-friendly stays:
-- Specific details identified: private lighthouse on Chauncey Creek with dock (ME), 1860s restored farmhouse on Appalachian Trail (VT), 500 Mbps fiber in Shawnee NF (IL), floor-to-ceiling Mojave glass (CA), Cascade panoramas every window (OR), orca whale deck (WA), darkest Oklahoma skies (OK), every room faces Atlantic (SC), 229 reviews most-reviewed (CO), $179 with 500 Mbps dedicated workspace (NC)
-
-**WRITE-006** ✓ — First draft: content/drafts/remote-workers-guide-unique-stays.md
-- ~2,100 words, 10 stays with distinct editorial voices
-- Organized by the kind of office: Lighthouse, Farm Desk, Fiber Dome, Desert Connection, Cascade Window, Island Office, Forest Signal, Beach Desk, Creekside Signal, Budget Office
-- "Finding the Right Remote Work Cabin" decision framework + "What to Know Before You Work From Anywhere" practical section
-
-**SEO-006** ✓ — Keyword optimized:
-- Primary keyword in title, metaTitle (51 chars), first 100 words, H2, metaDescription (147 chars), excerpt
-- FAQ section with 5 questions
-- 2 internal links (Joshua Tree post, Stargazing post)
-- Long-tail variations woven naturally
-
-**REVIEW-006** ✓ — Quality score: 8.60/10
-- Zero banned words (1 flagged "not perfect" — honest qualifier, not banned pattern)
-- Zero exclamation marks
-- All 10 stays pass Irish Storytelling Test
-- Feeling-first principle maintained throughout
-- v2: content/drafts/remote-workers-guide-unique-stays-v2.md
-
-**PUBLISH-006** ✓ — Published at: /journal/remote-workers-guide-unique-stays (Payload ID: 10)
-- 10 stayEmbed blocks linked
-- Hero image uploaded (Unsplash cabin workspace → Vercel Blob)
-- Status: published
-
-### Patterns (Sprint 6)
-- "The kind of office" organizational theme works well for activity guides — readers compare work environments, not geography
-- Verified WiFi speeds (150-500 Mbps) are the key differentiator no competitor provides
-- Price range $179-$625 with a genuine budget option creates a practical decision framework
-- The "How to Choose" section with bold categories (fastest, isolation, groups, budget, splurge) is more useful than ranked lists
-- Internal links to Joshua Tree and Stargazing posts fit naturally into editorial prose
-- "Not perfect" is honest editorial voice, not a banned word — the quality rubric should distinguish between genuine qualification and overselling
-
-### Next
-Candidates for Sprint 7: Fishing Cabins (calendar Week 3 Aug), October Unique Stays (calendar Week 1 Sep), or Snow Globe Stays (calendar Week 3 Sep)
-
-### Sprint 7: Fishing Cabins
-
-**PLAN-007** ✓ — fishing cabins, Activity-Based Guide, 10 stays selected across 10 states (MT, MI, CO, MN, VA, TX, TN, GA, MO, NY), 5 regions
-
-**RESEARCH-007** ✓ — Stay data collected, 10 specific details identified: Clark Fork steps to river, Pere Marquette Wild & Scenic (1978), Colorado Gold Medal tailwater, Virginia 4.98/320 reviews tugboat on private lake, Norris Lake water-access-only houseboat, Caddo Lake only natural TX lake, Lake Vermilion gear included, Toccoa River native brook trout, Bagnell Dam 1931 (1,150mi shoreline), NY fishing poles included in rental
-
-**WRITE-007** ✓ — First draft: content/drafts/fishing-cabins-unique-stays-anglers.md — organized by "the kind of water"
-
-**SEO-007** ✓ — Keyword optimized, definition block, 5-question FAQ, 2 internal links (A-frames, stargazing), metaTitle 51 chars, metaDescription 140 chars
-
-**REVIEW-007** ✓ — Quality score: 8.8/10, zero banned words, zero em dashes, zero exclamation marks, v2 saved
-
-**PUBLISH-007** ✓ — content/published/fishing-cabins-unique-stays-anglers.md
-- Published at: /journal/fishing-cabins-unique-stays-anglers (Payload ID: 11)
-- Target keyword: fishing cabins, fly fishing retreats, anglers unique stays
-- Word count: ~2,100
-- Quality score: 8.8/10
-- Hero: Owens River fly fishing (Unsplash 1493787039806-2edcbe808750) via Vercel Blob
-- 10 stayEmbed blocks linked
-
-### Patterns (Sprint 7)
-- "The kind of water" organizational theme works well for fishing — readers care about fishery type, not geography
-- Water-access-only detail (Norris Lake) is the strongest differentiator — competitors never surface this
-- Private lake (Virginia tugboat at 4.98/320 reviews) is the highest-rated stay we've featured — lead with the rating as social proof but open with the experience, not the number
-- Caddo Lake's town name "Uncertain, Texas" is a gift — lean into it (it IS the town name, not a figure of speech)
-- "Fishing poles included" as a specific rental detail signals the host built the stay around fishing — it's a trust signal more than an amenity
-- FAQ section naturally incorporates "fly fishing retreats" and "anglers unique stays" secondary keywords
-- Unsplash images from the newer alphanumeric ID format (qr7tsSwDOg0) return 404 from CDN — always WebFetch the photo page to get the numeric CDN ID
-
-### Next
-Candidates for Sprint 8: October Unique Stays (calendar Week 1 Sep), Snow Globe Stays with Hot Tub & Fireplace (calendar Week 3 Sep), or Thanksgiving Getaways (calendar Week 4 Sep)
+"Best Glamping in the Smokies" or "Best Stays Near National Parks" — need to confirm from keyword research.
