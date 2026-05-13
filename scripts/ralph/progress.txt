@@ -234,3 +234,35 @@ Candidates for Sprint 6: Fishing Cabins (calendar Week 3 Aug), Work-From-Anywher
 
 ### Next
 Candidates for Sprint 7: Fishing Cabins (calendar Week 3 Aug), October Unique Stays (calendar Week 1 Sep), or Snow Globe Stays (calendar Week 3 Sep)
+
+### Sprint 7: Fishing Cabins
+
+**PLAN-007** ✓ — fishing cabins, Activity-Based Guide, 10 stays selected across 10 states (MT, MI, CO, MN, VA, TX, TN, GA, MO, NY), 5 regions
+
+**RESEARCH-007** ✓ — Stay data collected, 10 specific details identified: Clark Fork steps to river, Pere Marquette Wild & Scenic (1978), Colorado Gold Medal tailwater, Virginia 4.98/320 reviews tugboat on private lake, Norris Lake water-access-only houseboat, Caddo Lake only natural TX lake, Lake Vermilion gear included, Toccoa River native brook trout, Bagnell Dam 1931 (1,150mi shoreline), NY fishing poles included in rental
+
+**WRITE-007** ✓ — First draft: content/drafts/fishing-cabins-unique-stays-anglers.md — organized by "the kind of water"
+
+**SEO-007** ✓ — Keyword optimized, definition block, 5-question FAQ, 2 internal links (A-frames, stargazing), metaTitle 51 chars, metaDescription 140 chars
+
+**REVIEW-007** ✓ — Quality score: 8.8/10, zero banned words, zero em dashes, zero exclamation marks, v2 saved
+
+**PUBLISH-007** ✓ — content/published/fishing-cabins-unique-stays-anglers.md
+- Published at: /journal/fishing-cabins-unique-stays-anglers (Payload ID: 11)
+- Target keyword: fishing cabins, fly fishing retreats, anglers unique stays
+- Word count: ~2,100
+- Quality score: 8.8/10
+- Hero: Owens River fly fishing (Unsplash 1493787039806-2edcbe808750) via Vercel Blob
+- 10 stayEmbed blocks linked
+
+### Patterns (Sprint 7)
+- "The kind of water" organizational theme works well for fishing — readers care about fishery type, not geography
+- Water-access-only detail (Norris Lake) is the strongest differentiator — competitors never surface this
+- Private lake (Virginia tugboat at 4.98/320 reviews) is the highest-rated stay we've featured — lead with the rating as social proof but open with the experience, not the number
+- Caddo Lake's town name "Uncertain, Texas" is a gift — lean into it (it IS the town name, not a figure of speech)
+- "Fishing poles included" as a specific rental detail signals the host built the stay around fishing — it's a trust signal more than an amenity
+- FAQ section naturally incorporates "fly fishing retreats" and "anglers unique stays" secondary keywords
+- Unsplash images from the newer alphanumeric ID format (qr7tsSwDOg0) return 404 from CDN — always WebFetch the photo page to get the numeric CDN ID
+
+### Next
+Candidates for Sprint 8: October Unique Stays (calendar Week 1 Sep), Snow Globe Stays with Hot Tub & Fireplace (calendar Week 3 Sep), or Thanksgiving Getaways (calendar Week 4 Sep)

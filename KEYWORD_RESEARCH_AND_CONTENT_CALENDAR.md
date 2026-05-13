@@ -96,7 +96,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 |------|--------------|-------------|-----------------|------|--------|
 | 1 | Lead Magnet | Fall Foliage Unique Stay Finder | fall foliage cabins, autumn treehouse rentals, leaf peeping accommodations | Seasonal email capture | Planned |
 | 2 | Journal Post | "Stargazing Getaways: Best Dark Sky Unique Stays for Milky Way Views" | stargazing cabins, dark sky glamping, astronomy unique stays | Target experiential travelers | Published |
-| 3 | Journal Post | "Fishing Cabins: Top Unique Stays for Anglers Across America" | fishing cabins, fly fishing retreats, anglers unique stays | Niche activity targeting | Planned |
+| 3 | Journal Post | "Fishing Cabins: Top Unique Stays for Anglers Across America" | fishing cabins, fly fishing retreats, anglers unique stays | Niche activity targeting | Published |
 | 4 | Programmatic | Add activity filters to spoke/state pages (e.g., `/work-friendly/california?hasDesk=true`) | remote work cabins with desk california, pet friendly cabins fenced yard | Long-tail expansion | Planned |
 
 ### September 2026: Pre-October Push

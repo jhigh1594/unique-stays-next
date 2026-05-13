@@ -2,22 +2,29 @@
   "projectName": "UniqueStaysUSA_Journal",
   "description": "Travel editorial content for UniqueStaysUSA journal. SEO-first dispatches with affiliate stay embeds. Voice: warm, first-person, slightly literary. Think Kinfolk meets Monocle meets a dog-eared travel journal.",
   "branchName": "main",
-  "sprintNumber": 6,
+  "sprintNumber": 7,
   "userStories": [
     {
       "id": "SETUP-001",
       "title": "Initialize ralph and verify setup",
       "description": "Database initialized, content dirs created, PRD written",
-      "acceptanceCriteria": ["scripts/ralph/prd.json exists", "content/drafts/ directory exists", "content/published/ directory exists", "scripts/ralph/progress.txt exists"],
+      "acceptanceCriteria": [
+        "scripts/ralph/prd.json exists",
+        "content/drafts/ directory exists",
+        "content/published/ directory exists",
+        "scripts/ralph/progress.txt exists"
+      ],
       "priority": 1,
       "passes": true,
-      "notes": "Done — ralph initialized, dirs created"
+      "notes": "Done \u2014 ralph initialized, dirs created"
     },
     {
       "id": "PLAN-001",
       "title": "Plan the Joshua Tree destination dispatch",
       "description": "Create a content plan for the first journal post.",
-      "acceptanceCriteria": ["Completed in Sprint 1"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 1"
+      ],
       "priority": 2,
       "passes": true,
       "notes": "Sprint 1 complete."
@@ -26,7 +33,9 @@
       "id": "WRITE-001",
       "title": "Write first draft of Joshua Tree dispatch",
       "description": "Write the full editorial post.",
-      "acceptanceCriteria": ["Completed in Sprint 1"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 1"
+      ],
       "priority": 3,
       "passes": true,
       "notes": "Sprint 1 complete."
@@ -35,7 +44,9 @@
       "id": "REVIEW-001",
       "title": "Review and sharpen the Joshua Tree draft",
       "description": "Self-review the draft.",
-      "acceptanceCriteria": ["Completed in Sprint 1"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 1"
+      ],
       "priority": 4,
       "passes": true,
       "notes": "Sprint 1 complete."
@@ -44,7 +55,9 @@
       "id": "PUBLISH-001",
       "title": "Finalize and output Joshua Tree post for Payload CMS",
       "description": "Create the final publish-ready version.",
-      "acceptanceCriteria": ["Completed in Sprint 1"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 1"
+      ],
       "priority": 5,
       "passes": true,
       "notes": "Sprint 1 complete."
@@ -53,7 +66,9 @@
       "id": "PLAN-002",
       "title": "Plan the 10 Most Extraordinary Treehouses in America",
       "description": "Create a content plan for the treehouse roundup post.",
-      "acceptanceCriteria": ["Completed in Sprint 2"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 2"
+      ],
       "priority": 6,
       "passes": true,
       "notes": "Sprint 2 complete."
@@ -62,7 +77,9 @@
       "id": "WRITE-002",
       "title": "Write first draft of extraordinary treehouses dispatch",
       "description": "Write the full editorial post.",
-      "acceptanceCriteria": ["Completed in Sprint 2"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 2"
+      ],
       "priority": 7,
       "passes": true,
       "notes": "Sprint 2 complete."
@@ -71,7 +88,9 @@
       "id": "REVIEW-002",
       "title": "Review and sharpen the extraordinary treehouses draft",
       "description": "Self-review the draft.",
-      "acceptanceCriteria": ["Completed in Sprint 2"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 2"
+      ],
       "priority": 8,
       "passes": true,
       "notes": "Sprint 2 complete."
@@ -80,7 +99,9 @@
       "id": "PUBLISH-002",
       "title": "Finalize and output extraordinary treehouses post for Payload CMS",
       "description": "Create the final publish-ready version.",
-      "acceptanceCriteria": ["Completed in Sprint 2"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 2"
+      ],
       "priority": 9,
       "passes": true,
       "notes": "Sprint 2 complete."
@@ -89,7 +110,9 @@
       "id": "PLAN-003",
       "title": "Plan the A-Frame Cabin curated roundup",
       "description": "Curated roundup of 10 A-frame cabin stays across America.",
-      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 3"
+      ],
       "priority": 10,
       "passes": true,
       "notes": "Sprint 3 complete."
@@ -98,7 +121,9 @@
       "id": "RESEARCH-003",
       "title": "Collect stay data for 10 A-frame cabins",
       "description": "Fetch full stay data from Payload for all 10 selected A-frames.",
-      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 3"
+      ],
       "priority": 11,
       "passes": true,
       "notes": "Sprint 3 complete."
@@ -107,7 +132,9 @@
       "id": "WRITE-003",
       "title": "Write first draft of A-frame cabin dispatch",
       "description": "Write the full editorial post.",
-      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 3"
+      ],
       "priority": 12,
       "passes": true,
       "notes": "Sprint 3 complete."
@@ -116,7 +143,9 @@
       "id": "SEO-003",
       "title": "SEO optimize the A-frame cabin draft",
       "description": "Keyword placement, FAQ section, internal links, meta optimization.",
-      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 3"
+      ],
       "priority": 13,
       "passes": true,
       "notes": "Sprint 3 complete."
@@ -125,7 +154,9 @@
       "id": "REVIEW-003",
       "title": "Review and sharpen the A-frame cabin draft",
       "description": "Quality gate. Score against rubric.",
-      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 3"
+      ],
       "priority": 14,
       "passes": true,
       "notes": "Sprint 3 complete. Quality score: 9.0/10"
@@ -134,7 +165,9 @@
       "id": "PUBLISH-003",
       "title": "Publish A-frame cabin post to Payload CMS",
       "description": "Create blog post in Payload with Lexical JSON, hero image, stay embeds.",
-      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 3"
+      ],
       "priority": 15,
       "passes": true,
       "notes": "Published at /journal/best-aframe-cabins-america (Payload ID: 7)"
@@ -143,7 +176,9 @@
       "id": "SYNC-003",
       "title": "Update tracking docs and commit",
       "description": "Update prd.json, progress.txt, save to content/published/, git commit.",
-      "acceptanceCriteria": ["Completed in Sprint 3"],
+      "acceptanceCriteria": [
+        "Completed in Sprint 3"
+      ],
       "priority": 16,
       "passes": true,
       "notes": "Sprint 3 complete."
@@ -151,7 +186,7 @@
     {
       "id": "PLAN-004",
       "title": "Plan Skip the Crowds: National Park Alternatives",
-      "description": "Curated roundup of 10 stays that pair overcrowded national parks with quieter alternatives. Target keywords: 'national park alternatives', 'less crowded national parks', 'alternatives to overcrowded national parks'. 10 stays across 10 states (VA, UT, MT, CA, ME, UT, CO, WV, OR, AZ), 4 regions. Organized by the kind of crowd you're escaping. Competitive angle: every competitor is a generic listicle with stock photos — ours pairs each alternative with a specific bookable unique stay with polaroid card embeds.",
+      "description": "Curated roundup of 10 stays that pair overcrowded national parks with quieter alternatives. Target keywords: 'national park alternatives', 'less crowded national parks', 'alternatives to overcrowded national parks'. 10 stays across 10 states (VA, UT, MT, CA, ME, UT, CO, WV, OR, AZ), 4 regions. Organized by the kind of crowd you're escaping. Competitive angle: every competitor is a generic listicle with stock photos \u2014 ours pairs each alternative with a specific bookable unique stay with polaroid card embeds.",
       "acceptanceCriteria": [
         "Target keyword identified: national park alternatives",
         "10 stays selected with geographic diversity across 4 regions",
@@ -179,10 +214,10 @@
     {
       "id": "WRITE-004",
       "title": "Write first draft of Skip the Crowds dispatch",
-      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the crowd problem — why the most famous parks have become self-defeating. Journeys through 10 alternative destinations, each paired with a unique stay. Closes with 'How to Plan Your Escape'.",
+      "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the crowd problem \u2014 why the most famous parks have become self-defeating. Journeys through 10 alternative destinations, each paired with a unique stay. Closes with 'How to Plan Your Escape'.",
       "acceptanceCriteria": [
         "1,800-2,500 words",
-        "Opening: the crowd problem — why famous parks have become self-defeating",
+        "Opening: the crowd problem \u2014 why famous parks have become self-defeating",
         "10 park/stay pairs organized by the kind of escape",
         "Each pair: overcrowded park context + alternative destination + unique stay",
         "Closing: 'How to Plan Your Escape' practical section",
@@ -252,7 +287,7 @@
     {
       "id": "PLAN-005",
       "title": "Plan Stargazing Getaways: Best Dark Sky Unique Stays",
-      "description": "Curated roundup of 10 stays with exceptional stargazing. Target keywords: 'stargazing cabins', 'dark sky glamping', 'astronomy unique stays'. 10 stays across 10 states (AR, NC, CA, UT, TX, WI, UT, GA, VA, OR), 4 regions. Organized by the kind of darkness you're chasing. Competitive angle: every competitor is a generic listicle — ours pairs each stay with specific dark-sky context and bookable polaroid embeds.",
+      "description": "Curated roundup of 10 stays with exceptional stargazing. Target keywords: 'stargazing cabins', 'dark sky glamping', 'astronomy unique stays'. 10 stays across 10 states (AR, NC, CA, UT, TX, WI, UT, GA, VA, OR), 4 regions. Organized by the kind of darkness you're chasing. Competitive angle: every competitor is a generic listicle \u2014 ours pairs each stay with specific dark-sky context and bookable polaroid embeds.",
       "acceptanceCriteria": [
         "Target keyword: stargazing cabins, dark sky glamping",
         "10 stays selected with geographic diversity across 4 regions",
@@ -283,7 +318,7 @@
       "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the primal pull of looking up. Journeys through 10 dark-sky destinations, each paired with a unique stay. Closes with 'How to Read the Night Sky' practical section.",
       "acceptanceCriteria": [
         "1,800-2,200 words",
-        "Opening: the primal pull of looking up — why we still stop for stars",
+        "Opening: the primal pull of looking up \u2014 why we still stop for stars",
         "10 stays organized by the kind of darkness",
         "Each stay: dark-sky context + specific stargazing feature + the feeling of being there",
         "Closing: 'How Dark Is Dark Enough' practical framework",
@@ -385,7 +420,7 @@
       "description": "Write the full editorial post. First-person voice. Warm, slightly literary. Opens with the Wednesday afternoon dread. Journeys through 10 work environments, each with verified connectivity data. Closes with practical 'How to Choose' framework and FAQ.",
       "acceptanceCriteria": [
         "1,800-2,200 words",
-        "Opening: the Wednesday afternoon dread — the creative edge is gone",
+        "Opening: the Wednesday afternoon dread \u2014 the creative edge is gone",
         "10 stays organized by the kind of office",
         "Each stay: WiFi speed + specific work detail + the feeling of being there",
         "Closing: 'How to Choose' practical framework + FAQ",
@@ -451,6 +486,83 @@
       "priority": 37,
       "passes": true,
       "notes": "Sprint 6 complete."
+    },
+    {
+      "id": "PLAN-007",
+      "title": "Plan Fishing Cabins: Top Unique Stays for Anglers",
+      "description": "Activity-Based Guide covering 10 fishing stays across 10 states. Target keywords: fishing cabins, fly fishing retreats, anglers unique stays.",
+      "acceptanceCriteria": [
+        "Completed in Sprint 7"
+      ],
+      "priority": 38,
+      "passes": true,
+      "notes": "10 stays: MT, MI, CO, MN, VA, TX, TN, GA, MO, NY. Organized by kind of water."
+    },
+    {
+      "id": "RESEARCH-007",
+      "title": "Collect stay data for 10 fishing stays",
+      "description": "Fetch full stay data from Payload for all 10 selected stays. Identify specific detail per stay.",
+      "acceptanceCriteria": [
+        "Completed in Sprint 7"
+      ],
+      "priority": 39,
+      "passes": true,
+      "notes": "All 10 have valid affiliateUrl, images, descriptions. Key details: Clark Fork steps to river, Pere Marquette Wild & Scenic, Colorado Gold Medal, Virginia 4.98/320 reviews, Norris Lake water-access-only, Caddo Lake only natural TX lake, Lake Vermilion gear included, Toccoa River native brook trout, Bagnell Dam 1931, NY fishing poles included."
+    },
+    {
+      "id": "WRITE-007",
+      "title": "Write first draft of Fishing Cabins dispatch",
+      "description": "Write the full editorial post.",
+      "acceptanceCriteria": [
+        "Completed in Sprint 7"
+      ],
+      "priority": 40,
+      "passes": true,
+      "notes": "Saved to content/drafts/fishing-cabins-unique-stays-anglers.md. Organized by kind of water."
+    },
+    {
+      "id": "SEO-007",
+      "title": "SEO optimize the Fishing Cabins draft",
+      "description": "Definition block, FAQ section, internal links, keyword placement.",
+      "acceptanceCriteria": [
+        "Completed in Sprint 7"
+      ],
+      "priority": 41,
+      "passes": true,
+      "notes": "Definition block added. FAQ with 5 questions. Internal links to A-frames and stargazing posts. metaTitle 51 chars. metaDescription 140 chars."
+    },
+    {
+      "id": "REVIEW-007",
+      "title": "Review and sharpen the Fishing Cabins draft",
+      "description": "Quality gate. Score against rubric.",
+      "acceptanceCriteria": [
+        "Completed in Sprint 7"
+      ],
+      "priority": 42,
+      "passes": true,
+      "notes": "Quality score: 8.8/10. Zero banned words. Zero em dashes. Zero exclamation marks. All 10 stays pass Irish Storytelling Test. v2 saved."
+    },
+    {
+      "id": "PUBLISH-007",
+      "title": "Publish Fishing Cabins post to Payload CMS",
+      "description": "Create blog post in Payload with Lexical JSON, hero image, stay embeds.",
+      "acceptanceCriteria": [
+        "Completed in Sprint 7"
+      ],
+      "priority": 43,
+      "passes": true,
+      "notes": "Published at /journal/fishing-cabins-unique-stays-anglers (Payload ID: 11). Hero image: Owens River fly fishing (Unsplash photo-1493787039806-2edcbe808750) via Vercel Blob. 10 stayEmbed blocks."
+    },
+    {
+      "id": "SYNC-007",
+      "title": "Update tracking docs and commit",
+      "description": "Update prd.json, progress.txt, calendar, save to content/published/, git commit.",
+      "acceptanceCriteria": [
+        "Completed in Sprint 7"
+      ],
+      "priority": 44,
+      "passes": true,
+      "notes": "Sprint 7 complete."
     }
   ]
 }
