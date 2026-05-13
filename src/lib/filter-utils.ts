@@ -2,6 +2,39 @@ import type { NormalizedStay } from './types'
 
 export type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'rating'
 
+/** Parse wifi speed string like "500 Mbps" or "1 Gbps" into a numeric Mbps value */
+export function parseWifiMbps(wifiSpeed: string): number {
+  if (!wifiSpeed) return 0
+  const lower = wifiSpeed.toLowerCase().trim()
+  if (lower.includes('gbps')) {
+    const match = lower.match(/(\d+)/)
+    return match ? parseInt(match[1], 10) * 1000 : 0
+  }
+  const match = lower.match(/(\d+)/)
+  return match ? parseInt(match[1], 10) : 0
+}
+
+export interface SpokeFilterState {
+  // work-friendly
+  wifiMinMbps: number | null
+  hasDesk: boolean
+  // pet-friendly
+  petFriendly: boolean
+  fencedYard: boolean
+  catFriendly: boolean
+  noSizeLimit: boolean
+  // rv-ready
+  rvHookup: boolean
+  rvFullHookup: boolean
+  rv50Amp: boolean
+  rvPullThrough: boolean
+  // ev-ready
+  evCharger: boolean
+  evTesla: boolean
+  evLevel2: boolean
+  evJ1772: boolean
+}
+
 export interface FilterState {
   search: string
   category: string | null
@@ -11,6 +44,26 @@ export interface FilterState {
   priceMax: number | null
   editorsPick: boolean
   sortBy: SortOption
+  spoke: SpokeFilterState
+}
+
+export function createEmptySpokeFilterState(): SpokeFilterState {
+  return {
+    wifiMinMbps: null,
+    hasDesk: false,
+    petFriendly: false,
+    fencedYard: false,
+    catFriendly: false,
+    noSizeLimit: false,
+    rvHookup: false,
+    rvFullHookup: false,
+    rv50Amp: false,
+    rvPullThrough: false,
+    evCharger: false,
+    evTesla: false,
+    evLevel2: false,
+    evJ1772: false,
+  }
 }
 
 export function createEmptyFilterState(): FilterState {
@@ -23,6 +76,7 @@ export function createEmptyFilterState(): FilterState {
     priceMax: null,
     editorsPick: false,
     sortBy: 'featured',
+    spoke: createEmptySpokeFilterState(),
   }
 }
 
@@ -82,6 +136,68 @@ export function applyFilters(
   // Editor's Pick
   if (state.editorsPick) {
     results = results.filter((s) => s.editorsPick)
+  }
+
+  // Spoke-specific filters
+  const sf = state.spoke
+
+  // work-friendly
+  if (sf.wifiMinMbps != null) {
+    results = results.filter((s) => {
+      const mbps = parseWifiMbps(s.wifiSpeed)
+      return mbps >= sf.wifiMinMbps!
+    })
+  }
+  if (sf.hasDesk) {
+    results = results.filter((s) => s.hasDesk)
+  }
+
+  // pet-friendly
+  if (sf.petFriendly) {
+    results = results.filter((s) => s.petFriendly)
+  }
+  if (sf.fencedYard) {
+    results = results.filter((s) => s.tags.some((t) => t.toLowerCase().includes('fenced')))
+  }
+  if (sf.catFriendly) {
+    results = results.filter((s) => s.petPolicy?.toLowerCase().includes('cat'))
+  }
+  if (sf.noSizeLimit) {
+    results = results.filter(
+      (s) =>
+        s.petPolicy?.toLowerCase().includes('no size') ||
+        s.petPolicy?.toLowerCase().includes('any size'),
+    )
+  }
+
+  // rv-ready
+  if (sf.rvHookup) {
+    results = results.filter((s) => s.rvHookup)
+  }
+  if (sf.rvFullHookup) {
+    results = results.filter((s) => s.rvDetails?.toLowerCase().includes('full'))
+  }
+  if (sf.rv50Amp) {
+    results = results.filter(
+      (s) => s.rvDetails?.includes('50-amp') || s.rvDetails?.includes('50 amp'),
+    )
+  }
+  if (sf.rvPullThrough) {
+    results = results.filter((s) => s.rvDetails?.toLowerCase().includes('pull'))
+  }
+
+  // ev-ready
+  if (sf.evCharger) {
+    results = results.filter((s) => s.evCharger)
+  }
+  if (sf.evTesla) {
+    results = results.filter((s) => s.evDetails?.toLowerCase().includes('tesla'))
+  }
+  if (sf.evLevel2) {
+    results = results.filter((s) => s.evDetails?.toLowerCase().includes('level 2'))
+  }
+  if (sf.evJ1772) {
+    results = results.filter((s) => s.evDetails?.toLowerCase().includes('j1772'))
   }
 
   // Sort
@@ -178,6 +294,23 @@ export function serializeFilters(state: FilterState): URLSearchParams {
   if (state.editorsPick) params.set('pick', '1')
   if (state.sortBy !== 'featured') params.set('sort', state.sortBy)
 
+  // Spoke-specific
+  const sf = state.spoke
+  if (sf.wifiMinMbps != null) params.set('wifiMin', String(sf.wifiMinMbps))
+  if (sf.hasDesk) params.set('desk', '1')
+  if (sf.petFriendly) params.set('pet', '1')
+  if (sf.fencedYard) params.set('fenced', '1')
+  if (sf.catFriendly) params.set('cat', '1')
+  if (sf.noSizeLimit) params.set('nosize', '1')
+  if (sf.rvHookup) params.set('rv', '1')
+  if (sf.rvFullHookup) params.set('rvfull', '1')
+  if (sf.rv50Amp) params.set('rv50', '1')
+  if (sf.rvPullThrough) params.set('rvpull', '1')
+  if (sf.evCharger) params.set('ev', '1')
+  if (sf.evTesla) params.set('evtesla', '1')
+  if (sf.evLevel2) params.set('evl2', '1')
+  if (sf.evJ1772) params.set('evj', '1')
+
   return params
 }
 
@@ -202,6 +335,22 @@ export function deserializeFilters(search: string): FilterState {
       state.sortBy = sort as SortOption
     }
   }
+
+  // Spoke-specific
+  if (params.get('wifiMin')) state.spoke.wifiMinMbps = parseInt(params.get('wifiMin')!, 10)
+  if (params.get('desk') === '1') state.spoke.hasDesk = true
+  if (params.get('pet') === '1') state.spoke.petFriendly = true
+  if (params.get('fenced') === '1') state.spoke.fencedYard = true
+  if (params.get('cat') === '1') state.spoke.catFriendly = true
+  if (params.get('nosize') === '1') state.spoke.noSizeLimit = true
+  if (params.get('rv') === '1') state.spoke.rvHookup = true
+  if (params.get('rvfull') === '1') state.spoke.rvFullHookup = true
+  if (params.get('rv50') === '1') state.spoke.rv50Amp = true
+  if (params.get('rvpull') === '1') state.spoke.rvPullThrough = true
+  if (params.get('ev') === '1') state.spoke.evCharger = true
+  if (params.get('evtesla') === '1') state.spoke.evTesla = true
+  if (params.get('evl2') === '1') state.spoke.evLevel2 = true
+  if (params.get('evj') === '1') state.spoke.evJ1772 = true
 
   return state
 }

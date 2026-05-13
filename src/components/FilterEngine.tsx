@@ -8,6 +8,7 @@ import FilterSidebar from './FilterSidebar'
 import StayCard from './StayCard'
 import {
   type FilterState,
+  type SpokeFilterState,
   type SortOption,
   createEmptyFilterState,
   applyFilters,
@@ -145,6 +146,10 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
     setFilters((prev) => ({ ...prev, editorsPick: !prev.editorsPick }))
   }, [])
 
+  const handleSpokeFilterChange = useCallback((update: Partial<SpokeFilterState>) => {
+    setFilters((prev) => ({ ...prev, spoke: { ...prev.spoke, ...update } }))
+  }, [])
+
   const handleReset = useCallback(() => {
     setFilters(createEmptyFilterState())
     setAiIds(null)
@@ -198,7 +203,9 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
                 onPriceMinChange={handlePriceMinChange}
                 onPriceMaxChange={handlePriceMaxChange}
                 onEditorsPickToggle={handleEditorsPickToggle}
+                onSpokeFilterChange={handleSpokeFilterChange}
                 onReset={handleReset}
+                spokeSlug={spokeSlug}
               />
             )}
 
