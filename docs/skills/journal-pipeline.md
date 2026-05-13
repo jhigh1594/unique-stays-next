@@ -1,8 +1,3 @@
----
-name: journal-pipeline
-description: Autonomous journal content pipeline for UniqueStaysUSA. Researches keywords, writes editorial content, publishes to Payload CMS, and tracks results. Use when creating journal posts, writing blog content, planning content strategy, or the user says "next post", "write an article", "journal", "content sprint", "publish", or anything about creating travel editorial content. Also triggers on "content calendar", "what should we write next", or "run the pipeline".
----
-
 # Journal Pipeline
 
 Autonomous content machine for UniqueStaysUSA. Combines SEO research, editorial writing, quality enforcement, and Payload CMS publishing into one pipeline. Runs as a PRD-driven loop — pick next article, execute 7 phases, commit, repeat.
@@ -47,7 +42,7 @@ Research what to write before writing a single word.
 3. Select the first `Planned` Journal Post entry (chronological order)
 4. Double-check by querying Payload for a matching slug/keyword (catches manual publishes):
    ```bash
-   GET ${NEXT_PUBLIC_SERVER_URL}/api/blog-posts?where[status][equals]=published&depth=0&limit=50
+   GET https://uniquestaysusa.com/api/blog-posts?where[status][equals]=published&depth=0&limit=50
    ```
 5. If the Payload check finds a match, update the calendar Status to `Published` and move to next entry
 6. Announce: "Starting autonomous creation of [topic] — next in calendar queue"
@@ -128,12 +123,6 @@ Find at least one concrete detail that could not apply to any other property. So
 
 Write the full editorial draft.
 
-**Invoke `/elite-copywriter`** with:
-- The content brief (topic, keyword, article type, competitive angle)
-- The brand voice profile (reference `docs/uniquestays-brand-guidelines.md`)
-- The stay data from Phase 2
-- The article type template from `references/article-templates.md`
-
 **Writing rules:**
 - Open with the reader's experience, not the property's features
 - Lead with feeling, follow with fact — every paragraph
@@ -146,6 +135,9 @@ Write the full editorial draft.
 - No banned words (see `references/quality-checklist.md`)
 - No exclamation marks
 - No em dashes — rewrite using periods, commas, colons, or separate sentences. Em dashes are a strong AI tell and erode reader trust. Maximum zero per article.
+
+Reference brand voice: `docs/uniquestays-brand-guidelines.md`
+Reference article templates: `references/article-templates.md`
 
 **File location:** `content/drafts/{slug}.md`
 
@@ -193,7 +185,7 @@ Optimize for search and AI citation. Read `references/seo-requirements.md` for t
 **Internal linking:**
 1. Query Payload for related posts:
    ```bash
-   GET /api/blog-posts?where[status][equals]=published&where[state][equals]={state}&depth=0&limit=10
+   GET https://uniquestaysusa.com/api/blog-posts?where[status][equals]=published&where[state][equals]={state}&depth=0&limit=10
    ```
 2. Add 2+ contextual inline links to other journal posts
 3. Link to relevant spoke pages where topic overlaps
@@ -227,7 +219,7 @@ Quality gate. Score against the rubric in `references/quality-checklist.md`.
 **Quality scans:**
 1. **Banned word scan** — zero tolerance. Search for: stunning, breathtaking, magical, life-changing, perfect, amazing, incredible, unforgettable, cozy, hidden gem, wanderlust, bucket list, must-see, nestled, escape the everyday, "whether you're", "perfect for"
 2. **Exclamation mark scan** — zero tolerance in journal posts
-3. **Em dash scan** — zero tolerance. Search for `—` (U+2014). Every instance must be rewritten using a period, comma, colon, or removed entirely. A single em dash is acceptable only when no other punctuation can deliver the same meaning.
+3. **Em dash scan** — zero tolerance. Search for `—` (U+2014). Every instance must be rewritten using a period, comma, colon, or removed entirely.
 4. **20% cut test** — identify the weakest 20% of paragraphs. Cut or rewrite them
 5. **Feeling-first check** — verify no stay section opens with features instead of feeling
 6. **Irish Storytelling Test** — verify at least one specific detail per stay that could only apply to that place
@@ -252,8 +244,6 @@ GET /api/stays?where[slug][equals]={stay-slug}&depth=0&limit=1
 
 **Step 2: Upload hero image** (REQUIRED — every post needs one)
 
-Use the reusable CLI utility — it handles download, Vercel Blob upload, media record creation/patching, heroImage linking, ISR revalidation, and verification in one call:
-
 ```bash
 pnpm exec tsx --env-file=.env.local scripts/set-hero-image.ts \
   --slug "{post-slug}" \
@@ -261,13 +251,7 @@ pnpm exec tsx --env-file=.env.local scripts/set-hero-image.ts \
   --alt "Descriptive alt text for the image"
 ```
 
-Or programmatically in a publish script:
-```typescript
-import { uploadHeroImage } from './lib/upload-hero.js'
-await uploadHeroImage({ imageUrl, filename: `${slug}-hero.jpg`, alt, postSlug: slug })
-```
-
-The utility lives at `scripts/lib/upload-hero.ts`. It always uploads via `@vercel/blob` `put()` directly (not through Payload's upload pipeline, which stores locally in script context).
+The utility lives at `scripts/lib/upload-hero.ts`. Always uploads via `@vercel/blob` `put()` directly.
 
 **Step 3: Check for existing post**
 ```bash
@@ -278,84 +262,30 @@ GET /api/blog-posts?where[slug][equals]={slug}&depth=0&limit=1
 
 **Step 4: Construct Lexical JSON**
 
-Use these helper functions to build the content:
-
 ```typescript
 function text(content: string) {
   return { type: 'text', format: 0, style: '', mode: 'normal', text: content, detail: 0, version: 1 }
 }
-
 function para(content: string) {
-  return {
-    type: 'paragraph', format: '', indent: 0, version: 1, direction: 'ltr',
-    textFormat: 0, textStyle: '',
-    children: [text(content)],
-  }
+  return { type: 'paragraph', format: '', indent: 0, version: 1, direction: 'ltr', textFormat: 0, textStyle: '', children: [text(content)] }
 }
-
 function h2(content: string) {
-  return {
-    type: 'heading', tag: 'h2', format: '', indent: 0, version: 1, direction: 'ltr',
-    children: [text(content)],
-  }
+  return { type: 'heading', tag: 'h2', format: '', indent: 0, version: 1, direction: 'ltr', children: [text(content)] }
 }
-
 function embedBlock(stayId: number) {
-  return {
-    type: 'block', version: 2,
-    fields: { id: crypto.randomUUID(), blockType: 'stayEmbed', stay: stayId },
-  }
+  return { type: 'block', version: 2, fields: { id: crypto.randomUUID(), blockType: 'stayEmbed', stay: stayId } }
 }
-
 function hr() {
   return { type: 'horizontalrule', version: 1 }
 }
 ```
 
-**Step 5: Two-step update** (follows the pattern in `scripts/update-treehouse-article.ts`)
+**Step 5: Two-step PATCH**
 
-First call — update heroImage + linkedStays + editorial fields:
-```bash
-PATCH /api/blog-posts/{id}
-{
-  "title": "...",
-  "subtitle": "...",
-  "excerpt": "...",
-  "heroImage": <media_id>,
-  "linkedStays": [<stay_id_1>, <stay_id_2>, ...],
-  "city": "...",
-  "state": "...",
-  "latitude": "...",
-  "longitude": "...",
-  "metaTitle": "...",
-  "metaDescription": "...",
-  "status": "published",
-  "publishedAt": "<ISO datetime>"
-}
-```
-
-Second call — update content with Lexical JSON:
-```bash
-PATCH /api/blog-posts/{id}
-{
-  "content": { "root": { ... } }
-}
-```
-
-**Step 6: Verify**
-```bash
-# Check the API record
-GET /api/blog-posts?where[slug][equals]={slug}&depth=1&limit=1
-
-# Check the public page loads
-GET https://uniquestaysusa.com/journal/{slug}
-```
-
-**Step 7: Save final version** to `content/published/{slug}.md`
+First: heroImage + linkedStays + editorial fields + `status: "published"` + `publishedAt`
+Second: `content` with Lexical JSON
 
 **Authentication:** `Authorization: users API-Key {key}` — read from environment, never hardcode.
-
-**ISR revalidation:** Automatic via Payload's `afterChange` hook in `src/collections/BlogPosts.ts`. No manual revalidation needed.
 
 **Output:** Post live at `/journal/{slug}`. Mark PUBLISH as passed in `prd.json`.
 
@@ -365,45 +295,11 @@ GET https://uniquestaysusa.com/journal/{slug}
 
 Update tracking documents. Mandatory — never skip.
 
-**Update `scripts/ralph/progress.txt`:**
-Append a sprint summary:
-```markdown
-### Sprint {N}: {Article Title}
+**Update `scripts/ralph/progress.txt`** with sprint summary.
 
-**PLAN-{N}** ✓ — {keyword}, {article type}, {N} stays selected
+**Update `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md`:** Change `Status` from `Planned` to `Published` for the matching entry.
 
-**RESEARCH-{N}** ✓ — Stay data collected, {N} specific details identified
-
-**WRITE-{N}** ✓ — First draft: content/drafts/{slug}.md
-
-**SEO-{N}** ✓ — Keyword optimized, {N} internal links, FAQ added
-
-**REVIEW-{N}** ✓ — Quality score: {X}/10, {N} edits
-
-**PUBLISH-{N}** ✓ — content/published/{slug}.md
-- Published at: /journal/{slug}
-- Target keyword: {keyword}
-- Word count: {N}
-- Quality score: {X}/10
-```
-
-**Update `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md`:**
-1. Find the matching entry in the monthly tables
-2. Change the `Status` column from `Planned` to `Published`
-3. If the post doesn't match any calendar entry, add it to the "Completed (Pre-Calendar)" table at the top of the calendar
-
-**Record learned patterns** in the progress file (what worked, what to do differently next sprint).
-
-**Verify sitemap inclusion:**
-```bash
-GET https://uniquestaysusa.com/sitemap.xml
-# Check that /journal/{slug} appears
-```
-
-**Update `scripts/ralph/prd.json`:**
-- All sprint stories set to `passes: true`
-- Increment `sprintNumber`
-- Clear `currentStory` for next sprint
+**Update `scripts/ralph/prd.json`:** All sprint stories `passes: true`, increment `sprintNumber`.
 
 **Git commit:**
 ```bash
@@ -411,69 +307,20 @@ git add content/published/{slug}.md scripts/ralph/prd.json scripts/ralph/progres
 git commit -m "journal: publish \"{title}\" (sprint {N})"
 ```
 
-**Output:** All tracking docs updated and committed. Mark SYNC as passed. Loop continues to next sprint.
-
----
-
-## Loop Control
-
-### State persistence
-
-The loop state lives in three files:
-
-| File | Purpose |
-|---|---|
-| `scripts/ralph/prd.json` | Sprint stories, pass/fail status, sprint number |
-| `scripts/ralph/progress.txt` | Running log of completed work and learned patterns |
-| `.claude/ralph-loop.local.md` | Ralph stop hook state (active, iteration count, completion promise) |
-
-### Start of each iteration
-
-1. Read `.claude/ralph-loop.local.md` — is a Ralph loop active?
-2. Read `scripts/ralph/prd.json` — what's the current sprint and story?
-3. Read `scripts/ralph/progress.txt` — what patterns have been learned?
-4. Find the highest-priority story where `passes: false`
-5. Execute that story's phase
-6. Update `prd.json` with `passes: true`
-7. If all stories pass, start a new sprint (return to Phase 1)
-
-### Stop conditions
-
-- All calendar entries for the current month are completed
-- Quality gate fails 3 times on the same article (escalate to user)
-- User explicitly cancels (`/ralph-cancel` or removes `active: true` from loop state)
-- User says "stop", "pause", or "that's enough for now"
-
-### Ralph stop hook integration
-
-The existing Ralph stop hook at `.claude/ralph-loop.local.md` controls loop persistence across context windows. The skill reads this file at the start of each iteration. When a context window closes, the stop hook re-feeds the journal-pipeline prompt to continue where it left off.
+**Output:** All tracking docs updated and committed. Mark SYNC as passed.
 
 ---
 
 ## Content Calendar Integration
 
-### Reading the calendar
+Calendar lives at `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md`. Auto-select logic:
 
-The calendar lives at `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md`. Parse the monthly tables:
-
-| Column | Use |
-|---|---|
-| Week | Scheduling |
-| Content Type | Journal Post vs Lead Magnet vs Programmatic |
-| Title/Topic | The article topic |
-| Target Keywords | Primary + secondary keywords |
-| Goal | The strategic purpose |
-
-### Auto-select logic
-
-1. Find the current month's section
+1. Find current month's section
 2. Filter for "Journal Post" content type entries
 3. For each entry, check if a published post exists in Payload with matching topic
 4. Select the first entry with no published match
-5. If the current month has no remaining entries, advance to the next month
-6. If no entries remain, report "calendar complete" and suggest planning next quarter
-
-### Article type inference
+5. If current month has no remaining entries, advance to next month
+6. If no entries remain, report "calendar complete"
 
 | Calendar signal | Article type |
 |---|---|
@@ -482,13 +329,3 @@ The calendar lives at `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md`. Parse the mont
 | Topic mentions a season or month | Seasonal Guide |
 | Topic mentions an activity (stargazing, fishing, hiking) | Activity-Based Guide |
 | Topic mentions a specific property by name | Stay Spotlight |
-
----
-
-## When NOT to Use This Skill
-
-- Updating existing published posts (use `elite-copywriter` for polish passes)
-- Creating listing pages (that's programmatic SEO, a separate system)
-- Social media content (future extension)
-- Newsletter content (future extension)
-- Technical documentation or code changes
