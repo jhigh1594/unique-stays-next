@@ -63,7 +63,7 @@ function journalPost(overrides: Partial<NormalizedJournalPost> = {}): Normalized
 }
 
 describe('JournalContent archive board', () => {
-  it('renders the featured post and each archived post exactly once', () => {
+  it('renders the featured post once, each archived post exactly once', () => {
     const posts = [
       journalPost({ id: 1, title: 'Latest Dispatch' }),
       journalPost({ id: 2, title: 'Treehouse Field Notes' }),
@@ -82,7 +82,7 @@ describe('JournalContent archive board', () => {
     expect(screen.getByLabelText('Filed dispatches')).toBeInTheDocument()
   })
 
-  it('does not render an empty archive board for a single post', () => {
+  it('renders a single post as the featured dispatch', () => {
     render(<JournalContent posts={[journalPost({ id: 1, title: 'Only Dispatch' })]} />)
 
     expect(screen.getByText('Only Dispatch')).toBeInTheDocument()

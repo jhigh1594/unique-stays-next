@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowUpRight, MapPin, Newspaper } from 'lucide-react'
 import type { CSSProperties } from 'react'
 import type { NormalizedJournalPost } from '@/lib/types'
+import JournalHero from './JournalHero'
 
 function formatPostmarkDate(dateStr: string): string {
   if (!dateStr) return 'OPEN FILE'
@@ -71,7 +72,7 @@ function PostmarkSVG({
       />
       <circle cx="40" cy="40" r="27" fill="none" stroke="oklch(0.55 0.14 38)" strokeWidth="0.75" />
       <defs>
-        <path id={`pt-${id}`} d="M 7,40 A 33,33 0 0,1 73,40" />
+        <path id={`pt-${id}`} d="M 11,40 A 29,29 0 0,1 69,40" />
         <path id={`pb-${id}`} d="M 7,40 A 33,33 0 0,0 73,40" />
       </defs>
       <text
@@ -197,49 +198,12 @@ function DispatchCard({
 export default function JournalContent({ posts }: { posts: NormalizedJournalPost[] }) {
   const featured = posts[0] ?? null
   const rest = posts.slice(1)
-  const states = Array.from(new Set(posts.map((post) => post.state).filter(Boolean)))
 
   return (
     <main className="journal-index">
-      <section className="journal-index-hero" aria-labelledby="journal-title">
-        <div className="journal-ticker" aria-hidden="true">
-          <span>Field notes</span>
-          <span>Postmarked routes</span>
-          <span>Vetted stays</span>
-          <span>Slow travel</span>
-        </div>
+      <JournalHero />
 
-        <div className="journal-index-hero__grid">
-          <div className="journal-index-hero__copy">
-            <p className="journal-kicker">UniqueStaysUSA dispatch desk</p>
-            <h1 id="journal-title">
-              <span>The Journal</span>
-              <span>is an archive</span>
-              <span>of places</span>
-              <span>with a pulse.</span>
-            </h1>
-            <p>
-              Field reports, route notes, and stay-side observations from the stranger
-              corners of the American map.
-            </p>
-          </div>
-
-          <aside className="journal-manifest" aria-label="Journal archive manifest">
-            <div>
-              <span className="journal-manifest__label">Open files</span>
-              <strong>{String(posts.length).padStart(2, '0')}</strong>
-            </div>
-            <div>
-              <span className="journal-manifest__label">States logged</span>
-              <strong>{String(states.length || 1).padStart(2, '0')}</strong>
-            </div>
-            <div>
-              <span className="journal-manifest__label">Current brief</span>
-              <strong>Go where the story is</strong>
-            </div>
-          </aside>
-        </div>
-      </section>
+      <h1 className="sr-only">The Journal — UniqueStaysUSA</h1>
 
       {posts.length === 0 ? (
         <section className="journal-empty">
@@ -248,7 +212,7 @@ export default function JournalContent({ posts }: { posts: NormalizedJournalPost
           <p>Check back soon for the first field report.</p>
         </section>
       ) : (
-        <section className="journal-board" aria-label="Published dispatches">
+        <section id="board" className="journal-board" aria-label="Published dispatches">
           <div className="journal-board__header">
             <p className="journal-kicker">Pinned now</p>
             <h2>Latest from the board</h2>
@@ -287,7 +251,7 @@ export default function JournalContent({ posts }: { posts: NormalizedJournalPost
                     <span>Latest dispatch</span>
                     <span>{formatTelegramDate(featured.publishedAt)}</span>
                   </div>
-                  <p className="journal-kicker">{coordinateLabel(featured)}</p>
+                  <p className="journal-coordinate">{coordinateLabel(featured)}</p>
                   <h2>{featured.title}</h2>
                   {featured.excerpt && <p>{featured.excerpt}</p>}
                   <span className="featured-dispatch__cta">
