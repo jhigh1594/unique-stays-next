@@ -80,6 +80,73 @@
       "priority": 5,
       "passes": false,
       "notes": "Output is a file Jon uses to create the post in Payload admin at /admin."
+    },
+    {
+      "id": "PLAN-002",
+      "title": "Plan national treehouse roundup",
+      "description": "National editorial roundup: 'The Best Treehouse Rentals in the USA'. Target keyword: 'best treehouse rentals in the USA'. 10 stays across 8 states.",
+      "acceptanceCriteria": [
+        "Target keyword identified",
+        "10 stays selected with geographic diversity",
+        "Curated roundup format confirmed (1800-2500 words)"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "10 treehouses: NY, VT, GAx2, TNx2, OH, CO, WA, CA"
+    },
+    {
+      "id": "WRITE-002",
+      "title": "Write treehouse roundup draft",
+      "description": "Full editorial draft with sensory lede, 10 stay sections, When to Book section.",
+      "acceptanceCriteria": [
+        "~1,650 words body content",
+        "Each stay has hyper-specific concrete detail",
+        "No generic cliches",
+        "[EMBED: slug] placeholders for all 10 stays"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Sensory lede about sleeping at height"
+    },
+    {
+      "id": "SEO-002",
+      "title": "SEO optimization pass",
+      "description": "Keyword placement, em dash removal, AI citation FAQ, banned word scan.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 100 words",
+        "Zero em dashes (was 22, all removed)",
+        "FAQ section with 5 questions",
+        "Banned word scan clean"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "22 em dashes fixed. FAQ added."
+    },
+    {
+      "id": "REVIEW-002",
+      "title": "Quality gate scoring",
+      "description": "8-criteria rubric scoring.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "8.5/10. Strong specificity, geographic diversity, feeling-first openings."
+    },
+    {
+      "id": "PUBLISH-002",
+      "title": "Publish treehouse roundup to Payload",
+      "description": "Resolve stay IDs, upload hero, construct Lexical JSON, publish via Payload API.",
+      "acceptanceCriteria": [
+        "Post created in Payload with status: published",
+        "10 linked stays resolved",
+        "Hero image uploaded and linked",
+        "Lexical content with stayEmbed blocks"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Post id=13, media id=12. Live at /journal/best-treehouse-rentals-usa"
     }
-  ]
+  ],
+  "sprintNumber": 3
 }

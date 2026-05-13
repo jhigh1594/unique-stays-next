@@ -47,6 +47,19 @@
 - SEO: "treehouse rentals" + "USA" integrated naturally; metaTitle 58 chars, metaDescription 152 chars
 - Status: draft committed to PR for editorial review
 
+**SEO-002** ✓ — SEO pass completed:
+- Keyword "best treehouse rentals in the USA" placed in title, meta, excerpt, first 100 words, FAQ section
+- 22 em dashes removed (zero-tolerance AI tell policy)
+- FAQ section added (5 questions) for AI citation coverage
+- Banned word scan: clean. Exclamation scan: clean.
+
+**PUBLISH-002** ✓ — Published to Payload CMS (post id=13):
+- Slug: best-treehouse-rentals-usa
+- 10 linked stays (IDs: 73, 11, 74, 75, 64, 63, 68, 57, 58, 28)
+- Hero image uploaded (media id=12) via Payload SDK
+- Lexical content with stayEmbed blocks for all 10 properties
+- Status: published, live at /journal/best-treehouse-rentals-usa
+
 ### Patterns
 - National roundups need hyper-specific details in each entry to avoid reading like a listicle
 - 10 stays is the upper limit before the format loses the curated feeling
