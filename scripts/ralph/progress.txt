@@ -23,5 +23,35 @@
 - Price + rating callout at end of each stay section = social proof without breaking voice
 - "When to Go" earns its place via seasonal search queries
 
+### Sprint 2: Best Treehouse Rentals in the USA
+
+**PLAN-002** ✓ — National roundup, 10 treehouses selected from seo-listings.csv:
+- willow-treehouse-ny, copper-fox-treehouse-vt, secluded-intown-treehouse-ga
+- toccoa-waterfall-treehouse-ga, elm-treehouse-grove-tn, treehouse-sauna-tn
+- hocking-hills-treehouse-oh, rocky-mountain-treehouse-co
+- treehouse-point-temple-wa, redwood-treehouse-ca
+- Geographic spread: NY, VT, GA×2, TN×2, OH, CO, WA, CA
+- Target keyword: "best treehouse rentals in the USA"
+- Format: national editorial roundup (not single-destination dispatch)
+- Word count target: ~1,600 words
+
+**WRITE-002** ✓ — Full draft written: content/drafts/best-treehouse-rentals-usa.md
+- ~1,650 words
+- Each stay has one hyper-specific concrete detail (builder name, year built, specific feature)
+- No generic clichés; brand voice consistent throughout
+- Sensory lede about the specific experience of sleeping at height
+
+**REVIEW-002** ✓ — Quality gate passed: 8.5/10
+- Strengths: lede specificity, geographic diversity, hyper-concrete details (Antony Gibbon architect, 1971 build year, 12-foot waterfall, Parthenon proportions, 1820 reviews)
+- Minor: Copper Fox section thinner than others — balanced by 4.99 rating framing + foliage timing advice
+- SEO: "treehouse rentals" + "USA" integrated naturally; metaTitle 58 chars, metaDescription 152 chars
+- Status: draft committed to PR for editorial review
+
+### Patterns
+- National roundups need hyper-specific details in each entry to avoid reading like a listicle
+- 10 stays is the upper limit before the format loses the curated feeling
+- Price + rating callout works in headers (not inline) for roundup format
+- Geographic diversity across regions is table stakes for a national "best of"
+
 ### Next
-"Best Treehouse Rentals in the USA" — need 8-12 treehouse stays identified from seo-listings.csv first.
+"Best Glamping in the Smokies" or "Best Stays Near National Parks" — need to confirm from keyword research.
