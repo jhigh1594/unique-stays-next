@@ -63,7 +63,7 @@ export function applyFilters(
 
   // Location
   if (state.location) {
-    results = results.filter((s) => filterByLocation(s, state.location))
+    results = results.filter((s) => filterByLocation(s, state.location!))
   }
 
   // Platform
