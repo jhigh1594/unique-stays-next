@@ -212,3 +212,38 @@
 - Price range transparency ($145-$325) builds trust for first-timers
 - Link paragraphs in Lexical content require `linkType: "custom"` in fields; the Payload Lexical validator rejects links without it
 - Multi-link paragraphs can be split into separate "See also" link paragraphs to avoid validation issues
+
+### Sprint 6: Best Unique Stays Near National Forests
+
+**PLAN-006** ✓ — Target keyword: unique stays near national forests. Article type: curated outdoor recreation roundup. 8 forest-forward stays selected across IL, AZ, WA, MI, OR, NH, GA, and TN.
+
+**RESEARCH-006** ✓ — Stay data collected, 8 specific details identified:
+- Shawnee Forest dome: 500 Mbps fiber internet in Shawnee National Forest
+- Coconino A-frame: 1.5 private acres at the edge of Coconino National Forest
+- Sequim dome: Olympic Peninsula forest sauna bathing setup
+- Lincoln Hills A-frame: direct Lincoln Hills Trail network access
+- Wander Arch Cape Forest: Sitka spruce walk to the Oregon Coast
+- White Mountains tiny home: North Woodstock base near Franconia Notch and Kancamagus Highway
+- Georgia mountains tiny house: Cohutta Wilderness and swimming-hole access
+- Tennessee Highlands dome: Cumberland Plateau waterfall-country setting
+
+**WRITE-006** ✓ — First draft: content/drafts/unique-stays-near-national-forests.md
+
+**SEO-006** ✓ — Keyword optimized, comparison table added, 3 authoritative Forest Service links included, FAQ added, 3 internal links added
+
+**REVIEW-006** ✓ — Quality score: 8.8/10, banned word scan clean, exclamation scan clean, em dash scan clean
+
+**PUBLISH-006** ✓ — content/published/unique-stays-near-national-forests.md
+- Published at: /journal/unique-stays-near-national-forests
+- Target keyword: unique stays near national forests
+- Word count: 2,068
+- Quality score: 8.8/10
+- Payload post id: 18
+- Hero image uploaded via Vercel Blob, media id=16
+- Public page verified at https://www.uniquestaysusa.com/journal/unique-stays-near-national-forests
+- Sitemap check: not yet included in cached production sitemap after journal revalidation
+
+### Patterns
+- National forest content works best when each stay is anchored to a named forest, trail system, wilderness area, or public-land corridor.
+- The useful editorial distinction is forest access versus forest atmosphere; "near trees" is not enough for this keyword.
+- For practical public-land articles, official Forest Service links add trust without making the piece feel like a rules explainer.

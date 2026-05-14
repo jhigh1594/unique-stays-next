@@ -378,7 +378,100 @@
       "priority": 7,
       "passes": true,
       "notes": ""
+    },
+    {
+      "id": "PLAN-006",
+      "title": "Plan national forest unique stays roundup",
+      "description": "Curated roundup: Best Unique Stays Near National Forests. Target keywords: unique stays near national forests, forest cabins, woodland glamping. 8 stays selected across 8 states.",
+      "acceptanceCriteria": [
+        "8 stays selected with forest access, geographic diversity, quality floor, valid affiliate URLs, and images"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Target keyword, article type, selected stays, and competitive angle defined."
+    },
+    {
+      "id": "RESEARCH-006",
+      "title": "Collect stay and source data for national forest roundup",
+      "description": "Gather stay details, verify affiliate URLs/images, collect official Forest Service sources, and identify one concrete detail per stay.",
+      "acceptanceCriteria": [
+        "All 8 stays have valid affiliateUrl and images",
+        "one hyper-specific detail identified per stay",
+        "official source research completed"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "All 8 stays verified. Forest Service By the Numbers, visitor data, and dispersed camping guidance used."
+    },
+    {
+      "id": "WRITE-006",
+      "title": "Write national forest roundup draft",
+      "description": "Full editorial draft with stay embeds, comparison table, and practical forest-trip guidance.",
+      "acceptanceCriteria": [
+        "1,500-2,500 words",
+        "embeds for all 8 stays",
+        "no banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "2,068 words including frontmatter. Draft saved to content/drafts/unique-stays-near-national-forests.md and v2 saved."
+    },
+    {
+      "id": "SEO-006",
+      "title": "SEO optimization for national forest article",
+      "description": "Keyword placement, FAQ, internal links, official citations, and meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 100 words, and H2",
+        "FAQ added",
+        "2+ internal links",
+        "metaTitle under 60 and metaDescription under 160"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Comparison table, FAQ, 3 internal links, 3 official Forest Service links, clean meta."
+    },
+    {
+      "id": "REVIEW-006",
+      "title": "Quality gate scoring for national forest article",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+",
+        "banned word scan clean",
+        "em dash scan clean",
+        "feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "8.8/10. Banned word, exclamation, and em dash scans clean."
+    },
+    {
+      "id": "PUBLISH-006",
+      "title": "Publish national forest article to Payload",
+      "description": "Resolve stay IDs, upload hero image, construct Lexical JSON, and publish via Payload.",
+      "acceptanceCriteria": [
+        "Post created in Payload with status: published",
+        "8 linked stays resolved",
+        "hero image uploaded and linked",
+        "public page verified"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Post id=18. Hero media id=16. Live at /journal/unique-stays-near-national-forests."
+    },
+    {
+      "id": "SYNC-006",
+      "title": "Update tracking docs for Sprint 6",
+      "description": "Update progress.txt, calendar status, prd.json, and commit.",
+      "acceptanceCriteria": [
+        "progress.txt updated",
+        "calendar status changed to Published",
+        "prd.json sprint number incremented",
+        "Git commit created"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Tracking updated."
     }
   ],
-  "sprintNumber": 6
+  "sprintNumber": 7
 }

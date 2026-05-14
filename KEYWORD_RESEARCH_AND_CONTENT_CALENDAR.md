@@ -85,7 +85,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 | 1 | Journal Post | "Lakefront Unique Stays: Cabins, Domes & A-Frames on the Water" | lakefront cabins, waterfront unique stays, lake house alternatives | Summer travel capture | Published |
 | 2 | Journal Post | "Unique Stays with Pools: From Desert Oases to Mountain Plunge Pools" | cabins with pools, unique stays swimming pool, glamping pool access | Amenity-focused content | Published |
 | 3 | Journal Post | "Glamping for Beginners: Your First Unique Stay, Explained" | glamping for beginners, first glamping trip, unique stay guide | Top-of-funnel education | Published |
-| 4 | Journal Post | "Best Unique Stays Near National Forests: Disperse, Disconnect, Unwind" | unique stays near national forests, forest cabins, woodland glamping | Outdoor recreation targeting | Planned |
+| 4 | Journal Post | "Best Unique Stays Near National Forests: Disperse, Disconnect, Unwind" | unique stays near national forests, forest cabins, woodland glamping | Outdoor recreation targeting | Published |
 
 ### Completed (Pre-Calendar)
 **Published before calendar was formalized — May 2026**
