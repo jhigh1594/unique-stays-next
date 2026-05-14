@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direction A — The Viewfinder (Journal Hero Prototype)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tc: #A84626;
+      --cr: #F6F1E8;
+      --fg: #2C2825;
+      --mu: #8A7D6E;
+      --wh: #FAF8F3;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #1a1714;
+      color: var(--wh);
+      -webkit-font-smoothing: antialiased;
+      cursor: crosshair;
+    }
+
+    /* ─── HERO CONTAINER ─── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Parallax layers */
+    .layer {
+      position: absolute;
+      inset: -40px; /* overshoot for parallax range */
+      will-change: transform;
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .layer-back {
+      background: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1920&h=1080&q=85') center/cover no-repeat;
+      filter: saturate(0.82) brightness(0.85);
+      z-index: 1;
+    }
+
+    .layer-fog {
+      z-index: 2;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(168,70,38,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 30%, rgba(44,40,37,0.15) 0%, transparent 50%);
+      mix-blend-mode: multiply;
+    }
+
+    .layer-vignette {
+      z-index: 3;
+      background:
+        radial-gradient(ellipse at center, transparent 40%, rgba(26,23,20,0.55) 100%),
+        linear-gradient(to top, rgba(26,23,20,0.5) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* ─── VIEWFINDER UI ─── */
+    .viewfinder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 55%;
+      height: 50%;
+      border: 1px solid rgba(250,248,243,0.18);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .viewfinder::before {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      background: rgba(250,248,243,0.1);
+    }
+    .viewfinder::after {
+      content: '';
+      position: absolute;
+      height: 1px;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      background: rgba(250,248,243,0.1);
+    }
+    .vf-corner {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: rgba(250,248,243,0.3);
+      border-style: solid;
+    }
+    .vf-corner.tl { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+    .vf-corner.tr { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+    .vf-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+    .vf-corner.br { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+    /* ─── REEL INFO ─── */
+    .reel-info {
+      position: absolute;
+      top: clamp(32px, 5vh, 48px);
+      right: clamp(32px, 5vw, 64px);
+      z-index: 20;
+      text-align: right;
+    }
+    .reel-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.35);
+      margin-bottom: 4px;
+    }
+    .reel-location {
+      font-family: 'Fraunces', serif;
+      font-size: 13px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(250,248,243,0.45);
+    }
+
+    /* ─── HERO TEXT ─── */
+    .hero-text {
+      position: absolute;
+      bottom: clamp(48px, 10vh, 100px);
+      left: clamp(32px, 6vw, 80px);
+      z-index: 20;
+      will-change: transform;
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-kicker {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.55);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-kicker::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--tc);
+      opacity: 0.6;
+    }
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--wh);
+      text-shadow: 0 2px 40px rgba(0,0,0,0.35);
+    }
+    .hero-title .line {
+      display: block;
+    }
+    .hero-title .italic {
+      font-style: italic;
+      color: var(--tc);
+      opacity: 0.9;
+    }
+    .hero-subtitle {
+      margin-top: 20px;
+      font-size: clamp(13px, 1.3vw, 16px);
+      line-height: 1.7;
+      color: rgba(250,248,243,0.5);
+      max-width: 42ch;
+      font-weight: 300;
+    }
+
+    /* ─── FILM STRIP ─── */
+    .film-strip {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      padding: 12px clamp(32px, 6vw, 80px);
+      background: linear-gradient(to top, rgba(26,23,20,0.6), transparent);
+    }
+    .sprocket-row {
+      display: flex;
+      gap: 18px;
+      opacity: 0.12;
+    }
+    .sprocket {
+      width: 8px;
+      height: 6px;
+      border-radius: 1px;
+      background: var(--wh);
+    }
+    .film-caption {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.25);
+    }
+
+    /* ─── GRAIN ─── */
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: 25;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ─── ENTRANCE ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .hero-title .line:nth-child(1) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+    .hero-title .line:nth-child(2) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
+    .hero-title .line:nth-child(3) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
+    .hero-title .line:nth-child(4) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both; }
+    .hero-kicker { animation: fadeIn 0.7s ease 0.1s both; }
+    .hero-subtitle { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both; }
+    .reel-info { animation: fadeIn 1s ease 0.5s both; }
+    .viewfinder { animation: fadeIn 1.5s ease 0.3s both; }
+    .film-strip { animation: fadeIn 1s ease 1s both; }
+
+    /* ─── LABEL ─── */
+    .prototype-label {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 100;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero" id="hero">
+    <!-- Parallax layers -->
+    <div class="layer layer-back" id="layerBack"></div>
+    <div class="layer layer-fog" id="layerFog"></div>
+    <div class="layer layer-vignette"></div>
+
+    <!-- Viewfinder overlay -->
+    <div class="viewfinder">
+      <div class="vf-corner tl"></div>
+      <div class="vf-corner tr"></div>
+      <div class="vf-corner bl"></div>
+      <div class="vf-corner br"></div>
+    </div>
+
+    <!-- Reel info top-right -->
+    <div class="reel-info">
+      <div class="reel-label">Reel 001</div>
+      <div class="reel-location">Southwest — Joshua Tree, CA</div>
+    </div>
+
+    <!-- Hero text bottom-left -->
+    <div class="hero-text" id="heroText">
+      <p class="hero-kicker">Dispatch from the field</p>
+      <h1 class="hero-title">
+        <span class="line">The</span>
+        <span class="line">Journal</span>
+        <span class="line italic">places with</span>
+        <span class="line italic">a pulse</span>
+      </h1>
+      <p class="hero-subtitle">Field reports, route notes, and stay-side observations from the stranger corners of the American map.</p>
+    </div>
+
+    <!-- Film strip bottom -->
+    <div class="film-strip">
+      <div class="sprocket-row">
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+      </div>
+      <div class="film-caption">UniqueStaysUSA — The Journal</div>
+    </div>
+
+    <!-- Grain -->
+    <div class="grain"></div>
+  </div>
+
+  <div class="prototype-label">Direction A — The Viewfinder</div>
+
+  <script>
+    // Parallax on mouse move
+    const hero = document.getElementById('hero');
+    const layerBack = document.getElementById('layerBack');
+    const layerFog = document.getElementById('layerFog');
+    const heroText = document.getElementById('heroText');
+
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      targetX = x;
+      targetY = y;
+    });
+
+    function animate() {
+      // Smooth interpolation
+      currentX += (targetX - currentX) * 0.06;
+      currentY += (targetY - currentY) * 0.06;
+
+      // Background: large, slow drift
+      const bgX = currentX * -20;
+      const bgY = currentY * -12;
+      layerBack.style.transform = `translate(${bgX}px, ${bgY}px) scale(1.05)`;
+
+      // Fog: medium drift, opposite direction
+      const fogX = currentX * 10;
+      const fogY = currentY * 8;
+      layerFog.style.transform = `translate(${fogX}px, ${fogY}px)`;
+
+      // Text: subtle independent drift
+      const textX = currentX * -6;
+      const textY = currentY * -4;
+      heroText.style.transform = `translate(${textX}px, ${textY}px)`;
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

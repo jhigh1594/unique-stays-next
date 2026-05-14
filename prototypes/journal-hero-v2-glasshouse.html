@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variation 2 — The Glasshouse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: oklch(0.965 0.018 83);
+      --ink: oklch(0.215 0.018 63);
+      --muted: oklch(0.48 0.034 67);
+      --terracotta: oklch(0.55 0.14 38);
+      --forest: oklch(0.34 0.085 150);
+      --gold: oklch(0.78 0.12 82);
+      --moss: oklch(0.52 0.1 145);
+      --amber: oklch(0.68 0.14 68);
+      --line: oklch(0.73 0.052 72);
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      color: var(--ink);
+      background: var(--paper);
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+      opacity: 0.06;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 72% 22%, oklch(0.78 0.10 82 / 0.35), transparent 22rem),
+        radial-gradient(ellipse at 28% 60%, oklch(0.55 0.10 38 / 0.12), transparent 20rem),
+        radial-gradient(ellipse at 50% 80%, oklch(0.42 0.08 145 / 0.15), transparent 24rem),
+        linear-gradient(175deg,
+          oklch(0.96 0.025 83) 0%,
+          oklch(0.92 0.04 78) 30%,
+          oklch(0.86 0.055 76) 60%,
+          oklch(0.78 0.08 72) 85%,
+          oklch(0.68 0.10 68) 100%
+        );
+    }
+
+    /* Golden light shafts */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -10%;
+      right: 15%;
+      width: 40%;
+      height: 80%;
+      z-index: 1;
+      background: linear-gradient(
+        195deg,
+        oklch(0.85 0.12 82 / 0.2) 0%,
+        oklch(0.85 0.12 82 / 0.08) 40%,
+        transparent 70%
+      );
+      transform: rotate(-8deg);
+      pointer-events: none;
+      animation: lightShift 12s ease-in-out infinite alternate;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: -5%;
+      right: 30%;
+      width: 25%;
+      height: 65%;
+      z-index: 1;
+      background: linear-gradient(
+        190deg,
+        oklch(0.82 0.10 78 / 0.12) 0%,
+        oklch(0.82 0.10 78 / 0.04) 50%,
+        transparent 80%
+      );
+      transform: rotate(-4deg);
+      pointer-events: none;
+      animation: lightShift 16s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes lightShift {
+      from { transform: rotate(-8deg) translateX(0); opacity: 1; }
+      to { transform: rotate(-6deg) translateX(2%); opacity: 0.7; }
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem clamp(1.2rem, 4vw, 3rem);
+    }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--terracotta); }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links .active { color: var(--terracotta); }
+
+    /* ─── HERO HEADER ─── */
+    .hero-header {
+      position: relative;
+      z-index: 5;
+      padding: clamp(3rem, 8vh, 7rem) clamp(1.5rem, 6vw, 6rem) clamp(2rem, 4vh, 3rem);
+      max-width: 90rem;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin: 0 0 1rem;
+      color: var(--terracotta);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 1.8rem;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 13vw, 11rem);
+      font-weight: 700;
+      letter-spacing: -0.048em;
+      line-height: 0.84;
+      max-width: 10ch;
+    }
+    .hero-title .warm {
+      display: block;
+      color: var(--terracotta);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .hero-title .gold {
+      display: block;
+      color: var(--amber);
+      font-size: 0.45em;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 38ch;
+      font-weight: 400;
+    }
+
+    /* ─── PRESSED SPECIMEN CARDS ─── */
+    .specimens {
+      position: relative;
+      z-index: 6;
+      max-width: 90rem;
+      margin: 0 auto;
+      width: 100%;
+      min-height: 36rem;
+      padding: 0 clamp(1.5rem, 6vw, 6rem) clamp(3rem, 6vh, 6rem);
+    }
+
+    /* Botanical grid lines (greenhouse glass) */
+    .specimens::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(oklch(0.52 0.1 145 / 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, oklch(0.52 0.1 145 / 0.04) 1px, transparent 1px);
+      background-size: 6rem 6rem;
+      mask-image: radial-gradient(ellipse at 60% 50%, black, transparent 70%);
+      pointer-events: none;
+    }
+
+    .specimen {
+      position: absolute;
+      width: min(22rem, 65vw);
+      padding: 1.2rem;
+      background: linear-gradient(150deg, oklch(0.99 0.008 85), oklch(0.94 0.03 78));
+      border: 1px solid oklch(0.78 0.05 75 / 0.6);
+      color: var(--ink);
+      box-shadow:
+        0 0.6rem 1.6rem oklch(0.34 0.085 150 / 0.08),
+        0 0.3rem 0.8rem oklch(0.22 0.018 63 / 0.06);
+      transform: rotate(var(--tilt, 0deg));
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s ease;
+    }
+    .specimen:hover {
+      transform: rotate(0deg) translateY(-5px) scale(1.01);
+      box-shadow:
+        0 0.8rem 2.4rem oklch(0.34 0.085 150 / 0.12),
+        0 0.4rem 1rem oklch(0.22 0.018 63 / 0.08);
+    }
+
+    .specimen .mount {
+      position: relative;
+      background: oklch(0.96 0.01 83);
+      padding: 0.6rem;
+      border: 1px solid oklch(0.82 0.04 72 / 0.4);
+    }
+    .specimen img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 5/4;
+      object-fit: cover;
+      filter: saturate(0.82) sepia(0.06);
+    }
+    .specimen .label-tag {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 0.5rem;
+      padding: 0.2rem 0.5rem;
+      background: oklch(0.99 0.01 85 / 0.88);
+      border: 1px solid oklch(0.82 0.04 72 / 0.4);
+      font-size: 0.5rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--forest);
+    }
+    .specimen h3 {
+      margin-top: 0.8rem;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+    }
+    .specimen small {
+      display: block;
+      margin-top: 0.5rem;
+      color: var(--terracotta);
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .specimen .leaf {
+      position: absolute;
+      top: -6px;
+      right: 12px;
+      width: 18px;
+      height: 18px;
+      opacity: 0.3;
+    }
+
+    .spec-a { left: 0; top: 0; --tilt: -2deg; }
+    .spec-b { right: 2%; top: 2rem; --tilt: 2.5deg; }
+    .spec-c { left: 30%; bottom: 0; --tilt: -1deg; }
+
+    /* ─── BOTANICAL ELEMENTS ─── */
+    .botanical {
+      position: absolute;
+      z-index: 3;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    .bot-1 {
+      top: 20%;
+      right: 5%;
+      width: 80px;
+      animation: sway 10s ease-in-out infinite;
+    }
+    .bot-2 {
+      bottom: 15%;
+      left: 8%;
+      width: 60px;
+      animation: sway 14s ease-in-out infinite reverse;
+    }
+    @keyframes sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(6deg); }
+    }
+
+    /* ─── BOTTOM ─── */
+    .hero-bottom {
+      position: relative;
+      z-index: 5;
+      padding: 0 clamp(1.5rem, 6vw, 6rem) clamp(2rem, 4vh, 4rem);
+      max-width: 90rem;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .hero-bottom p {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.4;
+      max-width: 22ch;
+      line-height: 1.5;
+    }
+    .hero-bottom .stats {
+      display: flex;
+      gap: 2rem;
+    }
+    .hero-bottom .stat-val {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--ink);
+      opacity: 0.3;
+    }
+    .hero-bottom .stat-label {
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.35;
+    }
+
+    /* ─── ENTRANCE ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px) rotate(var(--tilt, 0deg)); }
+      to { opacity: 1; transform: translateY(0) rotate(var(--tilt, 0deg)); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .eyebrow { animation: fadeIn 0.8s ease 0.2s both; }
+    .hero-title { animation: fadeUp 1.2s var(--ease-out) 0.3s both; }
+    .hero-sub { animation: fadeUp 0.9s var(--ease-out) 0.6s both; }
+    .specimen { animation: fadeUp 1s var(--ease-out) both; }
+    .spec-a { animation-delay: 0.7s; }
+    .spec-b { animation-delay: 0.9s; }
+    .spec-c { animation-delay: 1.1s; }
+
+    .label {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 100;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.25;
+      background: var(--paper);
+      padding: 4px 8px;
+    }
+
+    @media (max-width: 760px) {
+      .specimens { min-height: auto; position: relative; padding-top: 2rem; }
+      .specimen {
+        position: relative !important;
+        left: auto !important; right: auto !important;
+        top: auto !important; bottom: auto !important;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      .hero-bottom { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .botanical { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <nav class="nav">
+      <div class="nav-brand">Unique<span>Stays</span>USA</div>
+      <ul class="nav-links">
+        <li><a href="#">Collection</a></li>
+        <li><a href="#" class="active">The Journal</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+
+    <header class="hero-header">
+      <p class="eyebrow">Pressed & preserved</p>
+      <h1 class="hero-title">
+        The <span class="warm">Journal</span>
+        <span class="gold">a field guide to places with a pulse</span>
+      </h1>
+      <p class="hero-sub">Pressed specimens and stay-side observations from the stranger corners of the American map.</p>
+    </header>
+
+    <!-- Botanical elements -->
+    <div class="botanical bot-1">
+      <svg viewBox="0 0 40 50" fill="none">
+        <path d="M20 48 Q8 38 12 25 Q16 12 20 5 Q24 12 28 25 Q32 38 20 48Z" stroke="#3D5A3E" stroke-width="0.6" fill="#3D5A3E" opacity="0.15"/>
+        <line x1="20" y1="48" x2="20" y2="15" stroke="#3D5A3E" stroke-width="0.4" opacity="0.2"/>
+      </svg>
+    </div>
+    <div class="botanical bot-2">
+      <svg viewBox="0 0 30 40" fill="none">
+        <path d="M15 38 Q6 30 9 20 Q12 10 15 4 Q18 10 21 20 Q24 30 15 38Z" stroke="#3D5A3E" stroke-width="0.5" fill="#3D5A3E" opacity="0.12"/>
+      </svg>
+    </div>
+
+    <div class="specimens">
+      <article class="specimen spec-a" style="--tilt: -2deg">
+        <div class="leaf">
+          <svg viewBox="0 0 18 18"><path d="M9 16 Q3 12 5 6 Q7 2 9 2 Q11 2 13 6 Q15 12 9 16Z" fill="var(--forest)" opacity="0.4"/></svg>
+        </div>
+        <div class="mount">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Green mountain valley">
+          <span class="label-tag">Specimen 001</span>
+        </div>
+        <h3>Where the road forgets itself</h3>
+        <small>Blue Ridge, open file</small>
+      </article>
+      <article class="specimen spec-b" style="--tilt: 2.5deg">
+        <div class="mount">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80" alt="Sunlit forest path">
+          <span class="label-tag">Specimen 002</span>
+        </div>
+        <h3>Notes from the moss line</h3>
+        <small>Cascade route, field desk</small>
+      </article>
+      <article class="specimen spec-c" style="--tilt: -1deg">
+        <div class="mount">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop=w=800&q=80" alt="Desert road into evening light">
+          <span class="label-tag">Specimen 003</span>
+        </div>
+        <h3>The long way is the point</h3>
+        <small>Southwest, latest dispatch</small>
+      </article>
+    </div>
+
+    <div class="hero-bottom">
+      <p>Each dispatch, a pressed flower from the road.</p>
+      <div class="stats">
+        <div><div class="stat-val">07</div><div class="stat-label">Dispatches</div></div>
+        <div><div class="stat-val">06</div><div class="stat-label">States</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="label">Variation 2 — The Glasshouse</div>
+
+</body>
+</html>

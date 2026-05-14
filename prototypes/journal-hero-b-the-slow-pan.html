@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direction B — The Slow Pan (Journal Hero Prototype)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tc: #A84626;
+      --cr: #F6F1E8;
+      --fg: #2C2825;
+      --mu: #8A7D6E;
+      --wh: #FAF8F3;
+      --green: #3D5A3E;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--fg);
+      color: var(--wh);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      background: #0f0d0b;
+    }
+
+    /* Single photograph — very slow continuous Ken Burns pan */
+    .hero-photo {
+      position: absolute;
+      inset: -60px;
+      background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&h=1080&q=85') center/cover no-repeat;
+      filter: saturate(0.7) brightness(0.75) sepia(0.08);
+      animation: kenBurns 45s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    @keyframes kenBurns {
+      0% {
+        transform: scale(1.08) translate(0, 0);
+      }
+      25% {
+        transform: scale(1.12) translate(-1%, 0.5%);
+      }
+      50% {
+        transform: scale(1.06) translate(0.5%, -0.5%);
+      }
+      75% {
+        transform: scale(1.1) translate(-0.5%, 0.3%);
+      }
+      100% {
+        transform: scale(1.08) translate(0.3%, -0.3%);
+      }
+    }
+
+    /* Gradient overlay — editorial warmth, not just darkness */
+    .hero-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(15,13,11,0.3) 0%,
+          rgba(15,13,11,0.15) 30%,
+          rgba(15,13,11,0.1) 50%,
+          rgba(15,13,11,0.2) 70%,
+          rgba(15,13,11,0.6) 100%
+        ),
+        linear-gradient(90deg,
+          rgba(168,70,38,0.03) 0%,
+          transparent 40%,
+          transparent 60%,
+          rgba(44,40,37,0.05) 100%
+        );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Film grain */
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      animation: grainShift 0.5s steps(1) infinite;
+    }
+    @keyframes grainShift {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(-2px, 1px); }
+      50% { transform: translate(1px, -1px); }
+      75% { transform: translate(-1px, 2px); }
+      100% { transform: translate(2px, 0); }
+    }
+
+    /* ─── HERO CONTENT ─── */
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(40px, 8vh, 80px) clamp(32px, 8vw, 140px);
+    }
+
+    /* Eyebrow — top left */
+    .hero-top-bar {
+      position: absolute;
+      top: clamp(28px, 5vh, 48px);
+      left: clamp(32px, 8vw, 140px);
+      right: clamp(32px, 8vw, 140px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hero-brand {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.3);
+    }
+    .hero-brand span {
+      color: var(--tc);
+      opacity: 0.6;
+    }
+    .hero-location {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-location::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: rgba(250,248,243,0.1);
+    }
+
+    /* Title block — bottom left */
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(56px, 10vw, 120px);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.045em;
+      color: var(--wh);
+      text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+    }
+    .hero-title .line {
+      display: block;
+      overflow: hidden;
+    }
+    .hero-title .line span {
+      display: inline-block;
+      animation: revealLine 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .hero-title .line:nth-child(1) span { animation-delay: 0.3s; }
+    .hero-title .line:nth-child(2) span { animation-delay: 0.45s; }
+    .hero-title .line:nth-child(3) span { animation-delay: 0.6s; }
+
+    @keyframes revealLine {
+      from { transform: translateY(105%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .hero-title .accent { color: var(--tc); }
+    .hero-title .dim { color: rgba(250,248,243,0.35); font-size: 0.5em; font-style: italic; }
+
+    .hero-subtitle {
+      margin-top: 24px;
+      font-size: clamp(13px, 1.3vw, 16px);
+      line-height: 1.75;
+      color: rgba(250,248,243,0.4);
+      max-width: 42ch;
+      font-weight: 300;
+      animation: fadeIn 1s ease 0.8s both;
+    }
+
+    .hero-bottom-bar {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeIn 1s ease 1s both;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 28px;
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .hero-stat-value {
+      font-family: 'Fraunces', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(250,248,243,0.3);
+    }
+    .hero-stat-label {
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.15);
+    }
+
+    .scroll-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .scroll-indicator span {
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.15);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 28px;
+      background: linear-gradient(to bottom, rgba(250,248,243,0.2), transparent);
+      animation: bob 2.5s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: scaleY(1); opacity: 0.5; }
+      50% { transform: scaleY(0.6); opacity: 0.2; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ─── CONTENT SECTION (context) ─── */
+    .content-section {
+      background: var(--cr);
+      padding: 80px clamp(24px, 6vw, 100px);
+    }
+    .section-header {
+      margin-bottom: 40px;
+    }
+    .section-eyebrow {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--tc);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+    }
+    .placeholder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .placeholder-card {
+      aspect-ratio: 4/3;
+      background: #EDE7D9;
+      border: 1px solid #D4C4A0;
+      border-radius: 2px;
+    }
+
+    .prototype-label {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 100;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.12);
+      background: rgba(0,0,0,0.3);
+      padding: 4px 8px;
+    }
+
+    @media (max-width: 760px) {
+      .hero-content {
+        padding: clamp(32px, 6vh, 48px) clamp(20px, 5vw, 32px);
+      }
+      .hero-top-bar {
+        left: clamp(20px, 5vw, 32px);
+        right: clamp(20px, 5vw, 32px);
+      }
+      .hero-stats { gap: 18px; }
+      .hero-stat-value { font-size: 14px; }
+      .placeholder-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <!-- Single photograph with very slow Ken Burns -->
+    <div class="hero-photo"></div>
+
+    <!-- Warm editorial gradient -->
+    <div class="hero-gradient"></div>
+
+    <!-- Film grain -->
+    <div class="hero-grain"></div>
+
+    <!-- Top bar -->
+    <div class="hero-top-bar">
+      <div class="hero-brand">Unique<span>Stays</span>USA</div>
+      <div class="hero-location">Hoh Rainforest, Washington</div>
+    </div>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="line"><span>The</span></span>
+        <span class="line"><span class="accent">Journal</span></span>
+        <span class="line"><span class="dim">places with a pulse</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        Field reports, route notes, and stay-side observations from the stranger corners of the American map.
+      </p>
+      <div class="hero-bottom-bar">
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-value">07</span>
+            <span class="hero-stat-label">Dispatches</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value">06</span>
+            <span class="hero-stat-label">States</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-value" style="font-size:12px;letter-spacing:-0.01em">Go where the story is</span>
+            <span class="hero-stat-label">Current brief</span>
+          </div>
+        </div>
+        <div class="scroll-indicator">
+          <span>Scroll</span>
+          <div class="scroll-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Latest from the board</p>
+      <h2 class="section-title">Routes from the desk</h2>
+    </div>
+    <div class="placeholder-grid">
+      <div class="placeholder-card"></div>
+      <div class="placeholder-card"></div>
+      <div class="placeholder-card"></div>
+    </div>
+  </section>
+
+  <div class="prototype-label">Direction B — The Slow Pan</div>
+
+</body>
+</html>

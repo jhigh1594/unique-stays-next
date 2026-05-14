@@ -2115,3 +2115,766 @@ body:has(.journal-hero) nextjs-portal {
     transform: none !important;
   }
 }
+
+/* ============================================================
+   BROADSHEET MASTHEAD + FIELD-NOTES SIDEBAR
+   Filter & Search redesign — two-tier approach
+   ============================================================ */
+
+/* ── Broadsheet Masthead ── */
+.broadsheet-masthead {
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.broadsheet-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: oklch(0.22 0.01 60);
+  line-height: 1;
+}
+
+.broadsheet-count {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(0.55 0.14 38);
+}
+
+.broadsheet-sort {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: oklch(0.40 0.03 60);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid oklch(0.88 0.025 75);
+  padding: 0.2rem 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.broadsheet-sort:focus {
+  border-bottom-color: oklch(0.55 0.14 38);
+}
+
+/* ── Category Index ── */
+.category-index {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: oklch(0.40 0.03 60);
+}
+
+.category-index__sep {
+  margin: 0 0.5rem;
+  color: oklch(0.72 0.04 75);
+  user-select: none;
+}
+
+.category-index__item {
+  cursor: pointer;
+  padding: 0.15rem 0.1rem;
+  position: relative;
+  transition: color 0.15s ease;
+  user-select: none;
+}
+
+.category-index__item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: oklch(0.55 0.14 38);
+  transition: width 0.2s ease, left 0.2s ease;
+}
+
+.category-index__item:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.category-index__item--active {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: oklch(0.55 0.14 38);
+}
+
+.category-index__item--active::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ── Field Search Bar ── */
+.field-search {
+  display: flex;
+  align-items: center;
+  background: oklch(0.99 0.005 85);
+  border: 1.5px solid oklch(0.88 0.025 75);
+  border-radius: 2px;
+  padding: 0;
+  margin-top: 0.75rem;
+  transition: border-color 0.3s;
+}
+
+.field-search:focus-within {
+  border-color: oklch(0.72 0.10 40);
+}
+
+.field-search__compass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 14px;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.field-search:focus-within .field-search__compass {
+  opacity: 1;
+}
+
+.field-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: oklch(0.22 0.01 60);
+  background: transparent;
+  padding: 12px 14px;
+}
+
+.field-search input::placeholder {
+  color: oklch(0.65 0.03 60);
+  font-style: italic;
+}
+
+.field-search__clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 6px;
+  color: oklch(0.55 0.03 60);
+}
+
+.field-search__ai-hint {
+  font-size: 0.7rem;
+  color: oklch(0.55 0.14 38);
+  font-family: var(--font-body);
+  letter-spacing: 0.08em;
+  padding-right: 6px;
+  white-space: nowrap;
+}
+
+/* ── Filter Stamp (Rubber Stamp in Search Bar) ── */
+.filter-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 5px 6px;
+  padding: 7px 14px 7px 11px;
+  border: 2px solid oklch(0.55 0.14 38);
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: oklch(0.55 0.14 38);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transform: rotate(-2.5deg);
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.25s;
+}
+
+.filter-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 1px;
+  border: 1px dashed oklch(0.55 0.14 38 / 0.3);
+  pointer-events: none;
+  transition: border-color 0.25s;
+}
+
+.filter-stamp:hover {
+  background: oklch(0.55 0.14 38 / 0.06);
+  transform: rotate(-1deg);
+  box-shadow: 0 1px 3px oklch(0.55 0.14 38 / 0.1);
+}
+
+.filter-stamp:active {
+  transform: rotate(-0.5deg) scale(0.96);
+}
+
+.filter-stamp--active {
+  background: oklch(0.55 0.14 38);
+  color: oklch(0.99 0.005 85);
+  transform: rotate(0deg);
+  animation: stampPress 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.filter-stamp--active::before {
+  border-color: oklch(0.99 0.005 85 / 0.2);
+}
+
+.filter-stamp--active:hover {
+  background: oklch(0.55 0.14 38);
+  color: oklch(0.99 0.005 85);
+  transform: rotate(0.5deg);
+  box-shadow: 0 2px 6px oklch(0.55 0.14 38 / 0.2);
+}
+
+@keyframes stampPress {
+  0%   { transform: rotate(-2.5deg) scale(1); }
+  40%  { transform: rotate(0.5deg) scale(0.94); }
+  70%  { transform: rotate(-0.3deg) scale(1.03); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.filter-stamp__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.filter-stamp__label {
+  line-height: 1;
+}
+
+.filter-stamp__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: oklch(0.55 0.14 38);
+  color: oklch(0.99 0.005 85);
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 0 4px;
+  margin-left: 1px;
+  position: relative;
+  transition: background 0.25s, color 0.25s;
+}
+
+.filter-stamp__count::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  border: 0.5px dashed currentColor;
+  opacity: 0.4;
+}
+
+.filter-stamp--active .filter-stamp__count {
+  background: oklch(0.99 0.005 85);
+  color: oklch(0.55 0.14 38);
+}
+
+.filter-stamp__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: oklch(0.99 0.005 85 / 0.3);
+  color: oklch(0.99 0.005 85);
+  font-size: 0.55rem;
+  font-weight: 700;
+  margin-left: 2px;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.filter-stamp--active:hover .filter-stamp__clear {
+  background: oklch(0.99 0.005 85 / 0.5);
+}
+
+/* ── Filter Layout (Push Sidebar) ── */
+.filter-layout {
+  display: flex;
+  align-items: flex-start;
+}
+
+.filter-layout__main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Field-Notes Sidebar ── */
+.filter-sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: oklch(0.975 0.012 85);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 28px,
+    oklch(0.84 0.03 75 / 0.35) 28px,
+    oklch(0.84 0.03 75 / 0.35) 29px
+  );
+  background-position: 0 12px;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 40;
+  padding: 1.5rem 1.25rem 2rem;
+  flex-shrink: 0;
+  border-right: 1px solid oklch(0.88 0.025 75);
+}
+
+.filter-sidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  background: radial-gradient(
+    circle at 0px 8px,
+    transparent 4px,
+    oklch(0.975 0.012 85) 4px,
+    oklch(0.975 0.012 85) 5px,
+    transparent 5px
+  );
+  background-size: 8px 16px;
+  pointer-events: none;
+}
+
+.filter-sidebar__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.filter-sidebar__section {
+  border-bottom: 1px dashed oklch(0.80 0.04 75 / 0.6);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-sidebar__section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.filter-sidebar__label {
+  display: block;
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: oklch(0.22 0.01 60);
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+/* ── Stamp Header ── */
+.stamp-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  padding: 0.4rem 0;
+}
+
+.stamp-box {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: oklch(0.55 0.14 38);
+  border: 2.5px solid oklch(0.55 0.14 38);
+  padding: 0.3rem 1rem;
+  transform: rotate(-2.5deg);
+  position: relative;
+  opacity: 0.85;
+}
+
+.stamp-box::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1.5px solid oklch(0.55 0.14 38);
+  opacity: 0.35;
+  transform: rotate(0.8deg);
+}
+
+/* ── Wax Seal Counter ── */
+.wax-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem auto 0.25rem;
+}
+
+.wax-seal__circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 35%,
+    oklch(0.62 0.14 38),
+    oklch(0.55 0.14 38) 60%,
+    oklch(0.42 0.12 34)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow:
+    0 2px 8px oklch(0.55 0.14 38 / 0.35),
+    inset 0 1px 2px oklch(0.99 0.005 85 / 0.15);
+  position: relative;
+}
+
+.wax-seal__circle::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1.5px dashed oklch(0.99 0.005 85 / 0.35);
+}
+
+.wax-seal__count {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: oklch(0.99 0.005 85);
+  line-height: 1;
+}
+
+.wax-seal__label {
+  font-family: 'Caveat', cursive;
+  font-size: 0.65rem;
+  color: oklch(0.99 0.005 85 / 0.7);
+  margin-top: 1px;
+}
+
+/* ── Platform Stamps ── */
+.platform-stamp {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: oklch(0.22 0.01 60);
+  border: 1.5px solid oklch(0.22 0.01 60);
+  padding: 0.4rem 0.3rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  opacity: 0.55;
+  transform: rotate(var(--rot, 0deg));
+  user-select: none;
+  background: transparent;
+}
+
+.platform-stamp:hover {
+  opacity: 0.8;
+}
+
+.platform-stamp--active {
+  opacity: 1;
+  color: oklch(0.55 0.14 38);
+  border-color: oklch(0.55 0.14 38);
+  background: oklch(0.55 0.14 38 / 0.06);
+}
+
+/* ── Price Inputs ── */
+.price-input {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: oklch(0.22 0.01 60);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dashed oklch(0.72 0.04 75);
+  width: 60px;
+  padding: 0.15rem 0 0;
+  outline: none;
+  text-align: center;
+}
+
+.price-input::placeholder {
+  color: oklch(0.72 0.04 75);
+  font-style: italic;
+}
+
+.price-input:focus {
+  border-bottom-color: oklch(0.55 0.14 38);
+}
+
+.price-dollar {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: oklch(0.22 0.01 60);
+}
+
+.price-sep {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: oklch(0.72 0.04 75);
+}
+
+/* ── Postmark Toggle (Editor's Pick) ── */
+.postmark-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.postmark-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid oklch(0.55 0.14 38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
+  transform: rotate(-12deg);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.postmark-circle::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed oklch(0.55 0.14 38 / 0.4);
+}
+
+.postmark-circle--active {
+  background: oklch(0.55 0.14 38 / 0.08);
+  transform: rotate(0deg) scale(1.05);
+}
+
+.postmark-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: oklch(0.22 0.01 60);
+  opacity: 0.7;
+}
+
+/* ── Reset Link ── */
+.reset-link {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(0.55 0.14 38);
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  border: 1px dashed transparent;
+  transition: border-color 0.2s;
+  background: transparent;
+}
+
+.reset-link:hover {
+  border-color: oklch(0.55 0.14 38);
+}
+
+/* ── Location Combobox ── */
+.location-combobox {
+  position: relative;
+}
+
+.location-combobox__input {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: oklch(0.22 0.01 60);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed oklch(0.72 0.04 75);
+  width: 100%;
+  padding: 0.3rem 0;
+  outline: none;
+}
+
+.location-combobox__input::placeholder {
+  color: oklch(0.72 0.04 75);
+  font-style: italic;
+}
+
+.location-combobox__input:focus {
+  border-bottom-color: oklch(0.55 0.14 38);
+}
+
+.location-combobox__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: oklch(0.99 0.005 85);
+  border: 1px solid oklch(0.88 0.025 75);
+  border-radius: 3px;
+  box-shadow: 0 8px 24px oklch(0.22 0.01 60 / 0.1);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 50;
+}
+
+.location-combobox__option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: oklch(0.22 0.01 60);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.location-combobox__option:hover,
+.location-combobox__option--highlighted {
+  background: oklch(0.55 0.14 38 / 0.06);
+}
+
+.location-combobox__option--active {
+  color: oklch(0.55 0.14 38);
+  font-weight: 600;
+}
+
+.location-combobox__count {
+  font-size: 0.7rem;
+  color: oklch(0.55 0.03 60);
+}
+
+/* ── Mobile Filter Button ── */
+.mobile-filter-btn {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.25rem;
+  z-index: 200;
+  background: oklch(0.975 0.012 85);
+  border: 2px solid oklch(0.55 0.14 38);
+  color: oklch(0.55 0.14 38);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px oklch(0.22 0.01 60 / 0.12);
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mobile-filter-btn__badge {
+  background: oklch(0.55 0.14 38);
+  color: oklch(0.99 0.005 85);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: oklch(0.22 0.01 60 / 0.4);
+  z-index: 150;
+}
+
+/* ── Sidebar Scrollbar ── */
+.filter-sidebar::-webkit-scrollbar { width: 4px; }
+.filter-sidebar::-webkit-scrollbar-track { background: transparent; }
+.filter-sidebar::-webkit-scrollbar-thumb { background: oklch(0.88 0.04 75); border-radius: 2px; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .filter-sidebar {
+    width: 260px;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 700px) {
+  .filter-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 300;
+    height: 100vh;
+    box-shadow: 4px 0 20px oklch(0.22 0.01 60 / 0.15);
+  }
+
+  .filter-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .mobile-filter-btn {
+    display: flex;
+  }
+
+  .mobile-overlay--open {
+    display: block;
+  }
+
+  .category-index {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-index {
+    font-size: 0.78rem;
+  }
+}
+
+/* ── Reduced motion (filter-specific) ── */
+@media (prefers-reduced-motion: reduce) {
+  .filter-sidebar,
+  .filter-stamp,
+  .postmark-circle,
+  .category-index__item,
+  .category-index__item::after,
+  .platform-stamp {
+    transition: none !important;
+    transform: none !important;
+  }
+}

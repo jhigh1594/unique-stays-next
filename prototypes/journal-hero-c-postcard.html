@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direction C — The Postcard (Journal Hero Prototype)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tc: #A84626;
+      --cr: #F6F1E8;
+      --fg: #2C2825;
+      --mu: #8A7D6E;
+      --sd: #D4C4A0;
+      --wh: #FAF8F3;
+      --green: #3D5A3E;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #1a1714;
+      color: var(--wh);
+      -webkit-font-smoothing: antialiased;
+      cursor: default;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ─── PHOTO BASE LAYER ─── */
+    .photo-base {
+      position: absolute;
+      inset: -50px;
+      background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&h=1080&q=85') center/cover no-repeat;
+      filter: saturate(0.72) brightness(0.82) sepia(0.12);
+      z-index: 1;
+      will-change: transform;
+      transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── WARM COLOR OVERLAY ─── */
+    .warm-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(180deg, rgba(168,70,38,0.06) 0%, rgba(44,40,37,0.4) 100%),
+        linear-gradient(135deg, rgba(246,241,232,0.04) 0%, transparent 50%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    /* ─── VIGNETTE ─── */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: radial-gradient(ellipse at 40% 55%, transparent 30%, rgba(26,23,20,0.5) 100%);
+      pointer-events: none;
+    }
+
+    /* ─── TAPE STRIPS ─── */
+    .tape {
+      position: absolute;
+      z-index: 35;
+      background: rgba(250,248,243,0.12);
+      backdrop-filter: blur(1px);
+    }
+    .tape-1 {
+      top: 4%;
+      left: 6%;
+      width: 80px;
+      height: 24px;
+      transform: rotate(-3deg);
+    }
+    .tape-2 {
+      top: 5%;
+      right: 22%;
+      width: 65px;
+      height: 22px;
+      transform: rotate(4deg);
+    }
+    .tape-3 {
+      bottom: 8%;
+      left: 15%;
+      width: 55px;
+      height: 20px;
+      transform: rotate(-2deg);
+    }
+
+    /* ─── POSTMARK (cursor-reactive) ─── */
+    .postmark {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      width: min(130px, 11vw);
+      height: min(130px, 11vw);
+      border-radius: 50%;
+      border: 1.5px dashed rgba(250,248,243,0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      transform: rotate(-8deg);
+      will-change: transform;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .postmark-inner {
+      text-align: center;
+    }
+    .postmark-text {
+      font-size: clamp(7px, 0.8vw, 10px);
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.3);
+      line-height: 1.6;
+    }
+    .postmark-date {
+      font-size: clamp(9px, 1vw, 13px);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: rgba(250,248,243,0.25);
+      margin-top: 4px;
+    }
+    .postmark-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(250,248,243,0.1);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .postmark-circle-inner {
+      width: 70%;
+      height: 70%;
+    }
+
+    /* ─── STAMP ─── */
+    .stamp {
+      position: absolute;
+      top: 8%;
+      right: 25%;
+      width: min(72px, 6vw);
+      aspect-ratio: 3/4;
+      border: 2px solid rgba(250,248,243,0.2);
+      padding: 5px;
+      z-index: 30;
+      transform: rotate(3deg);
+      will-change: transform;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stamp-inner {
+      width: 100%;
+      height: 100%;
+      border: 1px solid rgba(250,248,243,0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .stamp-icon {
+      font-size: clamp(12px, 1.5vw, 18px);
+      opacity: 0.25;
+    }
+    .stamp-text {
+      font-size: clamp(5px, 0.6vw, 7px);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.25);
+      text-align: center;
+      line-height: 1.3;
+    }
+    /* Perforated edge effect */
+    .stamp::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 2px dashed rgba(250,248,243,0.08);
+    }
+
+    /* ─── POLAROID CARD (cursor-reactive) ─── */
+    .polaroid {
+      position: absolute;
+      bottom: 12%;
+      right: 6%;
+      width: min(240px, 20vw);
+      background: rgba(250,248,243,0.93);
+      padding: 6px 6px 28px;
+      z-index: 30;
+      transform: rotate(2.5deg);
+      box-shadow:
+        0 2px 8px rgba(0,0,0,0.1),
+        0 12px 40px rgba(0,0,0,0.2);
+      will-change: transform;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .polaroid-image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&h=300&q=80') center/cover;
+      filter: saturate(0.78) sepia(0.08) brightness(0.95);
+    }
+    .polaroid-caption {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(9px, 0.9vw, 12px);
+      color: var(--mu);
+      text-align: center;
+      margin-top: 6px;
+      font-style: italic;
+    }
+    .polaroid-pin {
+      position: absolute;
+      top: -7px;
+      left: 45%;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, #D85535, #7A2410);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(0,0,0,0.15);
+      transform: translateX(-50%);
+      z-index: 31;
+    }
+    .polaroid-pin-shine {
+      position: absolute;
+      top: -5px;
+      left: calc(45% - 2px);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      z-index: 32;
+    }
+
+    /* ─── TICKER BAR ─── */
+    .ticker {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: clamp(2rem, 5vw, 5rem);
+      padding: 12px clamp(1.5rem, 4vw, 4rem);
+      background: var(--green);
+      overflow: hidden;
+      transform: rotate(0deg);
+    }
+    .ticker span {
+      white-space: nowrap;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.85);
+    }
+    .ticker .sep {
+      color: var(--tc);
+      opacity: 0.5;
+      font-size: 6px;
+    }
+
+    /* ─── HERO TEXT ─── */
+    .hero-text {
+      position: absolute;
+      bottom: clamp(60px, 12vh, 120px);
+      left: clamp(32px, 7vw, 100px);
+      z-index: 30;
+      will-change: transform;
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-kicker {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.5);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-kicker::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--tc);
+      opacity: 0.5;
+    }
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(52px, 8.5vw, 105px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--wh);
+      text-shadow: 0 2px 30px rgba(0,0,0,0.3);
+    }
+    .hero-title .line { display: block; }
+    .hero-title .accent {
+      color: var(--tc);
+      text-shadow: none;
+    }
+    .hero-title .italic {
+      font-style: italic;
+      color: rgba(250,248,243,0.6);
+      font-size: 0.5em;
+      margin-top: 6px;
+    }
+    .hero-subtitle {
+      margin-top: 22px;
+      font-size: clamp(13px, 1.2vw, 16px);
+      line-height: 1.75;
+      color: rgba(250,248,243,0.45);
+      max-width: 40ch;
+      font-weight: 300;
+    }
+
+    /* ─── MANIFEST MINI ─── */
+    .manifest-mini {
+      position: absolute;
+      top: clamp(32px, 5vh, 48px);
+      left: clamp(32px, 6vw, 80px);
+      z-index: 30;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .manifest-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .manifest-stat-value {
+      font-family: 'Fraunces', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: rgba(250,248,243,0.35);
+    }
+    .manifest-stat-label {
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.2);
+    }
+    .manifest-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(250,248,243,0.08);
+    }
+
+    /* ─── GRAIN ─── */
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: 45;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ─── SCROLL HINT ─── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.25;
+      animation: bob 2s ease-in-out infinite;
+    }
+    .scroll-hint span {
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--wh);
+    }
+    .scroll-hint-line {
+      width: 1px;
+      height: 20px;
+      background: linear-gradient(to bottom, var(--wh), transparent);
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── ENTRANCE ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: rotate(2.5deg) translateX(30px); }
+      to { opacity: 1; transform: rotate(2.5deg) translateX(0); }
+    }
+    .hero-title .line:nth-child(1) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+    .hero-title .line:nth-child(2) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
+    .hero-title .line:nth-child(3) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
+    .hero-title .line:nth-child(4) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both; }
+    .hero-kicker { animation: fadeIn 0.7s ease 0.1s both; }
+    .hero-subtitle { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both; }
+    .manifest-mini { animation: fadeIn 0.8s ease 0.4s both; }
+    .postmark { animation: fadeIn 1s ease 0.6s both; }
+    .stamp { animation: fadeIn 1s ease 0.7s both; }
+    .polaroid { animation: slideIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
+    .tape { animation: fadeIn 0.8s ease 0.3s both; }
+    .ticker { animation: fadeIn 0.6s ease 1s both; }
+
+    .prototype-label {
+      position: fixed;
+      bottom: 50px;
+      right: 16px;
+      z-index: 100;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(250,248,243,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero" id="hero">
+
+    <!-- Photo base (parallax layer 1) -->
+    <div class="photo-base" id="photoBase"></div>
+
+    <!-- Warm color overlay -->
+    <div class="warm-overlay" id="warmOverlay"></div>
+
+    <!-- Vignette -->
+    <div class="vignette"></div>
+
+    <!-- Tape strips -->
+    <div class="tape tape-1"></div>
+    <div class="tape tape-2"></div>
+    <div class="tape tape-3"></div>
+
+    <!-- Postmark -->
+    <div class="postmark" id="postmark">
+      <div class="postmark-circle postmark-circle-inner"></div>
+      <div class="postmark-inner">
+        <div class="postmark-text">DISPATCH<br>FIELD NOTES</div>
+        <div class="postmark-date">MAY 2026</div>
+      </div>
+    </div>
+
+    <!-- Stamp -->
+    <div class="stamp" id="stamp">
+      <div class="stamp-inner">
+        <div class="stamp-icon">&#9968;</div>
+        <div class="stamp-text">US<br>WANDER<br>2026</div>
+      </div>
+    </div>
+
+    <!-- Polaroid card -->
+    <div class="polaroid" id="polaroid">
+      <div class="polaroid-pin"></div>
+      <div class="polaroid-pin-shine"></div>
+      <div class="polaroid-image"></div>
+      <div class="polaroid-caption">Joshua Tree, California</div>
+    </div>
+
+    <!-- Manifest mini (top-left) -->
+    <div class="manifest-mini">
+      <div class="manifest-stat">
+        <span class="manifest-stat-value">07</span>
+        <span class="manifest-stat-label">Dispatches</span>
+      </div>
+      <div class="manifest-divider"></div>
+      <div class="manifest-stat">
+        <span class="manifest-stat-value">06</span>
+        <span class="manifest-stat-label">States</span>
+      </div>
+      <div class="manifest-divider"></div>
+      <div class="manifest-stat">
+        <span class="manifest-stat-value" style="font-size:13px;letter-spacing:-0.01em">Go where the story is</span>
+        <span class="manifest-stat-label">Current brief</span>
+      </div>
+    </div>
+
+    <!-- Hero text -->
+    <div class="hero-text" id="heroText">
+      <p class="hero-kicker">The Wanderer's Postcard Collection</p>
+      <h1 class="hero-title">
+        <span class="line">The</span>
+        <span class="line accent">Journal</span>
+        <span class="line italic">places with a pulse</span>
+      </h1>
+      <p class="hero-subtitle">Field reports, route notes, and stay-side observations from the stranger corners of the American map.</p>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="ticker">
+      <span>Field notes</span>
+      <span class="sep">✦</span>
+      <span>Postmarked routes</span>
+      <span class="sep">✦</span>
+      <span>Vetted stays</span>
+      <span class="sep">✦</span>
+      <span>Slow travel</span>
+      <span class="sep">✦</span>
+      <span>Curated escapes</span>
+      <span class="sep">✦</span>
+      <span>Field notes</span>
+      <span class="sep">✦</span>
+      <span>Postmarked routes</span>
+      <span class="sep">✦</span>
+      <span>Vetted stays</span>
+      <span class="sep">✦</span>
+      <span>Slow travel</span>
+      <span class="sep">✦</span>
+      <span>Curated escapes</span>
+    </div>
+
+    <!-- Grain -->
+    <div class="grain"></div>
+  </div>
+
+  <div class="prototype-label">Direction C — The Postcard</div>
+
+  <script>
+    const hero = document.getElementById('hero');
+    const photoBase = document.getElementById('photoBase');
+    const warmOverlay = document.getElementById('warmOverlay');
+    const heroText = document.getElementById('heroText');
+    const postmark = document.getElementById('postmark');
+    const stamp = document.getElementById('stamp');
+    const polaroid = document.getElementById('polaroid');
+
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      targetX = (e.clientX - rect.left) / rect.width - 0.5;
+      targetY = (e.clientY - rect.top) / rect.height - 0.5;
+    });
+
+    function animate() {
+      currentX += (targetX - currentX) * 0.05;
+      currentY += (targetY - currentY) * 0.05;
+
+      // Photo: slow, large parallax
+      const px = currentX * -25;
+      const py = currentY * -15;
+      photoBase.style.transform = `translate(${px}px, ${py}px) scale(1.06)`;
+
+      // Warm overlay: drift opposite, lighter
+      const ox = currentX * 12;
+      const oy = currentY * 8;
+      warmOverlay.style.transform = `translate(${ox}px, ${oy}px)`;
+
+      // Hero text: subtle independent drift
+      const tx = currentX * -8;
+      const ty = currentY * -5;
+      heroText.style.transform = `translate(${tx}px, ${ty}px)`;
+
+      // Postmark: reacts more, drifts with cursor
+      postmark.style.transform = `rotate(${-8 + currentX * 8}deg) translate(${currentX * 15}px, ${currentY * 10}px)`;
+
+      // Stamp: drifts opposite direction
+      stamp.style.transform = `rotate(${3 - currentX * 6}deg) translate(${currentX * -12}px, ${currentY * -8}px)`;
+
+      // Polaroid: most reactive, "floating" feel
+      polaroid.style.transform = `rotate(${2.5 - currentX * 4}deg) translate(${currentX * 18}px, ${currentY * 12}px)`;
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

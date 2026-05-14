@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direction A — The Long Look (Journal Hero Prototype)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tc: #A84626;
+      --cr: #F6F1E8;
+      --cr2: #EDE7D9;
+      --fg: #2C2825;
+      --mu: #8A7D6E;
+      --sd: #D4C4A0;
+      --wh: #FAF8F3;
+      --green: #3D5A3E;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--cr);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── GRAIN (subtle, whole page) ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: clamp(60px, 10vh, 100px) clamp(24px, 6vw, 100px) clamp(60px, 10vh, 120px);
+    }
+
+    /* The tall photograph — portrait orientation, 3:4 ratio */
+    .hero-image-frame {
+      position: relative;
+      flex-shrink: 0;
+      width: clamp(280px, 38vw, 560px);
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      box-shadow:
+        0 1px 2px rgba(44,40,37,0.04),
+        0 4px 12px rgba(44,40,37,0.06),
+        0 16px 48px rgba(44,40,37,0.08);
+    }
+    .hero-image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.85) brightness(0.97);
+      transition: transform 8s cubic-bezier(0.16, 1, 0.3, 1), filter 1.5s ease;
+    }
+    .hero:hover .hero-image-frame img {
+      transform: scale(1.03);
+      filter: saturate(0.9) brightness(1);
+    }
+
+    /* Image counter badge — like Kinfolk's "1 / 12" */
+    .image-counter {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: rgba(250,248,243,0.6);
+      z-index: 2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Postmark overlaid on image corner */
+    .hero-postmark {
+      position: absolute;
+      bottom: -18px;
+      right: -18px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 1px dashed rgba(168,70,38,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--cr);
+      z-index: 3;
+      transform: rotate(-6deg);
+      box-shadow: 0 2px 8px rgba(44,40,37,0.06);
+    }
+    .hero-postmark-text {
+      font-size: 6px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--tc);
+      text-align: center;
+      line-height: 1.5;
+      opacity: 0.55;
+    }
+
+    /* ─── HERO TEXT ─── */
+    .hero-text {
+      flex: 1;
+      padding-left: clamp(40px, 6vw, 80px);
+      max-width: 560px;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--tc);
+      opacity: 0.4;
+    }
+    .hero-eyebrow span {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--tc);
+    }
+
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 300;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      color: var(--fg);
+      margin-bottom: 24px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--mu);
+    }
+    .hero-title .accent {
+      color: var(--tc);
+    }
+
+    .hero-body {
+      font-size: clamp(14px, 1.2vw, 16px);
+      line-height: 1.8;
+      color: var(--mu);
+      max-width: 38ch;
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--tc);
+      text-decoration: none;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(168,70,38,0.2);
+      transition: gap 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+      cursor: pointer;
+    }
+    .hero-cta:hover {
+      gap: 14px;
+      border-color: var(--tc);
+    }
+
+    .hero-meta {
+      margin-top: 48px;
+      display: flex;
+      gap: 32px;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-meta-value {
+      font-family: 'Fraunces', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--fg);
+    }
+    .hero-meta-label {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mu);
+      opacity: 0.6;
+    }
+
+    /* ─── ENTRANCE ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeScale {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .hero-image-frame {
+      animation: fadeScale 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+    }
+    .hero-postmark {
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+    }
+    .hero-eyebrow { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+    .hero-title { animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+    .hero-body { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both; }
+    .hero-cta { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both; }
+    .hero-meta { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both; }
+
+    /* ─── SCROLL SECTION (to show hero in context) ─── */
+    .content-section {
+      padding: 80px clamp(24px, 6vw, 100px);
+      border-top: 1px solid var(--sd);
+    }
+    .section-header {
+      margin-bottom: 40px;
+    }
+    .section-eyebrow {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--tc);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    }
+    .placeholder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .placeholder-card {
+      aspect-ratio: 4/3;
+      background: var(--cr2);
+      border: 1px solid var(--sd);
+      border-radius: 2px;
+    }
+
+    .prototype-label {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 100;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mu);
+      opacity: 0.25;
+      background: var(--cr);
+      padding: 4px 8px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 760px) {
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: clamp(40px, 8vh, 60px) clamp(20px, 5vw, 32px);
+      }
+      .hero-image-frame {
+        width: 100%;
+        max-width: 400px;
+        aspect-ratio: 4/3;
+      }
+      .hero-text {
+        padding-left: 0;
+        padding-top: 32px;
+      }
+      .hero-postmark {
+        width: 60px;
+        height: 60px;
+        bottom: -12px;
+        right: -8px;
+      }
+      .hero-postmark-text {
+        font-size: 5px;
+      }
+      .placeholder-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-image-frame">
+      <span class="image-counter">1 / 7</span>
+      <img
+        src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&h=1067&q=85"
+        alt="Misty forest canopy — Hoh Rainforest, Washington"
+      >
+      <div class="hero-postmark">
+        <span class="hero-postmark-text">Dispatch<br>Field<br>Notes</span>
+      </div>
+    </div>
+
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span>UniqueStaysUSA dispatch desk</span>
+      </div>
+      <h1 class="hero-title">
+        The <span class="accent">Journal</span><br>
+        <em>places with a pulse</em>
+      </h1>
+      <p class="hero-body">
+        Field reports, route notes, and stay-side observations from the stranger corners of the American map.
+      </p>
+      <a class="hero-cta" href="#">
+        Enter the archive &rarr;
+      </a>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">07</span>
+          <span class="hero-meta-label">Dispatches</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-value">06</span>
+          <span class="hero-meta-label">States</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-value" style="font-size:15px">Go where the story is</span>
+          <span class="hero-meta-label">Current brief</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Latest from the board</p>
+      <h2 class="section-title">Routes from the desk</h2>
+    </div>
+    <div class="placeholder-grid">
+      <div class="placeholder-card"></div>
+      <div class="placeholder-card"></div>
+      <div class="placeholder-card"></div>
+    </div>
+  </section>
+
+  <div class="prototype-label">Direction A — The Long Look</div>
+
+</body>
+</html>

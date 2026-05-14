@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direction B — The Traveler's Desk (Journal Hero Prototype)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tc: #A84626;
+      --cr: #F6F1E8;
+      --cr2: #EDE7D9;
+      --cr3: #E4DCCC;
+      --fg: #2C2825;
+      --mu: #8A7D6E;
+      --sd: #D4C4A0;
+      --wh: #FAF8F3;
+      --green: #3D5A3E;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--cr);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      cursor: default;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 25% 35%, rgba(160,130,80,0.05) 1.5px, transparent 1.5px),
+        radial-gradient(ellipse at 75% 65%, rgba(120,90,50,0.04) 1px, transparent 1px),
+        var(--cr);
+      background-size: 22px 22px, 14px 14px, 100% 100%;
+    }
+
+    /* Grain */
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ─── COMPASS (cursor-following needle) ─── */
+    .compass {
+      position: absolute;
+      top: 50%;
+      right: 12%;
+      transform: translateY(-50%);
+      width: min(320px, 28vw);
+      height: min(320px, 28vw);
+      z-index: 5;
+      opacity: 0.09;
+    }
+    .compass svg { width: 100%; height: 100%; }
+    .compass-needle {
+      transform-origin: center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── MAP FRAGMENT ─── */
+    .map-fragment {
+      position: absolute;
+      bottom: 18%;
+      left: 6%;
+      width: min(140px, 12vw);
+      opacity: 0.06;
+      border: 1px solid var(--sd);
+      padding: 10px;
+      transform: rotate(-5deg);
+      background: rgba(250,248,243,0.5);
+    }
+    .map-fragment svg { width: 100%; }
+
+    /* ─── DASHED ROUTE LINE ─── */
+    .route-line {
+      position: absolute;
+      z-index: 3;
+    }
+    .route-line svg {
+      overflow: visible;
+    }
+
+    /* ─── BOTANICAL ELEMENTS ─── */
+    .botanical {
+      position: absolute;
+      opacity: 0.05;
+      z-index: 3;
+    }
+    .botanical-1 {
+      bottom: 25%;
+      right: 28%;
+      width: 50px;
+      animation: sway 8s ease-in-out infinite;
+    }
+    .botanical-2 {
+      top: 20%;
+      left: 55%;
+      width: 35px;
+      animation: sway 10s ease-in-out infinite reverse;
+    }
+    @keyframes sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(6deg); }
+    }
+
+    /* ─── CLOUDS ─── */
+    .cloud {
+      position: absolute;
+      font-size: clamp(24px, 4vw, 48px);
+      opacity: 0.04;
+      color: var(--mu);
+      z-index: 2;
+    }
+    .cloud-1 { top: 12%; left: 8%; animation: drift 14s ease-in-out infinite; }
+    .cloud-2 { top: 20%; left: 38%; font-size: clamp(32px, 5vw, 60px); animation: drift 18s ease-in-out infinite -5s; }
+    .cloud-3 { top: 8%; right: 25%; animation: drift 16s ease-in-out infinite -10s; }
+    @keyframes drift {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(25px); }
+    }
+
+    /* ─── STAMP DOTS (scatter) ─── */
+    .stamp-dot {
+      position: absolute;
+      border-radius: 50%;
+      z-index: 4;
+    }
+    .stamp-dot-1 { width: 8px; height: 8px; background: var(--tc); opacity: 0.08; bottom: 35%; right: 10%; }
+    .stamp-dot-2 { width: 5px; height: 5px; background: var(--green); opacity: 0.06; top: 45%; left: 48%; }
+    .stamp-dot-3 { width: 6px; height: 6px; background: var(--tc); opacity: 0.05; bottom: 50%; right: 32%; }
+    .stamp-dot-4 { width: 10px; height: 10px; border: 1px solid var(--tc); opacity: 0.06; top: 30%; right: 15%; }
+
+    /* ─── MANIFEST CARD (reactive) ─── */
+    .manifest {
+      position: absolute;
+      bottom: clamp(40px, 8vh, 80px);
+      right: clamp(40px, 8vw, 100px);
+      width: min(280px, 25vw);
+      padding: 20px;
+      background: rgba(250,248,243,0.88);
+      border: 1px solid var(--sd);
+      box-shadow: 0 12px 40px rgba(44,40,37,0.08);
+      z-index: 20;
+      transform: rotate(0.6deg);
+      will-change: transform;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .manifest::before {
+      content: 'received';
+      position: absolute;
+      top: -9px;
+      right: 14px;
+      padding: 3px 8px;
+      color: var(--tc);
+      background: var(--wh);
+      border: 1px solid rgba(168,70,38,0.25);
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transform: rotate(3deg);
+    }
+    .manifest-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--sd);
+    }
+    .manifest-row:last-child { border-bottom: 0; padding-bottom: 0; }
+    .manifest-label {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mu);
+    }
+    .manifest-value {
+      font-family: 'Fraunces', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--fg);
+    }
+
+    /* ─── HERO TEXT ─── */
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: clamp(32px, 8vw, 120px);
+      transform: translateY(-50%);
+      z-index: 20;
+      will-change: transform;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-kicker {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--tc);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-kicker::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--tc);
+      opacity: 0.5;
+    }
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(52px, 9vw, 110px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--fg);
+    }
+    .hero-title .line { display: block; }
+    .hero-title .italic {
+      font-style: italic;
+      color: var(--mu);
+      font-size: 0.55em;
+      margin-top: 8px;
+    }
+    .hero-subtitle {
+      margin-top: 24px;
+      font-size: clamp(13px, 1.2vw, 15px);
+      line-height: 1.75;
+      color: var(--mu);
+      max-width: 38ch;
+      font-weight: 300;
+    }
+    .hero-subline {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-subline span {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sd);
+    }
+    .hero-subline::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--sd);
+    }
+
+    /* ─── TICKER ─── */
+    .ticker {
+      position: absolute;
+      top: clamp(20px, 4vh, 40px);
+      left: 0;
+      z-index: 30;
+      display: flex;
+      gap: clamp(1.5rem, 4vw, 4rem);
+      width: max-content;
+      margin-left: clamp(1.5rem, 4vw, 4rem);
+      padding: 10px clamp(1.2rem, 2.4vw, 2rem);
+      color: rgba(250,248,243,0.9);
+      background: var(--green);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+      box-shadow: 0 4px 16px rgba(44,40,37,0.12);
+    }
+
+    /* ─── ENTRANCE ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: translateY(-50%) scale(0.95); }
+      to { opacity: 0.09; transform: translateY(-50%) scale(1); }
+    }
+    .hero-title .line:nth-child(1) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+    .hero-title .line:nth-child(2) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
+    .hero-title .line:nth-child(3) { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
+    .hero-kicker { animation: fadeIn 0.7s ease 0.1s both; }
+    .hero-subtitle { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both; }
+    .hero-subline { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both; }
+    .manifest { animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both; }
+    .compass { animation: scaleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+    .ticker { animation: fadeIn 0.7s ease 0.1s both; }
+
+    .prototype-label {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 100;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mu);
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero" id="hero">
+
+    <!-- Ticker -->
+    <div class="ticker">
+      <span>Field notes</span>
+      <span>Postmarked routes</span>
+      <span>Vetted stays</span>
+      <span>Slow travel</span>
+    </div>
+
+    <!-- Compass (cursor-following) -->
+    <div class="compass" id="compass">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="90" stroke="#A84626" stroke-width="0.5" stroke-dasharray="4 3"/>
+        <circle cx="100" cy="100" r="70" stroke="#A84626" stroke-width="0.3"/>
+        <circle cx="100" cy="100" r="45" stroke="#A84626" stroke-width="0.3" stroke-dasharray="2 2"/>
+        <line x1="100" y1="10" x2="100" y2="190" stroke="#A84626" stroke-width="0.3"/>
+        <line x1="10" y1="100" x2="190" y2="100" stroke="#A84626" stroke-width="0.3"/>
+        <!-- Compass points -->
+        <text x="100" y="22" text-anchor="middle" font-size="8" font-weight="700" fill="#A84626" font-family="Plus Jakarta Sans">N</text>
+        <text x="100" y="192" text-anchor="middle" font-size="8" font-weight="700" fill="#A84626" font-family="Plus Jakarta Sans">S</text>
+        <text x="188" y="103" text-anchor="middle" font-size="8" font-weight="700" fill="#A84626" font-family="Plus Jakarta Sans">E</text>
+        <text x="12" y="103" text-anchor="middle" font-size="8" font-weight="700" fill="#A84626" font-family="Plus Jakarta Sans">W</text>
+        <!-- Needle group -->
+        <g class="compass-needle" id="compassNeedle">
+          <polygon points="100,30 95,100 100,95 105,100" fill="#A84626" opacity="0.7"/>
+          <polygon points="100,170 95,100 100,105 105,100" fill="#A84626" opacity="0.2"/>
+          <circle cx="100" cy="100" r="4" fill="#A84626" opacity="0.4"/>
+        </g>
+        <!-- Degree marks -->
+        <g opacity="0.3" stroke="#A84626" stroke-width="0.3">
+          <line x1="100" y1="10" x2="100" y2="15"/>
+          <line x1="100" y1="185" x2="100" y2="190"/>
+          <line x1="10" y1="100" x2="15" y2="100"/>
+          <line x1="185" y1="100" x2="190" y2="100"/>
+          <line x1="161" y1="39" x2="158" y2="42"/>
+          <line x1="161" y1="161" x2="158" y2="158"/>
+          <line x1="39" y1="39" x2="42" y2="42"/>
+          <line x1="39" y1="161" x2="42" y2="158"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Map fragment -->
+    <div class="map-fragment">
+      <svg viewBox="0 0 80 80" fill="none">
+        <path d="M10 70 Q25 45 40 50 Q55 55 70 30" stroke="#D4C4A0" stroke-width="0.8" stroke-dasharray="3 4"/>
+        <circle cx="40" cy="50" r="3" fill="#A84626" opacity="0.4"/>
+        <circle cx="60" cy="35" r="2" fill="#A84626" opacity="0.25"/>
+        <text x="42" y="48" font-size="4" fill="#8A7D6E" font-family="Plus Jakarta Sans">✦</text>
+      </svg>
+    </div>
+
+    <!-- Dashed route lines -->
+    <div class="route-line" style="top:30%;right:22%;width:120px;transform:rotate(-18deg)">
+      <svg width="120" height="2"><line x1="0" y1="1" x2="120" y2="1" stroke="#D4C4A0" stroke-width="0.8" stroke-dasharray="4 6"/></svg>
+    </div>
+    <div class="route-line" style="bottom:40%;left:40%;width:80px;transform:rotate(12deg)">
+      <svg width="80" height="2"><line x1="0" y1="1" x2="80" y2="1" stroke="#D4C4A0" stroke-width="0.8" stroke-dasharray="3 5"/></svg>
+    </div>
+
+    <!-- Botanical elements -->
+    <div class="botanical botanical-1">
+      <svg viewBox="0 0 40 50" fill="none">
+        <path d="M20 48 Q8 38 12 25 Q16 12 20 5 Q24 12 28 25 Q32 38 20 48Z" stroke="#3D5A3E" stroke-width="0.6" fill="#3D5A3E" opacity="0.15"/>
+        <line x1="20" y1="48" x2="20" y2="15" stroke="#3D5A3E" stroke-width="0.4" opacity="0.2"/>
+        <path d="M20 30 Q14 26 16 20" stroke="#3D5A3E" stroke-width="0.3" fill="none" opacity="0.15"/>
+        <path d="M20 35 Q26 31 24 25" stroke="#3D5A3E" stroke-width="0.3" fill="none" opacity="0.15"/>
+      </svg>
+    </div>
+    <div class="botanical botanical-2">
+      <svg viewBox="0 0 30 40" fill="none">
+        <path d="M15 38 Q6 30 9 20 Q12 10 15 4 Q18 10 21 20 Q24 30 15 38Z" stroke="#3D5A3E" stroke-width="0.5" fill="#3D5A3E" opacity="0.12"/>
+        <line x1="15" y1="38" x2="15" y2="10" stroke="#3D5A3E" stroke-width="0.3" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <!-- Clouds -->
+    <div class="cloud cloud-1">&#9729;</div>
+    <div class="cloud cloud-2">&#9729;</div>
+    <div class="cloud cloud-3">&#9729;</div>
+
+    <!-- Stamp dots -->
+    <div class="stamp-dot stamp-dot-1"></div>
+    <div class="stamp-dot stamp-dot-2"></div>
+    <div class="stamp-dot stamp-dot-3"></div>
+    <div class="stamp-dot stamp-dot-4"></div>
+
+    <!-- Hero text -->
+    <div class="hero-text" id="heroText">
+      <p class="hero-kicker">UniqueStaysUSA dispatch desk</p>
+      <h1 class="hero-title">
+        <span class="line">The</span>
+        <span class="line">Journal</span>
+        <span class="line italic">places with a pulse</span>
+      </h1>
+      <p class="hero-subtitle">Field reports, route notes, and stay-side observations from the stranger corners of the American map.</p>
+      <div class="hero-subline">
+        <span>07 dispatches on file</span>
+      </div>
+    </div>
+
+    <!-- Manifest card -->
+    <div class="manifest" id="manifest">
+      <div class="manifest-row">
+        <span class="manifest-label">Open files</span>
+        <span class="manifest-value">07</span>
+      </div>
+      <div class="manifest-row">
+        <span class="manifest-label">States logged</span>
+        <span class="manifest-value">06</span>
+      </div>
+      <div class="manifest-row">
+        <span class="manifest-label">Current brief</span>
+        <span class="manifest-value" style="font-size:14px">Go where the story is</span>
+      </div>
+    </div>
+
+    <!-- Grain -->
+    <div class="grain"></div>
+  </div>
+
+  <div class="prototype-label">Direction B — The Traveler's Desk</div>
+
+  <script>
+    const hero = document.getElementById('hero');
+    const compassNeedle = document.getElementById('compassNeedle');
+    const heroText = document.getElementById('heroText');
+    const manifest = document.getElementById('manifest');
+    const compassEl = document.getElementById('compass');
+
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      targetX = (e.clientX - rect.left) / rect.width - 0.5;
+      targetY = (e.clientY - rect.top) / rect.height - 0.5;
+    });
+
+    function animate() {
+      currentX += (targetX - currentX) * 0.05;
+      currentY += (targetY - currentY) * 0.05;
+
+      // Compass needle follows cursor (rotate toward cursor)
+      const angle = Math.atan2(targetY, targetX) * (180 / Math.PI) + 90;
+      compassNeedle.style.transform = `rotate(${angle}deg)`;
+
+      // Hero text: subtle drift opposite to cursor
+      const textX = currentX * -8;
+      const textY = currentY * -5;
+      heroText.style.transform = `translateY(calc(-50% + ${textY}px)) translateX(${textX}px)`;
+
+      // Manifest: drift with cursor, slightly dampened
+      const manX = currentX * 6;
+      const manY = currentY * 4;
+      manifest.style.transform = `rotate(0.6deg) translate(${manX}px, ${manY}px)`;
+
+      // Compass itself: very subtle drift
+      const compX = currentX * -3;
+      const compY = currentY * -3;
+      compassEl.style.transform = `translateY(calc(-50% + ${compY}px)) translateX(${compX}px)`;
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

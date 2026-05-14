@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variation 3 — The Departures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: oklch(0.965 0.018 83);
+      --ink: oklch(0.215 0.018 63);
+      --muted: oklch(0.48 0.034 67);
+      --terracotta: oklch(0.55 0.14 38);
+      --forest: oklch(0.34 0.085 150);
+      --night: oklch(0.22 0.045 230);
+      --gold: oklch(0.78 0.12 82);
+      --warm: oklch(0.62 0.12 55);
+      --line: oklch(0.73 0.052 72);
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      color: oklch(0.97 0.01 86);
+      background: oklch(0.12 0.02 50);
+      overflow-x: hidden;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      overflow: hidden;
+    }
+
+    /* Atmospheric background — warm vintage interior */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 50% 40%, oklch(0.42 0.10 38 / 0.15), transparent 50%),
+        radial-gradient(ellipse at 80% 70%, oklch(0.25 0.06 35 / 0.2), transparent 40%),
+        linear-gradient(180deg,
+          oklch(0.16 0.04 50) 0%,
+          oklch(0.14 0.05 45) 30%,
+          oklch(0.12 0.04 40) 60%,
+          oklch(0.10 0.03 38) 100%
+        );
+    }
+
+    /* Grain */
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.05;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+    }
+
+    /* ─── DEPARTURE BOARD ─── */
+    .board {
+      position: relative;
+      z-index: 5;
+      max-width: 92rem;
+      margin: 0 auto;
+      padding: clamp(2rem, 4vh, 4rem) clamp(1.2rem, 4vw, 3rem);
+    }
+
+    .board-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: clamp(2rem, 4vw, 3.5rem);
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid oklch(0.97 0.01 86 / 0.08);
+    }
+
+    .board-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 0.84;
+    }
+    .board-header h1 .dim {
+      display: block;
+      font-size: 0.5em;
+      font-weight: 300;
+      color: oklch(0.97 0.01 86 / 0.2);
+      letter-spacing: -0.01em;
+    }
+    .board-header h1 .terracotta {
+      color: var(--terracotta);
+      font-style: italic;
+    }
+
+    .board-header .meta {
+      text-align: right;
+      padding-bottom: 0.5rem;
+    }
+    .board-header .meta .eyebrow {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+    .board-header .meta .sub {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: oklch(0.97 0.01 86 / 0.3);
+      max-width: 24ch;
+    }
+
+    /* ─── TICKET CARDS ─── */
+    .tickets {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .ticket {
+      position: relative;
+      background: oklch(0.97 0.015 83);
+      color: var(--ink);
+      overflow: hidden;
+      box-shadow:
+        0 0.6rem 1.8rem oklch(0.08 0.02 40 / 0.35),
+        0 0.2rem 0.6rem oklch(0.08 0.02 40 / 0.2);
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s ease;
+    }
+    .ticket:hover {
+      transform: translateY(-5px) rotate(-0.3deg);
+      box-shadow:
+        0 0.8rem 2.4rem oklch(0.08 0.02 40 / 0.45),
+        0 0.3rem 0.8rem oklch(0.08 0.02 40 / 0.25);
+    }
+
+    /* Perforated edge — left side */
+    .ticket::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 32%;
+      width: 2px;
+      background: repeating-linear-gradient(
+        to bottom,
+        oklch(0.78 0.04 72 / 0.3) 0px,
+        oklch(0.78 0.04 72 / 0.3) 6px,
+        transparent 6px,
+        transparent 10px
+      );
+      z-index: 2;
+    }
+
+    /* Notch — top and bottom */
+    .ticket::after {
+      content: "";
+      position: absolute;
+      left: 32%;
+      width: 18px;
+      height: 9px;
+      background: oklch(0.12 0.02 50);
+      border-radius: 50%;
+      z-index: 3;
+    }
+    .ticket { --notch-top: -5px; }
+    .ticket::after { top: var(--notch-top); }
+
+    .ticket-notch-bottom {
+      position: absolute;
+      left: 32%;
+      bottom: -5px;
+      width: 18px;
+      height: 9px;
+      background: oklch(0.12 0.02 50);
+      border-radius: 50%;
+      z-index: 3;
+    }
+
+    /* Stub (left of perforation) */
+    .ticket-stub {
+      float: left;
+      width: 32%;
+      padding: 1.2rem 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0.3rem;
+      background: oklch(0.95 0.02 80);
+      border-right: 1px dashed oklch(0.78 0.04 72 / 0.3);
+      min-height: 280px;
+    }
+    .ticket-stub .route-num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      line-height: 1;
+    }
+    .ticket-stub .route-label {
+      font-size: 0.5rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .ticket-stub .route-line {
+      width: 28px;
+      height: 1px;
+      background: var(--terracotta);
+      opacity: 0.3;
+      margin: 0.4rem 0;
+    }
+    .ticket-stub .route-date {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.5;
+    }
+    .ticket-stub .stamp {
+      margin-top: 0.5rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px dashed oklch(0.55 0.14 38 / 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-12deg);
+    }
+    .ticket-stub .stamp span {
+      font-size: 0.35rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: oklch(0.55 0.14 38 / 0.35);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Main body (right of perforation) */
+    .ticket-body {
+      padding: 1.2rem;
+      overflow: hidden;
+    }
+
+    .ticket-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .ticket-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.82) sepia(0.05);
+      transition: transform 0.7s var(--ease-out);
+    }
+    .ticket:hover .ticket-image img {
+      transform: scale(1.05);
+    }
+    .ticket-image .badge {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.2rem 0.5rem;
+      background: oklch(0.55 0.14 38);
+      color: oklch(0.97 0.01 86);
+      font-size: 0.48rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .ticket-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .ticket-body .excerpt {
+      font-size: 0.75rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+    .ticket-body .cta {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.3s var(--ease-out);
+    }
+    .ticket:hover .cta { gap: 8px; }
+
+    /* Featured ticket — larger */
+    .ticket-featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 22% 1fr;
+    }
+    .ticket-featured .ticket-stub {
+      float: none;
+      width: 100%;
+      min-height: auto;
+      padding: 2rem 1rem;
+    }
+    .ticket-featured .ticket-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      padding: 1.5rem;
+    }
+    .ticket-featured .ticket-image {
+      margin-bottom: 0;
+      aspect-ratio: auto;
+      height: 100%;
+    }
+    .ticket-featured .ticket-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .ticket-featured .ticket-body h3 {
+      font-size: 1.8rem;
+    }
+    .ticket-featured .ticket-body .excerpt {
+      font-size: 0.85rem;
+    }
+
+    /* ─── ENTRANCE ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .board-header h1 { animation: fadeUp 1s var(--ease-out) 0.2s both; }
+    .board-header .meta { animation: fadeUp 0.8s var(--ease-out) 0.4s both; }
+    .ticket { animation: fadeUp 0.9s var(--ease-out) both; }
+    .ticket:nth-child(1) { animation-delay: 0.5s; }
+    .ticket:nth-child(2) { animation-delay: 0.65s; }
+    .ticket:nth-child(3) { animation-delay: 0.8s; }
+    .ticket:nth-child(4) { animation-delay: 0.95s; }
+
+    .label {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 100;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: oklch(0.97 0.01 86 / 0.1);
+    }
+
+    @media (max-width: 900px) {
+      .tickets { grid-template-columns: 1fr; }
+      .ticket-featured {
+        grid-column: auto;
+        grid-template-columns: 28% 1fr;
+      }
+      .ticket-featured .ticket-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .board-header { flex-direction: column; align-items: flex-start; }
+      .board-header .meta { text-align: left; }
+      .ticket-featured { grid-template-columns: 1fr; }
+      .ticket-stub { float: none; width: 100%; min-height: auto; flex-direction: row; justify-content: flex-start; gap: 1rem; padding: 0.8rem 1rem; }
+      .ticket-body { padding: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="board">
+      <div class="board-header">
+        <div>
+          <h1>
+            Departures
+            <span class="dim">from</span>
+            <span class="terracotta">The Journal</span>
+          </h1>
+        </div>
+        <div class="meta">
+          <div class="eyebrow">UniqueStaysUSA dispatch desk</div>
+          <p class="sub">Field reports, route notes, and stay-side observations from the stranger corners of the American map.</p>
+        </div>
+      </div>
+
+      <div class="tickets">
+        <!-- Featured dispatch -->
+        <article class="ticket ticket-featured">
+          <div class="ticket-stub">
+            <span class="route-num">001</span>
+            <span class="route-label">Route</span>
+            <div class="route-line"></div>
+            <span class="route-date">May 2026</span>
+            <div class="stamp"><span>Field<br>Note</span></div>
+          </div>
+          <div class="ticket-notch-bottom"></div>
+          <div class="ticket-body">
+            <div class="ticket-image">
+              <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80" alt="Joshua Tree desert landscape">
+              <span class="badge">Latest</span>
+            </div>
+            <div class="ticket-content">
+              <h3>The Best Unique Stays in Joshua Tree, California</h3>
+              <p class="excerpt">Where the desert does the work and you finally stop checking your phone. Monzogranite boulders, dark sky designation, and a specific kind of silence.</p>
+              <span class="cta">Board this route &rarr;</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Regular tickets -->
+        <article class="ticket">
+          <div class="ticket-stub">
+            <span class="route-num">002</span>
+            <span class="route-label">Route</span>
+            <div class="route-line"></div>
+            <span class="route-date">Apr 2026</span>
+          </div>
+          <div class="ticket-notch-bottom"></div>
+          <div class="ticket-body">
+            <div class="ticket-image">
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Mountain valley">
+            </div>
+            <h3>Where the road forgets itself</h3>
+            <p class="excerpt">A winding dispatch from the Blue Ridge.</p>
+            <span class="cta">Open file &rarr;</span>
+          </div>
+        </article>
+
+        <article class="ticket">
+          <div class="ticket-stub">
+            <span class="route-num">003</span>
+            <span class="route-label">Route</span>
+            <div class="route-line"></div>
+            <span class="route-date">Mar 2026</span>
+          </div>
+          <div class="ticket-notch-bottom"></div>
+          <div class="ticket-body">
+            <div class="ticket-image">
+              <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80" alt="Forest path">
+            </div>
+            <h3>Notes from the moss line</h3>
+            <p class="excerpt">Under the green roof, Cascades territory.</p>
+            <span class="cta">Open file &rarr;</span>
+          </div>
+        </article>
+
+        <article class="ticket">
+          <div class="ticket-stub">
+            <span class="route-num">004</span>
+            <span class="route-label">Route</span>
+            <div class="route-line"></div>
+            <span class="route-date">Feb 2026</span>
+          </div>
+          <div class="ticket-notch-bottom"></div>
+          <div class="ticket-body">
+            <div class="ticket-image">
+              <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=600&q=80" alt="Desert road">
+            </div>
+            <h3>The long way is the point</h3>
+            <p class="excerpt">Southwest dispatch, filed at dusk.</p>
+            <span class="cta">Open file &rarr;</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="label">Variation 3 — The Departures</div>
+
+</body>
+</html>

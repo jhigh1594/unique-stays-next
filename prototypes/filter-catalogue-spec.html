@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wanderer's Postcard Collection — Curated Catalogue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Custom Properties ──────────────────────────────────────── */
+:root {
+  --terracotta: #A84626;
+  --cream: #F7F3EC;
+  --forest: #1E5F3A;
+  --charcoal: #2E2A26;
+  --sand: #E0D8C8;
+  --paper: #F2EDE4;
+  --aged: #EDE8DC;
+  --index-card: #F9F5EE;
+  --terracotta-light: rgba(168,70,38,0.12);
+  --forest-light: rgba(30,95,58,0.12);
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-hand: 'Caveat', cursive;
+  --font-mono: 'Courier New', Courier, monospace;
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--charcoal);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Grain Overlay ──────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* ── Page Layout ────────────────────────────────────────────── */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 4rem;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  padding: 1.5rem 0 1rem;
+  border-bottom: 1px solid var(--sand);
+  margin-bottom: 0;
+}
+.header h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  color: var(--charcoal);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.header .subtitle {
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  color: var(--terracotta);
+  margin-top: 0.25rem;
+}
+
+/* ── Layer 1: Tab Divider Navigation ────────────────────────── */
+.tab-row-wrapper {
+  position: relative;
+  margin-top: 1.5rem;
+}
+.tab-scroll-fade-left,
+.tab-scroll-fade-right {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 10;
+  pointer-events: none;
+}
+.tab-scroll-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--cream), transparent);
+}
+.tab-scroll-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--cream), transparent);
+}
+@media (max-width: 740px) {
+  .tab-scroll-fade-left,
+  .tab-scroll-fade-right { display: block; }
+}
+
+.tab-row {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  z-index: 5;
+}
+.tab-row::-webkit-scrollbar { display: none; }
+
+.tab-divider {
+  flex-shrink: 0;
+  position: relative;
+  background: var(--aged);
+  border: 1.5px solid var(--sand);
+  border-bottom: 2px solid var(--sand);
+  padding: 0.65rem 1.3rem 0.55rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  letter-spacing: 0.01em;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+  margin-right: -1px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Perforation dots along top edge */
+.tab-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8px;
+  right: 8px;
+  height: 4px;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0px,
+    transparent 4px,
+    var(--sand) 4px,
+    var(--sand) 6px,
+    transparent 6px,
+    transparent 10px
+  );
+  opacity: 0.7;
+}
+
+/* Notched corners via clip-path */
+.tab-divider:nth-child(1) { clip-path: polygon(0 8px, 8px 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%); --lift: 0px; }
+.tab-divider:nth-child(2) { clip-path: polygon(0 6px, 6px 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%); --lift: -2px; }
+.tab-divider:nth-child(3) { clip-path: polygon(0 8px, 10px 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%); --lift: -1px; }
+.tab-divider:nth-child(4) { clip-path: polygon(0 5px, 5px 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 0 100%); --lift: -3px; }
+.tab-divider:nth-child(5) { clip-path: polygon(0 7px, 7px 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%); --lift: -1px; }
+.tab-divider:nth-child(6) { clip-path: polygon(0 6px, 8px 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%); --lift: -2px; }
+.tab-divider:nth-child(7) { clip-path: polygon(0 8px, 6px 0, calc(100% - 8px) 0, 100% 6px, 100% 100%, 0 100%); --lift: 0px; }
+
+.tab-divider .tab-label { display: inline; }
+.tab-divider .tab-count {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: rgba(46,42,38,0.5);
+  margin-left: 0.35rem;
+}
+
+/* Active tab state */
+.tab-divider.active {
+  background: var(--paper);
+  color: var(--terracotta);
+  transform: translateY(-6px);
+  z-index: 6;
+  border-top: 3px solid var(--terracotta);
+  border-left: 1.5px solid var(--sand);
+  border-right: 1.5px solid var(--sand);
+  border-bottom: 2px solid var(--sand);
+}
+
+/* Erase bottom border of active tab to merge with content area */
+.tab-divider.active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--paper);
+  z-index: 1;
+}
+
+.tab-divider:hover:not(.active) {
+  background: #e8e2d6;
+  transform: translateY(-2px);
+}
+
+/* ── Content Surface ────────────────────────────────────────── */
+.content-surface {
+  background: var(--paper);
+  border: 1.5px solid var(--sand);
+  border-top: none;
+  padding: 0;
+  min-height: 400px;
+}
+
+/* ── Layer 4: Search Bar ────────────────────────────────────── */
+.search-row {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--sand);
+  gap: 0.75rem;
+}
+.search-stamp {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.search-input {
+  flex: 1;
+  border: 1.5px solid var(--sand);
+  border-radius: 0;
+  padding: 0.55rem 0.85rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--charcoal);
+  background: var(--index-card);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input::placeholder {
+  color: rgba(46,42,38,0.4);
+  font-style: italic;
+}
+.search-input:focus {
+  border-color: var(--terracotta);
+}
+
+/* ── Layer 2: Subject Strip ─────────────────────────────────── */
+.subject-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  padding: 0.7rem 1.5rem;
+  border-bottom: 1px solid var(--sand);
+  background: var(--aged);
+  font-size: 0.82rem;
+}
+.subject-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  cursor: pointer;
+  color: var(--charcoal);
+  font-weight: 500;
+  padding: 0.35rem 0.5rem;
+  border-radius: 2px;
+  transition: color 0.15s, background 0.15s;
+  position: relative;
+  white-space: nowrap;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+.subject-trigger:hover {
+  background: rgba(168,70,38,0.06);
+}
+.subject-trigger.has-filter {
+  color: var(--terracotta);
+}
+.subject-trigger .arrow {
+  font-size: 0.65rem;
+  opacity: 0.5;
+  transition: transform 0.15s;
+}
+.subject-trigger.open .arrow {
+  transform: rotate(180deg);
+}
+.subject-separator {
+  color: var(--sand);
+  font-size: 1.1rem;
+  user-select: none;
+}
+.clear-filters-btn {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  cursor: pointer;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--terracotta);
+  background: transparent;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.clear-filters-btn:hover {
+  background: var(--terracotta);
+  color: #fff;
+}
+.clear-filters-btn.hidden { display: none; }
+
+@media (max-width: 580px) {
+  .subject-strip {
+    gap: 0.25rem;
+    padding: 0.6rem 1rem;
+  }
+  .subject-separator { display: none; }
+  .subject-trigger { font-size: 0.78rem; flex: 1 1 calc(50% - 0.25rem); justify-content: center; }
+  .clear-filters-btn { flex: 1 1 100%; text-align: center; }
+}
+
+/* ── Filter Popups ──────────────────────────────────────────── */
+.filter-popup-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+.filter-popup-backdrop.visible { display: block; }
+
+.filter-popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 60;
+  background: var(--cream);
+  border: 1.5px solid var(--terracotta);
+  padding: 0.5rem 0;
+  min-width: 170px;
+  box-shadow: 0 6px 20px rgba(46,42,38,0.12);
+  margin-top: 4px;
+}
+.filter-popup.visible { display: block; }
+
+/* Notched arrow pointing up */
+.filter-popup::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  width: 16px;
+  height: 8px;
+  background: var(--cream);
+  border-left: 1.5px solid var(--terracotta);
+  border-top: 1.5px solid var(--terracotta);
+  transform: skewX(-15deg);
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  background: var(--cream);
+}
+/* Better approach for arrow: use a rotated square */
+.filter-popup::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 18px;
+  width: 12px;
+  height: 12px;
+  background: var(--cream);
+  border-left: 1.5px solid var(--terracotta);
+  border-top: 1.5px solid var(--terracotta);
+  transform: rotate(45deg);
+}
+
+.filter-popup-item {
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: var(--charcoal);
+  transition: background 0.1s;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.filter-popup-item:hover {
+  background: var(--terracotta-light);
+}
+.filter-popup-item.selected {
+  color: var(--terracotta);
+  font-weight: 600;
+}
+
+/* ── Mobile Bottom Sheet ────────────────────────────────────── */
+.bottom-sheet-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(46,42,38,0.4);
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.bottom-sheet-backdrop.visible {
+  display: block;
+  opacity: 1;
+}
+.bottom-sheet {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--cream);
+  border-top: 2px solid var(--terracotta);
+  border-radius: 16px 16px 0 0;
+  z-index: 101;
+  padding: 0.75rem 1.5rem 2rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.bottom-sheet.visible {
+  display: block;
+  transform: translateY(0);
+}
+.bottom-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--sand);
+  border-radius: 2px;
+  margin: 0 auto 1rem;
+}
+.bottom-sheet-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--charcoal);
+}
+.bottom-sheet-item {
+  padding: 0.65rem 0;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--sand);
+  color: var(--charcoal);
+}
+.bottom-sheet-item:last-child { border-bottom: none; }
+.bottom-sheet-item.selected { color: var(--terracotta); font-weight: 600; }
+.bottom-sheet-apply {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: var(--terracotta);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+@media (min-width: 581px) {
+  .bottom-sheet-backdrop,
+  .bottom-sheet { display: none !important; }
+}
+
+/* ── Layer 3: Discovery Cards ───────────────────────────────── */
+.discovery-section {
+  padding: 1.25rem 1.5rem 0.5rem;
+  overflow: hidden;
+}
+.discovery-row {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 0.75rem;
+}
+.discovery-row::-webkit-scrollbar { display: none; }
+
+.discovery-card {
+  flex-shrink: 0;
+  width: 220px;
+  background: #fff;
+  border: 5px solid #fff;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 8px rgba(46,42,38,0.08);
+  position: relative;
+}
+.discovery-card:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(46,42,38,0.14);
+}
+.discovery-card-image {
+  height: 110px;
+  border-radius: 0;
+}
+.discovery-card-body {
+  padding: 0.65rem 0.5rem 0.75rem;
+}
+.discovery-card-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--charcoal);
+  margin-bottom: 0.1rem;
+}
+.discovery-card-subtitle {
+  font-family: var(--font-hand);
+  font-size: 0.9rem;
+  color: var(--terracotta);
+}
+.discovery-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.35rem;
+}
+.discovery-card-count {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(46,42,38,0.5);
+}
+.discovery-card-arrow {
+  font-size: 1.1rem;
+  color: var(--terracotta);
+  font-weight: 300;
+}
+.discovery-section.hidden { display: none; }
+
+/* ── Result Count ───────────────────────────────────────────── */
+.result-count-row {
+  padding: 0.75rem 1.5rem 0.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.result-count-number {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+.result-count-label {
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  color: rgba(46,42,38,0.5);
+}
+
+/* ── Layer 6: Result Cards Grid ─────────────────────────────── */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem 2rem;
+}
+@media (max-width: 900px) {
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 580px) {
+  .results-grid { grid-template-columns: 1fr; gap: 1rem; padding: 0.75rem 1rem 2rem; }
+}
+
+/* ── Stay Card ──────────────────────────────────────────────── */
+.stay-card {
+  background: #fff;
+  border: 0;
+  padding: 0;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(46,42,38,0.07);
+  /* Polaroid-style borders */
+  border-top: 6px solid #fff;
+  border-left: 4px solid #fff;
+  border-right: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+}
+.stay-card:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+  box-shadow: 0 8px 28px rgba(46,42,38,0.15);
+}
+
+.stay-card-image-area {
+  position: relative;
+  height: 170px;
+  overflow: hidden;
+}
+
+/* Category stamp */
+.category-stamp {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--terracotta);
+  border: 1.5px dashed var(--terracotta);
+  padding: 0.15rem 0.45rem;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Editor's Pick ribbon */
+.editors-pick-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  background: var(--forest);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.7rem 0.3rem 0.5rem;
+  clip-path: polygon(0 0, 100% 0, 92% 50%, 100% 100%, 0 100%);
+}
+
+/* Postmark circle */
+.postmark {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--terracotta);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+  background: rgba(249,245,238,0.85);
+}
+.postmark-state {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+.postmark-platform {
+  font-family: var(--font-mono);
+  font-size: 0.4rem;
+  color: var(--terracotta);
+  line-height: 1;
+  margin-top: 1px;
+  text-transform: uppercase;
+}
+/* Dashed inner ring */
+.postmark::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--terracotta);
+}
+
+/* Card body */
+.stay-card-body {
+  padding: 0.6rem 0.7rem 0.65rem;
+}
+.stay-card-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--charcoal);
+  margin-bottom: 0.1rem;
+}
+.stay-card-location {
+  font-family: var(--font-hand);
+  font-size: 0.9rem;
+  color: var(--terracotta);
+  margin-bottom: 0.4rem;
+}
+
+/* Metadata row */
+.stay-card-meta {
+  border-top: 1px dashed var(--sand);
+  padding-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--charcoal);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+/* Tags */
+.stay-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.45rem;
+}
+.tag-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--sand);
+  color: rgba(46,42,38,0.65);
+  background: var(--aged);
+}
+
+/* ── No results ─────────────────────────────────────────────── */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.no-results-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.no-results-text {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--charcoal);
+}
+.no-results-hint {
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  color: rgba(46,42,38,0.5);
+  margin-top: 0.25rem;
+}
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .stay-card,
+  .discovery-card,
+  .tab-divider {
+    transition: none !important;
+  }
+}
+
+/* ── Utility ────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <h1>The Wanderer's Postcard Collection</h1>
+    <p class="subtitle">A curated catalogue of America's most unforgettable stays</p>
+  </header>
+
+  <!-- Layer 1: Tab Dividers -->
+  <div class="tab-row-wrapper">
+    <div class="tab-scroll-fade-left"></div>
+    <div class="tab-scroll-fade-right"></div>
+    <div class="tab-row" id="tabRow" role="tablist" aria-label="Category tabs"></div>
+  </div>
+
+  <!-- Content Surface -->
+  <div class="content-surface">
+    <!-- Layer 4: Search -->
+    <div class="search-row">
+      <span class="search-stamp">Search</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search the collection…" aria-label="Search stays">
+    </div>
+
+    <!-- Layer 2: Subject Strip -->
+    <div class="subject-strip" id="subjectStrip"></div>
+
+    <!-- Layer 3: Discovery Cards -->
+    <div class="discovery-section" id="discoverySection">
+      <div class="discovery-row" id="discoveryRow"></div>
+    </div>
+
+    <!-- Result Count -->
+    <div class="result-count-row">
+      <span class="result-count-number" id="resultCountNumber">16</span>
+      <span class="result-count-label" id="resultCountLabel">stays found</span>
+    </div>
+
+    <!-- Layer 6: Result Grid -->
+    <div class="results-grid" id="resultsGrid"></div>
+  </div>
+</div>
+
+<!-- Mobile bottom sheet -->
+<div class="bottom-sheet-backdrop" id="bottomSheetBackdrop"></div>
+<div class="bottom-sheet" id="bottomSheet">
+  <div class="bottom-sheet-handle"></div>
+  <div class="bottom-sheet-title" id="bottomSheetTitle">Filter</div>
+  <div id="bottomSheetOptions"></div>
+  <button class="bottom-sheet-apply" id="bottomSheetApply">Show stays</button>
+</div>
+
+<!-- Popup backdrop for desktop -->
+<div class="filter-popup-backdrop" id="popupBackdrop"></div>
+
+<script>
+// ── MOCK DATA ────────────────────────────────────────────────
+const STAYS = [
+  // Treehouses (6, 3 EP)
+  { id: 1, title: "Catskills Canopy Nest", location: "Woodstock, New York", state: "NY", region: "Northeast", category: "Treehouses", price: 285, rating: 4.9, sleeps: 4, platform: "Airbnb", tags: ["Stargazing Deck","Wood Stove"], editorsPick: true, isNew: false },
+  { id: 2, title: "Redwood Treetop Lodge", location: "Guerneville, California", state: "CA", region: "West", category: "Treehouses", price: 320, rating: 4.8, sleeps: 6, platform: "VRBO", tags: ["Hot Tub","River Access"], editorsPick: true, isNew: false },
+  { id: 3, title: "Pine Ridge Treehouse", location: "Bend, Oregon", state: "OR", region: "West", category: "Treehouses", price: 195, rating: 4.7, sleeps: 2, platform: "Airbnb", tags: ["Mountain View","Pet Friendly"], editorsPick: false, isNew: true },
+  { id: 4, title: "Ozark Oak Retreat", location: "Eureka Springs, Arkansas", state: "AR", region: "South", category: "Treehouses", price: 175, rating: 4.8, sleeps: 4, platform: "Airbnb", tags: ["Hiking Trails","Fire Pit"], editorsPick: false, isNew: false },
+  { id: 5, title: "Appalachian Aerie", location: "Asheville, North Carolina", state: "NC", region: "Southeast", category: "Treehouses", price: 245, rating: 4.9, sleeps: 2, platform: "Direct", tags: ["Wine Cellar","Privacy"], editorsPick: true, isNew: false },
+  { id: 6, title: "Sequoia Sphere", location: "Three Rivers, California", state: "CA", region: "West", category: "Treehouses", price: 390, rating: 5.0, sleeps: 2, platform: "Wander", tags: ["National Park","Luxury"], editorsPick: false, isNew: true },
+
+  // A-Frames (4, 2 EP)
+  { id: 7, title: "Mt. Hood A-Frame", location: "Government Camp, Oregon", state: "OR", region: "West", category: "A-Frames", price: 210, rating: 4.8, sleeps: 4, platform: "Airbnb", tags: ["Ski Access","Cathedral Windows"], editorsPick: true, isNew: false },
+  { id: 8, title: "Lakeside A-Frame", location: "Lake George, New York", state: "NY", region: "Northeast", category: "A-Frames", price: 165, rating: 4.6, sleeps: 4, platform: "VRBO", tags: ["Lakefront","Kayaks"], editorsPick: false, isNew: false },
+  { id: 9, title: "Desert Modern A-Frame", location: "Joshua Tree, California", state: "CA", region: "West", category: "A-Frames", price: 275, rating: 4.9, sleeps: 2, platform: "Airbnb", tags: ["Desert View","Hot Tub"], editorsPick: true, isNew: false },
+  { id: 10, title: "North Woods A-Frame", location: "Ely, Minnesota", state: "MN", region: "Midwest", category: "A-Frames", price: 140, rating: 4.7, sleeps: 6, platform: "VRBO", tags: ["Canoe","Sauna"], editorsPick: false, isNew: false },
+
+  // Cabins (4, 1 EP)
+  { id: 11, title: "Blue Ridge Cabin", location: "Floyd, Virginia", state: "VA", region: "South", category: "Cabins", price: 145, rating: 4.7, sleeps: 4, platform: "Airbnb", tags: ["Porch Swing","Farm"], editorsPick: false, isNew: false },
+  { id: 12, title: "Rocky Mountain Haven", location: "Estes Park, Colorado", state: "CO", region: "West", category: "Cabins", price: 310, rating: 4.9, sleeps: 6, platform: "VRBO", tags: ["Elk Viewing","Stone Fireplace"], editorsPick: true, isNew: false },
+  { id: 13, title: "Taos Adobe Cabin", location: "Taos, New Mexico", state: "NM", region: "Southwest", category: "Cabins", price: 125, rating: 4.5, sleeps: 2, platform: "Airbnb", tags: ["Art Studio","Kiva Fireplace"], editorsPick: false, isNew: true },
+  { id: 14, title: "Wisconsin Lodge", location: "Bayfield, Wisconsin", state: "WI", region: "Midwest", category: "Cabins", price: 185, rating: 4.6, sleeps: 4, platform: "Direct", tags: ["Apple Orchard","Lake Superior"], editorsPick: false, isNew: false },
+
+  // Geodomes (2, 1 EP)
+  { id: 15, title: "Sedona Star Dome", location: "Sedona, Arizona", state: "AZ", region: "Southwest", category: "Geodomes", price: 420, rating: 4.9, sleeps: 2, platform: "Wander", tags: ["Stargazing","Vortex"], editorsPick: true, isNew: false },
+  { id: 16, title: "Texas Hill Country Dome", location: "Fredericksburg, Texas", state: "TX", region: "Southwest", category: "Geodomes", price: 195, rating: 4.6, sleeps: 2, platform: "Airbnb", tags: ["Winery","Hot Tub"], editorsPick: false, isNew: true },
+
+  // Yurts (2, 1 EP — total 8 EP)
+  { id: 17, title: "Big Sur Coastal Yurt", location: "Big Sur, California", state: "CA", region: "West", category: "Yurts", price: 520, rating: 5.0, sleeps: 2, platform: "Airbnb", tags: ["Ocean View","Cliffside"], editorsPick: true, isNew: false },
+  { id: 18, title: "Vermont Meadow Yurt", location: "Stowe, Vermont", state: "VT", region: "Northeast", category: "Yurts", price: 85, rating: 4.5, sleeps: 3, platform: "VRBO", tags: ["Off-Grid","Wildflowers"], editorsPick: false, isNew: false },
+];
+
+// ── STATE ─────────────────────────────────────────────────────
+const TABS = [
+  { id: 'curated', label: '✦ Curated', filter: s => s.editorsPick },
+  { id: 'treehouses', label: '🌲 Treehouses', category: 'Treehouses' },
+  { id: 'aframes', label: '🔺 A-Frames', category: 'A-Frames' },
+  { id: 'geodomes', label: '🔵 Geodomes', category: 'Geodomes' },
+  { id: 'cabins', label: '🏕️ Cabins', category: 'Cabins' },
+  { id: 'yurts', label: '⛺ Yurts', category: 'Yurts' },
+  { id: 'all', label: 'All Stays', filter: () => true },
+];
+
+const FILTER_GROUPS = [
+  { key: 'region', label: 'Region', options: ['All','West','Southwest','South','Midwest','Northeast','Southeast'] },
+  { key: 'price', label: 'Price', options: ['All','Under $100','$100–$200','$200–$300','$300–$500','$500+'] },
+  { key: 'platform', label: 'Platform', options: ['All','Airbnb','VRBO','Wander','Direct'] },
+  { key: 'sleeps', label: 'Sleeps', options: ['Any','1-2','3-4','5-6','7+'] },
+];
+
+const DISCOVERY_CARDS = [
+  { title: 'Cozy Cabins Under $200', subtitle: 'budget-friendly warmth', gradient: 'linear-gradient(135deg, #D4A574, #C4956A, #B8845E)', count: 12, filters: { category: 'Cabins', price: 'Under $100' } },
+  { title: 'Off-Grid Escapes', subtitle: 'disconnect to reconnect', gradient: 'linear-gradient(135deg, #2A7A4E, #1E5F3A, #1B4D32)', count: 8, filters: {} },
+  { title: 'Design-Forward Stays', subtitle: 'curated for the aesthete', gradient: 'linear-gradient(135deg, #C4694A, #A84626, #8E3A1E)', count: 15, filters: {} },
+  { title: 'Lakefront Hideaways', subtitle: 'water, always water', gradient: 'linear-gradient(135deg, #4A8B9F, #3A7A8E, #2A6A7E)', count: 6, filters: {} },
+];
+
+const CATEGORY_COLORS = {
+  'Treehouses': 'linear-gradient(135deg, #4A7C59, #3A6B49)',
+  'A-Frames': 'linear-gradient(135deg, #7B6B4E, #6B5B3E)',
+  'Geodomes': 'linear-gradient(135deg, #5A7A8A, #4A6A7A)',
+  'Cabins': 'linear-gradient(135deg, #8B7355, #7B6345)',
+  'Yurts': 'linear-gradient(135deg, #9A7B5A, #8A6B4A)',
+};
+
+let activeTab = 'curated';
+let secondaryFilters = { region: 'All', price: 'All', platform: 'All', sleeps: 'Any' };
+let searchQuery = '';
+let openPopupKey = null;
+let bottomSheetPendingValue = null;
+
+// ── SEEDED RANDOM ─────────────────────────────────────────────
+function seededRandom(seed) {
+  let x = Math.sin(seed * 9301 + 49297) * 49297;
+  return x - Math.floor(x);
+}
+
+// ── RENDER TABS ───────────────────────────────────────────────
+function renderTabs() {
+  const row = document.getElementById('tabRow');
+  row.innerHTML = '';
+  TABS.forEach((tab, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-divider' + (activeTab === tab.id ? ' active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', activeTab === tab.id);
+    btn.setAttribute('aria-controls', 'resultsGrid');
+
+    const count = getFilteredStaysForTab(tab).length;
+    btn.innerHTML = `<span class="tab-label">${tab.label}</span><span class="tab-count">(${count})</span>`;
+    btn.addEventListener('click', () => {
+      activeTab = tab.id;
+      closeAllPopups();
+      render();
+    });
+    row.appendChild(btn);
+  });
+}
+
+// ── RENDER SUBJECT STRIP ─────────────────────────────────────
+function renderSubjectStrip() {
+  const strip = document.getElementById('subjectStrip');
+  strip.innerHTML = '';
+
+  FILTER_GROUPS.forEach((group, i) => {
+    const trigger = document.createElement('span');
+    trigger.className = 'subject-trigger' + (secondaryFilters[group.key] !== group.options[0] ? ' has-filter' : '');
+    trigger.setAttribute('role', 'button');
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('tabindex', '0');
+
+    const displayVal = secondaryFilters[group.key];
+    trigger.innerHTML = `${group.key.charAt(0).toUpperCase() + group.key.slice(1)}: ${displayVal} <span class="arrow">▾</span>`;
+
+    // Desktop: popup
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.innerWidth <= 580) {
+        openBottomSheet(group);
+      } else {
+        togglePopup(group, trigger);
+      }
+    });
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        trigger.click();
+      }
+    });
+    strip.appendChild(trigger);
+
+    if (i < FILTER_GROUPS.length - 1) {
+      const sep = document.createElement('span');
+      sep.className = 'subject-separator';
+      sep.textContent = '·';
+      strip.appendChild(sep);
+    }
+  });
+
+  // Clear button
+  const hasAnyFilter = Object.values(secondaryFilters).some((v, i) => v !== FILTER_GROUPS[i].options[0]);
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'clear-filters-btn' + (hasAnyFilter ? '' : ' hidden');
+  clearBtn.textContent = 'Clear Filters';
+  clearBtn.addEventListener('click', () => {
+    secondaryFilters = { region: 'All', price: 'All', platform: 'All', sleeps: 'Any' };
+    render();
+  });
+  strip.appendChild(clearBtn);
+}
+
+// ── FILTER POPUPS (Desktop) ──────────────────────────────────
+function togglePopup(group, triggerEl) {
+  closeAllPopups();
+  if (openPopupKey === group.key) {
+    openPopupKey = null;
+    return;
+  }
+  openPopupKey = group.key;
+
+  // Mark trigger open
+  triggerEl.classList.add('open');
+
+  // Build popup
+  const popup = document.createElement('div');
+  popup.className = 'filter-popup visible';
+  popup.id = 'activePopup';
+
+  group.options.forEach(opt => {
+    const item = document.createElement('div');
+    item.className = 'filter-popup-item' + (secondaryFilters[group.key] === opt ? ' selected' : '');
+    item.textContent = opt;
+    item.setAttribute('role', 'option');
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      secondaryFilters[group.key] = opt;
+      openPopupKey = null;
+      render();
+    });
+    popup.appendChild(item);
+  });
+
+  // Position popup relative to trigger
+  const rect = triggerEl.getBoundingClientRect();
+  const stripRect = document.getElementById('subjectStrip').getBoundingClientRect();
+  popup.style.left = (rect.left - stripRect.left) + 'px';
+  triggerEl.style.position = 'relative';
+  triggerEl.appendChild(popup);
+
+  document.getElementById('popupBackdrop').classList.add('visible');
+}
+
+function closeAllPopups() {
+  openPopupKey = null;
+  const existing = document.getElementById('activePopup');
+  if (existing) existing.remove();
+  document.getElementById('popupBackdrop').classList.remove('visible');
+  document.querySelectorAll('.subject-trigger.open').forEach(el => el.classList.remove('open'));
+}
+
+// ── BOTTOM SHEET (Mobile) ────────────────────────────────────
+function openBottomSheet(group) {
+  const sheet = document.getElementById('bottomSheet');
+  const backdrop = document.getElementById('bottomSheetBackdrop');
+  const title = document.getElementById('bottomSheetTitle');
+  const options = document.getElementById('bottomSheetOptions');
+
+  title.textContent = group.label;
+  bottomSheetPendingValue = secondaryFilters[group.key];
+
+  options.innerHTML = '';
+  group.options.forEach(opt => {
+    const item = document.createElement('div');
+    item.className = 'bottom-sheet-item' + (secondaryFilters[group.key] === opt ? ' selected' : '');
+    item.textContent = opt;
+    item.addEventListener('click', () => {
+      bottomSheetPendingValue = opt;
+      options.querySelectorAll('.bottom-sheet-item').forEach(el => el.classList.remove('selected'));
+      item.classList.add('selected');
+    });
+    options.appendChild(item);
+  });
+
+  const applyBtn = document.getElementById('bottomSheetApply');
+  applyBtn.textContent = `Show ${getFilteredStays().length} stays`;
+  applyBtn.onclick = () => {
+    secondaryFilters[group.key] = bottomSheetPendingValue;
+    closeBottomSheet();
+    render();
+  };
+
+  backdrop.classList.add('visible');
+  sheet.classList.add('visible');
+}
+
+function closeBottomSheet() {
+  document.getElementById('bottomSheetBackdrop').classList.remove('visible');
+  document.getElementById('bottomSheet').classList.remove('visible');
+}
+
+// ── RENDER DISCOVERY CARDS ────────────────────────────────────
+function renderDiscoveryCards() {
+  const section = document.getElementById('discoverySection');
+  const row = document.getElementById('discoveryRow');
+  // Show only on curated or all tabs
+  if (activeTab !== 'curated' && activeTab !== 'all') {
+    section.classList.add('hidden');
+    return;
+  }
+  section.classList.remove('hidden');
+  row.innerHTML = '';
+
+  DISCOVERY_CARDS.forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'discovery-card';
+    const tilt = [-1.5, 1.2, -0.8, 1.5][i];
+    el.style.transform = `rotate(${tilt}deg)`;
+
+    el.innerHTML = `
+      <div class="discovery-card-image" style="background: ${card.gradient}"></div>
+      <div class="discovery-card-body">
+        <div class="discovery-card-title">${card.title}</div>
+        <div class="discovery-card-subtitle">${card.subtitle}</div>
+        <div class="discovery-card-meta">
+          <span class="discovery-card-count">${card.count} stays</span>
+          <span class="discovery-card-arrow">&rarr;</span>
+        </div>
+      </div>
+    `;
+
+    el.addEventListener('click', () => {
+      if (card.filters.category) {
+        // Find the matching tab
+        const tab = TABS.find(t => t.category === card.filters.category);
+        if (tab) activeTab = tab.id;
+      }
+      if (card.filters.price) {
+        secondaryFilters.price = card.filters.price;
+      }
+      // For cards without specific filters, just show curated or all
+      render();
+    });
+
+    row.appendChild(el);
+  });
+}
+
+// ── FILTERING ─────────────────────────────────────────────────
+function priceMatches(stay, priceFilter) {
+  if (priceFilter === 'All') return true;
+  if (priceFilter === 'Under $100') return stay.price < 100;
+  if (priceFilter === '$100–$200') return stay.price >= 100 && stay.price <= 200;
+  if (priceFilter === '$200–$300') return stay.price >= 200 && stay.price <= 300;
+  if (priceFilter === '$300–$500') return stay.price >= 300 && stay.price <= 500;
+  if (priceFilter === '$500+') return stay.price > 500;
+  return true;
+}
+
+function sleepsMatches(stay, sleepsFilter) {
+  if (sleepsFilter === 'Any') return true;
+  if (sleepsFilter === '1-2') return stay.sleeps <= 2;
+  if (sleepsFilter === '3-4') return stay.sleeps >= 3 && stay.sleeps <= 4;
+  if (sleepsFilter === '5-6') return stay.sleeps >= 5 && stay.sleeps <= 6;
+  if (sleepsFilter === '7+') return stay.sleeps >= 7;
+  return true;
+}
+
+function searchMatches(stay) {
+  if (!searchQuery) return true;
+  const q = searchQuery.toLowerCase();
+  return (
+    stay.title.toLowerCase().includes(q) ||
+    stay.location.toLowerCase().includes(q) ||
+    stay.state.toLowerCase().includes(q) ||
+    stay.category.toLowerCase().includes(q) ||
+    stay.tags.some(t => t.toLowerCase().includes(q))
+  );
+}
+
+function applySecondaryFilters(stays) {
+  return stays.filter(s => {
+    if (secondaryFilters.region !== 'All' && s.region !== secondaryFilters.region) return false;
+    if (!priceMatches(s, secondaryFilters.price)) return false;
+    if (secondaryFilters.platform !== 'All' && s.platform !== secondaryFilters.platform) return false;
+    if (!sleepsMatches(s, secondaryFilters.sleeps)) return false;
+    if (!searchMatches(s)) return false;
+    return true;
+  });
+}
+
+function getFilteredStays() {
+  let stays = STAYS;
+  const tab = TABS.find(t => t.id === activeTab);
+  if (tab.filter) {
+    stays = stays.filter(tab.filter);
+  } else if (tab.category) {
+    stays = stays.filter(s => s.category === tab.category);
+  }
+  return applySecondaryFilters(stays);
+}
+
+function getFilteredStaysForTab(tab) {
+  let stays = STAYS;
+  if (tab.filter) {
+    stays = stays.filter(tab.filter);
+  } else if (tab.category) {
+    stays = stays.filter(s => s.category === tab.category);
+  }
+  return applySecondaryFilters(stays);
+}
+
+// ── RENDER RESULTS ────────────────────────────────────────────
+function renderResults(animate = true) {
+  const grid = document.getElementById('resultsGrid');
+  const filtered = getFilteredStays();
+
+  // Update count
+  document.getElementById('resultCountNumber').textContent = filtered.length;
+  document.getElementById('resultCountLabel').textContent = filtered.length === 1 ? 'stay found' : 'stays found';
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (animate && !reducedMotion) {
+    // Fade out
+    const cards = grid.querySelectorAll('.stay-card');
+    if (cards.length > 0) {
+      cards.forEach(c => {
+        c.style.transition = 'opacity 150ms, transform 150ms';
+        c.style.opacity = '0';
+        c.style.transform = c.dataset.origTransform + ' scale(0.97)';
+      });
+      setTimeout(() => {
+        buildCards(grid, filtered);
+        // Fade in with stagger
+        const newCards = grid.querySelectorAll('.stay-card');
+        const maxStagger = 400;
+        const perCard = Math.min(50, maxStagger / Math.max(newCards.length, 1));
+        newCards.forEach((c, i) => {
+          c.style.opacity = '0';
+          c.style.transform = c.dataset.origTransform + ' scale(0.97)';
+          setTimeout(() => {
+            c.style.transition = 'opacity 200ms, transform 200ms';
+            c.style.opacity = '1';
+            c.style.transform = c.dataset.origTransform + ' scale(1)';
+          }, i * perCard);
+        });
+      }, 160);
+    } else {
+      buildCards(grid, filtered);
+      const newCards = grid.querySelectorAll('.stay-card');
+      const maxStagger = 400;
+      const perCard = Math.min(50, maxStagger / Math.max(newCards.length, 1));
+      newCards.forEach((c, i) => {
+        c.style.opacity = '0';
+        c.style.transform = c.dataset.origTransform + ' scale(0.97)';
+        setTimeout(() => {
+          c.style.transition = 'opacity 200ms, transform 200ms';
+          c.style.opacity = '1';
+          c.style.transform = c.dataset.origTransform + ' scale(1)';
+        }, i * perCard);
+      });
+    }
+  } else {
+    buildCards(grid, filtered);
+  }
+}
+
+function buildCards(grid, stays) {
+  grid.innerHTML = '';
+  if (stays.length === 0) {
+    grid.innerHTML = `
+      <div class="no-results">
+        <div class="no-results-icon">📭</div>
+        <div class="no-results-text">No stays match your filters</div>
+        <div class="no-results-hint">Try broadening your search or clearing filters</div>
+      </div>
+    `;
+    return;
+  }
+
+  stays.forEach((stay, i) => {
+    const tilt = (seededRandom(stay.id) * 3 - 1.5).toFixed(2);
+    const stampRot = (-3 - seededRandom(stay.id + 100) * 3).toFixed(1);
+    const origTransform = `rotate(${tilt}deg)`;
+
+    const card = document.createElement('div');
+    card.className = 'stay-card';
+    card.style.transform = origTransform;
+    card.dataset.origTransform = origTransform;
+
+    const imgGrad = CATEGORY_COLORS[stay.category] || 'linear-gradient(135deg, #8B7355, #7B6345)';
+
+    card.innerHTML = `
+      <div class="stay-card-image-area" style="background: ${imgGrad}">
+        ${stay.editorsPick ? '<div class="editors-pick-ribbon">Editor\'s Pick</div>' : ''}
+        <div class="category-stamp" style="transform: rotate(${stampRot}deg)">${stay.category}</div>
+        <div class="postmark">
+          <span class="postmark-state">${stay.state}</span>
+          <span class="postmark-platform">${stay.platform}</span>
+        </div>
+      </div>
+      <div class="stay-card-body">
+        <div class="stay-card-title">${stay.title}</div>
+        <div class="stay-card-location">${stay.location}</div>
+        <div class="stay-card-meta">RATE: $${stay.price}/nt &middot; SLEEPS: ${stay.sleeps} &middot; ★ ${stay.rating}</div>
+        <div class="stay-card-tags">
+          ${stay.tags.map(t => `<span class="tag-stamp">${t}</span>`).join('')}
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+// ── MAIN RENDER ───────────────────────────────────────────────
+function render(animate = true) {
+  renderTabs();
+  renderSubjectStrip();
+  renderDiscoveryCards();
+  renderResults(animate);
+}
+
+// ── EVENT LISTENERS ───────────────────────────────────────────
+// Search input
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchQuery = e.target.value.trim();
+  render();
+});
+
+// Close popups on backdrop click
+document.getElementById('popupBackdrop').addEventListener('click', () => {
+  closeAllPopups();
+});
+
+// Close bottom sheet on backdrop click
+document.getElementById('bottomSheetBackdrop').addEventListener('click', () => {
+  closeBottomSheet();
+});
+
+// Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeAllPopups();
+    closeBottomSheet();
+  }
+});
+
+// ── INIT ──────────────────────────────────────────────────────
+render(false);
+</script>
+</body>
+</html>

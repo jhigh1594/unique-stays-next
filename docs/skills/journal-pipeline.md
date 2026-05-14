@@ -39,14 +39,20 @@ Research what to write before writing a single word.
 2. For each "Journal Post" entry, check the `Status` column:
    - `Published` → skip (already done)
    - `Planned` → candidate for this sprint
-3. Select the first `Planned` Journal Post entry (chronological order)
-4. Double-check by querying Payload for a matching slug/keyword (catches manual publishes):
+3. **Seasonal guard** — filter candidates by publish-window eligibility:
+   - Determine the calendar month the entry belongs to (from the table heading, e.g. "September 2026")
+   - If the entry targets a specific month/season (keywords contain month names, seasons, holidays): only eligible if current date is within 6 weeks before or during that target month
+   - If the entry is evergreen (no seasonal keywords): eligible immediately
+   - **Never publish seasonal content more than 6 weeks before its target period**
+   - If no eligible candidates remain: stop and report "No seasonally appropriate content ready. Next eligible: [nearest future entry and date]."
+4. Select the first eligible `Planned` Journal Post entry (chronological order)
+5. Double-check by querying Payload for a matching slug/keyword (catches manual publishes):
    ```bash
    GET https://uniquestaysusa.com/api/blog-posts?where[status][equals]=published&depth=0&limit=50
    ```
-5. If the Payload check finds a match, update the calendar Status to `Published` and move to next entry
-6. Announce: "Starting autonomous creation of [topic] — next in calendar queue"
-7. Proceed directly to Phase 2
+6. If the Payload check finds a match, update the calendar Status to `Published` and move to next entry
+7. Announce: "Starting autonomous creation of [topic] — next in calendar queue"
+8. Proceed directly to Phase 2
 
 **Keyword research (always run):**
 1. Use WebSearch to check keyword volumes and difficulty for the target keyword
@@ -316,11 +322,13 @@ git commit -m "journal: publish \"{title}\" (sprint {N})"
 Calendar lives at `KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md`. Auto-select logic:
 
 1. Find current month's section
-2. Filter for "Journal Post" content type entries
+2. Filter for "Journal Post" content type entries with `Planned` status
 3. For each entry, check if a published post exists in Payload with matching topic
-4. Select the first entry with no published match
-5. If current month has no remaining entries, advance to next month
-6. If no entries remain, report "calendar complete"
+4. **Apply seasonal guard** (6-week window): skip entries targeting a month/season that is more than 6 weeks away
+5. Select the first eligible entry with no published match
+6. If current month has no remaining eligible entries, check subsequent months (respecting the 6-week guard)
+7. If no entries are within the 6-week window, report "No seasonally appropriate content ready until [date]"
+8. If no entries remain at all, report "calendar complete"
 
 | Calendar signal | Article type |
 |---|---|

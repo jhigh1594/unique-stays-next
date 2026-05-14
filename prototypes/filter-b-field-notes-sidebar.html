@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniqueStaysUSA — Filter: Field Notes Sidebar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS Custom Properties ===== */
+:root {
+  --terracotta: #A84626;
+  --cream: #F7F3EC;
+  --forest: #1E5F3A;
+  --charcoal: #2E2A26;
+  --sand: #E0D8C8;
+  --paper: #F2EDE4;
+  --sidebar-w: 280px;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-hand: 'Caveat', cursive;
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--charcoal);
+  background: var(--paper);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== Grain Overlay ===== */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.35;
+}
+
+/* ===== Layout ===== */
+.page-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--cream);
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 28px,
+      #d6cfc3 28px,
+      #d6cfc3 29px
+    );
+  background-position: 0 12px;
+  padding: 0;
+  position: relative;
+  overflow-y: auto;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Perforated right edge */
+.sidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  background: radial-gradient(circle at 0px 8px, transparent 4px, var(--cream) 4px, var(--cream) 5px, transparent 5px);
+  background-size: 8px 16px;
+  pointer-events: none;
+}
+
+.sidebar-inner {
+  padding: 24px 20px 32px 20px;
+  position: relative;
+}
+
+/* Dashed ruled line between sections */
+.sidebar-section {
+  border-bottom: 1px dashed #c4b9aa;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.sidebar-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* ===== Rubber-Stamp Header ===== */
+.stamp-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  padding: 6px 0;
+}
+
+.stamp-badge {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  border: 2.5px solid var(--terracotta);
+  padding: 5px 16px;
+  transform: rotate(-2.5deg);
+  position: relative;
+  opacity: 0.85;
+  /* Stamp imperfection */
+  filter: url(#stamp-distort);
+}
+
+.stamp-badge::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1.5px solid var(--terracotta);
+  opacity: 0.4;
+  transform: rotate(0.8deg);
+}
+
+/* ===== Wax-Seal Counter ===== */
+.wax-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px auto 4px auto;
+}
+
+.wax-seal-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #c4593a, var(--terracotta) 60%, #8a3519);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(168,70,38,0.35), inset 0 1px 2px rgba(255,255,255,0.15);
+  position: relative;
+}
+
+.wax-seal-circle::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255,255,255,0.35);
+}
+
+.wax-count {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  color: #fff;
+  line-height: 1;
+}
+
+.wax-label {
+  font-family: var(--font-hand);
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 1px;
+}
+
+/* ===== Section Labels (Handwritten) ===== */
+.section-label {
+  font-family: var(--font-hand);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  display: block;
+  opacity: 0.8;
+}
+
+/* ===== Category / Region Lists ===== */
+.filter-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-item {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--charcoal);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 2px;
+  transition: background 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.filter-item:hover {
+  background: rgba(168,70,38,0.06);
+}
+
+.filter-item.active {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--terracotta);
+}
+
+.filter-item.active::before {
+  content: '\2713';
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 600;
+  margin-right: 2px;
+  color: var(--terracotta);
+}
+
+.filter-item:not(.active)::before {
+  content: '';
+  width: 10px;
+}
+
+/* ===== Price Inputs ===== */
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.price-field {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.price-field .dollar {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--charcoal);
+}
+
+.price-field input {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--charcoal);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dashed #b5a998;
+  width: 60px;
+  padding: 2px 0 0 0;
+  outline: none;
+  text-align: center;
+}
+
+.price-field input::placeholder {
+  color: #b5a998;
+  font-style: italic;
+}
+
+.price-field input:focus {
+  border-bottom-color: var(--terracotta);
+}
+
+.price-sep {
+  font-family: var(--font-hand);
+  font-size: 16px;
+  color: #b5a998;
+}
+
+/* ===== Platform Stamp Grid ===== */
+.platform-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.platform-stamp {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  border: 1.5px solid var(--charcoal);
+  padding: 6px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  opacity: 0.6;
+  transform: rotate(var(--rot, 0deg));
+  user-select: none;
+}
+
+.platform-stamp:nth-child(1) { --rot: -1deg; }
+.platform-stamp:nth-child(2) { --rot: 1.2deg; }
+.platform-stamp:nth-child(3) { --rot: 0.8deg; }
+.platform-stamp:nth-child(4) { --rot: -0.6deg; }
+
+.platform-stamp:hover {
+  opacity: 0.85;
+}
+
+.platform-stamp.active {
+  opacity: 1;
+  color: var(--terracotta);
+  border-color: var(--terracotta);
+  background: rgba(168,70,38,0.06);
+}
+
+/* ===== Editor's Pick Postmark Toggle ===== */
+.postmark-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.postmark-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2.5px solid var(--terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;
+  transform: rotate(-12deg);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.postmark-circle::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed var(--terracotta);
+  opacity: 0.5;
+}
+
+.postmark-circle .pm-text {
+  text-align: center;
+  line-height: 1.2;
+}
+
+.postmark-circle.active {
+  background: rgba(168,70,38,0.1);
+  transform: rotate(0deg) scale(1.05);
+}
+
+.postmark-label {
+  font-family: var(--font-hand);
+  font-size: 16px;
+  color: var(--charcoal);
+  opacity: 0.75;
+}
+
+/* ===== Reset Link ===== */
+.reset-link {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  text-decoration: none;
+  text-align: center;
+  padding: 8px 0;
+  cursor: pointer;
+  border: 1px dashed transparent;
+  transition: border-color 0.2s;
+}
+
+.reset-link:hover {
+  border-color: var(--terracotta);
+}
+
+/* ===== Grid Area ===== */
+.grid-area {
+  flex: 1;
+  padding: 28px 32px;
+  overflow-y: auto;
+}
+
+.grid-header {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #9e9589;
+  margin-bottom: 20px;
+  padding-left: 4px;
+}
+
+/* ===== Polaroid Cards ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.polaroid {
+  background: #fff;
+  padding: 10px 10px 0 10px;
+  box-shadow: 0 2px 12px rgba(46,42,38,0.10), 0 0 0 1px rgba(0,0,0,0.03);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+  position: relative;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 8px 24px rgba(46,42,38,0.16), 0 0 0 1px rgba(0,0,0,0.04);
+}
+
+.polaroid-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  margin-bottom: 0;
+  display: block;
+}
+
+.polaroid-caption {
+  padding: 10px 4px 14px 4px;
+  border-top: 1px solid #e8e2d9;
+  position: relative;
+}
+
+/* Ruled lines in caption */
+.polaroid-caption::after {
+  content: '';
+  position: absolute;
+  bottom: 14px;
+  left: 4px;
+  right: 4px;
+  height: 1px;
+  background: #e8e2d9;
+}
+
+.polaroid-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--charcoal);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.polaroid-location {
+  font-family: var(--font-hand);
+  font-size: 14px;
+  color: #8a8279;
+}
+
+.polaroid-price {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--terracotta);
+  margin-top: 2px;
+}
+
+/* Category stamp badge on card */
+.card-stamp {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--forest);
+  border: 1.5px solid var(--forest);
+  padding: 2px 7px;
+  transform: rotate(3deg);
+  opacity: 0.7;
+  background: rgba(255,255,255,0.85);
+}
+
+/* ===== Mobile ===== */
+.mobile-filter-btn {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 20px;
+  z-index: 200;
+  background: var(--cream);
+  border: 2px solid var(--terracotta);
+  color: var(--terracotta);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 10px 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-filter-btn .count-badge {
+  background: var(--terracotta);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(46,42,38,0.4);
+  z-index: 150;
+}
+
+@media (max-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 300;
+    height: 100vh;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .mobile-filter-btn {
+    display: flex;
+  }
+
+  .mobile-overlay.open {
+    display: block;
+  }
+
+  .grid-area {
+    padding: 20px 16px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* ===== No Results ===== */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  font-family: var(--font-hand);
+  font-size: 22px;
+  color: #b5a998;
+}
+
+/* ===== Scrollbar ===== */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--sand); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- SVG Grain Overlay -->
+<svg class="grain-overlay" xmlns="http://www.w3.org/2000/svg">
+  <filter id="grain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#grain)" opacity="0.12"/>
+</svg>
+
+<!-- Stamp distort filter -->
+<svg style="position:absolute;width:0;height:0">
+  <filter id="stamp-distort">
+    <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<!-- Mobile filter button -->
+<button class="mobile-filter-btn" id="mobileFilterBtn">
+  Filter <span style="font-family:var(--font-hand);font-size:16px;">&#9998;</span>
+  <span class="count-badge" id="mobileCountBadge">0</span>
+</button>
+
+<div class="page-layout">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+
+      <!-- Rubber-Stamp Header -->
+      <div class="sidebar-section">
+        <div class="stamp-header">
+          <div class="stamp-badge">THE FILTER</div>
+        </div>
+        <!-- Wax-Seal Counter -->
+        <div class="wax-seal">
+          <div class="wax-seal-circle">
+            <span class="wax-count" id="resultCount">12</span>
+            <span class="wax-label">stays</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="sidebar-section">
+        <span class="section-label">Category</span>
+        <ul class="filter-list" id="categoryList">
+          <li class="filter-item" data-filter="category" data-value="treehouses">Treehouses</li>
+          <li class="filter-item" data-filter="category" data-value="a-frames">A-Frames</li>
+          <li class="filter-item" data-filter="category" data-value="cabins">Cabins</li>
+          <li class="filter-item" data-filter="category" data-value="domes">Domes</li>
+          <li class="filter-item" data-filter="category" data-value="tiny-homes">Tiny Homes</li>
+          <li class="filter-item" data-filter="category" data-value="yurts">Yurts</li>
+        </ul>
+      </div>
+
+      <!-- Region -->
+      <div class="sidebar-section">
+        <span class="section-label">Region</span>
+        <ul class="filter-list" id="regionList">
+          <li class="filter-item" data-filter="region" data-value="West">West</li>
+          <li class="filter-item" data-filter="region" data-value="Southwest">Southwest</li>
+          <li class="filter-item" data-filter="region" data-value="South">South</li>
+          <li class="filter-item" data-filter="region" data-value="Midwest">Midwest</li>
+          <li class="filter-item" data-filter="region" data-value="Northeast">Northeast</li>
+          <li class="filter-item" data-filter="region" data-value="Southeast">Southeast</li>
+        </ul>
+      </div>
+
+      <!-- Price -->
+      <div class="sidebar-section">
+        <span class="section-label">Price per night</span>
+        <div class="price-row">
+          <div class="price-field">
+            <span class="dollar">$</span>
+            <input type="number" id="priceMin" placeholder="min" min="0">
+          </div>
+          <span class="price-sep">&mdash;</span>
+          <div class="price-field">
+            <span class="dollar">$</span>
+            <input type="number" id="priceMax" placeholder="max" min="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- Platform -->
+      <div class="sidebar-section">
+        <span class="section-label">Platform</span>
+        <div class="platform-grid" id="platformGrid">
+          <div class="platform-stamp" data-value="Airbnb">Airbnb</div>
+          <div class="platform-stamp" data-value="VRBO">VRBO</div>
+          <div class="platform-stamp" data-value="Wander">Wander</div>
+          <div class="platform-stamp" data-value="Direct">Direct</div>
+        </div>
+      </div>
+
+      <!-- Editor's Pick -->
+      <div class="sidebar-section">
+        <div class="postmark-toggle" id="postmarkToggle">
+          <div class="postmark-circle" id="postmarkCircle">
+            <span class="pm-text">EDITOR'S<br>PICK</span>
+          </div>
+          <span class="postmark-label">Only editor's picks</span>
+        </div>
+      </div>
+
+      <!-- Reset -->
+      <div class="sidebar-section" style="border-bottom:none;">
+        <a class="reset-link" id="resetLink">[ CLEAR ALL FILTERS ]</a>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ===== GRID ===== -->
+  <main class="grid-area">
+    <div class="grid-header">Curated Stays &mdash; The Wanderer's Postcard Collection</div>
+    <div class="card-grid" id="cardGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </main>
+</div>
+
+<script>
+// ===== Mock Data =====
+const stays = [
+  { id: 1, title: "Canopy Treehouse Retreat", location: "Asheville, North Carolina", category: "treehouses", region: "Southeast", platform: "Airbnb", price: 195, editorsPick: true, color: "#6B8F71" },
+  { id: 2, title: "Snowy A-Frame Hideout", location: "Lake Tahoe, California", category: "a-frames", region: "West", platform: "VRBO", price: 320, editorsPick: false, color: "#8B7D6B" },
+  { id: 3, title: "Cedar Cabin on the River", location: "Leavenworth, Washington", category: "cabins", region: "West", platform: "Airbnb", price: 175, editorsPick: true, color: "#A0826D" },
+  { id: 4, title: "Desert Dome Escape", location: "Joshua Tree, California", category: "domes", region: "West", platform: "Wander", price: 289, editorsPick: false, color: "#C4A35A" },
+  { id: 5, title: "Tiny Farmhouse Studio", location: "Hudson Valley, New York", category: "tiny-homes", region: "Northeast", platform: "Airbnb", price: 145, editorsPick: true, color: "#7A9E7E" },
+  { id: 6, title: "Mountain Yurt Village", location: "Durango, Colorado", category: "yurts", region: "Southwest", platform: "VRBO", price: 110, editorsPick: false, color: "#9B8B7A" },
+  { id: 7, title: "Lakeside A-Frame Lodge", location: "Lake Placid, New York", category: "a-frames", region: "Northeast", platform: "Direct", price: 275, editorsPick: true, color: "#5E8B6E" },
+  { id: 8, title: "Redwood Treehouse Suite", location: "Santa Cruz, California", category: "treehouses", region: "West", platform: "Airbnb", price: 350, editorsPick: false, color: "#7D6B5D" },
+  { id: 9, title: "Rustic Pine Cabin", location: "Breckenridge, Colorado", category: "cabins", region: "Southwest", platform: "VRBO", price: 210, editorsPick: true, color: "#8FA87A" },
+  { id: 10, title: "Glamping Dome Retreat", location: "Sedona, Arizona", category: "domes", region: "Southwest", platform: "Wander", price: 265, editorsPick: false, color: "#C97B5A" },
+  { id: 11, title: "Gulf Coast Tiny Cottage", location: "Gulf Shores, Alabama", category: "tiny-homes", region: "South", platform: "Direct", price: 130, editorsPick: true, color: "#6EAAB2" },
+  { id: 12, title: "Yurt by the Gorge", location: "Hood River, Oregon", category: "yurts", region: "West", platform: "Airbnb", price: 155, editorsPick: false, color: "#9B8E7E" },
+];
+
+// ===== State =====
+const state = {
+  categories: new Set(),
+  regions: new Set(),
+  platforms: new Set(),
+  priceMin: null,
+  priceMax: null,
+  editorsPick: false,
+};
+
+// ===== DOM refs =====
+const cardGrid = document.getElementById('cardGrid');
+const resultCount = document.getElementById('resultCount');
+const mobileCountBadge = document.getElementById('mobileCountBadge');
+const priceMinInput = document.getElementById('priceMin');
+const priceMaxInput = document.getElementById('priceMax');
+const postmarkCircle = document.getElementById('postmarkCircle');
+const postmarkToggle = document.getElementById('postmarkToggle');
+const resetLink = document.getElementById('resetLink');
+const sidebar = document.getElementById('sidebar');
+const mobileOverlay = document.getElementById('mobileOverlay');
+const mobileFilterBtn = document.getElementById('mobileFilterBtn');
+
+// ===== Helpers =====
+function randomTilt() {
+  return (Math.random() * 4 - 2).toFixed(2);
+}
+
+// Persist tilts so they don't change on re-render
+const tilts = {};
+stays.forEach(s => { tilts[s.id] = randomTilt(); });
+
+function categoryLabel(slug) {
+  const map = {
+    'treehouses': 'Treehouse',
+    'a-frames': 'A-Frame',
+    'cabins': 'Cabin',
+    'domes': 'Dome',
+    'tiny-homes': 'Tiny Home',
+    'yurts': 'Yurt',
+  };
+  return map[slug] || slug;
+}
+
+// ===== Render Cards =====
+function renderCards() {
+  const filtered = stays.filter(s => {
+    if (state.categories.size > 0 && !state.categories.has(s.category)) return false;
+    if (state.regions.size > 0 && !state.regions.has(s.region)) return false;
+    if (state.platforms.size > 0 && !state.platforms.has(s.platform)) return false;
+    if (state.priceMin !== null && s.price < state.priceMin) return false;
+    if (state.priceMax !== null && s.price > state.priceMax) return false;
+    if (state.editorsPick && !s.editorsPick) return false;
+    return true;
+  });
+
+  resultCount.textContent = filtered.length;
+  mobileCountBadge.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    cardGrid.innerHTML = '<div class="no-results">No stays match these filters&hellip;<br>Try broadening your search.</div>';
+    return;
+  }
+
+  cardGrid.innerHTML = filtered.map(s => `
+    <div class="polaroid" style="--tilt: ${tilts[s.id]}deg">
+      <div class="card-stamp">${categoryLabel(s.category)}</div>
+      <div class="polaroid-image" style="background:${s.color};"></div>
+      <div class="polaroid-caption">
+        <div class="polaroid-title">${s.title}</div>
+        <div class="polaroid-location">${s.location}</div>
+        <div class="polaroid-price">$${s.price}/night</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== Filter List Handlers =====
+document.querySelectorAll('.filter-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const filterType = item.dataset.filter;
+    const value = item.dataset.value;
+    const set = filterType === 'category' ? state.categories : state.regions;
+
+    if (set.has(value)) {
+      set.delete(value);
+      item.classList.remove('active');
+    } else {
+      set.add(value);
+      item.classList.add('active');
+    }
+    renderCards();
+  });
+});
+
+// ===== Platform Handlers =====
+document.querySelectorAll('.platform-stamp').forEach(stamp => {
+  stamp.addEventListener('click', () => {
+    const val = stamp.dataset.value;
+    if (state.platforms.has(val)) {
+      state.platforms.delete(val);
+      stamp.classList.remove('active');
+    } else {
+      state.platforms.add(val);
+      stamp.classList.add('active');
+    }
+    renderCards();
+  });
+});
+
+// ===== Price Handlers =====
+priceMinInput.addEventListener('input', () => {
+  state.priceMin = priceMinInput.value ? parseInt(priceMinInput.value, 10) : null;
+  renderCards();
+});
+
+priceMaxInput.addEventListener('input', () => {
+  state.priceMax = priceMaxInput.value ? parseInt(priceMaxInput.value, 10) : null;
+  renderCards();
+});
+
+// ===== Editor's Pick Toggle =====
+postmarkToggle.addEventListener('click', () => {
+  state.editorsPick = !state.editorsPick;
+  postmarkCircle.classList.toggle('active', state.editorsPick);
+  renderCards();
+});
+
+// ===== Reset =====
+resetLink.addEventListener('click', () => {
+  state.categories.clear();
+  state.regions.clear();
+  state.platforms.clear();
+  state.priceMin = null;
+  state.priceMax = null;
+  state.editorsPick = false;
+
+  document.querySelectorAll('.filter-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.platform-stamp').forEach(s => s.classList.remove('active'));
+  postmarkCircle.classList.remove('active');
+  priceMinInput.value = '';
+  priceMaxInput.value = '';
+
+  renderCards();
+});
+
+// ===== Mobile Drawer =====
+mobileFilterBtn.addEventListener('click', () => {
+  sidebar.classList.add('open');
+  mobileOverlay.classList.add('open');
+});
+
+mobileOverlay.addEventListener('click', closeMobile);
+
+function closeMobile() {
+  sidebar.classList.remove('open');
+  mobileOverlay.classList.remove('open');
+}
+
+// Close drawer when a filter is applied on mobile
+sidebar.addEventListener('click', (e) => {
+  if (window.innerWidth <= 700 && (e.target.closest('.filter-item') || e.target.closest('.platform-stamp') || e.target.closest('.postmark-toggle'))) {
+    setTimeout(closeMobile, 250);
+  }
+});
+
+// ===== Initial Render =====
+renderCards();
+</script>
+</body>
+</html>

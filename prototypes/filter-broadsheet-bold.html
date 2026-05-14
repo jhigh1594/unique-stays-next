@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Collection — Unique Stays</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --terracotta: #A84626;
+  --cream: #F7F3EC;
+  --forest: #1E5F3A;
+  --charcoal: #2E2A26;
+  --sand: #E0D8C8;
+  --muted: #8A7E72;
+  --paper: #F7F3EC;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  min-height: 100vh;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grain Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* Container */
+.collection-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+/* ===== 1. MASTHEAD ===== */
+.masthead {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  width: 100%;
+}
+
+.masthead-title {
+  font-family: 'Fraunces', serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+
+.masthead-rule {
+  flex: 1;
+  height: 1.5px;
+  background: var(--terracotta);
+  align-self: center;
+  min-width: 2rem;
+}
+
+.masthead-count {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--terracotta);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ===== 2. SEARCH FIELD ===== */
+.search-field {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.search-compass {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-60%);
+  width: 14px;
+  height: 14px;
+  transition: transform 0.4s ease;
+  pointer-events: none;
+}
+
+.search-compass.rotated {
+  transform: translateY(-60%) rotate(45deg);
+}
+
+.search-compass svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--terracotta);
+}
+
+.search-input {
+  width: 100%;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--charcoal);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--sand);
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  outline: none;
+  transition: border-bottom 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.search-input:focus {
+  border-bottom: 2px solid var(--terracotta);
+}
+
+.search-clear {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-55%);
+  background: none;
+  border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem;
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  padding: 4px 2px;
+  line-height: 1;
+}
+
+.search-clear.visible {
+  opacity: 1;
+}
+
+.search-clear:hover {
+  color: var(--terracotta);
+}
+
+/* ===== 3. CATEGORY INDEX ===== */
+.category-index {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  padding-bottom: 2px;
+}
+
+.category-index::-webkit-scrollbar { display: none; }
+
+.category-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.15s ease;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.category-item + .category-item::before {
+  content: '·';
+  margin: 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  vertical-align: baseline;
+}
+
+.category-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  padding-bottom: 1px;
+}
+
+.category-item:hover .category-label {
+  color: var(--charcoal);
+  border-bottom-color: var(--sand);
+}
+
+.category-item.active .category-label {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  border-bottom: 2px solid var(--terracotta);
+}
+
+.category-count {
+  font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.category-item.active .category-count {
+  opacity: 1;
+  color: var(--terracotta);
+}
+
+/* ===== 4. FILTER SENTENCE LINE ===== */
+.filter-sentence-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-sentence {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.filter-segment {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 0;
+  position: relative;
+  transition: color 0.15s ease;
+  user-select: none;
+}
+
+.filter-segment + .filter-segment::before {
+  content: '·';
+  margin-right: 0.5rem;
+  margin-left: 0.15rem;
+  color: var(--muted);
+}
+
+.filter-segment:hover { color: var(--charcoal); }
+
+.filter-segment.active {
+  font-weight: 700;
+  color: var(--terracotta);
+}
+
+.filter-clear {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--terracotta);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  padding: 4px 0;
+}
+
+.filter-clear.visible { opacity: 1; }
+
+.filter-clear:hover { color: var(--charcoal); }
+
+/* Toggle badges */
+.filter-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.toggle-badge {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.toggle-badge.pick {
+  color: var(--terracotta);
+  border: 1px solid var(--terracotta);
+}
+
+.toggle-badge.pick.active {
+  background: var(--terracotta);
+  color: var(--cream);
+  box-shadow: 1px 1px 2px rgba(168, 70, 38, 0.3);
+}
+
+.toggle-badge.new {
+  color: var(--forest);
+  border: 1px solid var(--forest);
+}
+
+.toggle-badge.new.active {
+  background: var(--forest);
+  color: var(--cream);
+  box-shadow: 1px 1px 2px rgba(30, 95, 58, 0.3);
+}
+
+/* ===== FILTER POPOVER ===== */
+.filter-popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  padding: 0.4rem 0;
+  z-index: 100;
+  min-width: 160px;
+  box-shadow: 0 4px 16px rgba(46, 42, 38, 0.06);
+  display: none;
+}
+
+.filter-popover.open { display: block; }
+
+.popover-option {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: color 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.popover-option:hover { color: var(--terracotta); }
+
+.popover-option.active { color: var(--terracotta); font-weight: 600; }
+
+.popover-option.active::before {
+  content: '\2192';
+  color: var(--terracotta);
+  font-weight: 400;
+}
+
+/* Mobile bottom sheet */
+@media (max-width: 579px) {
+  .filter-popover {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: unset;
+    border-top: 1px solid var(--sand);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 0;
+    padding: 1rem 0 0;
+    box-shadow: 0 -4px 24px rgba(46, 42, 38, 0.1);
+    max-height: 60vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.25s ease;
+  }
+
+  .filter-popover.open {
+    display: block;
+    transform: translateY(0);
+  }
+
+  .popover-option {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .popover-apply {
+    display: block;
+    width: calc(100% - 2rem);
+    margin: 0.75rem 1rem 1rem;
+    padding: 0.65rem;
+    background: var(--terracotta);
+    color: var(--cream);
+    border: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+
+  .popover-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(46, 42, 38, 0.15);
+    z-index: 99;
+  }
+
+  .popover-backdrop.open { display: block; }
+}
+
+@media (min-width: 580px) {
+  .popover-apply, .popover-backdrop { display: none !important; }
+}
+
+/* ===== 6. RESULT CARDS ===== */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 899px) {
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 579px) {
+  .results-grid { grid-template-columns: 1fr; }
+  .collection-container { padding: 1.5rem 1rem 3rem; }
+  .masthead-title { font-size: 1.75rem; }
+}
+
+/* Card */
+.stay-card {
+  background: #fff;
+  border: none;
+  padding: 0;
+  position: relative;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  cursor: pointer;
+}
+
+/* Slight random rotations */
+.stay-card:nth-child(6n+1) { transform: rotate(-1.2deg); }
+.stay-card:nth-child(6n+2) { transform: rotate(0.8deg); }
+.stay-card:nth-child(6n+3) { transform: rotate(-0.6deg); }
+.stay-card:nth-child(6n+4) { transform: rotate(1.3deg); }
+.stay-card:nth-child(6n+5) { transform: rotate(-0.9deg); }
+.stay-card:nth-child(6n+6) { transform: rotate(1.1deg); }
+
+.stay-card:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 0 6px 20px rgba(46, 42, 38, 0.08);
+}
+
+/* Card entering animation */
+@keyframes cardEnter {
+  from { opacity: 0; transform: scale(0.97) rotate(0deg); }
+  to { opacity: 1; transform: scale(1) rotate(var(--card-rotation, 0deg)); }
+}
+
+.stay-card.entering {
+  animation: cardEnter 0.2s ease-out forwards;
+}
+
+/* Card image area */
+.card-image {
+  position: relative;
+  border: 8px solid #fff;
+  border-bottom: 4px solid #fff;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.card-image-inner {
+  width: 100%;
+  height: 100%;
+}
+
+/* Category gradients */
+.card-image-inner.treehouses {
+  background: linear-gradient(135deg, #3a6b35 0%, #5a8f4a 40%, #8bb878 100%);
+}
+.card-image-inner.a-frames {
+  background: linear-gradient(135deg, #6b7b8d 0%, #8fa4b8 40%, #b8c9d9 100%);
+}
+.card-image-inner.cabins {
+  background: linear-gradient(135deg, #8b6f47 0%, #a89060 40%, #c9b68a 100%);
+}
+.card-image-inner.geodomes {
+  background: linear-gradient(135deg, #5b6a8a 0%, #7b8db5 40%, #a3b3d4 100%);
+}
+.card-image-inner.yurts {
+  background: linear-gradient(135deg, #a07050 0%, #c4956a 40%, #ddbfa0 100%);
+}
+
+/* Category stamp */
+.card-category-stamp {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--charcoal);
+  border: 1px dashed var(--terracotta);
+  padding: 2px 6px;
+  transform: rotate(-4deg);
+  background: rgba(255,255,255,0.85);
+}
+
+/* Postmark circle */
+.card-postmark {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--terracotta);
+  background: rgba(247, 243, 236, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.45rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--terracotta);
+}
+
+.card-postmark::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed var(--terracotta);
+}
+
+/* Editor's pick stamp */
+.card-editors-pick {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  color: var(--forest);
+  background: rgba(255,255,255,0.8);
+  padding: 1px 4px;
+  line-height: 1;
+}
+
+/* Card body */
+.card-body {
+  padding: 0.65rem 8px 8px;
+}
+
+.card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  line-height: 1.25;
+  margin-bottom: 0.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-location {
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem;
+  color: var(--muted);
+  transform: rotate(-0.5deg);
+  margin-bottom: 0.35rem;
+}
+
+.card-meta {
+  font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.card-meta .sep { margin: 0 0.15rem; }
+
+.card-platform {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 0.4rem;
+}
+
+.platform-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.platform-dot.airbnb { background: #FF5A5F; }
+.platform-dot.vrbo { background: #3c60ab; }
+.platform-dot.wander { background: #2d8a56; }
+.platform-dot.direct { background: #999; }
+
+.platform-name {
+  font-size: 0.6rem;
+  color: var(--muted);
+}
+
+/* ===== 8. EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  display: none;
+}
+
+.empty-state.visible { display: block; }
+
+.empty-title {
+  font-family: 'Fraunces', serif;
+  font-size: 4rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+
+.empty-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.empty-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.empty-link:hover { color: var(--charcoal); }
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .stay-card { transform: none !important; }
+  .stay-card:hover { transform: none !important; }
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="collection-container">
+
+  <!-- 1. MASTHEAD -->
+  <div class="masthead">
+    <span class="masthead-title">THE COLLECTION</span>
+    <div class="masthead-rule"></div>
+    <span class="masthead-count" id="stayCount">16 stays</span>
+  </div>
+
+  <!-- 2. SEARCH -->
+  <div class="search-field">
+    <span class="search-compass" id="searchCompass">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="12,1 14.5,10 12,8 9.5,10" fill="#A84626"/>
+        <polygon points="12,23 9.5,14 12,16 14.5,14" fill="#A84626" opacity="0.5"/>
+      </svg>
+    </span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search the collection&hellip;" autocomplete="off">
+    <button class="search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+  </div>
+
+  <!-- 3. CATEGORY INDEX -->
+  <div class="category-index" id="categoryIndex" role="tablist"></div>
+
+  <!-- 4. FILTER SENTENCE + BADGES -->
+  <div class="filter-sentence-row">
+    <div class="filter-sentence" id="filterSentence"></div>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <span class="filter-clear" id="filterClear">clear</span>
+      <div class="filter-badges">
+        <span class="toggle-badge pick" id="togglePick" tabindex="0" role="button" aria-pressed="false">&#10022; Pick</span>
+        <span class="toggle-badge new" id="toggleNew" tabindex="0" role="button" aria-pressed="false">New</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popover backdrop (mobile) -->
+  <div class="popover-backdrop" id="popoverBackdrop"></div>
+
+  <!-- 6. RESULTS GRID -->
+  <div class="results-grid" id="resultsGrid"></div>
+
+  <!-- 8. EMPTY STATE -->
+  <div class="empty-state" id="emptyState">
+    <div class="empty-title">Nothing here.</div>
+    <div class="empty-subtitle">Try broadening your search.</div>
+    <span class="empty-link" id="emptyReset">Start over</span>
+  </div>
+
+</div>
+
+<script>
+// ===== MOCK DATA =====
+const stays = [
+  { id: 1,  title: "Canopy Nest Treehouse",           location: "Asheville, North Carolina",     state: "NC", region: "Southeast",  category: "treehouses", price: 285, rating: 4.9, sleeps: 4, platform: "Airbnb", editorsPick: true,  tags: ["Stargazing Deck","Wood-Burning Stove"] },
+  { id: 2,  title: "Redwood Canopy Perch",             location: "Guerneville, California",       state: "CA", region: "West",       category: "treehouses", price: 320, rating: 4.8, sleeps: 2, platform: "VRBO",   editorsPick: true,  tags: ["River View","Hot Tub"] },
+  { id: 3,  title: "Pine Loft in the Sky",             location: "Woodstock, New York",           state: "NY", region: "Northeast",  category: "treehouses", price: 245, rating: 4.7, sleeps: 3, platform: "Airbnb", editorsPick: false, tags: ["Heated Floors","Bird Watching"] },
+  { id: 4,  title: "Moss Creek Treehouse",             location: "Brevard, North Carolina",       state: "NC", region: "Southeast",  category: "treehouses", price: 195, rating: 4.9, sleeps: 2, platform: "Wander",  editorsPick: false, tags: ["Suspension Bridge","Fire Pit"] },
+  { id: 5,  title: "Sunset Pines Treehouse",           location: "Portland, Oregon",              state: "OR", region: "West",       category: "treehouses", price: 210, rating: 4.6, sleeps: 4, platform: "Airbnb", editorsPick: false, tags: ["Sunset Deck","Hammock"] },
+  { id: 6,  title: "Alder Point A-Frame",              location: "Lake Tahoe, California",        state: "CA", region: "West",       category: "a-frames",   price: 380, rating: 4.9, sleeps: 6, platform: "VRBO",   editorsPick: true,  tags: ["Lakefront","Sauna"] },
+  { id: 7,  title: "Midwest Ridge A-Frame",            location: "Traverse City, Michigan",       state: "MI", region: "Midwest",    category: "a-frames",   price: 165, rating: 4.5, sleeps: 4, platform: "Airbnb", editorsPick: false, tags: ["Cherry Orchard","Kayak"] },
+  { id: 8,  title: "Hudson Valley A-Frame",            location: "Hudson, New York",              state: "NY", region: "Northeast",  category: "a-frames",   price: 275, rating: 4.8, sleeps: 4, platform: "Direct", editorsPick: true,  tags: ["Mineral Pool","Farm Stand"] },
+  { id: 9,  title: "Pikes Peak A-Frame",               location: "Colorado Springs, Colorado",    state: "CO", region: "Southwest",  category: "a-frames",   price: 195, rating: 4.6, sleeps: 5, platform: "VRBO",   editorsPick: false, tags: ["Mountain View","Hiking Trails"] },
+  { id: 10, title: "Whispering Pines Cabin",           location: "Broken Bow, Oklahoma",          state: "OK", region: "South",      category: "cabins",     price: 175, rating: 4.7, sleeps: 6, platform: "Airbnb", editorsPick: true,  tags: ["Hot Tub","Fishing"] },
+  { id: 11, title: "Enchanted Forest Cabin",           location: "Leavenworth, Washington",       state: "WA", region: "West",       category: "cabins",     price: 290, rating: 4.8, sleeps: 4, platform: "VRBO",   editorsPick: false, tags: ["Bavarian Village","Ski Access"] },
+  { id: 12, title: "Bayou Blues Cabin",                location: "Natchitoches, Louisiana",       state: "LA", region: "South",      category: "cabins",     price: 120, rating: 4.4, sleeps: 3, platform: "Airbnb", editorsPick: false, tags: ["Bayou View","Porches"] },
+  { id: 13, title: "Madawaska Lodge Cabin",            location: "Grand Marais, Minnesota",       state: "MN", region: "Midwest",    category: "cabins",     price: 145, rating: 4.6, sleeps: 5, platform: "Direct", editorsPick: false, tags: ["Boundary Waters","Canoe"] },
+  { id: 14, title: "Stargazer Geodome",                location: "Joshua Tree, California",       state: "CA", region: "West",       category: "geodomes",   price: 225, rating: 4.9, sleeps: 2, platform: "Airbnb", editorsPick: true,  tags: ["Stargazing","Desert"] },
+  { id: 15, title: "Blue Ridge Geodome",               location: "Floyd, Virginia",               state: "VA", region: "Southeast",  category: "geodomes",   price: 155, rating: 4.7, sleeps: 2, platform: "VRBO",   editorsPick: false, tags: ["Mountain Views","Yoga Deck"] },
+  { id: 16, title: "Desert Bloom Yurt",                location: "Santa Fe, New Mexico",          state: "NM", region: "Southwest",  category: "yurts",      price: 135, rating: 4.6, sleeps: 3, platform: "Airbnb", editorsPick: false, tags: ["Art District","Adobe Views"] },
+];
+
+// ===== STATE =====
+const state = {
+  search: '',
+  category: 'all',
+  filters: {
+    region: 'Any region',
+    price: 'Any price',
+    platform: 'Any platform',
+    sleeps: 'Sleeps any',
+  },
+  editorsPick: false,
+  newOnly: false,
+  openPopover: null,
+};
+
+// Category config
+const categories = [
+  { slug: 'all', label: 'All' },
+  { slug: 'treehouses', label: 'Treehouses' },
+  { slug: 'a-frames', label: 'A-Frames' },
+  { slug: 'geodomes', label: 'Geodomes' },
+  { slug: 'cabins', label: 'Cabins' },
+  { slug: 'yurts', label: 'Yurts' },
+];
+
+// Filter config
+const filterConfig = {
+  region: {
+    label: 'region',
+    options: ['Any region', 'West', 'Southwest', 'South', 'Midwest', 'Northeast', 'Southeast'],
+    default: 'Any region',
+  },
+  price: {
+    label: 'price',
+    options: ['Any price', 'Under $150', '$150–$300', 'Over $300'],
+    default: 'Any price',
+  },
+  platform: {
+    label: 'platform',
+    options: ['Any platform', 'Airbnb', 'VRBO', 'Wander', 'Direct'],
+    default: 'Any platform',
+  },
+  sleeps: {
+    label: 'sleeps',
+    options: ['Sleeps any', 'Sleeps 2', 'Sleeps 4+', 'Sleeps 6+'],
+    default: 'Sleeps any',
+  },
+};
+
+// ===== DOM REFS =====
+const $count = document.getElementById('stayCount');
+const $search = document.getElementById('searchInput');
+const $clear = document.getElementById('searchClear');
+const $compass = document.getElementById('searchCompass');
+const $catIndex = document.getElementById('categoryIndex');
+const $sentence = document.getElementById('filterSentence');
+const $filterClear = document.getElementById('filterClear');
+const $togglePick = document.getElementById('togglePick');
+const $toggleNew = document.getElementById('toggleNew');
+const $grid = document.getElementById('resultsGrid');
+const $empty = document.getElementById('emptyState');
+const $emptyReset = document.getElementById('emptyReset');
+const $backdrop = document.getElementById('popoverBackdrop');
+
+// ===== CATEGORY INDEX =====
+function renderCategories() {
+  const counts = getCategoryCounts();
+  $catIndex.innerHTML = '';
+  categories.forEach(cat => {
+    const el = document.createElement('span');
+    el.className = 'category-item' + (state.category === cat.slug ? ' active' : '');
+    el.setAttribute('role', 'tab');
+    el.setAttribute('aria-selected', state.category === cat.slug);
+    el.setAttribute('tabindex', '0');
+    el.innerHTML = `<span class="category-label">${cat.label}</span>${cat.slug !== 'all' ? ` <span class="category-count">${counts[cat.slug] || 0}</span>` : ''}`;
+    el.addEventListener('click', () => { state.category = cat.slug; render(); });
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); state.category = cat.slug; render(); }});
+    $catIndex.appendChild(el);
+  });
+}
+
+function getCategoryCounts() {
+  const counts = {};
+  stays.forEach(s => { counts[s.category] = (counts[s.category] || 0) + 1; });
+  return counts;
+}
+
+// ===== FILTER SENTENCE =====
+function renderSentence() {
+  $sentence.innerHTML = '';
+  const keys = Object.keys(filterConfig);
+  keys.forEach((key, i) => {
+    const seg = document.createElement('span');
+    seg.className = 'filter-segment' + (state.filters[key] !== filterConfig[key].default ? ' active' : '');
+    seg.textContent = state.filters[key];
+    seg.setAttribute('tabindex', '0');
+    seg.setAttribute('role', 'button');
+    seg.addEventListener('click', (e) => { e.stopPropagation(); togglePopover(key, seg); });
+    seg.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePopover(key, seg); }});
+    $sentence.appendChild(seg);
+  });
+
+  const hasActiveFilters = Object.keys(filterConfig).some(k => state.filters[k] !== filterConfig[k].default);
+  $filterClear.className = 'filter-clear' + (hasActiveFilters ? ' visible' : '');
+}
+
+function togglePopover(key, anchor) {
+  closeAllPopovers();
+  if (state.openPopover === key) { state.openPopover = null; return; }
+
+  const config = filterConfig[key];
+  const pop = document.createElement('div');
+  pop.className = 'filter-popover open';
+  pop.id = 'activePopover';
+
+  config.options.forEach(opt => {
+    const row = document.createElement('div');
+    row.className = 'popover-option' + (state.filters[key] === opt ? ' active' : '');
+    row.textContent = opt;
+    row.addEventListener('click', (e) => {
+      e.stopPropagation();
+      state.filters[key] = opt;
+      state.openPopover = null;
+      closeAllPopovers();
+      render();
+    });
+    pop.appendChild(row);
+  });
+
+  // Mobile apply button
+  if (window.innerWidth < 580) {
+    const btn = document.createElement('button');
+    btn.className = 'popover-apply';
+    btn.textContent = 'Apply';
+    btn.addEventListener('click', () => { state.openPopover = null; closeAllPopovers(); render(); });
+    pop.appendChild(btn);
+    $backdrop.className = 'popover-backdrop open';
+    $backdrop.onclick = () => { state.openPopover = null; closeAllPopovers(); };
+  }
+
+  anchor.style.position = 'relative';
+  anchor.appendChild(pop);
+  state.openPopover = key;
+}
+
+function closeAllPopovers() {
+  document.querySelectorAll('.filter-popover').forEach(p => p.remove());
+  $backdrop.className = 'popover-backdrop';
+}
+
+// ===== CARDS =====
+function getFilteredStays() {
+  return stays.filter(s => {
+    if (state.category !== 'all' && s.category !== state.category) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      const haystack = (s.title + ' ' + s.location + ' ' + s.category + ' ' + s.tags.join(' ')).toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    if (state.filters.region !== 'Any region' && s.region !== state.filters.region) return false;
+    if (state.filters.price !== 'Any price') {
+      if (state.filters.price === 'Under $150' && s.price >= 150) return false;
+      if (state.filters.price === '$150–$300' && (s.price < 150 || s.price > 300)) return false;
+      if (state.filters.price === 'Over $300' && s.price <= 300) return false;
+    }
+    if (state.filters.platform !== 'Any platform' && s.platform !== state.filters.platform) return false;
+    if (state.filters.sleeps !== 'Sleeps any') {
+      const min = parseInt(state.filters.sleeps.replace(/\D/g, ''));
+      if (s.sleeps < min) return false;
+    }
+    if (state.editorsPick && !s.editorsPick) return false;
+    if (state.newOnly) {
+      // For demo, treat stays under id 6 as "new"
+      if (s.id > 8) return false;
+    }
+    return true;
+  });
+}
+
+const rotations = ['-1.2deg', '0.8deg', '-0.6deg', '1.3deg', '-0.9deg', '1.1deg'];
+
+function renderCards(filtered) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (filtered.length === 0) {
+    $grid.style.display = 'none';
+    $empty.className = 'empty-state visible';
+    $count.textContent = '0 stays';
+    return;
+  }
+
+  $empty.className = 'empty-state';
+  $grid.style.display = '';
+  $count.textContent = filtered.length === 1 ? '1 stay' : `${filtered.length} stays`;
+
+  if (prefersReducedMotion) {
+    $grid.innerHTML = filtered.map(s => buildCardHTML(s)).join('');
+    return;
+  }
+
+  // Animate: fade out old cards, swap, fade in new
+  const oldCards = $grid.querySelectorAll('.stay-card');
+  if (oldCards.length) {
+    oldCards.forEach(c => { c.style.transition = 'opacity 150ms ease-out, transform 150ms ease-out'; c.style.opacity = '0'; c.style.transform = 'scale(0.97)'; });
+    setTimeout(() => {
+      insertCards(filtered);
+    }, 150);
+  } else {
+    insertCards(filtered);
+  }
+}
+
+function insertCards(filtered) {
+  $grid.innerHTML = filtered.map((s, i) => {
+    const rot = rotations[i % rotations.length];
+    return buildCardHTML(s, i, rot);
+  }).join('');
+
+  // Stagger entrance
+  const cards = $grid.querySelectorAll('.stay-card');
+  const stagger = 40;
+  const maxTotal = 400;
+  const totalStagger = Math.min(cards.length * stagger, maxTotal);
+
+  cards.forEach((card, i) => {
+    const delay = (totalStagger / cards.length) * i;
+    card.style.opacity = '0';
+    card.style.transform = `scale(0.97) rotate(0deg)`;
+    setTimeout(() => {
+      card.style.transition = 'opacity 200ms ease-out, transform 200ms ease-out';
+      card.style.opacity = '1';
+      const rot = card.dataset.rotation || '0deg';
+      card.style.transform = `scale(1) rotate(${rot})`;
+    }, delay);
+  });
+}
+
+function buildCardHTML(s, index, rotation) {
+  const rot = rotation || rotations[(index || 0) % rotations.length];
+  const platformClass = s.platform.toLowerCase();
+  return `
+    <article class="stay-card" data-rotation="${rot}">
+      <div class="card-image">
+        <div class="card-image-inner ${s.category}"></div>
+        <span class="card-category-stamp">${s.category.replace('-', ' ')}</span>
+        ${s.editorsPick ? '<span class="card-editors-pick">&#10022;</span>' : ''}
+        <span class="card-postmark">${s.state}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${s.title}</div>
+        <div class="card-location">${s.location}</div>
+        <div class="card-meta">
+          $${s.price}/nt <span class="sep">&middot;</span> sleeps ${s.sleeps} <span class="sep">&middot;</span> &#9733; ${s.rating}
+          <span class="card-platform">
+            <span class="platform-dot ${platformClass}"></span>
+            <span class="platform-name">${s.platform}</span>
+          </span>
+        </div>
+      </div>
+    </article>`;
+}
+
+// ===== MAIN RENDER =====
+function render() {
+  renderCategories();
+  renderSentence();
+  const filtered = getFilteredStays();
+  renderCards(filtered);
+}
+
+// ===== EVENT LISTENERS =====
+
+// Search
+$search.addEventListener('input', () => {
+  state.search = $search.value.trim();
+  $clear.className = 'search-clear' + ($search.value ? ' visible' : '');
+  $compass.className = 'search-compass' + ($search.value ? ' rotated' : '');
+  render();
+});
+
+$clear.addEventListener('click', () => {
+  $search.value = '';
+  state.search = '';
+  $clear.className = 'search-clear';
+  $compass.className = 'search-compass';
+  $search.focus();
+  render();
+});
+
+// Filter clear
+$filterClear.addEventListener('click', () => {
+  Object.keys(filterConfig).forEach(k => { state.filters[k] = filterConfig[k].default; });
+  render();
+});
+
+// Toggle badges
+$togglePick.addEventListener('click', () => {
+  state.editorsPick = !state.editorsPick;
+  $togglePick.className = 'toggle-badge pick' + (state.editorsPick ? ' active' : '');
+  $togglePick.setAttribute('aria-pressed', state.editorsPick);
+  render();
+});
+$togglePick.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $togglePick.click(); }});
+
+$toggleNew.addEventListener('click', () => {
+  state.newOnly = !state.newOnly;
+  $toggleNew.className = 'toggle-badge new' + (state.newOnly ? ' active' : '');
+  $toggleNew.setAttribute('aria-pressed', state.newOnly);
+  render();
+});
+$toggleNew.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $toggleNew.click(); }});
+
+// Empty state reset
+$emptyReset.addEventListener('click', () => {
+  state.search = '';
+  state.category = 'all';
+  state.editorsPick = false;
+  state.newOnly = false;
+  Object.keys(filterConfig).forEach(k => { state.filters[k] = filterConfig[k].default; });
+  $search.value = '';
+  $clear.className = 'search-clear';
+  $compass.className = 'search-compass';
+  $togglePick.className = 'toggle-badge pick';
+  $togglePick.setAttribute('aria-pressed', 'false');
+  $toggleNew.className = 'toggle-badge new';
+  $toggleNew.setAttribute('aria-pressed', 'false');
+  render();
+});
+
+// Close popovers on outside click / Escape
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.filter-popover') && !e.target.closest('.filter-segment')) {
+    state.openPopover = null;
+    closeAllPopovers();
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { state.openPopover = null; closeAllPopovers(); }
+});
+
+// ===== INIT =====
+render();
+</script>
+
+</body>
+</html>

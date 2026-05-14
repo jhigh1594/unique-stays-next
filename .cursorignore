@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Build
+build/
+
+# Payload generated
+src/payload-types.ts
+
+# AI search index
+data/search-index.json
+
+# Claude / agent tooling
+.claude/
+.gstack/
+.superpowers/
+.remember/
+.agents/
+.firecrawl/
+.gbrain/
+skills-lock.json
+
+# Cursor agent transcripts (handled by Cursor itself, but skip indexing)
+.cursor/hooks/
+
+# Env
+.env*
+
+# OS
+.DS_Store
+
+# Logs
+*.log
