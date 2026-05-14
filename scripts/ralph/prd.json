@@ -101,8 +101,8 @@
         "External source research completed"
       ],
       "priority": 2,
-      "passes": false,
-      "notes": "Stay data collected from Payload API. External research pending."
+      "passes": true,
+      "notes": "All 8 stays verified: valid affiliateUrl, images, specific details identified."
     },
     {
       "id": "WRITE-003",
@@ -116,8 +116,8 @@
         "No banned words, no exclamation marks, no em dashes"
       ],
       "priority": 3,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "~1,837 words. All criteria met."
     },
     {
       "id": "SEO-003",
@@ -130,8 +130,8 @@
         "metaTitle under 60 chars, metaDescription under 160 chars"
       ],
       "priority": 4,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "3 internal links, 5 FAQ questions, all keywords placed."
     },
     {
       "id": "REVIEW-003",
@@ -144,8 +144,8 @@
         "Feeling-first check passed"
       ],
       "priority": 5,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "8.6/10. All scans clean."
     },
     {
       "id": "PUBLISH-003",
@@ -159,8 +159,8 @@
         "Public page verified at /journal/{slug}"
       ],
       "priority": 6,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Post id=14. Live at /journal/lakefront-unique-stays-water-cabins-domes-aframes"
     },
     {
       "id": "SYNC-003",
@@ -173,9 +173,108 @@
         "Git commit created"
       ],
       "priority": 7,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "All tracking updated."
+    },
+    {
+      "id": "PLAN-004",
+      "title": "Plan unique stays with pools roundup",
+      "description": "Curated roundup: 'Unique Stays with Pools: Desert Oases, Domes, and Airstreams'. Target keywords: unique stays with pools, cabins with pools, glamping pool access. 8 pool-forward stays selected.",
+      "acceptanceCriteria": [
+        "Target keyword identified: unique stays with pools",
+        "8 stays selected with at least 4 states represented",
+        "Curated roundup format confirmed",
+        "Competitive angle defined: pool as trip rhythm, not generic amenity"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "8 stays: ev-modern-villa-palm-springs, wander-joshua-tree-starfall, workfriendly-dome-joshua-tree, ev-farmhouse-napa, ev-beach-house-hamptons, pearl-dome-lecanto-fl, lake-travis-treehouse-tx, autocamp-yosemite-ca"
+    },
+    {
+      "id": "RESEARCH-004",
+      "title": "Collect stay and source data for pool roundup",
+      "description": "Gather stay details, verify affiliate URLs/images, and collect safety/source references.",
+      "acceptanceCriteria": [
+        "All selected stays have valid affiliateUrl",
+        "All selected stays have images",
+        "One hyper-specific detail identified per stay",
+        "External source research completed"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "All 8 stays verified. CPSC Pool Safely and CDC drowning guidance used for practical safety context."
+    },
+    {
+      "id": "WRITE-004",
+      "title": "Write unique stays with pools draft",
+      "description": "Full editorial draft with stay embeds and feeling-first sections.",
+      "acceptanceCriteria": [
+        "1,500-2,500 words",
+        "Each stay has a concrete detail",
+        "[EMBED: slug] placeholders for all 8 stays",
+        "No banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "1,902 words. Draft saved to content/drafts/unique-stays-with-pools.md and v2 saved."
+    },
+    {
+      "id": "SEO-004",
+      "title": "SEO optimization for pool article",
+      "description": "Keyword placement, FAQ, internal links, and meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 100 words",
+        "FAQ section with 3-5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "3 internal links, 5 FAQ questions, metaTitle 38 chars, metaDescription 142 chars."
+    },
+    {
+      "id": "REVIEW-004",
+      "title": "Quality gate scoring for pool article",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "8.7/10. Banned word, exclamation, and em dash scans clean."
+    },
+    {
+      "id": "PUBLISH-004",
+      "title": "Publish pool article to Payload",
+      "description": "Resolve stay IDs, upload hero image, construct Lexical JSON, and publish via Payload.",
+      "acceptanceCriteria": [
+        "Post created in Payload with status: published",
+        "8 linked stays resolved",
+        "Hero image uploaded and linked",
+        "Lexical content with stayEmbed blocks",
+        "Public page verified at /journal/{slug}"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Post id=16. Live at /journal/unique-stays-with-pools. Sitemap cache has not yet surfaced the new URL."
+    },
+    {
+      "id": "SYNC-004",
+      "title": "Update tracking docs for Sprint 4",
+      "description": "Update progress.txt, calendar status, prd.json.",
+      "acceptanceCriteria": [
+        "progress.txt updated with Sprint 4 summary",
+        "KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md updated",
+        "prd.json sprint number incremented",
+        "Published markdown saved"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "All tracking updated."
     }
   ],
-  "sprintNumber": 3
+  "sprintNumber": 5
 }

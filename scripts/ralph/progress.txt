@@ -68,3 +68,100 @@
 
 ### Next
 "Best Glamping in the Smokies" or "Best Stays Near National Parks" — need to confirm from keyword research.
+
+### Sprint 3: Lakefront Unique Stays
+
+**PLAN-003** ✓ — "Lakefront Unique Stays: Cabins, Domes & A-Frames on the Water"
+- Target keyword: lakefront cabins, waterfront unique stays, lake house alternatives
+- Article type: Curated Roundup (8 stays, 1,800-2,200 words)
+- 8 stays across 8 states (ID, OR, TX, MI, MN, VA, CA, NY)
+- Stay types: 4 A-frames, 1 dome, 1 tugboat, 1 floating home, 1 boathouse
+
+**RESEARCH-003** ✓ — Stay data collected from Payload API. Specific details identified:
+- Idaho A-frame: private beach + hot tub + boat docks, Schweitzer ski access
+- Oregon A-frame: Timberline Lodge + PCT from front door
+- Texas A-frame: remodeled 2024, step-off-deck lake access
+- Michigan A-frame: cherry orchard country, crystal-clear inland lakes
+- Minnesota dome: 2,800 sq ft, 200ft private Lake Superior shoreline, agate beaches
+- Virginia tugboat: private 8-acre lake with island, 142 acres, Theo the Cow
+- Sausalito floating home: Richardson Bay, SF skyline views
+- Hudson boathouse: "most storied river in American art below"
+
+**WRITE-003** ✓ — Full draft: content/drafts/lakefront-unique-stays-water.md
+- ~1,837 words body content
+- Sensory lede about silence on water
+- Each stay opens with feeling, follows with fact
+- No banned words, no exclamation marks, no em dashes
+
+**SEO-003** ✓ — SEO optimization pass:
+- All 3 primary keywords placed in body (lakefront cabins, waterfront unique stays, lake house alternatives)
+- "lakefront" in first 100 words
+- 3 internal links (stargazing guide, A-frame guide, national park alternatives)
+- FAQ section with 5 questions
+- metaTitle: 59 chars, metaDescription: 140 chars
+
+**REVIEW-003** ✓ — Quality score: 8.6/10
+- Voice match: 9, Specificity: 9, Feeling-first: 9, Banned words: 10
+- SEO: 8, Embeds: 10, Practical value: 8, Cut test: 8
+- Repetition fixes applied (the particular, the kind of place)
+
+**PUBLISH-003** ✓ — Published to Payload CMS (post id=14):
+- Slug: lakefront-unique-stays-water-cabins-domes-aframes
+- 8 linked stays (IDs: 109, 107, 113, 114, 139, 17, 188, 200)
+- Hero image uploaded (media id=13) via Vercel Blob
+- Lexical content with 8 stayEmbed blocks
+- Status: published, live at /journal/lakefront-unique-stays-water-cabins-domes-aframes
+
+### Patterns
+- Water-adjacent stays are abundant (35+ matched) but true lakefront/on-the-water stays are rarer (15 strong matches)
+- Tugboat and floating home categories add editorial variety beyond cabins
+- Seasonal "When to Go" section earns its place for multi-region roundups
+- Internal links to related posts can be woven into prose naturally
+- First pass writing missed primary keywords — SEO pass is essential even for editorial content
+
+### Sprint 4: Unique Stays with Pools
+
+**PLAN-004** ✓ — "Unique Stays with Pools: Desert Oases, Domes, and Airstreams"
+- Target keyword: unique stays with pools, cabins with pools, glamping pool access
+- Article type: Curated Roundup (8 stays, 1,900 words)
+- 8 stays selected across CA, NY, FL, TX, with a mix of private pools, heated pools, salt pool/spa, and pool-access camps
+
+**RESEARCH-004** ✓ — Stay data collected from Payload API. Specific details identified:
+- Palm Springs villa: salt pool/spa, Tesla charger, mid-century setting
+- Joshua Tree Starfall: heated pool, glass walls, open Mojave view
+- Joshua Tree group retreat: pool/spa plus purpose-built stargazing dome
+- Napa farmhouse: brand-new pool with Mount Helena views
+- Southampton studio: heated gunite pool, village and beach access
+- Florida dome: private pool on the Nature Coast near Crystal River
+- Lake Travis treehouse: heated pool, hot tub, marina access
+- AutoCamp Yosemite: pool on the Merced River corridor, 30 miles from Yosemite Valley
+
+**WRITE-004** ✓ — First draft: content/drafts/unique-stays-with-pools.md
+- 1,902 words
+- Sensory lede about the second clock of pool trips
+- Each stay opens with trip rhythm, then price/rating and specific amenity detail
+
+**SEO-004** ✓ — Keyword optimized, 3 internal links, FAQ added
+- Primary keyword in title, excerpt, meta, first 100 words, FAQ
+- Long-tail variants included: cabins with pools, unique stays swimming pool, pool-access stays
+- External safety references used: CPSC Pool Safely and CDC drowning guidance
+
+**REVIEW-004** ✓ — Quality score: 8.7/10
+- Voice match: 9, Specificity: 9, Feeling-first: 9, Banned words: 10
+- SEO: 8, Embeds: 10, Practical value: 9, Cut test: 8
+- Banned word scan clean, exclamation scan clean, em dash scan clean
+
+**PUBLISH-004** ✓ — content/published/unique-stays-with-pools.md
+- Published at: /journal/unique-stays-with-pools
+- Target keyword: unique stays with pools
+- Word count: 1,902
+- Quality score: 8.7/10
+- Payload post id: 16
+- Hero image uploaded via Vercel Blob, media id=14
+- Public page verified at https://www.uniquestaysusa.com/journal/unique-stays-with-pools
+- Sitemap check: not yet included in cached production sitemap after journal tag revalidation; direct Payload slug query includes it
+
+### Patterns
+- Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
+- Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
+- Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
