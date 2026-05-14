@@ -280,6 +280,34 @@ export function getLocationFacets(stays: NormalizedStay[]): LocationFacets {
   return { states, cities }
 }
 
+// ── Active Filter Count ──
+
+export function getActiveFilterCount(state: FilterState): number {
+  let count = 0
+  if (state.category) count++
+  if (state.location) count++
+  if (state.platform.size > 0) count++
+  if (state.priceMin != null) count++
+  if (state.priceMax != null) count++
+  if (state.editorsPick) count++
+  const sf = state.spoke
+  if (sf.wifiMinMbps != null) count++
+  if (sf.hasDesk) count++
+  if (sf.petFriendly) count++
+  if (sf.fencedYard) count++
+  if (sf.catFriendly) count++
+  if (sf.noSizeLimit) count++
+  if (sf.rvHookup) count++
+  if (sf.rvFullHookup) count++
+  if (sf.rv50Amp) count++
+  if (sf.rvPullThrough) count++
+  if (sf.evCharger) count++
+  if (sf.evTesla) count++
+  if (sf.evLevel2) count++
+  if (sf.evJ1772) count++
+  return count
+}
+
 // ── URL Serialization ──
 
 export function serializeFilters(state: FilterState): URLSearchParams {

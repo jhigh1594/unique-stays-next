@@ -15,6 +15,7 @@ import {
   serializeFilters,
   deserializeFilters,
   getLocationFacets,
+  getActiveFilterCount,
 } from '@/lib/filter-utils'
 import { isNaturalLanguage } from '@/lib/search-utils'
 import type { NormalizedStay } from '@/lib/types'
@@ -39,6 +40,7 @@ interface FilterEngineProps {
 export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps) {
   const [filters, setFilters] = useState<FilterState>(createEmptyFilterState)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [navHidden, setNavHidden] = useState(false)
   const [aiIds, setAiIds] = useState<number[] | null>(null)
   const [aiLoading, setAiLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
@@ -61,6 +63,19 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
     const url = qs ? `${window.location.pathname}?${qs}` : window.location.pathname
     window.history.replaceState(null, '', url)
   }, [filters])
+
+  // Track nav hide/show to adjust sticky top
+  useEffect(() => {
+    let lastY = window.scrollY
+    const onScroll = () => {
+      const y = window.scrollY
+      if (y > 200 && y > lastY) setNavHidden(true)
+      else if (y < lastY) setNavHidden(false)
+      lastY = y
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   // Debounced AI search
   useEffect(() => {
@@ -104,6 +119,8 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
     () => applyFilters(allStays, filters, aiIds),
     [allStays, filters, aiIds],
   )
+
+  const activeFilterCount = useMemo(() => getActiveFilterCount(filters), [filters])
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
   const paginatedResults = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
@@ -162,55 +179,107 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
 
   return (
     <div style={{ background: 'oklch(0.975 0.012 85)', minHeight: '100vh' }}>
-      {/* Tier 1: Broadsheet Masthead */}
+      {/* ── PAGE HEADER ─────────────────────────────────── */}
       <section
-        className="sticky top-16 md:top-20 z-30 py-4 border-b"
-        style={{ borderColor: 'oklch(0.88 0.025 75)', background: 'oklch(0.975 0.012 85 / 0.97)', backdropFilter: 'blur(12px)' }}
+        className="pt-28 pb-12 relative overflow-hidden grain-overlay"
+        style={{ background: 'oklch(0.20 0.06 155)' }}
       >
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <BroadsheetMasthead
-            resultCount={filtered.length}
-            searchQuery={filters.search}
-            onSearchChange={handleSearchChange}
-            sortBy={filters.sortBy}
-            onSortChange={handleSortChange}
-            isSidebarOpen={isSidebarOpen}
-            onToggleSidebar={() => setIsSidebarOpen((o) => !o)}
-            aiLoading={aiLoading}
-          />
-          <CategoryIndex
-            activeCategory={filters.category}
-            onCategoryChange={handleCategoryChange}
-          />
+        <div className="relative z-10 max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <h1
+              className="font-bold leading-none"
+              style={{
+                fontFamily: 'Fraunces, serif',
+                color: 'oklch(0.99 0.005 85)',
+                fontSize: 'clamp(3.5rem, 9vw, 7rem)',
+                lineHeight: 0.95,
+              }}
+            >
+              The<br />
+              <span style={{ fontStyle: 'italic', color: 'oklch(0.85 0.10 45)' }}>Collection.</span>
+            </h1>
+            <div className="flex flex-col items-start md:items-end gap-3 pb-1">
+              <span
+                className="stamp-badge"
+                style={{
+                  color: 'oklch(0.72 0.10 40)',
+                  borderColor: 'oklch(0.72 0.10 40)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontSize: '0.75rem',
+                  padding: '5px 12px',
+                }}
+              >
+                {aiLoading ? '—' : filtered.length} stays
+              </span>
+              <p
+                className="text-sm"
+                style={{ color: 'oklch(0.72 0.04 155)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+              >
+                Updated weekly. Every one hand-reviewed.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Tier 2 + Grid */}
-      <section className="py-8">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="filter-layout">
-            {/* Sidebar */}
-            {isSidebarOpen && (
-              <FilterSidebar
-                state={filters}
-                locationFacets={locationFacets}
-                resultCount={filtered.length}
-                isOpen={isSidebarOpen}
-                onClose={() => setIsSidebarOpen(false)}
-                onCategoryChange={handleCategoryChange}
-                onLocationChange={handleLocationChange}
-                onPlatformToggle={handlePlatformToggle}
-                onPriceMinChange={handlePriceMinChange}
-                onPriceMaxChange={handlePriceMaxChange}
-                onEditorsPickToggle={handleEditorsPickToggle}
-                onSpokeFilterChange={handleSpokeFilterChange}
-                onReset={handleReset}
-                spokeSlug={spokeSlug}
-              />
-            )}
+      {/* ── SIDEBAR + CONTENT LAYOUT ─────────────────── */}
+      <div className="filter-layout">
+        {/* Sidebar */}
+        {isSidebarOpen && (
+          <FilterSidebar
+            state={filters}
+            locationFacets={locationFacets}
+            resultCount={filtered.length}
+            isOpen={isSidebarOpen}
+            onClose={() => setIsSidebarOpen(false)}
+            onCategoryChange={handleCategoryChange}
+            onLocationChange={handleLocationChange}
+            onPlatformToggle={handlePlatformToggle}
+            onPriceMinChange={handlePriceMinChange}
+            onPriceMaxChange={handlePriceMaxChange}
+            onEditorsPickToggle={handleEditorsPickToggle}
+            onSpokeFilterChange={handleSpokeFilterChange}
+            onReset={handleReset}
+            spokeSlug={spokeSlug}
+          />
+        )}
 
-            {/* Grid */}
-            <div className="filter-layout__grid">
+        {/* Main content area — search bar + grid */}
+        <div className="filter-layout__main">
+          {/* ── SEARCH + FILTERS ────────────────────────────── */}
+          <section
+            className={`sticky z-30 py-4 border-b transition-[top] duration-500 ${
+              navHidden ? 'top-0' : 'top-16 md:top-20'
+            }`}
+            style={{
+              borderColor: 'oklch(0.88 0.025 75)',
+              background: 'oklch(0.975 0.012 85 / 0.97)',
+              backdropFilter: 'blur(12px)',
+            }}
+          >
+            <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+              <BroadsheetMasthead
+                resultCount={filtered.length}
+                searchQuery={filters.search}
+                onSearchChange={handleSearchChange}
+                sortBy={filters.sortBy}
+                onSortChange={handleSortChange}
+                isSidebarOpen={isSidebarOpen}
+                onToggleSidebar={() => setIsSidebarOpen((o) => !o)}
+                aiLoading={aiLoading}
+                activeFilterCount={activeFilterCount}
+                onClearFilters={handleReset}
+              />
+              <CategoryIndex
+                activeCategory={filters.category}
+                onCategoryChange={handleCategoryChange}
+              />
+            </div>
+          </section>
+
+          {/* Grid */}
+          <section className="py-8">
+            <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
               {aiLoading ? (
                 <div className="flex flex-col items-center justify-center py-24 gap-5">
                   <img
@@ -339,9 +408,9 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
                 </>
               )}
             </div>
-          </div>
+          </section>
         </div>
-      </section>
+      </div>
     </div>
   )
 }

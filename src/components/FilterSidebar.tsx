@@ -328,10 +328,10 @@ export default function FilterSidebar({
             >
               <div className={`postmark-circle${state.editorsPick ? ' postmark-circle--active' : ''}`}>
                 <span style={{ fontSize: '0.45rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'oklch(0.55 0.14 38)', textAlign: 'center', lineHeight: 1.1 }}>
-                  ED'S<br />PICK
+                  CURATED<br />STAYS
                 </span>
               </div>
-              <span className="postmark-label">Only editor's picks</span>
+              <span className="postmark-label">Only curated stays</span>
             </div>
           </div>
 

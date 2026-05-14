@@ -1,6 +1,6 @@
 'use client'
 
-import { Search, X } from 'lucide-react'
+import { Search, X, SlidersHorizontal } from 'lucide-react'
 import type { SortOption } from '@/lib/filter-utils'
 
 interface BroadsheetMastheadProps {
@@ -12,6 +12,8 @@ interface BroadsheetMastheadProps {
   isSidebarOpen: boolean
   onToggleSidebar: () => void
   aiLoading: boolean
+  activeFilterCount: number
+  onClearFilters: () => void
 }
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
@@ -30,65 +32,81 @@ export default function BroadsheetMasthead({
   isSidebarOpen,
   onToggleSidebar,
   aiLoading,
+  activeFilterCount,
+  onClearFilters,
 }: BroadsheetMastheadProps) {
   return (
     <div className="broadsheet-masthead">
       <div className="flex items-baseline justify-between gap-4 flex-wrap">
-        <div className="flex items-baseline gap-3">
-          <span className="broadsheet-title">The Directory</span>
-          <span className="broadsheet-count">
-            {aiLoading ? '—' : resultCount} stays
-          </span>
-        </div>
+        <span className="broadsheet-count">
+          {aiLoading ? '—' : resultCount} stays
+        </span>
 
-        <div className="flex items-center gap-4">
-          <select
-            value={sortBy}
-            onChange={(e) => onSortChange(e.target.value as SortOption)}
-            className="broadsheet-sort"
-            aria-label="Sort stays"
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-
-          <button
-            className="filter-toggle-btn"
-            onClick={onToggleSidebar}
-            aria-expanded={isSidebarOpen}
-            aria-controls="filter-sidebar"
-            aria-label="Toggle filters"
-          >
-            <span className="filter-toggle-btn__text">FIL<br />TER</span>
-          </button>
-        </div>
+        <select
+          value={sortBy}
+          onChange={(e) => onSortChange(e.target.value as SortOption)}
+          className="broadsheet-sort"
+          aria-label="Sort stays"
+        >
+          {SORT_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Search Bar */}
-      <div className="broadsheet-search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'oklch(0.55 0.14 38)', flexShrink: 0 }}>
-          <circle cx="12" cy="12" r="10" />
-          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
-        </svg>
+      {/* Search Bar with integrated Filter Stamp */}
+      <div className="field-search">
+        <div className="field-search__compass">
+          <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+            <path d="M14 3 L16.5 13 L11.5 13 Z" fill="oklch(0.55 0.14 38)" />
+            <path d="M14 25 L16.5 15 L11.5 15 Z" fill="oklch(0.55 0.14 38)" opacity="0.3" />
+            <circle cx="14" cy="14" r="2.2" fill="oklch(0.22 0.01 60)" />
+          </svg>
+        </div>
         <input
           type="text"
-          placeholder="Search stays..."
+          placeholder="Search the collection..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
         />
         {searchQuery && (
-          <button onClick={() => onSearchChange('')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-            <X width={16} height={16} style={{ color: 'oklch(0.55 0.03 60)' }} />
+          <button
+            onClick={() => onSearchChange('')}
+            className="field-search__clear"
+            aria-label="Clear search"
+          >
+            <X width={14} height={14} />
           </button>
         )}
         {aiLoading && (
-          <span style={{ fontSize: '0.7rem', color: 'oklch(0.55 0.14 38)', fontFamily: 'var(--font-body)', letterSpacing: '0.08em' }}>
-            searching...
-          </span>
+          <span className="field-search__ai-hint">searching...</span>
         )}
+        <button
+          className={`filter-stamp${isSidebarOpen ? ' filter-stamp--active' : ''}`}
+          onClick={onToggleSidebar}
+          aria-expanded={isSidebarOpen}
+          aria-controls="filter-sidebar"
+          aria-label={`${isSidebarOpen ? 'Close' : 'Open'} filters${activeFilterCount > 0 ? `, ${activeFilterCount} active` : ''}`}
+        >
+          <span className="filter-stamp__icon">
+            <SlidersHorizontal width={13} height={13} />
+          </span>
+          <span className="filter-stamp__label">Filter</span>
+          {activeFilterCount > 0 && (
+            <span className="filter-stamp__count">{activeFilterCount}</span>
+          )}
+          {isSidebarOpen && activeFilterCount > 0 && (
+            <span
+              className="filter-stamp__clear"
+              onClick={(e) => { e.stopPropagation(); onClearFilters() }}
+              aria-label="Clear all filters"
+            >
+              ✕
+            </span>
+          )}
+        </button>
       </div>
     </div>
   )
