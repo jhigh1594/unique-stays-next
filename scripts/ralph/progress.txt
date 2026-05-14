@@ -165,3 +165,46 @@
 - Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
 - Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
 - Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
+
+### Sprint 5: Glamping for Beginners
+
+**PLAN-005** ✓ — "Glamping for Beginners: Your First Unique Stay, Explained"
+- Target keyword: glamping for beginners
+- Article type: Educational activity-based guide (structured by shelter type)
+- 6 stays across 5 states: shenandoah-glamping-va (VA), marble-falls-yurt-tx (TX), geodesic-dome-22acres-ga (GA), autocamp-joshua-tree-ca (CA), safari-tent-buena-vista-co (CO), dreamy-yurt-steamboat-co (CO)
+- Format: educational with embedded stays, 5 shelter types explained
+- Word count target: ~1,800 words
+
+**RESEARCH-005** ✓ — Stay data collected from seo-listings.csv. Specific details identified:
+- Shenandoah tent: on the river bank in Luray VA, gateway to Luray Caverns (one of the largest cave systems on the East Coast)
+- Marble Falls yurt: Texas Hill Country near Lake LBJ, private bathroom, $135/night entry point
+- Georgia dome: 22 private acres, Sautee Nacoochee Valley arts district (19th century), vineyard within walking distance
+- AutoCamp Joshua Tree: 31-foot Airstreams, 892 reviews, five minutes from park entrance, stargazing events
+- Buena Vista safari tent: ranked #1 safari tent nationally, Arkansas Headwaters Recreation Area
+- Steamboat farm yurt: working farm, Yampa Valley, sleeps 4, featured in "23 Best Glamping Spots in the US"
+
+**WRITE-005** ✓ — Full draft: content/drafts/glamping-for-beginners-first-unique-stay.md
+- ~2,197 words
+- Educational structure: 5 shelter type sections + practical guidance + FAQ + seasonal timing
+- Zero em dashes, zero exclamation marks, zero banned words
+- Feeling-first for each stay section after SEO+review pass
+
+**SEO-005** ✓ — SEO pass completed:
+- "glamping for beginners" in title, H2, first 100 words, metaTitle, excerpt, metaDescription
+- "first glamping trip" woven into practical section
+- FAQ with 5 questions (AI citation coverage)
+- 3 internal links: stargazing guide, lakefront roundup, treehouse guide
+- metaTitle: 52 chars, metaDescription: 125 chars
+
+**REVIEW-005** ✓ — Quality score: 9.0/10
+- Voice:9, Specificity:9, Feeling-first:8, Banned words:10, SEO:9, Embeds:10, Practical value:9, Cut test:8
+- Marble Falls feeling-first improved before v2
+- v2 saved to content/drafts/glamping-for-beginners-first-unique-stay-v2.md
+- Status: PR opened for editorial review (skipping Publish/Sync per session instructions)
+
+### Patterns
+- Educational guides ("for beginners") need the shelter-type framing before the embed, not after — otherwise the embed floats without context.
+- Six stays is the right ceiling for a beginner guide; the sixth (farm yurt) earns its separate section because the experience type is structurally distinct, not just a variation on what came before.
+- Feeling-first is harder to maintain in educational sections where the opening purpose is explanation; each shelter intro starts conceptually — the feeling-first requirement applies most strictly to the per-stay paragraphs after each embed.
+- Private bathroom disclosure is genuinely useful for beginners and earns a dedicated mention in the yurt section.
+- $135-$229 price range in one article gives strong commercial coverage across the beginner segment.

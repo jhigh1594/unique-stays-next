@@ -274,7 +274,76 @@
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
+    },
+    {
+      "id": "PLAN-005",
+      "title": "Plan glamping for beginners guide",
+      "description": "Educational activity-based guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keywords: glamping for beginners, first glamping trip, unique stay guide. 6 beginner-friendly stays across 5 states.",
+      "acceptanceCriteria": [
+        "Target keyword identified: glamping for beginners",
+        "6 stays selected with geographic diversity (VA, TX, GA, CA, CO×2)",
+        "Activity-based guide format confirmed (1,500-2,000 words)",
+        "Competitive angle: structured by shelter type with educational framing"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "6 stays: shenandoah-glamping-va, marble-falls-yurt-tx, geodesic-dome-22acres-ga, autocamp-joshua-tree-ca, safari-tent-buena-vista-co, dreamy-yurt-steamboat-co"
+    },
+    {
+      "id": "RESEARCH-005",
+      "title": "Collect stay data for glamping beginners guide",
+      "description": "Gather full details for all 6 stays from CSV. Identify hyper-specific detail per stay.",
+      "acceptanceCriteria": [
+        "All 6 stays have valid affiliateUrl",
+        "All 6 stays have imageUrl",
+        "One hyper-specific detail identified per stay"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "All 6 verified from seo-listings.csv. Specifics: Luray Caverns (largest cave system EC), 19th-century Sautee Nacoochee arts district, Arkansas Headwaters, 31-foot Airstreams/892 reviews/stargazing events, #1 national safari tent ranking, Yampa Valley farm stay."
+    },
+    {
+      "id": "WRITE-005",
+      "title": "Write glamping for beginners draft",
+      "description": "Full editorial draft. Educational structure by shelter type with 6 embedded stays.",
+      "acceptanceCriteria": [
+        "1,400-2,000 words",
+        "6 [EMBED: slug] placeholders",
+        "No banned words, no exclamation marks, no em dashes",
+        "Feeling-first stay sections"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "~2,197 words. Educational guide format. Zero em dashes, zero exclamations, zero banned words after SEO+review pass."
+    },
+    {
+      "id": "SEO-005",
+      "title": "SEO optimization for glamping beginners article",
+      "description": "Keyword placement, FAQ, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, H2, metaTitle, first 100 words, excerpt, metaDescription",
+        "FAQ with 5 questions",
+        "3+ internal links to published posts",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "metaTitle 52 chars, metaDescription 125 chars. 3 internal links: stargazing, lakefront, treehouse guides. 5 FAQ questions. Long-tail 'first glamping trip' woven in."
+    },
+    {
+      "id": "REVIEW-005",
+      "title": "Quality gate scoring for glamping beginners article",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean (zero tolerance)",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "9.0/10. Voice:9, Specificity:9, Feeling-first:8, Banned:10, SEO:9, Embeds:10, Practical:9, Cut:8. Marble Falls feeling-first improved before v2."
     }
   ],
-  "sprintNumber": 5
+  "sprintNumber": 6
 }
