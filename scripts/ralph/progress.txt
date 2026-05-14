@@ -165,3 +165,50 @@
 - Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
 - Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
 - Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
+
+### Sprint 5: Glamping for Beginners
+
+**PLAN-005** ✓ — "Glamping for Beginners: Your First Unique Stay, Explained"
+- Target keyword: glamping for beginners, first glamping trip, unique stay guide
+- Article type: Activity-Based Guide hybrid with educational content
+- 7 stays across 7 types (dome, treehouse, yurt, hobbit house, tiny home, A-frame, silo) and 7 states (GA, MO, CO, AR, VT, NY, MT)
+- Competitive angle: editorial curation of the full glamping spectrum for first-timers, not generic tips
+
+**RESEARCH-005** ✓ — Stay data collected from seo-listings.csv. Specific details identified:
+- Georgia dome: 22 forested acres, outdoor shower + soaking tub, Sautee Nacoochee arts district
+- Missouri treehouse: 692 reviews (highest-reviewed treehouse in guide), Perryville woods, private hot tub
+- Colorado yurt: Named one of 23 best glamping spots in the US, $145/night, Steamboat Springs
+- Arkansas hobbit house: Underground geodesic dome, 4-foot clear dome tower, copper sink, sleeps 8
+- Vermont glass tiny: 200 sq ft, built in Estonia, most-wishlisted tiny home in Vermont, Sugarbush views
+- New York A-frame: Cedar barrel sauna, Catskills, wrap-around deck, 2 hrs from NYC
+- Montana silo: Converted grain silo, Bitterroot Valley, circular rooms, dog-friendly
+
+**WRITE-005** ✓ — First draft: content/drafts/glamping-for-beginners.md
+- 1,760 words body content
+- Each stay opens with feeling, follows with fact
+- No banned words, no exclamation marks, no em dashes
+
+**SEO-005** ✓ — SEO optimization pass:
+- "glamping" + "beginners" in title, meta, excerpt, first 100 words, multiple H2s
+- Long-tail variants: "first glamping trip", "glamping for beginners"
+- 3 internal links (remote workers guide, treehouse guide, lakefront stays)
+- 5 FAQ questions for AI citation coverage
+- metaTitle: 36 chars, metaDescription: 136 chars
+
+**REVIEW-005** ✓ — Quality score: 9.05/10
+- Voice match: 9, Specificity: 9, Feeling-first: 9, Banned words: 10
+- SEO: 9, Embeds: 10, Practical value: 9, Cut test: 8
+
+**PUBLISH-005** ✓ — Published to Payload CMS (post id=17):
+- Slug: glamping-for-beginners
+- 7 linked stays (IDs: 15, 7, 99, 22, 179, 118, 153)
+- Hero image uploaded (media id=15) via Vercel Blob
+- Lexical content with 7 stayEmbed blocks and 3 internal links
+- Status: published, verified 200 at /journal/glamping-for-beginners
+
+### Patterns
+- Educational/top-of-funnel content works well with the Activity-Based Guide template adapted for a broader purpose
+- 7 stay types showing the full range of "glamping" is a stronger editorial device than 7 similar stays
+- Price range transparency ($145-$325) builds trust for first-timers
+- Link paragraphs in Lexical content require `linkType: "custom"` in fields; the Payload Lexical validator rejects links without it
+- Multi-link paragraphs can be split into separate "See also" link paragraphs to avoid validation issues

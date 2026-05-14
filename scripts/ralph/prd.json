@@ -7,10 +7,15 @@
       "id": "SETUP-001",
       "title": "Initialize ralph and verify setup",
       "description": "Database initialized, content dirs created, PRD written",
-      "acceptanceCriteria": ["scripts/ralph/prd.json exists", "content/drafts/ directory exists", "content/published/ directory exists", "scripts/ralph/progress.txt exists"],
+      "acceptanceCriteria": [
+        "scripts/ralph/prd.json exists",
+        "content/drafts/ directory exists",
+        "content/published/ directory exists",
+        "scripts/ralph/progress.txt exists"
+      ],
       "priority": 1,
       "passes": true,
-      "notes": "Done — ralph initialized, dirs created"
+      "notes": "Done \u2014 ralph initialized, dirs created"
     },
     {
       "id": "PLAN-001",
@@ -274,7 +279,106 @@
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
+    },
+    {
+      "id": "PLAN-005",
+      "title": "Plan glamping beginners guide",
+      "description": "Curated guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keywords: glamping for beginners, first glamping trip, unique stay guide. 7 stays across 7 types and 7 states (GA, MO, CO, AR, VT, NY, MT). Activity-based guide hybrid with educational content.",
+      "acceptanceCriteria": [
+        "Target keyword identified: glamping for beginners, first glamping trip",
+        "7 stays selected representing 7 stay types across 7 states",
+        "Activity-based guide format (1,600-2,200 words)",
+        "Competitive angle: editorial curation of the full glamping spectrum for first-timers"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "7 stays: geodesic-dome-22acres-ga, basecamp-treeloft-mo, dreamy-yurt-steamboat-co, hobbit-house-fayetteville-ar, glass-tiny-warren-vt, sauna-aframe-saugerties-ny, silo-bitterroot-mt"
+    },
+    {
+      "id": "RESEARCH-005",
+      "title": "Collect stay data for glamping beginners guide",
+      "description": "Gather full details for all 7 stays. Identify hyper-specific details per stay.",
+      "acceptanceCriteria": [
+        "All 7 stays have valid affiliateUrl",
+        "All 7 stays have images",
+        "One hyper-specific detail identified per stay",
+        "External source research completed"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "WRITE-005",
+      "title": "Write glamping beginners guide draft",
+      "description": "Full editorial draft. 1,600-2,200 words. Opening about the range of what glamping means. Each stay section opens with feeling, follows with fact. Practical first-timer section.",
+      "acceptanceCriteria": [
+        "1,600-2,200 words",
+        "Each stay has hyper-specific concrete detail",
+        "[EMBED: slug] placeholders for all 7 stays",
+        "No banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "SEO-005",
+      "title": "SEO optimization for glamping beginners guide",
+      "description": "Keyword placement, FAQ, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 100 words",
+        "FAQ section with 3-5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "REVIEW-005",
+      "title": "Quality gate scoring for glamping beginners guide",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "PUBLISH-005",
+      "title": "Publish glamping beginners guide to Payload",
+      "description": "Resolve stay IDs, upload hero image, construct Lexical JSON, publish via Payload API.",
+      "acceptanceCriteria": [
+        "Post created in Payload with status: published",
+        "7 linked stays resolved",
+        "Hero image uploaded and linked",
+        "Lexical content with stayEmbed blocks",
+        "Public page verified at /journal/{slug}"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "SYNC-005",
+      "title": "Update tracking docs for Sprint 5",
+      "description": "Update progress.txt, calendar status, prd.json. Git commit.",
+      "acceptanceCriteria": [
+        "progress.txt updated with Sprint 5 summary",
+        "KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md updated",
+        "prd.json sprint number incremented",
+        "Git commit created"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": ""
     }
   ],
-  "sprintNumber": 5
+  "sprintNumber": 6
 }
