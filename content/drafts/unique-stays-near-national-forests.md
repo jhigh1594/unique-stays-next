@@ -11,7 +11,7 @@ metaTitle: "Best Unique Stays Near National Forests"
 metaDescription: "Find unique stays near national forests, from Shawnee and Coconino domes to White Mountain tiny homes and Olympic Peninsula sauna stays."
 publishedAt: ""
 status: "draft"
-heroImage: "Coconino A-frame cabin surrounded by ponderosa pines"
+heroImage: "Modern forest house glowing at dusk among Oregon Coast old-growth trees"
 linkedStays:
   - shawnee-forest-dome-il
   - coconino-aframe-flagstaff-az
