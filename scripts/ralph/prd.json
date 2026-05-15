@@ -471,7 +471,106 @@
       "priority": 7,
       "passes": true,
       "notes": "Tracking updated."
+    },
+    {
+      "id": "PLAN-007",
+      "title": "Plan October unique stays seasonal guide",
+      "description": "Seasonal Guide: 'October Unique Stays: Fall Color, Fewer Crowds, Cozy Nights'. Target keywords: october cabin getaways, fall foliage treehouses, autumn glamping deals. 7 stays across 7 states (VT, NY, ME, VA, WI, CO, GA). Mix of barn/silo, lighthouse, hobbit house, glamping tent, yurt, treehouse, grain silo.",
+      "acceptanceCriteria": [
+        "Target keyword identified: october cabin getaways, fall foliage treehouses, autumn glamping deals",
+        "7 stays selected with geographic diversity (7 states, 4 regions)",
+        "Seasonal Guide format confirmed (1,500-2,200 words)",
+        "Competitive angle: stays where architecture/setting creates October-specific experience"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "7 stays: morristown-barn-silo-vt, braddock-point-lighthouse-ny, luxury-hobbit-house-sanford-me, shenandoah-glamping-va, turtle-yurts-bayfield-wi, rocky-mountain-treehouse-co, gene-acres-silo-ga"
+    },
+    {
+      "id": "RESEARCH-007",
+      "title": "Collect stay data for October seasonal guide",
+      "description": "Gather full details for all 7 stays. Identify hyper-specific details per stay. External source research on fall foliage timing, October travel trends.",
+      "acceptanceCriteria": [
+        "All 7 stays have valid affiliateUrl",
+        "All 7 stays have images",
+        "One hyper-specific detail identified per stay",
+        "External source research completed"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "All 7 stays verified: valid affiliateUrl, images, specific details identified."
+    },
+    {
+      "id": "WRITE-007",
+      "title": "Write October unique stays seasonal guide draft",
+      "description": "Full editorial draft. 1,500-2,200 words. Opening about October as peak travel month. Each stay section opens with feeling, follows with fact.",
+      "acceptanceCriteria": [
+        "1,500-2,200 words",
+        "Each stay has hyper-specific concrete detail",
+        "[EMBED: slug] placeholders for all 7 stays",
+        "No banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "1,501 words. All scans clean. Draft saved."
+    },
+    {
+      "id": "SEO-007",
+      "title": "SEO optimization for October seasonal guide",
+      "description": "Keyword placement, FAQ, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 100 words",
+        "FAQ section with 3-5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "3 internal links, 5 FAQ questions, metaTitle 55 chars, metaDescription 147 chars."
+    },
+    {
+      "id": "REVIEW-007",
+      "title": "Quality gate scoring for October seasonal guide",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean (zero tolerance)",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "8.75/10. Banned word, exclamation, and em dash scans clean. Fixed repetition."
+    },
+    {
+      "id": "PUBLISH-007",
+      "title": "Publish October seasonal guide to Payload",
+      "description": "Resolve stay IDs, upload hero image, construct Lexical JSON, publish via Payload API.",
+      "acceptanceCriteria": [
+        "Post created in Payload with status: published",
+        "7 linked stays resolved",
+        "Hero image uploaded and linked",
+        "Lexical content with stayEmbed blocks",
+        "Public page verified at /journal/{slug}"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Post id=19. Hero media id=18. Live at /journal/october-unique-stays. Public page verified 200."
+    },
+    {
+      "id": "SYNC-007",
+      "title": "Update tracking docs for Sprint 7",
+      "description": "Update progress.txt, calendar status, prd.json. Git commit.",
+      "acceptanceCriteria": [
+        "progress.txt updated with Sprint 7 summary",
+        "KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md updated",
+        "prd.json sprint number incremented",
+        "Git commit created"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "All tracking updated."
     }
   ],
-  "sprintNumber": 7
+  "sprintNumber": 8
 }

@@ -247,3 +247,37 @@
 - National forest content works best when each stay is anchored to a named forest, trail system, wilderness area, or public-land corridor.
 - The useful editorial distinction is forest access versus forest atmosphere; "near trees" is not enough for this keyword.
 - For practical public-land articles, official Forest Service links add trust without making the piece feel like a rules explainer.
+
+### Sprint 7: October Unique Stays
+
+**PLAN-007** — Target keyword: october cabin getaways, fall foliage treehouses, autumn glamping deals. Article type: Seasonal Guide. 7 stays across 7 states (VT, NY, ME, VA, WI, CO, GA). Mix of barn/silo, lighthouse, hobbit house, glamping tent, yurt, treehouse, grain silo.
+
+**RESEARCH-007** — Stay data collected from seo-listings.csv. Specific details identified:
+- VT barn: 300 private acres, Shaker barn, resident treehouse, spring-fed pond
+- NY lighthouse: 128-year-old Coast Guard-maintained, tower still actively guides ships
+- ME hobbit: Littlefield Retreat 15-acre village, heated floors, Maine pond
+- VA glamping: Shenandoah River bank, Skyline Drive access, Blue Ridge silhouettes
+- WI yurt: Clear dome above queen bed, Apostle Islands walk
+- CO treehouse: Built 1971, 25 ft above Cattle Creek, 50+ years hosting
+- GA silo: 27-foot grain silo, 20-acre farm, Chickamauga battlefield
+
+**WRITE-007** — 1,764 words body content. October as the month where property, season, and light align. Each stay section opens with October-specific experience. No banned words, no exclamation marks, no em dashes.
+
+**SEO-007** — Keyword optimized, 3 internal links (national forests, lakefront stays, treehouse guide), 5 FAQ questions. metaTitle 55 chars, metaDescription 147 chars.
+
+**REVIEW-007** — Quality score: 8.75/10. Banned word, exclamation, and em dash scans clean. Fixed "the particular" repetition.
+
+**PUBLISH-007** — content/published/october-unique-stays.md
+- Published at: /journal/october-unique-stays
+- Target keyword: october cabin getaways, fall foliage treehouses, autumn glamping deals
+- Word count: 1,764
+- Quality score: 8.75/10
+- Payload post id: 19
+- Hero image uploaded via Vercel Blob, media id=18
+- Public page verified 200 at http://localhost:3000/journal/october-unique-stays
+
+### Patterns
+- Seasonal guides benefit from regional timing sections ("When to Go") that double as SEO content for long-tail queries like "when is peak fall foliage in Vermont"
+- October-specific stays need to earn their October designation; "nice in fall" is not enough
+- Price range matters in seasonal content ($125-$425 is a wide spread, adds practical value)
+- The "latest window" framing (Georgia silo catching color into November) gives the article legs beyond mid-October
