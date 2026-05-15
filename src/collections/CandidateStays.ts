@@ -38,10 +38,23 @@ export const CandidateStays: CollectionConfig = {
 
         if (existing.totalDocs > 0) return
 
-        // Promote candidate to stay
+        // Look up default category and spoke for auto-promotion
+        const [defaultCategory, defaultSpoke] = await Promise.all([
+          req.payload.find({ collection: 'categories', limit: 1, depth: 0 }),
+          req.payload.find({ collection: 'spokes', where: { slug: { equals: 'unique' } }, limit: 1, depth: 0 }),
+        ])
+
+        const categoryId = defaultCategory.docs[0]?.id
+        const spokeId = defaultSpoke.docs[0]?.id
+
+        if (!categoryId || !spokeId) {
+          throw new Error('Cannot promote: no default category or "unique" spoke found')
+        }
+
+        // Promote candidate to stay as draft (requires category/spoke assignment before publishing)
         await req.payload.create({
           collection: 'stays',
-          draft: false,
+          draft: true,
           overrideAccess: true,
           data: {
             slug,
@@ -49,6 +62,8 @@ export const CandidateStays: CollectionConfig = {
             location: doc.location ?? '',
             state: doc.state ?? '',
             region: doc.region ?? 'West',
+            category: categoryId,
+            spokes: [spokeId],
             platform: doc.platform,
             affiliateUrl: doc.sourceUrl,
             imageUrl: doc.imageUrl ?? '',
@@ -63,7 +78,7 @@ export const CandidateStays: CollectionConfig = {
             editorsPick: false,
             isNew: true,
             needsReview: true,
-            reviewReason: 'Auto-promoted from candidate — needs category/spoke assignment',
+            reviewReason: 'Auto-promoted from candidate — needs category/spoke assignment before publishing',
           } as any,
         })
 
