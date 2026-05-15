@@ -20,8 +20,7 @@
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "migrate:down": "payload migrate:down",
-    "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts",
-    "index:search": "node --env-file-if-exists=.env.local --import tsx/esm scripts/generate-search-index.ts"
+    "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",
@@ -34,6 +33,7 @@
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
+    "fuse.js": "^7.3.0",
     "graphql": "^16.14.0",
     "lucide-react": "^1.14.0",
     "next": "16.2.6",

@@ -83,31 +83,14 @@ export function createEmptyFilterState(): FilterState {
 export function applyFilters(
   stays: NormalizedStay[],
   state: FilterState,
-  aiIds?: number[] | null,
+  searchResults?: NormalizedStay[] | null,
 ): NormalizedStay[] {
   let results: NormalizedStay[]
 
-  // AI search path — re-sort by relevance, compose with other filters
-  if (aiIds != null) {
-    results = aiIds
-      .map((id) => stays.find((s) => s.id === id))
-      .filter((s): s is NormalizedStay => s != null)
+  if (searchResults != null) {
+    results = [...searchResults]
   } else {
     results = [...stays]
-  }
-
-  // Text search (only in non-AI path)
-  if (aiIds == null && state.search.trim()) {
-    const q = state.search.toLowerCase()
-    results = results.filter(
-      (s) =>
-        s.title.toLowerCase().includes(q) ||
-        s.location.toLowerCase().includes(q) ||
-        s.state.toLowerCase().includes(q) ||
-        s.category.toLowerCase().includes(q) ||
-        s.tags.some((t) => t.toLowerCase().includes(q)) ||
-        s.description.toLowerCase().includes(q),
-    )
   }
 
   // Category

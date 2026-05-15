@@ -17,7 +17,7 @@ import {
   getLocationFacets,
   getActiveFilterCount,
 } from '@/lib/filter-utils'
-import { isNaturalLanguage } from '@/lib/search-utils'
+import { useStaySearch } from '@/lib/use-stay-search'
 import type { NormalizedStay } from '@/lib/types'
 
 const PAGE_SIZE = 18
@@ -41,8 +41,6 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
   const [filters, setFilters] = useState<FilterState>(createEmptyFilterState)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [navHidden, setNavHidden] = useState(false)
-  const [aiIds, setAiIds] = useState<number[] | null>(null)
-  const [aiLoading, setAiLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
   // Location facets (precomputed once)
@@ -77,47 +75,18 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Debounced AI search
-  useEffect(() => {
-    if (!isNaturalLanguage(filters.search)) {
-      setAiIds(null)
-      setAiLoading(false)
-      return
-    }
-
-    setAiLoading(true)
-    const controller = new AbortController()
-
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(filters.search)}`, {
-          signal: controller.signal,
-        })
-        const data = (await res.json()) as { ids: number[] | null }
-        setAiIds(data.ids)
-      } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') return
-        setAiIds(null)
-      } finally {
-        setAiLoading(false)
-      }
-    }, 400)
-
-    return () => {
-      clearTimeout(timer)
-      controller.abort()
-    }
-  }, [filters.search])
+  // Client-side fuzzy search via Fuse.js
+  const searchResults = useStaySearch(allStays, filters.search)
 
   // Reset page on filter change
   useEffect(() => {
     setCurrentPage(1)
-  }, [filters, aiIds])
+  }, [filters, searchResults])
 
   // Filter + sort pipeline
   const filtered = useMemo(
-    () => applyFilters(allStays, filters, aiIds),
-    [allStays, filters, aiIds],
+    () => applyFilters(allStays, filters, searchResults),
+    [allStays, filters, searchResults],
   )
 
   const activeFilterCount = useMemo(() => getActiveFilterCount(filters), [filters])
@@ -169,7 +138,6 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
 
   const handleReset = useCallback(() => {
     setFilters(createEmptyFilterState())
-    setAiIds(null)
     setIsSidebarOpen(false)
   }, [])
 
@@ -209,7 +177,7 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
                   padding: '5px 12px',
                 }}
               >
-                {aiLoading ? '—' : filtered.length} stays
+                {filtered.length} stays
               </span>
               <p
                 className="text-sm"
@@ -266,7 +234,6 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
                 onSortChange={handleSortChange}
                 isSidebarOpen={isSidebarOpen}
                 onToggleSidebar={() => setIsSidebarOpen((o) => !o)}
-                aiLoading={aiLoading}
                 activeFilterCount={activeFilterCount}
                 onClearFilters={handleReset}
               />
@@ -280,19 +247,7 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
           {/* Grid */}
           <section className="py-8">
             <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-              {aiLoading ? (
-                <div className="flex flex-col items-center justify-center py-24 gap-5">
-                  <img
-                    src="/logo-v2.png"
-                    alt="Searching..."
-                    className="h-20 w-auto animate-pulse"
-                    style={{ opacity: 0.7 }}
-                  />
-                  <p style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'var(--font-body)', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                    Searching the collection…
-                  </p>
-                </div>
-              ) : filtered.length === 0 ? (
+              {filtered.length === 0 ? (
                 <div className="text-center py-24">
                   <h3
                     className="text-5xl md:text-6xl font-bold mb-3"

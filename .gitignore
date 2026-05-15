@@ -44,9 +44,6 @@ next-env.d.ts
 src/payload-types.ts
 .env*.local
 
-# AI search index — generated at build time via pnpm index:search
-data/search-index.json
-
 # Claude Code worktrees
 .claude/
 .gstack/
