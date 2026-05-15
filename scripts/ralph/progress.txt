@@ -281,3 +281,38 @@
 - October-specific stays need to earn their October designation; "nice in fall" is not enough
 - Price range matters in seasonal content ($125-$425 is a wide spread, adds practical value)
 - The "latest window" framing (Georgia silo catching color into November) gives the article legs beyond mid-October
+
+### Sprint 8: Snow Globe Stays
+
+**PLAN-008** — Target keyword: winter cabins with hot tub, fireplace cabins, ski in ski out glamping. Article type: Curated Roundup. 8 stays across 8 states (NY, IL, VT, MI, UT, TN, WA, ME). Mix of treehouse, dome×3, tiny home, yurt, hobbit house.
+
+**RESEARCH-008** — Stay data collected from Payload API. Specific details identified:
+- NY treehouse: Antony Gibbon architect, 34 private acres, wood-fired hot tub, no WiFi/cell
+- IL dome: 6-person hot tub, 500 Mbps fiber, Shawnee National Forest
+- VT glass tiny: 200 sq ft built in Estonia, most-wishlisted Vermont tiny home, Sugarbush
+- MI yurt: Wood-fired hot tub, Big Lake, sleeping loft, Michigan north woods
+- UT dome: Dark sky, sauna + hot tub, near Zion
+- TN treehouse: 15 ft up, Finnish sauna + hot tub + fire pits, Nashville access
+- WA dome: Forest sauna bathing ritual, Olympic Peninsula, off-grid
+- ME hobbit: Littlefield Retreat 15-acre village, private hot tub, heated floors
+
+**WRITE-008** — 1,850 words body content. Winter silence lede. Each stay section opens with winter-specific experience. No banned words, no exclamation marks, no em dashes.
+
+**SEO-008** — Keyword optimized, 3 internal links (national forests, October stays, glamping beginners), 5 FAQ questions. metaTitle 52 chars, metaDescription 154 chars.
+
+**REVIEW-008** — Quality score: 8.9/10. Banned word, exclamation, and em dash scans clean.
+
+**PUBLISH-008** — content/published/snow-globe-stays.md
+- Published at: /journal/snow-globe-stays
+- Target keyword: winter cabins with hot tub, fireplace cabins
+- Word count: 1,850
+- Quality score: 8.9/10
+- Payload post id: 22
+- Hero image uploaded via Vercel Blob, media id=19
+- Public page verified 200 at http://localhost:3000/journal/snow-globe-stays
+
+### Patterns
+- Winter amenity articles benefit from the "cold/hot contrast" framing; hot tubs and saunas earn their place in winter in a way they do not in summer
+- Wood-fired vs electric hot tub is a useful editorial distinction that doubles as practical advice
+- Temperature cycling (sauna/cold air/hot tub) gives practical value beyond just listing amenities
+- $185-$380 price range with two sub-$200 stays adds booking accessibility

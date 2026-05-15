@@ -124,7 +124,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 |------|--------------|-------------|-----------------|------|--------|
 | 1 | Journal Post | "October Unique Stays: Fall Color, Fewer Crowds, Cozy Nights" | october cabin getaways, fall foliage treehouses, autumn glamping deals | Capture fall planners | Published |
 | 2 | Lead Magnet | Winter Escape Budget Calculator | winter cabin getaways under $150, affordable ski town lodging | Winter season prep | Planned |
-| 3 | Journal Post | "Snow Globe Stays: Unique Cabins with Hot Tub & Fireplace Access" | winter cabins with hot tub, ski in ski out glamping, fireplace cabins | Target winter travelers | Planned |
+| 3 | Journal Post | "Snow Globe Stays: Unique Cabins with Hot Tub & Fireplace Access" | winter cabins with hot tub, ski in ski out glamping, fireplace cabins | Target winter travelers | Published |
 | 4 | Journal Post | "Thanksgiving Getaways: Unique Stays for Holiday Celebrations" | thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals | Holiday travel capture | Planned |
 
 ### October 2026: Peak Season Content

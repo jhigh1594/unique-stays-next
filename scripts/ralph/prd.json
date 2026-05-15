@@ -570,7 +570,53 @@
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
+    },
+    {
+      "id": "PLAN-008",
+      "title": "Plan Snow Globe Stays roundup",
+      "description": "Curated roundup: Snow Globe Stays: Unique Cabins with Hot Tub & Fireplace Access. Target keywords: winter cabins with hot tub, fireplace cabins, ski in ski out glamping. 8 stays across 8 states (NY, IL, VT, MI, UT, TN, WA, ME).",
+      "priority": 1,
+      "passes": true,
+      "notes": "8 stays: willow-treehouse-ny, shawnee-forest-dome-il, glass-tiny-warren-vt, luxury-yurt-sears-mi, desert-dome-ut, treehouse-sauna-tn, sequim-dome-wa, luxury-hobbit-house-sanford-me"
+    },
+    {
+      "id": "RESEARCH-008",
+      "title": "Collect stay data for Snow Globe Stays",
+      "priority": 2,
+      "passes": true
+    },
+    {
+      "id": "WRITE-008",
+      "title": "Write Snow Globe Stays draft",
+      "priority": 3,
+      "passes": true
+    },
+    {
+      "id": "SEO-008",
+      "title": "SEO optimization for Snow Globe Stays",
+      "priority": 4,
+      "passes": true
+    },
+    {
+      "id": "REVIEW-008",
+      "title": "Quality gate scoring for Snow Globe Stays",
+      "priority": 5,
+      "passes": true
+    },
+    {
+      "id": "PUBLISH-008",
+      "title": "Publish Snow Globe Stays to Payload",
+      "priority": 6,
+      "passes": true,
+      "notes": "Post id=22. Live at /journal/snow-globe-stays"
+    },
+    {
+      "id": "SYNC-008",
+      "title": "Update tracking docs for Sprint 8",
+      "priority": 7,
+      "passes": true,
+      "notes": "All tracking updated."
     }
   ],
-  "sprintNumber": 8
+  "sprintNumber": 9
 }
