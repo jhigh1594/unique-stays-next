@@ -8,6 +8,10 @@
     {
       "path": "/api/discover",
       "schedule": "3 5 * * *"
+    },
+    {
+      "path": "/api/audit",
+      "schedule": "0 6 * * *"
     }
   ]
 }
