@@ -11,9 +11,9 @@
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { discoverAll } from './lib/discoverer'
-import { scoreBatch } from './lib/scorer'
-import { sendDiscoveryNotification } from './lib/notify'
+import { discoverAll } from '../src/lib/discovery/discoverer'
+import { scoreBatch } from '../src/lib/discovery/scorer'
+import { sendDiscoveryNotification } from '../src/lib/discovery/notify'
 
 // ── CLI arg parsing ──────────────────────────────────────────────
 const args = process.argv.slice(2)

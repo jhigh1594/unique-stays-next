@@ -4,12 +4,9 @@ import { NextResponse } from 'next/server'
 
 export const maxDuration = 60
 
-// @ts-expect-error — scripts/ excluded from tsconfig but resolved at runtime
-import { discoverAll } from '../../../scripts/lib/discoverer'
-// @ts-expect-error — scripts/ excluded from tsconfig but resolved at runtime
-import { scoreBatch } from '../../../scripts/lib/scorer'
-// @ts-expect-error — scripts/ excluded from tsconfig but resolved at runtime
-import { sendDiscoveryNotification } from '../../../scripts/lib/notify'
+import { discoverAll } from '@/lib/discovery/discoverer'
+import { scoreBatch } from '@/lib/discovery/scorer'
+import { sendDiscoveryNotification } from '@/lib/discovery/notify'
 
 export async function POST(req: Request) {
   const authHeader = req.headers.get('authorization')
@@ -63,7 +60,7 @@ export async function POST(req: Request) {
     const scoredWithSource = scored.map((s, i) => ({
       ...s,
       sourceUrl: newListings[i].sourceUrl,
-      platform: newListings[i].platform,
+      platform: newListings[i].platform as 'Airbnb' | 'VRBO' | 'Wander',
       rating: newListings[i].rating,
       reviewCount: newListings[i].reviewCount,
     }))
