@@ -616,7 +616,57 @@
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
+    },
+    {
+      "id": "PLAN-009",
+      "title": "Plan Thanksgiving Getaways seasonal guide",
+      "description": "Seasonal guide: Thanksgiving Getaways: Unique Stays for Holiday Celebrations. Target keywords: thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals. 8 group-ready stays selected across AR, ME, MI, OR, VA, OK, and ID.",
+      "priority": 1,
+      "passes": true,
+      "notes": "8 stays: hobbit-house-fayetteville-ar, lighthouse-maine, grandpa-george-barn-mi, wander-bend-retreat, wander-arch-cape-forest, black-luxe-aframe-linden-va, wander-broken-bow-trails, lakeside-aframe-idaho"
+    },
+    {
+      "id": "RESEARCH-009",
+      "title": "Collect stay and source data for Thanksgiving Getaways",
+      "priority": 2,
+      "passes": true,
+      "notes": "All 8 stays have valid affiliate URLs and images. AAA Thanksgiving travel forecast and USDA food safety guidance used as source context."
+    },
+    {
+      "id": "WRITE-009",
+      "title": "Write Thanksgiving Getaways draft",
+      "priority": 3,
+      "passes": true,
+      "notes": "1,744 words. Draft saved to content/drafts/thanksgiving-getaways-unique-stays.md."
+    },
+    {
+      "id": "SEO-009",
+      "title": "SEO optimization for Thanksgiving Getaways",
+      "priority": 4,
+      "passes": true,
+      "notes": "Primary keywords in title, meta, excerpt, first 100 words, and FAQ. 3 internal links added. metaTitle 49 chars, metaDescription 142 chars."
+    },
+    {
+      "id": "REVIEW-009",
+      "title": "Quality gate scoring for Thanksgiving Getaways",
+      "priority": 5,
+      "passes": true,
+      "notes": "8.7/10. Banned word, exclamation, and em dash scans clean."
+    },
+    {
+      "id": "PUBLISH-009",
+      "title": "Publish Thanksgiving Getaways to Payload",
+      "priority": 6,
+      "passes": true,
+      "notes": "Post id=23. Hero media id=20. Live at /journal/thanksgiving-getaways-unique-stays. Public page verified 200."
+    },
+    {
+      "id": "SYNC-009",
+      "title": "Update tracking docs for Sprint 9",
+      "priority": 7,
+      "passes": true,
+      "notes": "Progress log, calendar, and prd.json updated. Sitemap verified."
     }
   ],
-  "sprintNumber": 9
+  "sprintNumber": 10
 }

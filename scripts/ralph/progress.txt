@@ -316,3 +316,38 @@
 - Wood-fired vs electric hot tub is a useful editorial distinction that doubles as practical advice
 - Temperature cycling (sauna/cold air/hot tub) gives practical value beyond just listing amenities
 - $185-$380 price range with two sub-$200 stays adds booking accessibility
+
+### Sprint 9: Thanksgiving Getaways
+
+**PLAN-009** ✓ — Target keyword: thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals. Article type: Seasonal Guide. 8 group-ready stays selected across AR, ME, MI, OR, VA, OK, and ID.
+
+**RESEARCH-009** ✓ — Stay data collected, 8 specific details identified:
+- Arkansas hobbit house: four-bedroom underground geodesic dome with lake views, copper sink, and clear dome tower
+- Maine lighthouse: five bedrooms, Chauncey Creek waterfront, private dock, kayaks
+- Michigan barn: 1956 family dairy barn on Saginaw Bay
+- Bend retreat: Cascade Mountain panoramas, hot tub, Starlink, Mt. Bachelor access
+- Arch Cape forest house: old-growth forest, ocean views, Sitka spruce walk to beach
+- Shenandoah A-frame: private spa, game room, movie room, mountain views
+- Broken Bow trails house: Ouachita National Forest, back-door hiking trails, fire pit
+- North Idaho A-frame: private beach, boat docks, hot tub, Schweitzer winter access
+
+**WRITE-009** ✓ — First draft: content/drafts/thanksgiving-getaways-unique-stays.md
+
+**SEO-009** ✓ — Keyword optimized, 3 internal links, FAQ added, AAA Thanksgiving travel source and USDA food safety source included
+
+**REVIEW-009** ✓ — Quality score: 8.7/10, banned word scan clean, exclamation scan clean, em dash scan clean
+
+**PUBLISH-009** ✓ — content/published/thanksgiving-getaways-unique-stays.md
+- Published at: /journal/thanksgiving-getaways-unique-stays
+- Target keyword: thanksgiving cabin rentals, friendsgiving unique stays
+- Word count: 1,744
+- Quality score: 8.7/10
+- Payload post id: 23
+- Hero image uploaded via Vercel Blob, media id=20
+- Public page verified 200 at http://localhost:3000/journal/thanksgiving-getaways-unique-stays
+- Sitemap verified includes /journal/thanksgiving-getaways-unique-stays
+
+### Patterns
+- Holiday content works best when it starts with the room and group logistics, then moves to the property features.
+- Group capacity is necessary but not sufficient; dining, parking, bad-weather plans, and refrigerator space are the practical questions readers need.
+- For seasonal holiday posts, exact future dates add planning value. Thanksgiving 2026 falls on November 26.
