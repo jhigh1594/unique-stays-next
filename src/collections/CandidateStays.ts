@@ -12,6 +12,14 @@ export const CandidateStays: CollectionConfig = {
     listSearchableFields: ['title', 'location', 'state'],
   },
   hooks: {
+    beforeValidate: [
+      ({ data, originalDoc }) => {
+        if (!data) return
+        if (data.status === 'approved' && originalDoc?.status !== 'approved' && !data.heroImage) {
+          throw new Error('Upload a hero image before approving this candidate')
+        }
+      },
+    ],
     afterChange: [
       async ({ doc, previousDoc, req }) => {
         // Only trigger on status change to 'approved'
@@ -66,6 +74,7 @@ export const CandidateStays: CollectionConfig = {
             spokes: [spokeId],
             platform: doc.platform,
             affiliateUrl: doc.sourceUrl,
+            image: doc.heroImage ?? undefined,
             imageUrl: doc.imageUrl ?? '',
             price: doc.price ?? 0,
             rating: doc.rating ?? undefined,
@@ -164,7 +173,13 @@ export const CandidateStays: CollectionConfig = {
     {
       name: 'imageUrl',
       type: 'text',
-      admin: { description: 'Primary listing image URL' },
+      admin: { description: 'Primary listing image URL (from discovery)' },
+    },
+    {
+      name: 'heroImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: 'Upload a hero image before approving this candidate' },
     },
     {
       name: 'scrapedDescription',
