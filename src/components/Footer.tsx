@@ -80,11 +80,11 @@ export default function Footer() {
               {[
                 { label: 'All Stays', href: '/collection' },
                 { label: 'Journal', href: '/journal' },
-                { label: 'Treehouses', href: '/collection?category=Treehouses' },
-                { label: 'Geodesic Domes', href: '/collection?category=Geodesic+Domes' },
-                { label: 'Houseboats', href: '/collection?category=Houseboats' },
-                { label: 'Lighthouses', href: '/collection?category=Lighthouses' },
-                { label: 'Converted Barns', href: '/collection?category=Converted+Barns' },
+                { label: 'Treehouses', href: '/collection?category=treehouses' },
+                { label: 'Geodesic Domes', href: '/collection?category=geodesic-domes' },
+                { label: 'Houseboats', href: '/collection?category=houseboats' },
+                { label: 'Lighthouses', href: '/collection?category=lighthouses' },
+                { label: 'Converted Barns', href: '/collection?category=converted-barns' },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href}>
@@ -139,7 +139,7 @@ export default function Footer() {
             className="text-xs text-center sm:text-left"
             style={{ color: 'oklch(0.45 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
           >
-            © 2024 Unique Stays USA. All rights reserved.
+            © 2024–2026 Unique Stays USA. All rights reserved.
           </p>
           <p
             className="text-xs text-center sm:text-right max-w-md"
