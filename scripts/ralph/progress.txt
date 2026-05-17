@@ -165,3 +165,38 @@
 - Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
 - Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
 - Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
+
+### Sprint 5: Glamping for Beginners
+
+**PLAN-005** ✓ — "Glamping for Beginners: Your First Unique Stay, Explained"
+- Target keyword: glamping for beginners, first glamping trip, unique stay guide
+- Article type: Educational guide (1,400-2,000 words)
+- 5 stays: basecamp-treeloft-perryville-mo, skydome-hideaway-gainesville-tx, tugboat-private-lake-va, green-mountain-chapel-vt, wander-broken-bow-trails
+- Geographic spread: MO, TX, VA, VT, OK
+- Competitive angle: Only article that combines definition + decision framework + actual bookable US stays with prices
+
+**RESEARCH-005** ✓ — Competitive analysis confirmed. Gap: KOA, Adventure Daily, and GlampingResorts.com all rank for "glamping for beginners" but none embed real bookable stays with prices. No competitor offers a "which type is right for you" decision framework.
+
+**WRITE-005** ✓ — Draft: content/drafts/glamping-for-beginners.md (~1,800 body words)
+- 5 stay archetypes, each feeling-first
+- Structure: lede, definition (AI citation block), 5 archetypes, what to ask before booking, how long, FAQ
+- No banned words, no exclamation marks, no em dashes
+
+**SEO-005** ✓ — SEO pass completed:
+- "glamping for beginners" in first sentence, title, metaTitle, H2 variant, excerpt, FAQ
+- 3 internal links (treehouse roundup, remote work guide, stargazing guide)
+- 5 FAQ questions matching PAA search patterns
+- metaTitle 47 chars, metaDescription 150 chars
+
+**REVIEW-005** ✓ — Quality score: 9.0/10
+- Voice: 9, Specificity: 9, Feeling-first: 9, Banned words: 10, SEO: 8, Embeds: 10, Practical value: 9, Cut test: 8
+- 2 em dashes found and fixed (both in YAML frontmatter, not prose)
+- v2: content/drafts/glamping-for-beginners-v2.md
+- Draft committed to PR for editorial review and publish
+
+### Patterns
+- Educational/how-to articles need a decision framework section to differentiate from generic competitor content.
+- "Which type is right for you" framing converts better than a flat list because it helps readers self-select.
+- Having a definition paragraph early (paragraph 4) catches the AI overview citation pattern without disrupting the lede.
+- 5 stays is the right number for an archetype-based educational piece: enough variety to be useful, few enough to stay curated rather than encyclopedic.
+- Farm animals are an underrated hook in stay descriptions: Theo the Cow generates more reader engagement signals than a hot tub.

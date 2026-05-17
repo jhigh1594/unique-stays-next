@@ -275,6 +275,77 @@
       "passes": true,
       "notes": "All tracking updated."
     }
+  ,
+    {
+      "id": "PLAN-005",
+      "title": "Plan glamping for beginners educational guide",
+      "description": "Top-of-funnel educational guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keywords: glamping for beginners, first glamping trip, unique stay guide. 5 stay archetypes selected.",
+      "acceptanceCriteria": [
+        "Target keyword identified: glamping for beginners",
+        "5 stays selected representing different stay types (treehouse, dome, floating, converted, luxury cabin)",
+        "Article type confirmed: educational guide (1,400-2,000 words)",
+        "Competitive angle defined: decision framework + real bookable stays with prices (gap no competitor fills)"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "5 stays: basecamp-treeloft-perryville-mo, skydome-hideaway-gainesville-tx, tugboat-private-lake-va, green-mountain-chapel-vt, wander-broken-bow-trails. Geographic spread: MO, TX, VA, VT, OK."
+    },
+    {
+      "id": "RESEARCH-005",
+      "title": "Collect stay data and competitive research for beginners guide",
+      "description": "Gather stay details from curated listings database. Research competitor articles for keyword gap analysis.",
+      "acceptanceCriteria": [
+        "All 5 stays have valid affiliateUrl",
+        "One hyper-specific detail identified per stay",
+        "Competitive gap identified",
+        "Top competitor articles analyzed"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Gap confirmed: no competitor combines definition + decision framework + actual bookable stays with prices. Top competitors (KOA, Adventure Daily, GlampingResorts) are generic with no specific US stays."
+    },
+    {
+      "id": "WRITE-005",
+      "title": "Write glamping for beginners draft",
+      "description": "Full editorial draft. 1,400-2,000 words. Feeling-first sections for each of 5 stay archetypes.",
+      "acceptanceCriteria": [
+        "1,400-2,000 words",
+        "5 stay sections each open with feeling",
+        "[EMBED: slug] placeholders for all 5 stays",
+        "No banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "~1,800 body words. All criteria met. Draft at content/drafts/glamping-for-beginners.md"
+    },
+    {
+      "id": "SEO-005",
+      "title": "SEO optimization for beginners guide",
+      "description": "Keyword placement, FAQ, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 100 words",
+        "FAQ section with 3-5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "3 internal links (treehouse roundup, remote work guide, stargazing guide). 5 FAQ questions. metaTitle 47 chars, metaDescription 150 chars."
+    },
+    {
+      "id": "REVIEW-005",
+      "title": "Quality gate scoring for beginners guide",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "9.0/10. Voice 9, Specificity 9, Feeling-first 9, Banned words 10, SEO 8, Embeds 10, Practical value 9, Cut test 8. All scans clean. v2 at content/drafts/glamping-for-beginners-v2.md"
+    }
   ],
-  "sprintNumber": 5
+  "sprintNumber": 6
 }
