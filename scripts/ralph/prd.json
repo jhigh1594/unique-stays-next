@@ -274,7 +274,77 @@
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
+    },
+    {
+      "id": "PLAN-005",
+      "title": "Plan glamping for beginners guide",
+      "description": "Activity-based guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keywords: glamping for beginners, first glamping trip, types of glamping. 5 stays selected by type (resort tent, Airstream, private canvas, yurt, dome).",
+      "acceptanceCriteria": [
+        "Target keyword identified: glamping for beginners",
+        "5 stays selected covering 5 distinct glamping types",
+        "Geographic diversity across 5 regions",
+        "Competitive angle defined: type-by-type framework with one real property each"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "5 stays: undercanvas-smoky-mountains-tn, autocamp-catskills-ny, safari-tent-buena-vista-co, turtle-yurts-bayfield-wi, skydome-hideaway-tx"
+    },
+    {
+      "id": "RESEARCH-005",
+      "title": "Collect stay data for glamping beginners guide",
+      "description": "Gather full details for all 5 stays. Identify hyper-specific details per stay type.",
+      "acceptanceCriteria": [
+        "All 5 stays have valid affiliateUrl",
+        "All 5 stays have images",
+        "One hyper-specific detail identified per stay",
+        "External source research completed"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "All 5 stays verified from seo-listings.csv. Specific details: Under Canvas (#1 resort ranking + 182 acres), AutoCamp (31-ft Airstreams + Woodstock proximity), Safari Tent (#1 US glamping nationally + $155), Turtle Yurts (clear dome skylight + Apostle Islands), SkyDome (first luxury dome in DFW + 4.98 rating)."
+    },
+    {
+      "id": "WRITE-005",
+      "title": "Write glamping for beginners draft",
+      "description": "Full educational guide with 5 stay type sections, practical expectations section, and FAQ.",
+      "acceptanceCriteria": [
+        "1,400-2,200 words",
+        "Each stay type has feeling-first opener",
+        "[EMBED: slug] placeholders for all 5 stays",
+        "No banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "~2,200 words. Organized by type progression (resort > Airstream > private tent > yurt > dome). All criteria met."
+    },
+    {
+      "id": "SEO-005",
+      "title": "SEO optimization for glamping beginners article",
+      "description": "Keyword placement, internal links, FAQ, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 100 words, at least one H2",
+        "2+ long-tail variations in body",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "metaTitle: 50 chars, metaDescription: 149 chars. 2 internal links (stargazing guide, A-frame roundup). Keyword in title, excerpt, metaTitle, metaDescription, first 100 words, FAQ H2."
+    },
+    {
+      "id": "REVIEW-005",
+      "title": "Quality gate scoring for glamping beginners article",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean (zero tolerance)",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "9.0/10. Voice: 9, Specificity: 9, Feeling-first: 8, Banned words: 10, SEO: 9, Embeds: 10, Practical: 9, Cut test: 8. All scans clean. v2 saved."
     }
   ],
-  "sprintNumber": 5
+  "sprintNumber": 6
 }
