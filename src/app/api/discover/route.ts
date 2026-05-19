@@ -16,8 +16,8 @@ export async function POST(req: Request) {
 
   try {
     const payload = await getPayload({ config })
-    const limit = 20
-    const minScore = 5
+    const limit = 50
+    const minScore = 4
 
     // Phase 1: Crawl
     const rawListings: Array<{
@@ -40,8 +40,8 @@ export async function POST(req: Request) {
 
     // Phase 2: Dedup
     const [existingStays, existingCandidates] = await Promise.all([
-      payload.find({ collection: 'stays', limit: 500, depth: 0 }),
-      payload.find({ collection: 'candidate-stays', limit: 500, depth: 0 }),
+      payload.find({ collection: 'stays', limit: 1000, depth: 0 }),
+      payload.find({ collection: 'candidate-stays', limit: 1000, depth: 0 }),
     ])
 
     const existingUrls = new Set(existingStays.docs.map((s) => s.affiliateUrl as string))

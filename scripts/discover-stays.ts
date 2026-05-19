@@ -4,9 +4,9 @@
 // Flags: --pilot            Scrape only (fast, for testing)
 //        --force            Re-discover even if candidates exist
 //        --delay <ms>       Delay between scrapes (default 2000)
-//        --limit <n>        Max candidates to write (default 20)
+//        --limit <n>        Max candidates to write (default 50)
 //        --source <list>    Comma-separated sources: airbnb,vrbo,wander
-//        --min-score <n>    Minimum novelty score threshold (default 5)
+//        --min-score <n>    Minimum novelty score threshold (default 4)
 //        --no-notify        Skip email notification
 
 import { getPayload } from 'payload'
@@ -26,8 +26,8 @@ const hasFlag = (name: string) => args.includes(`--${name}`)
 const pilot = hasFlag('pilot')
 const force = hasFlag('force')
 const delay = parseInt(getArg('delay') ?? '2000', 10)
-const limit = parseInt(getArg('limit') ?? '20', 10)
-const minScore = parseInt(getArg('minScore') ?? '5', 10)
+const limit = parseInt(getArg('limit') ?? '50', 10)
+const minScore = parseInt(getArg('minScore') ?? '4', 10)
 const noNotify = hasFlag('no-notify')
 const sourceArg = getArg('source')
 const sources = sourceArg
@@ -75,14 +75,14 @@ async function main() {
 
   const existingStays = await payload.find({
     collection: 'stays',
-    limit: 500,
+    limit: 1000,
     depth: 0,
   })
   const existingUrls = new Set(existingStays.docs.map((s) => s.affiliateUrl as string))
 
   const existingCandidates = await payload.find({
     collection: 'candidate-stays',
-    limit: 500,
+    limit: 1000,
     depth: 0,
   })
   const candidateUrls = new Set(existingCandidates.docs.map((c) => c.sourceUrl as string))

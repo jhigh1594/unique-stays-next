@@ -34,16 +34,68 @@ function getClient(): Exa {
 // ── Semantic search queries ──────────────────────────────────────
 
 const QUERIES = [
-  'unique treehouse vacation rental',
-  'dome home glamping getaway',
+  // Treehouses
+  'treehouse vacation rental United States',
+  'treehouse cabin stay forest canopy',
+  'luxury treehouse rental romantic getaway',
+  // A-Frame Cabins
+  'a-frame cabin vacation rental',
+  'a-frame cabin secluded mountain',
+  'modern a-frame rental snow cabin',
+  // Converted Barns
+  'converted barn vacation rental',
+  'restored barn stay countryside retreat',
+  'historic barn rental luxury',
+  // Geodesic Domes
+  'geodesic dome vacation rental glamping',
+  'dome cabin off-grid rental',
+  'bubble dome stargazing rental',
+  // Glamping
+  'glamping tent luxury safari rental',
   'yurt vacation rental retreat',
-  'lighthouse stay overnight rental',
-  'unique cabin vacation rental secluded',
+  'safari tent glamping getaway',
+  'glamping pod rental United States',
+  // Tiny Homes
   'tiny house vacation rental',
-  'geodesic dome vacation rental',
+  'tiny home on wheels rental',
+  'modern tiny cabin minimalist stay',
+  // Cave Dwellings
   'cave house vacation rental',
-  'castle vacation rental',
+  'underground cave stay rental',
+  'cave dwelling boutique hotel',
+  // Castles & Estates
+  'castle vacation rental United States',
+  'estate mansion rental wedding venue stay',
+  'chateau vacation rental luxury',
+  // Houseboats
+  'houseboat vacation rental lake',
+  'floating home rental stay',
+  'boat house rental waterfront',
+  // Lighthouses
+  'lighthouse stay overnight rental',
+  'lighthouse keeper cottage vacation',
+  // Silo / unusual conversions
   'silo converted vacation rental',
+  'shipping container home rental',
+  'train caboose converted rental',
+  'fire tower rental overnight stay',
+  // Regional (covers all 6 US regions)
+  'unique cabin vacation rental Pacific Northwest',
+  'unique vacation rental Southwest desert',
+  'unique vacation rental New England',
+  'unique cabin rental Southeast mountains',
+  'unique stay Midwest lakefront',
+  'unique vacation rental Texas hill country',
+  'unique cabin rental Colorado Rocky Mountains',
+  'unique stay Blue Ridge Mountains',
+  'unique rental Oregon coast',
+  'unique cabin rental Smoky Mountains',
+  // General unique stays
+  'unique vacation rental secluded United States',
+  'off-grid cabin rental wilderness',
+  'luxury cabin rental with hot tub secluded',
+  'pet-friendly unique vacation rental cabin',
+  'romantic cabin getaway with view',
 ] as const
 
 const PLATFORM_DOMAINS: Record<string, string[]> = {
@@ -212,7 +264,7 @@ function mapToListing(result: ExaSearchResult, platform: 'Airbnb' | 'VRBO' | 'Wa
 export async function discoverAirbnb(limit?: number): Promise<DiscoverResult> {
   const client = getClient()
   const allListings: DiscoveredListing[] = []
-  const perQuery = limit ? Math.ceil(limit / QUERIES.length) + 2 : 5
+  const perQuery = limit ? Math.ceil(limit / QUERIES.length) + 2 : 10
 
   for (const query of QUERIES) {
     if (limit && allListings.length >= limit) break
@@ -249,9 +301,9 @@ export async function discoverAirbnb(limit?: number): Promise<DiscoverResult> {
 export async function discoverVRBO(limit?: number): Promise<DiscoverResult> {
   const client = getClient()
   const allListings: DiscoveredListing[] = []
-  const perQuery = limit ? Math.ceil(limit / QUERIES.length) + 2 : 5
+  const perQuery = limit ? Math.ceil(limit / QUERIES.length) + 2 : 10
 
-  for (const query of QUERIES.slice(0, 8)) {
+  for (const query of QUERIES.slice(0, 20)) {
     if (limit && allListings.length >= limit) break
 
     try {
@@ -297,7 +349,7 @@ export async function discoverWander(limit?: number): Promise<DiscoverResult> {
 
     try {
       const response = await client.searchAndContents(query, {
-        numResults: limit ? Math.ceil(limit / wanderQueries.length) + 2 : 10,
+        numResults: limit ? Math.ceil(limit / wanderQueries.length) + 2 : 15,
         includeDomains: PLATFORM_DOMAINS.wander,
         type: 'neural',
         contents: {
