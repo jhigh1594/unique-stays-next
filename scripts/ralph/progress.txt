@@ -165,3 +165,44 @@
 - Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
 - Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
 - Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
+
+### Sprint 5: Glamping for Beginners
+
+**PLAN-005** ✓ — "Glamping for Beginners: Your First Unique Stay, Explained"
+- Target keyword: glamping for beginners, first glamping trip, unique stay guide
+- Article type: Activity-Based Guide (1,400-2,000 words)
+- Competitive angle: Competitors offer DIY packing lists. We give a type-by-type breakdown of bookable properties organized by what the experience actually feels like.
+- 6 stays across 6 states (CA, TX, NH, NC, GA, CO): one per stay type (Airstream, yurt, A-frame, dome, treehouse, safari tent)
+
+**RESEARCH-005** ✓ — Stay data from seo-listings.csv (outbound API blocked in remote execution environment):
+- autocamp-joshua-tree-ca: $229, 4.8, 892 reviews — 31-ft Airstream, heated pool, stargazing events
+- marble-falls-yurt-tx: $135, 4.96, 247 reviews — Hill Country fire pit, private bath
+- white-mountains-aframe-nh: $169, 4.92, 312 reviews — Center Conway, Attitash ski access
+- deep-gap-dome-nc: $165, 4.92, 83 reviews — trout stream, Appalachian Trail, campfire included
+- secluded-intown-treehouse-ga: $195, 4.97, 1820 reviews — Peter Bahouth, 80yr recycled windows, rope bridges
+- safari-tent-buena-vista-co: $155, 4.96, 389 reviews — Collegiate Peaks 14,000ft, ranked #1 US glamping spot
+
+**WRITE-005** ✓ — Full draft: content/drafts/glamping-for-beginners-first-unique-stay.md (~1,877 words)
+- Each section opens with feeling, follows with fact
+- No banned words, no exclamation marks, no em dashes
+- 3 internal links woven naturally
+
+**SEO-005** ✓ — SEO pass:
+- "glamping for beginners" in title, second paragraph, metaTitle, excerpt, FAQ
+- "first glamping trip" woven throughout body
+- 3 internal links: best-aframe-cabins-america, stargazing-getaways-dark-sky-unique-stays, best-treehouse-rentals-usa
+- 5-question FAQ for AI citation coverage
+- metaTitle: 52 chars, metaDescription: 146 chars
+
+**REVIEW-005** ✓ — Quality gate passed: 8.9/10
+- Voice match: 9, Specificity: 9, Feeling-first: 8, Banned words: 10
+- SEO: 8, Embeds: 10, Practical value: 9, Cut test: 8
+- v2 fixed: yurt and A-frame sections rewritten to open with feeling not facts
+- All scans clean. Draft open as PR on feat/stay-detail-pages.
+
+### Patterns
+- "Beginners guide" format rewards type-by-type organization over geographic roundup structure
+- One stay per stay type (not one stay per state) gives the article a unique editorial identity
+- The AutoCamp section acts as the "reluctant glamper" entry point and lowers the barrier for skeptics
+- Outbound API access blocked in remote execution environment; seo-listings.csv is the reliable fallback data source
+- Safari tent + yurt sections are the highest emotional stakes: permeable stays where the outdoors is immediate

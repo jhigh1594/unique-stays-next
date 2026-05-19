@@ -275,6 +275,76 @@
       "passes": true,
       "notes": "All tracking updated."
     }
+  ,
+    {
+      "id": "PLAN-005",
+      "title": "Plan glamping for beginners guide",
+      "description": "Activity-based guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keywords: glamping for beginners, first glamping trip, unique stay guide. 6 stays, one per stay type (Airstream, yurt, A-frame, dome, treehouse, safari tent).",
+      "acceptanceCriteria": [
+        "Target keyword identified: glamping for beginners",
+        "6 stays selected across 6 states",
+        "Competitive angle defined: type-by-type guide to bookable properties vs packing-list competitors",
+        "Activity-Based Guide format confirmed (1,400-2,000 words)"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "6 stays: autocamp-joshua-tree-ca, marble-falls-yurt-tx, white-mountains-aframe-nh, deep-gap-dome-nc, secluded-intown-treehouse-ga, safari-tent-buena-vista-co"
+    },
+    {
+      "id": "RESEARCH-005",
+      "title": "Collect stay data for glamping beginners guide",
+      "description": "Gather full details for all 6 stays from seo-listings.csv. Outbound API blocked in remote exec environment.",
+      "acceptanceCriteria": [
+        "All 6 stays have valid affiliateUrl",
+        "All 6 stays have images",
+        "One hyper-specific detail per stay identified"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "All 6 stays verified from seo-listings.csv. Specific details: 31-ft Airstream/stargazing events, Hill Country fire pit/4.96 rating, Center Conway/Attitash ski access, trout stream/AT access, Peter Bahouth/80yr recycled windows/1820 reviews, Collegiate Peaks 14,000ft/#1 US glamping ranking."
+    },
+    {
+      "id": "WRITE-005",
+      "title": "Write glamping for beginners draft",
+      "description": "Full editorial draft. 1,400-2,000 words. Each stay section opens with feeling first. Type-by-type organization.",
+      "acceptanceCriteria": [
+        "1,400-2,000 words",
+        "Each section opens with feeling not features",
+        "[EMBED: slug] for all 6 stays",
+        "No banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "1,877 words. All criteria met. Draft at content/drafts/glamping-for-beginners-first-unique-stay.md"
+    },
+    {
+      "id": "SEO-005",
+      "title": "SEO optimization for glamping beginners guide",
+      "description": "Keyword placement, FAQ, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, meta, excerpt, first 200 words",
+        "FAQ section with 5 questions",
+        "3 internal links",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "3 internal links, 5 FAQ questions, metaTitle 52 chars, metaDescription 146 chars."
+    },
+    {
+      "id": "REVIEW-005",
+      "title": "Quality gate scoring for glamping beginners guide",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "8.9/10. All scans clean. v2 saved at content/drafts/glamping-for-beginners-first-unique-stay-v2.md. PR open on feat/stay-detail-pages."
+    }
   ],
-  "sprintNumber": 5
+  "sprintNumber": 6
 }
