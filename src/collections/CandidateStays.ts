@@ -6,6 +6,7 @@ export const CandidateStays: CollectionConfig = {
     singular: 'Candidate Stay',
     plural: 'Candidate Stays',
   },
+  lockDocuments: false,
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'platform', 'location', 'noveltyScore', 'status', 'discoveredAt'],
