@@ -12,14 +12,7 @@ export const CandidateStays: CollectionConfig = {
     listSearchableFields: ['title', 'location', 'state'],
   },
   hooks: {
-    beforeValidate: [
-      ({ data, originalDoc }) => {
-        if (!data) return
-        if (data.status === 'approved' && originalDoc?.status !== 'approved' && !data.heroImage) {
-          throw new Error('Upload a hero image before approving this candidate')
-        }
-      },
-    ],
+    beforeValidate: [],
     afterChange: [
       async ({ doc, previousDoc, req }) => {
         // Only trigger on status change to 'approved'
