@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [{ source: '/directory', destination: '/collection', permanent: true }]
   },
+  skipTrailingSlashRedirect: true,
   serverExternalPackages: ['sharp', 'pg'],
   images: {
     remotePatterns: [
