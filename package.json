@@ -3,13 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@11.0.8",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "11.0.8",
-      "onFail": "error"
-    }
-  },
   "type": "module",
   "scripts": {
     "dev": "next dev",
@@ -29,7 +22,9 @@
     "@payloadcms/storage-vercel-blob": "^3.84.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@tailwindcss/postcss": "^4.2.4",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.3.3",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "exa-js": "^2.13.0",
