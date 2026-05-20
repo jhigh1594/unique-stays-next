@@ -274,7 +274,79 @@
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
+    },
+    {
+      "id": "PLAN-005",
+      "title": "Plan glamping for beginners guide",
+      "description": "Activity-based guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keyword: glamping for beginners. 5 stays covering 5 distinct property types: treehouse (MO), dome (AR), tugboat (VA), cliff house (CO), converted church (VT).",
+      "acceptanceCriteria": [
+        "Target keyword identified: glamping for beginners",
+        "5 stays selected covering distinct property type categories",
+        "Competitive gap defined: all competitors cover tent glamping, not curated Airbnb/VRBO unique stays",
+        "Activity-based guide format confirmed (1,400-2,000 words)"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "5 stays: basecamp-treeloft-mo, fox-wood-dome-eureka-springs-ar, tugboat-private-lake-va, sage-canyon-cliff-house-co, green-mountain-chapel-vt"
+    },
+    {
+      "id": "RESEARCH-005",
+      "title": "Collect stay data for beginners guide",
+      "description": "Gather stay details from curated-listings.md. Verify affiliate URLs, images, specific details per stay.",
+      "acceptanceCriteria": [
+        "All 5 stays have valid affiliateUrl",
+        "All 5 stays have images",
+        "One hyper-specific detail identified per stay",
+        "External source research completed (NPS Mesa Verde)"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Specific details: TreeLoft 5.0/692 reviews; Fox Wood 417 Magazine cover + cedar soaking tub; Tugboat Theo the Cow + 8-acre private lake; Cliff House McElmo Canyon + Mesa Verde 600K visitors; Chapel original stained glass + vaulted ceilings."
+    },
+    {
+      "id": "WRITE-005",
+      "title": "Write glamping for beginners draft",
+      "description": "Full editorial draft. ~1,600 words. Sensory opening about first-night silence. Stays ordered from accessible (treehouse) to more unfamiliar (cliff house, converted structure).",
+      "acceptanceCriteria": [
+        "1,400-2,000 words",
+        "Sensory opening about first unique stay experience",
+        "Each stay has hyper-specific concrete detail",
+        "[EMBED: slug] placeholders for all 5 stays",
+        "No banned words, no exclamation marks, no em dashes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "~1,610 words. 'What to Know Before Your First Booking' + FAQ included. All criteria met."
+    },
+    {
+      "id": "SEO-005",
+      "title": "SEO optimization for beginners guide",
+      "description": "Keyword placement, FAQ, internal links, meta optimization.",
+      "acceptanceCriteria": [
+        "Primary keyword in title, H2, metaTitle, first sentence, metaDescription, excerpt",
+        "Long-tail variants in body",
+        "FAQ section with 5 questions",
+        "2+ internal links to other journal posts",
+        "metaTitle under 60 chars, metaDescription under 160 chars"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "metaTitle 46 chars, metaDescription 133 chars. 2 internal links, 1 external (NPS). All keyword placements confirmed."
+    },
+    {
+      "id": "REVIEW-005",
+      "title": "Quality gate scoring for beginners guide",
+      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
+      "acceptanceCriteria": [
+        "Score 8.0+ to auto-proceed",
+        "Banned word scan clean",
+        "Em dash scan clean (zero tolerance)",
+        "Feeling-first check passed"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "8.75/10. Voice:9, Specificity:8, Feeling-first:9, Banned words:10, SEO:9, Embeds:9, Practical value:8, Cut test:8. All scans clean. v2 saved."
     }
   ],
-  "sprintNumber": 5
+  "sprintNumber": 6
 }

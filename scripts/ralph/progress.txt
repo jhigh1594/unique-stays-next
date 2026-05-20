@@ -165,3 +165,43 @@
 - Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
 - Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
 - Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
+
+### Sprint 5: Glamping for Beginners
+
+**PLAN-005** ✓ — "Glamping for Beginners: Your First Unique Stay, Explained"
+- Target keyword: glamping for beginners
+- Secondary keywords: first glamping trip, unique stay guide
+- Article type: Activity-Based Guide (beginner education + stay curation)
+- 5 stays across 5 states (MO, AR, VA, CO, VT)
+- Property types: treehouse, geodesic dome, tugboat/waterborne, cliff/cave, converted structure
+- Competitive angle: every competitor covers tent glamping; nobody covers this for curated Airbnb/VRBO unique stays
+- Word count target: ~1,600 words
+
+**RESEARCH-005** ✓ — Stay data from curated-listings.md. Specific details identified:
+- BaseCamp TreeLoft MO: 5.0/692 reviews, hardwood forest, private hot tub, 3hr from STL/KC/Memphis
+- Fox Wood Dome AR: 417 Magazine cover, cedar soaking tub, climate-controlled, Ozarks, Eureka Springs 15 min
+- Tugboat Private Lake VA: Theo the Cow, private 8-acre lake with island, 142 acres/5mi trails, farm animals
+- Sage Canyon Cliff House CO: built into McElmo Canyon red rock cliff, Mesa Verde 40 min (600K NPS visitors/yr)
+- Green Mountain Chapel VT: 19th-century church, original stained glass + vaulted ceilings, Magic Mountain 5 min, dog-friendly
+- External: NPS Mesa Verde visitor stat cited
+
+**WRITE-005** ✓ — Full draft: content/drafts/glamping-for-beginners-unique-stay-guide.md
+- ~1,610 words
+- Sensory opening: the silence on first unique stay night
+- Stays ordered by beginner-friendliness (treehouse → dome → waterborne → cave → converted structure)
+- "What to Know Before Your First Booking" + FAQ section
+- 2 internal links: best-treehouse-rentals-usa, skip-the-crowds-national-park-alternatives
+
+**SEO-005** ✓ — SEO pass completed:
+- "glamping for beginners" in title, H2, metaTitle, first sentence, metaDescription, excerpt
+- Long-tail: "first glamping trip" (metaDescription + body + FAQ), "unique stay guide" (body)
+- 2 internal links, 1 external (NPS)
+- metaTitle: 46 chars, metaDescription: 133 chars
+- Cannibalization check: no existing post targets this keyword
+
+**REVIEW-005** ✓ — Quality gate passed: 8.75/10
+- Voice match: 9, Specificity: 8, Feeling-first: 9, Banned words: 10
+- SEO: 9, Embeds: 9, Practical value: 8, Cut test: 8
+- Zero banned words, zero em dashes, zero exclamation marks confirmed by scan
+- v2 saved to content/drafts/glamping-for-beginners-unique-stay-guide-v2.md
+- Status: draft committed to PR for editorial review
