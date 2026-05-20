@@ -16,10 +16,13 @@
     "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts"
   },
   "dependencies": {
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-node": "^0.218.0",
     "@payloadcms/db-postgres": "^3.84.1",
     "@payloadcms/next": "^3.84.1",
     "@payloadcms/richtext-lexical": "^3.84.1",
     "@payloadcms/storage-vercel-blob": "^3.84.1",
+    "@posthog/ai": "^7.18.10",
     "@radix-ui/react-dialog": "^1.1.15",
     "@tailwindcss/postcss": "^4.2.4",
     "@vercel/analytics": "^2.0.1",
@@ -34,6 +37,8 @@
     "lucide-react": "^1.14.0",
     "next": "16.2.6",
     "payload": "^3.84.1",
+    "posthog-js": "^1.374.2",
+    "posthog-node": "^5.34.6",
     "puppeteer-core": "^24.43.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
