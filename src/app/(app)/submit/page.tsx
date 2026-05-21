@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 import { Send } from 'lucide-react'
+import posthog from 'posthog-js'
 
 export default function SubmitPage() {
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    posthog.capture('stay_submitted')
     setSubmitted(true)
   }
 

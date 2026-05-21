@@ -74,8 +74,8 @@ export const CandidateStays: CollectionConfig = {
         const stayData: Record<string, unknown> = {
           slug,
           title: doc.title,
-          location: doc.location ?? '',
-          state: doc.state ?? '',
+          location: (doc.location as string) || 'Unknown',
+          state: (doc.state as string) || 'Unknown',
           region: doc.region ?? 'West',
           category: categoryId,
           spokes: spokeIds,

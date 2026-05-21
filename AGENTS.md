@@ -279,7 +279,7 @@ Always run `pnpm generate:types` and `pnpm migrate` after changing any collectio
 
 ## Learned Workspace Facts
 
-- Use `pnpm` for dependency and dev commands; `npm install` is intentionally blocked by `devEngines` to protect the pnpm lockfile.
+- Prefer `pnpm` for installs and project scripts (`packageManager` is pinned to pnpm). `npx` works for one-off CLIs; avoid `npm install` so the pnpm lockfile stays authoritative.
 - Vercel builds should run `next build`; `pnpm index:search` is a manual search-index regeneration step that should tolerate missing `.env.local`.
 - Vercel deployments need `PAYLOAD_SECRET` and `DATABASE_URI`; sitemap and public pages import Payload during build.
 - The third-party `emrld.ltd` head script is intentionally installed only in `src/app/(app)/layout.tsx`; keep Payload admin routes untouched unless Jon explicitly asks otherwise.

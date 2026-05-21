@@ -44,7 +44,11 @@ next-env.d.ts
 src/payload-types.ts
 .env*.local
 
+# Python crawl venv
+.venv-crawl/
+
 # Claude Code worktrees
 .claude/
 .gstack/
 .superpowers/
+.env.local

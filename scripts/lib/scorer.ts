@@ -1,17 +1,9 @@
 // LLM novelty scorer for stay candidates
 // Scores listings on "experience novelty" — treehouses, domes, caves score high;
 // generic cabins and standard vacation rentals score low.
-// Uses NVIDIA NIM (free, OpenAI-compatible) via @ai-sdk/openai
+// Uses NVIDIA NIM with OpenRouter failover via shared LLM module.
 
-import { generateText } from 'ai'
-import { createOpenAI } from '@ai-sdk/openai'
-
-const nim = createOpenAI({
-  baseURL: 'https://integrate.api.nvidia.com/v1',
-  apiKey: (process.env.NVIDIA_NIM_API_KEY || '').replace(/^["']|["']$/g, ''),
-})
-
-const DEFAULT_MODEL = 'meta/llama-3.3-70b-instruct'
+import { generateWithFailover } from '../../src/lib/llm'
 
 export interface ScorableListing {
   title: string
@@ -78,15 +70,14 @@ export async function scoreNovelty(
 ): Promise<NoveltyScore> {
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const result = await generateText({
-        model: nim.chat(modelId ?? DEFAULT_MODEL),
+      const { text: rawText } = await generateWithFailover({
         system: SYSTEM_PROMPT,
         prompt: buildScoringPrompt(listing),
         maxOutputTokens: 200,
         temperature: 0.3,
-      })
+      }, 'discover', modelId)
 
-    let text = result.text.trim()
+    let text = rawText.trim()
     const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
     if (fenceMatch) text = fenceMatch[1].trim()
 

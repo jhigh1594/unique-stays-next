@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Star, MapPin, Users, ExternalLink } from 'lucide-react'
 import type { CSSProperties, ReactNode } from 'react'
+import posthog from 'posthog-js'
 import type { NormalizedStay } from '@/lib/types'
 
 interface StayCardProps {
@@ -49,7 +50,7 @@ export default function StayCard({
         className="stay-card"
         style={{
           '--card-tilt': `${tilt}deg`,
-          padding: '9px 9px 36px 9px',
+          padding: '6px 6px 20px 6px',
           borderRadius: '3px',
           background: 'white',
           backgroundImage: MAT_GRAIN,
@@ -61,7 +62,7 @@ export default function StayCard({
       >
         {/* Photo */}
         <div
-          className={`relative overflow-hidden ${featured ? 'h-64' : 'h-52'}`}
+          className={`relative overflow-hidden ${featured ? 'h-44 sm:h-64' : 'h-36 sm:h-52'}`}
           style={{ borderRadius: '1px' }}
         >
           {stay.imageUrl ? (
@@ -69,7 +70,7 @@ export default function StayCard({
               src={stay.imageUrl}
               alt={stay.title}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />
@@ -141,7 +142,7 @@ export default function StayCard({
         </div>
 
         {/* Caption zone */}
-        <div className="polaroid-caption relative pt-3 px-1" style={{ flex: '1 1 0%', display: 'flex', flexDirection: 'column' }}>
+        <div className="polaroid-caption relative pt-2 sm:pt-3 px-0.5 sm:px-1" style={{ flex: '1 1 0%', display: 'flex', flexDirection: 'column' }}>
           <div
             className="absolute bottom-1 right-1 pointer-events-none select-none"
             style={{ opacity: 0.07, color: 'oklch(0.30 0.06 50)' }}
@@ -186,14 +187,14 @@ export default function StayCard({
 
             <h3
               className={`font-bold leading-tight mb-1 group-hover:text-[oklch(0.55_0.14_38)] transition-colors ${
-                featured ? 'text-xl' : 'text-base'
+                featured ? 'text-lg sm:text-xl' : 'text-sm sm:text-base'
               }`}
               style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
             >
               {stay.title}
             </h3>
 
-            <div className="flex items-center gap-1 mb-2">
+            <div className="flex items-center gap-1 mb-1 sm:mb-2">
               <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: 'oklch(0.55 0.14 38)' }} />
               <span
                 className="text-xs"
@@ -204,7 +205,7 @@ export default function StayCard({
             </div>
 
             {stay.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 mb-2.5">
+              <div className="hidden sm:flex flex-wrap gap-1 mb-2.5">
                 {stay.tags.slice(0, 2).map((tag) => (
                   <span
                     key={tag}
@@ -227,7 +228,7 @@ export default function StayCard({
               </div>
             )}
 
-            <div className="flex items-center justify-between mt-auto pt-2">
+            <div className="hidden sm:flex items-center justify-between mt-auto pt-2">
               <div className="flex items-center gap-1">
                 <Users className="w-3 h-3" style={{ color: 'oklch(0.60 0.03 60)' }} />
                 <span
@@ -251,10 +252,23 @@ export default function StayCard({
     </>
   )
 
+  const handleClick = () => {
+    posthog.capture('stay_card_clicked', {
+      stay_slug: stay.slug,
+      stay_title: stay.title,
+      stay_location: stay.location,
+      stay_platform: stay.platform,
+      stay_price: stay.price,
+      stay_category: stay.category,
+      is_external: external,
+    })
+  }
+
   const linkProps = {
     className: 'group block h-full',
     style,
     'data-cursor': 'view',
+    onClick: handleClick,
   }
 
   if (external) {

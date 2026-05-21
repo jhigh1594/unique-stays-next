@@ -1,17 +1,8 @@
 // AI editorial generation module
 // Transforms scraped data + stay metadata into editorial content in brand voice
-// Uses NVIDIA NIM (free, OpenAI-compatible) via @ai-sdk/openai
+// Uses NVIDIA NIM with OpenRouter failover via shared LLM module.
 
-import { generateText } from 'ai'
-import { createOpenAI } from '@ai-sdk/openai'
-
-const nim = createOpenAI({
-  baseURL: 'https://integrate.api.nvidia.com/v1',
-  apiKey: (process.env.NVIDIA_NIM_API_KEY || '').replace(/^["']|["']$/g, ''),
-  compatibility: 'compatible',
-})
-
-const DEFAULT_MODEL = 'meta/llama-3.3-70b-instruct'
+import { generateWithFailover } from '../../src/lib/llm'
 
 export interface StayMetadata {
   title: string
@@ -155,16 +146,15 @@ export async function generateEditorialContent(
   const needsReview = !hasDescription || !hasMultipleAmenities
 
   try {
-    const result = await generateText({
-      model: nim.chat(modelId ?? DEFAULT_MODEL),
+    const { text: rawText } = await generateWithFailover({
       system: buildSystemPrompt(),
       prompt,
-      maxTokens: 2000,
+      maxOutputTokens: 2000,
       temperature: 0.7,
-    })
+    }, 'enrich', modelId)
 
     // Strip markdown fences if the model wraps JSON in ```json ... ```
-    let text = result.text.trim()
+    let text = rawText.trim()
     const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
     if (fenceMatch) text = fenceMatch[1].trim()
 

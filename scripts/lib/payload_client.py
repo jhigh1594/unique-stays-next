@@ -7,11 +7,12 @@ uses urllib.request with no external dependencies.
 import json
 import os
 import ssl
+import time
 import urllib.request
 import urllib.error
 from typing import Any
 
-BASE_URL = os.environ.get("NEXT_PUBLIC_SERVER_URL", "http://localhost:3003")
+BASE_URL = os.environ.get("NEXT_PUBLIC_SERVER_URL", "http://localhost:3000")
 API_KEY = os.environ.get("PAYLOAD_ADMIN_API_KEY", "")
 
 
@@ -23,13 +24,20 @@ def _headers(api_key: str | None = None) -> dict[str, str]:
     return h
 
 
-def _request(method: str, path: str, api_key: str | None = None, data: dict | None = None) -> dict:
+def _request(method: str, path: str, api_key: str | None = None, data: dict | None = None, retries: int = 3) -> dict:
     url = f"{BASE_URL}{path}"
     body = json.dumps(data).encode() if data else None
     req = urllib.request.Request(url, data=body, headers=_headers(api_key), method=method)
     ctx = ssl.create_default_context()
-    with urllib.request.urlopen(req, context=ctx) as resp:
-        return json.loads(resp.read())
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
+                return json.loads(resp.read())
+        except (urllib.error.URLError, ConnectionRefusedError, OSError) as e:
+            if attempt < retries - 1:
+                time.sleep(2 ** attempt)
+            else:
+                raise
 
 
 def get_existing_urls(api_key: str | None = None) -> tuple[set[str], set[str]]:

@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Search, X } from 'lucide-react'
+import posthog from 'posthog-js'
 import StayCard from '@/components/StayCard'
 import type { SpokeSlug } from '@/lib/spokes-config'
 import type { NormalizedStay, SpokeConfig } from '@/lib/types'
@@ -28,6 +29,14 @@ export default function SpokeFilterBar({ stays, config, spokeSlug }: SpokeFilter
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilter, setActiveFilter] = useState('All')
   const [activeRegion, setActiveRegion] = useState<Region>('All')
+
+  useEffect(() => {
+    posthog.capture('spoke_browsed', {
+      spoke: spokeSlug,
+      spoke_title: config.title,
+      total_stays: stays.length,
+    })
+  }, [spokeSlug, config.title, stays.length])
 
   const filters = SPOKE_FILTERS[spokeSlug]
   const searchResults = useStaySearch(stays, searchQuery)
@@ -116,7 +125,7 @@ export default function SpokeFilterBar({ stays, config, spokeSlug }: SpokeFilter
               )}
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="hidden sm:flex items-center gap-2 flex-wrap">
               {filters.map((f) => (
                 <button
                   key={f}
@@ -191,7 +200,7 @@ export default function SpokeFilterBar({ stays, config, spokeSlug }: SpokeFilter
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
               {filtered.map((stay, i) => (
                 <StayCard key={stay.id} stay={stay} accentColor={config.accentColor} index={i} />
               ))}

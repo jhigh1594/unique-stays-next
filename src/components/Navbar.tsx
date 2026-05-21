@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import LogoMark from '@/components/LogoMark'
+import NewsletterModal from '@/components/NewsletterModal'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
@@ -13,7 +14,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [collectionsOpen, setCollectionsOpen] = useState(false)
+  const [newsletterOpen, setNewsletterOpen] = useState(false)
   const pathname = usePathname()
+  const isHome = pathname === '/'
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -183,8 +186,9 @@ export default function Navbar() {
             {/* CTA + Mobile Toggle */}
             <div className="flex items-center gap-3">
               <a
-                href="#newsletter"
-                className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all duration-200 hover:shadow-md"
+                href={isHome ? '#newsletter' : undefined}
+                onClick={isHome ? undefined : (e) => { e.preventDefault(); setNewsletterOpen(true) }}
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all duration-200 hover:shadow-md cursor-pointer"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
               >
                 Get Weekly Picks
@@ -267,10 +271,13 @@ export default function Navbar() {
 
             <div className="mt-auto px-4">
               <a
-                href="#newsletter"
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all"
+                href={isHome ? '#newsletter' : undefined}
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all cursor-pointer"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => {
+                  setMobileOpen(false)
+                  if (!isHome) setNewsletterOpen(true)
+                }}
               >
                 Get Weekly Picks
               </a>
@@ -278,6 +285,8 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      <NewsletterModal open={newsletterOpen} onClose={() => setNewsletterOpen(false)} />
     </>
   )
 }

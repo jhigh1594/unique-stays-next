@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Wifi, PawPrint, Zap, Truck } from 'lucide-react'
+import posthog from 'posthog-js'
 import StayCard from '@/components/StayCard'
 import { SPOKES_CONFIG } from '@/lib/spokes-config'
 import type { NormalizedStay } from '@/lib/types'
@@ -137,6 +138,29 @@ interface StayDetailContentProps {
 
 export default function StayDetailContent({ stay, related }: StayDetailContentProps) {
   useScrollReveal()
+
+  useEffect(() => {
+    posthog.capture('stay_viewed', {
+      stay_slug: stay.slug,
+      stay_title: stay.title,
+      stay_location: stay.location,
+      stay_platform: stay.platform,
+      stay_price: stay.price,
+      stay_category: stay.category,
+      stay_region: stay.region,
+      is_editors_pick: stay.editorsPick,
+    })
+  }, [stay.slug, stay.title, stay.location, stay.platform, stay.price, stay.category, stay.region, stay.editorsPick])
+
+  const handleAffiliateClick = useCallback(() => {
+    posthog.capture('affiliate_link_clicked', {
+      stay_slug: stay.slug,
+      stay_title: stay.title,
+      stay_platform: stay.platform,
+      stay_price: stay.price,
+      affiliate_url: stay.affiliateUrl,
+    })
+  }, [stay.slug, stay.title, stay.platform, stay.price, stay.affiliateUrl])
 
   const allImages = [stay.imageUrl, ...stay.galleryImages].filter(Boolean)
   const [selectedIdx, setSelectedIdx] = useState(0)
@@ -403,6 +427,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     data-cursor="view"
+                    onClick={handleAffiliateClick}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                       width: '100%', padding: 12,
@@ -708,6 +733,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
               href={stay.affiliateUrl}
               target="_blank"
               rel="noopener noreferrer sponsored"
+              onClick={handleAffiliateClick}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                 width: '100%', padding: 14,
