@@ -11,9 +11,15 @@ interface NewsletterModalProps {
 
 export default function NewsletterModal({ open, onClose }: NewsletterModalProps) {
   const [done, setDone] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (open) setDone(false)
+    if (open) {
+      setDone(false)
+      setError(null)
+      setLoading(false)
+    }
   }, [open])
 
   useEffect(() => {
@@ -108,15 +114,37 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
               ) : (
                 <form
                   className="flex flex-col gap-3"
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault()
-                    setDone(true)
+                    setError(null)
+                    setLoading(true)
+                    const formData = new FormData(e.currentTarget)
+                    const email = formData.get('email') as string
+                    try {
+                      const res = await fetch('/api/newsletter', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email }),
+                      })
+                      if (!res.ok) {
+                        const data = await res.json()
+                        setError(data.error || 'Something went wrong')
+                        return
+                      }
+                      setDone(true)
+                    } catch {
+                      setError('Network error. Please try again.')
+                    } finally {
+                      setLoading(false)
+                    }
                   }}
                 >
                   <input
                     type="email"
+                    name="email"
                     placeholder="your@email.com"
                     required
+                    disabled={loading}
                     className="w-full px-4 py-3 text-sm outline-none focus:ring-2"
                     style={{
                       background: 'oklch(0.26 0.07 38)',
@@ -128,7 +156,8 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
                   />
                   <motion.button
                     type="submit"
-                    className="w-full px-6 py-3 text-sm font-bold uppercase tracking-wider"
+                    disabled={loading}
+                    className="w-full px-6 py-3 text-sm font-bold uppercase tracking-wider disabled:opacity-60"
                     style={{
                       background: 'oklch(0.85 0.10 45)',
                       color: 'oklch(0.22 0.01 60)',
@@ -137,11 +166,19 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
                       letterSpacing: '0.1em',
                       fontSize: '0.7rem',
                     }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={loading ? undefined : { scale: 1.02 }}
+                    whileTap={loading ? undefined : { scale: 0.98 }}
                   >
-                    Send Me Picks
+                    {loading ? 'Subscribing...' : 'Send Me Picks'}
                   </motion.button>
+                  {error && (
+                    <p
+                      className="text-xs"
+                      style={{ color: 'oklch(0.75 0.12 25)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                    >
+                      {error}
+                    </p>
+                  )}
                 </form>
               )}
 

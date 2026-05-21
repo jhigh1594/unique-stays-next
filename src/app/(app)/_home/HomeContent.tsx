@@ -225,6 +225,8 @@ export default function HomeContent({
   useClipReveal()
 
   const [newsletterDone, setNewsletterDone] = useState(false)
+  const [newsletterLoading, setNewsletterLoading] = useState(false)
+  const [newsletterError, setNewsletterError] = useState<string | null>(null)
 
   return (
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
@@ -845,15 +847,37 @@ export default function HomeContent({
             ) : (
               <form
                 className="flex flex-col sm:flex-row gap-3"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault()
-                  setNewsletterDone(true)
+                  setNewsletterError(null)
+                  setNewsletterLoading(true)
+                  const formData = new FormData(e.currentTarget)
+                  const email = formData.get('email') as string
+                  try {
+                    const res = await fetch('/api/newsletter', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email }),
+                    })
+                    if (!res.ok) {
+                      const data = await res.json()
+                      setNewsletterError(data.error || 'Something went wrong')
+                      return
+                    }
+                    setNewsletterDone(true)
+                  } catch {
+                    setNewsletterError('Network error. Please try again.')
+                  } finally {
+                    setNewsletterLoading(false)
+                  }
                 }}
               >
                 <input
                   type="email"
+                  name="email"
                   placeholder="your@email.com"
                   required
+                  disabled={newsletterLoading}
                   className="flex-1 px-4 py-3 text-sm outline-none focus:ring-2"
                   style={{
                     background: 'oklch(0.26 0.07 38)',
@@ -865,7 +889,8 @@ export default function HomeContent({
                 />
                 <motion.button
                   type="submit"
-                  className="px-6 py-3 text-sm font-bold uppercase tracking-wider flex-shrink-0"
+                  disabled={newsletterLoading}
+                  className="px-6 py-3 text-sm font-bold uppercase tracking-wider flex-shrink-0 disabled:opacity-60"
                   style={{
                     background: 'oklch(0.85 0.10 45)',
                     color: 'oklch(0.22 0.01 60)',
@@ -874,11 +899,19 @@ export default function HomeContent({
                     letterSpacing: '0.1em',
                     fontSize: '0.7rem',
                   }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={newsletterLoading ? undefined : { scale: 1.02 }}
+                  whileTap={newsletterLoading ? undefined : { scale: 0.98 }}
                 >
-                  Send Me Picks
+                  {newsletterLoading ? 'Subscribing...' : 'Send Me Picks'}
                 </motion.button>
+                {newsletterError && (
+                  <p
+                    className="text-xs sm:col-span-2"
+                    style={{ color: 'oklch(0.75 0.12 25)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                  >
+                    {newsletterError}
+                  </p>
+                )}
               </form>
             )}
 
