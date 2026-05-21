@@ -40,49 +40,92 @@ export const CandidateStays: CollectionConfig = {
 
         if (existing.totalDocs > 0) return
 
-        // Look up default category and spoke for auto-promotion
-        const [defaultCategory, defaultSpoke] = await Promise.all([
+        // Look up category and spoke(s) for auto-promotion
+        const targetSpokeSlug = (doc.targetSpoke as string) || 'unique'
+        const [defaultCategory, targetSpoke, uniqueSpoke] = await Promise.all([
           req.payload.find({ collection: 'categories', limit: 1, depth: 0 }),
+          req.payload.find({ collection: 'spokes', where: { slug: { equals: targetSpokeSlug } }, limit: 1, depth: 0 }),
           req.payload.find({ collection: 'spokes', where: { slug: { equals: 'unique' } }, limit: 1, depth: 0 }),
         ])
 
         const categoryId = defaultCategory.docs[0]?.id
-        const spokeId = defaultSpoke.docs[0]?.id
+        const spokeId = targetSpoke.docs[0]?.id
+        const uniqueSpokeId = uniqueSpoke.docs[0]?.id
 
         if (!categoryId || !spokeId) {
-          throw new Error('Cannot promote: no default category or "unique" spoke found')
+          throw new Error('Cannot promote: no default category or target spoke found')
         }
 
-        // Promote candidate to stay as draft (requires category/spoke assignment before publishing)
+        // Build spoke list: target spoke + "unique" as secondary for high-novelty listings
+        const spokeIds = [spokeId]
+        if (uniqueSpokeId && uniqueSpokeId !== spokeId && (doc.noveltyScore ?? 0) >= 6) {
+          spokeIds.push(uniqueSpokeId)
+        }
+
+        // Parse spoke-specific fields from JSON
+        let spokeFields: Record<string, unknown> = {}
+        try {
+          spokeFields = typeof doc.spokeFields === 'string'
+            ? JSON.parse(doc.spokeFields as string)
+            : (doc.spokeFields as Record<string, unknown>) ?? {}
+        } catch { /* empty */ }
+
+        // Build spoke-specific group fields
+        const stayData: Record<string, unknown> = {
+          slug,
+          title: doc.title,
+          location: doc.location ?? '',
+          state: doc.state ?? '',
+          region: doc.region ?? 'West',
+          category: categoryId,
+          spokes: spokeIds,
+          platform: doc.platform,
+          affiliateUrl: doc.sourceUrl,
+          image: doc.heroImage ?? undefined,
+          imageUrl: doc.imageUrl ?? '',
+          price: doc.price ?? 0,
+          rating: doc.rating ?? undefined,
+          reviewCount: doc.reviewCount ?? undefined,
+          sleeps: 1,
+          bedrooms: 0,
+          description: (doc.scrapedDescription as string) ?? '',
+          tags: (doc.scrapedAmenities as Array<{ amenity: string }>)?.map((a) => ({ tag: a.amenity })) ?? [],
+          featured: false,
+          editorsPick: false,
+          isNew: true,
+          needsReview: true,
+          reviewReason: 'Auto-promoted from candidate — needs category/spoke assignment before publishing',
+        }
+
+        // Map spoke fields to the correct group
+        if (targetSpokeSlug === 'work-friendly') {
+          stayData.workFriendly = {
+            wifiSpeed: spokeFields.wifiSpeed ?? '',
+            hasDesk: spokeFields.hasDesk ?? false,
+          }
+        } else if (targetSpokeSlug === 'pet-friendly') {
+          stayData.petDetails = {
+            petFriendly: spokeFields.petFriendly ?? true,
+            petPolicy: spokeFields.petPolicy ?? '',
+          }
+        } else if (targetSpokeSlug === 'rv-ready') {
+          stayData.rvDetails = {
+            rvHookup: spokeFields.rvHookup ?? false,
+            rvInfo: spokeFields.rvInfo ?? '',
+          }
+        } else if (targetSpokeSlug === 'ev-ready') {
+          stayData.evDetails = {
+            evCharger: spokeFields.evCharger ?? false,
+            evInfo: spokeFields.evInfo ?? '',
+          }
+        }
+
+        // Promote candidate to stay as draft
         await req.payload.create({
           collection: 'stays',
           draft: true,
           overrideAccess: true,
-          data: {
-            slug,
-            title: doc.title,
-            location: doc.location ?? '',
-            state: doc.state ?? '',
-            region: doc.region ?? 'West',
-            category: categoryId,
-            spokes: [spokeId],
-            platform: doc.platform,
-            affiliateUrl: doc.sourceUrl,
-            image: doc.heroImage ?? undefined,
-            imageUrl: doc.imageUrl ?? '',
-            price: doc.price ?? 0,
-            rating: doc.rating ?? undefined,
-            reviewCount: doc.reviewCount ?? undefined,
-            sleeps: 1,
-            bedrooms: 0,
-            description: (doc.scrapedDescription as string) ?? '',
-            tags: (doc.scrapedAmenities as Array<{ amenity: string }>)?.map((a) => ({ tag: a.amenity })) ?? [],
-            featured: false,
-            editorsPick: false,
-            isNew: true,
-            needsReview: true,
-            reviewReason: 'Auto-promoted from candidate — needs category/spoke assignment before publishing',
-          } as any,
+          data: stayData as any,
         })
 
         // Set reviewedAt on the candidate
@@ -120,6 +163,7 @@ export const CandidateStays: CollectionConfig = {
         { label: 'Airbnb', value: 'Airbnb' },
         { label: 'VRBO', value: 'VRBO' },
         { label: 'Wander', value: 'Wander' },
+        { label: 'Direct', value: 'Direct' },
       ],
     },
     {
@@ -221,6 +265,28 @@ export const CandidateStays: CollectionConfig = {
         { label: 'Rejected', value: 'rejected' },
       ],
       admin: { position: 'sidebar' },
+    },
+    {
+      name: 'targetSpoke',
+      type: 'select',
+      options: [
+        { label: 'Work-Friendly', value: 'work-friendly' },
+        { label: 'Pet-Friendly', value: 'pet-friendly' },
+        { label: 'RV-Ready', value: 'rv-ready' },
+        { label: 'EV-Ready', value: 'ev-ready' },
+      ],
+      admin: {
+        description: 'Target spoke for auto-promotion (defaults to "unique" if empty)',
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'spokeFields',
+      type: 'json',
+      admin: {
+        description: 'Extracted spoke-specific data: {wifiSpeed, hasDesk, petFriendly, petPolicy, rvHookup, rvInfo, evCharger, evInfo}',
+        position: 'sidebar',
+      },
     },
     {
       name: 'discoveredAt',
