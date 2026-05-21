@@ -11,6 +11,7 @@ import {
 import {
   motion,
 } from 'framer-motion'
+import posthog from 'posthog-js'
 import StayCard from '@/components/StayCard'
 import FilmstripSection from '@/components/FilmstripSection'
 import CorkboardTestimonials from '@/components/CorkboardTestimonials'
@@ -856,7 +857,10 @@ export default function HomeContent({
                   try {
                     const res = await fetch('/api/newsletter', {
                       method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'X-POSTHOG-DISTINCT-ID': posthog.get_distinct_id(),
+                      },
                       body: JSON.stringify({ email }),
                     })
                     if (!res.ok) {
@@ -865,6 +869,8 @@ export default function HomeContent({
                       return
                     }
                     setNewsletterDone(true)
+                    posthog.identify(email, { email })
+                    posthog.capture('newsletter_subscribed', { source: 'homepage' })
                   } catch {
                     setNewsletterError('Network error. Please try again.')
                   } finally {

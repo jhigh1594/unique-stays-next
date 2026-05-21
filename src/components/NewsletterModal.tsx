@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, CheckCircle2 } from 'lucide-react'
+import posthog from 'posthog-js'
 
 interface NewsletterModalProps {
   open: boolean
@@ -123,7 +124,10 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
                     try {
                       const res = await fetch('/api/newsletter', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'X-POSTHOG-DISTINCT-ID': posthog.get_distinct_id(),
+                        },
                         body: JSON.stringify({ email }),
                       })
                       if (!res.ok) {
@@ -132,6 +136,8 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
                         return
                       }
                       setDone(true)
+                      posthog.identify(email, { email })
+                      posthog.capture('newsletter_subscribed', { source: 'modal' })
                     } catch {
                       setError('Network error. Please try again.')
                     } finally {

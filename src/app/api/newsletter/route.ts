@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getPostHogClient } from '@/lib/posthog-server'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
   const email = body.email
+  const distinctId = req.headers.get('x-posthog-distinct-id') || email
 
   if (!email || typeof email !== 'string' || !email.includes('@')) {
     return NextResponse.json({ error: 'Valid email is required' }, { status: 400 })
@@ -42,6 +44,10 @@ export async function POST(req: NextRequest) {
         { status: res.status },
       )
     }
+
+    const posthog = getPostHogClient()
+    posthog.identify({ distinctId, properties: { email } })
+    posthog.capture({ distinctId, event: 'newsletter_subscribed', properties: { email, source: 'server' } })
 
     return NextResponse.json({ success: true })
   } catch (err) {
