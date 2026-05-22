@@ -79,13 +79,6 @@
     {
       "id": "PLAN-003",
       "title": "Plan lakefront unique stays roundup",
-      "description": "Curated roundup: 'Lakefront Unique Stays: Cabins, Domes & A-Frames on the Water'. Target keywords: lakefront cabins, waterfront unique stays, lake house alternatives. 8 stays across 8 states, mix of A-frames, domes, boathouses, floating homes, tugboat.",
-      "acceptanceCriteria": [
-        "Target keyword identified: lakefront cabins, waterfront unique stays, lake house alternatives",
-        "8 stays selected with geographic diversity (ID, OR, TX, MI, MN, VA, CA, NY)",
-        "Curated roundup format confirmed (1,800-2,200 words)",
-        "Competitive angle defined: design-forward editorial curation of ON-the-water properties"
-      ],
       "priority": 1,
       "passes": true,
       "notes": "8 stays: lakeside-aframe-idaho, waterfront-aframe-rhododendron-or, canyon-lake-aframe-tx, northern-michigan-aframe-kalkaska, lake-superior-dome-mn, tugboat-private-lake-va, sausalito-floating-home-ca, boathouse-hudson-saugerties-ny"
@@ -93,13 +86,6 @@
     {
       "id": "RESEARCH-003",
       "title": "Collect stay data for lakefront roundup",
-      "description": "Gather full details for all 8 stays. Identify hyper-specific details per stay.",
-      "acceptanceCriteria": [
-        "All 8 stays have valid affiliateUrl",
-        "All 8 stays have images",
-        "One hyper-specific detail identified per stay",
-        "External source research completed"
-      ],
       "priority": 2,
       "passes": true,
       "notes": "All 8 stays verified: valid affiliateUrl, images, specific details identified."
@@ -107,14 +93,6 @@
     {
       "id": "WRITE-003",
       "title": "Write lakefront unique stays draft",
-      "description": "Full editorial draft. 1,800-2,200 words. Sensory lede about being on the water. Each stay section opens with feeling, follows with fact.",
-      "acceptanceCriteria": [
-        "1,800-2,200 words",
-        "Sensory lede about water/wake",
-        "Each stay has hyper-specific concrete detail",
-        "[EMBED: slug] placeholders for all 8 stays",
-        "No banned words, no exclamation marks, no em dashes"
-      ],
       "priority": 3,
       "passes": true,
       "notes": "~1,837 words. All criteria met."
@@ -122,13 +100,6 @@
     {
       "id": "SEO-003",
       "title": "SEO optimization for lakefront article",
-      "description": "Keyword placement, FAQ, internal links, meta optimization.",
-      "acceptanceCriteria": [
-        "Primary keyword in title, meta, excerpt, first 100 words",
-        "FAQ section with 3-5 questions",
-        "2+ internal links to other journal posts",
-        "metaTitle under 60 chars, metaDescription under 160 chars"
-      ],
       "priority": 4,
       "passes": true,
       "notes": "3 internal links, 5 FAQ questions, all keywords placed."
@@ -136,13 +107,6 @@
     {
       "id": "REVIEW-003",
       "title": "Quality gate scoring for lakefront article",
-      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
-      "acceptanceCriteria": [
-        "Score 8.0+ to auto-proceed",
-        "Banned word scan clean",
-        "Em dash scan clean (zero tolerance)",
-        "Feeling-first check passed"
-      ],
       "priority": 5,
       "passes": true,
       "notes": "8.6/10. All scans clean."
@@ -150,14 +114,6 @@
     {
       "id": "PUBLISH-003",
       "title": "Publish lakefront article to Payload",
-      "description": "Resolve stay IDs, upload hero image, construct Lexical JSON, publish via Payload API.",
-      "acceptanceCriteria": [
-        "Post created in Payload with status: published",
-        "8 linked stays resolved",
-        "Hero image uploaded and linked",
-        "Lexical content with stayEmbed blocks",
-        "Public page verified at /journal/{slug}"
-      ],
       "priority": 6,
       "passes": true,
       "notes": "Post id=14. Live at /journal/lakefront-unique-stays-water-cabins-domes-aframes"
@@ -165,13 +121,6 @@
     {
       "id": "SYNC-003",
       "title": "Update tracking docs for Sprint 3",
-      "description": "Update progress.txt, calendar status, prd.json. Git commit.",
-      "acceptanceCriteria": [
-        "progress.txt updated with Sprint 3 summary",
-        "KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md updated",
-        "prd.json sprint number incremented",
-        "Git commit created"
-      ],
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
@@ -179,13 +128,6 @@
     {
       "id": "PLAN-004",
       "title": "Plan unique stays with pools roundup",
-      "description": "Curated roundup: 'Unique Stays with Pools: Desert Oases, Domes, and Airstreams'. Target keywords: unique stays with pools, cabins with pools, glamping pool access. 8 pool-forward stays selected.",
-      "acceptanceCriteria": [
-        "Target keyword identified: unique stays with pools",
-        "8 stays selected with at least 4 states represented",
-        "Curated roundup format confirmed",
-        "Competitive angle defined: pool as trip rhythm, not generic amenity"
-      ],
       "priority": 1,
       "passes": true,
       "notes": "8 stays: ev-modern-villa-palm-springs, wander-joshua-tree-starfall, workfriendly-dome-joshua-tree, ev-farmhouse-napa, ev-beach-house-hamptons, pearl-dome-lecanto-fl, lake-travis-treehouse-tx, autocamp-yosemite-ca"
@@ -193,13 +135,6 @@
     {
       "id": "RESEARCH-004",
       "title": "Collect stay and source data for pool roundup",
-      "description": "Gather stay details, verify affiliate URLs/images, and collect safety/source references.",
-      "acceptanceCriteria": [
-        "All selected stays have valid affiliateUrl",
-        "All selected stays have images",
-        "One hyper-specific detail identified per stay",
-        "External source research completed"
-      ],
       "priority": 2,
       "passes": true,
       "notes": "All 8 stays verified. CPSC Pool Safely and CDC drowning guidance used for practical safety context."
@@ -207,13 +142,6 @@
     {
       "id": "WRITE-004",
       "title": "Write unique stays with pools draft",
-      "description": "Full editorial draft with stay embeds and feeling-first sections.",
-      "acceptanceCriteria": [
-        "1,500-2,500 words",
-        "Each stay has a concrete detail",
-        "[EMBED: slug] placeholders for all 8 stays",
-        "No banned words, no exclamation marks, no em dashes"
-      ],
       "priority": 3,
       "passes": true,
       "notes": "1,902 words. Draft saved to content/drafts/unique-stays-with-pools.md and v2 saved."
@@ -221,13 +149,6 @@
     {
       "id": "SEO-004",
       "title": "SEO optimization for pool article",
-      "description": "Keyword placement, FAQ, internal links, and meta optimization.",
-      "acceptanceCriteria": [
-        "Primary keyword in title, meta, excerpt, first 100 words",
-        "FAQ section with 3-5 questions",
-        "2+ internal links to other journal posts",
-        "metaTitle under 60 chars, metaDescription under 160 chars"
-      ],
       "priority": 4,
       "passes": true,
       "notes": "3 internal links, 5 FAQ questions, metaTitle 38 chars, metaDescription 142 chars."
@@ -235,13 +156,6 @@
     {
       "id": "REVIEW-004",
       "title": "Quality gate scoring for pool article",
-      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
-      "acceptanceCriteria": [
-        "Score 8.0+ to auto-proceed",
-        "Banned word scan clean",
-        "Em dash scan clean",
-        "Feeling-first check passed"
-      ],
       "priority": 5,
       "passes": true,
       "notes": "8.7/10. Banned word, exclamation, and em dash scans clean."
@@ -249,14 +163,6 @@
     {
       "id": "PUBLISH-004",
       "title": "Publish pool article to Payload",
-      "description": "Resolve stay IDs, upload hero image, construct Lexical JSON, and publish via Payload.",
-      "acceptanceCriteria": [
-        "Post created in Payload with status: published",
-        "8 linked stays resolved",
-        "Hero image uploaded and linked",
-        "Lexical content with stayEmbed blocks",
-        "Public page verified at /journal/{slug}"
-      ],
       "priority": 6,
       "passes": true,
       "notes": "Post id=16. Live at /journal/unique-stays-with-pools. Sitemap cache has not yet surfaced the new URL."
@@ -264,13 +170,6 @@
     {
       "id": "SYNC-004",
       "title": "Update tracking docs for Sprint 4",
-      "description": "Update progress.txt, calendar status, prd.json.",
-      "acceptanceCriteria": [
-        "progress.txt updated with Sprint 4 summary",
-        "KEYWORD_RESEARCH_AND_CONTENT_CALENDAR.md updated",
-        "prd.json sprint number incremented",
-        "Published markdown saved"
-      ],
       "priority": 7,
       "passes": true,
       "notes": "All tracking updated."
@@ -278,143 +177,38 @@
     {
       "id": "PLAN-005",
       "title": "Plan glamping for beginners guide",
-      "description": "Activity-based guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keywords: glamping for beginners, first glamping trip, types of glamping. 5 stays selected by type (resort tent, Airstream, private canvas, yurt, dome).",
-      "acceptanceCriteria": [
-        "Target keyword identified: glamping for beginners",
-        "5 stays selected covering 5 distinct glamping types",
-        "Geographic diversity across 5 regions",
-        "Competitive angle defined: type-by-type framework with one real property each"
-      ],
+      "description": "Curated beginner's guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keyword: glamping for beginners. 7 stays organized by friction level.",
       "priority": 1,
       "passes": true,
-      "notes": "5 stays: undercanvas-smoky-mountains-tn, autocamp-catskills-ny, safari-tent-buena-vista-co, turtle-yurts-bayfield-wi, skydome-hideaway-tx"
+      "notes": "7 stays: undercanvas-smoky-mountains-tn, autocamp-catskills-ny, tiny-home-texas, white-mountains-aframe-nh, secluded-intown-treehouse-ga, dreamy-yurt-steamboat-co, fox-wood-dome-ar"
     },
     {
       "id": "RESEARCH-005",
-      "title": "Collect stay data for glamping beginners guide",
-      "description": "Gather full details for all 5 stays. Identify hyper-specific details per stay type.",
-      "acceptanceCriteria": [
-        "All 5 stays have valid affiliateUrl",
-        "All 5 stays have images",
-        "One hyper-specific detail identified per stay",
-        "External source research completed"
-      ],
+      "title": "Collect stay and market data for beginners guide",
       "priority": 2,
       "passes": true,
-      "notes": "All 5 stays verified from seo-listings.csv. Specific details: Under Canvas (#1 resort ranking + 182 acres), AutoCamp (31-ft Airstreams + Woodstock proximity), Safari Tent (#1 US glamping nationally + $155), Turtle Yurts (clear dome skylight + Apostle Islands), SkyDome (first luxury dome in DFW + 4.98 rating)."
+      "notes": "All 7 stays verified from seo-listings.csv. Glamping market $4.2B US 2025. Specific details: Peter Bahouth/recycled windows, 288 sq ft HGTV, 417 Magazine cover, Stargazer tent, 23 best glamping spots US."
     },
     {
       "id": "WRITE-005",
       "title": "Write glamping for beginners draft",
-      "description": "Full educational guide with 5 stay type sections, practical expectations section, and FAQ.",
-      "acceptanceCriteria": [
-        "1,400-2,200 words",
-        "Each stay type has feeling-first opener",
-        "[EMBED: slug] placeholders for all 5 stays",
-        "No banned words, no exclamation marks, no em dashes"
-      ],
       "priority": 3,
       "passes": true,
-      "notes": "~2,200 words. Organized by type progression (resort > Airstream > private tent > yurt > dome). All criteria met."
-    },
-    {
-      "id": "SEO-005",
-      "title": "SEO optimization for glamping beginners article",
-      "description": "Keyword placement, internal links, FAQ, meta optimization.",
-      "acceptanceCriteria": [
-        "Primary keyword in title, meta, excerpt, first 100 words, at least one H2",
-        "2+ long-tail variations in body",
-        "2+ internal links to other journal posts",
-        "metaTitle under 60 chars, metaDescription under 160 chars"
-      ],
-      "priority": 4,
-      "passes": true,
-      "notes": "metaTitle: 50 chars, metaDescription: 149 chars. 2 internal links (stargazing guide, A-frame roundup). Keyword in title, excerpt, metaTitle, metaDescription, first 100 words, FAQ H2."
-    },
-    {
-      "id": "REVIEW-005",
-      "title": "Quality gate scoring for glamping beginners article",
-      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
-      "acceptanceCriteria": [
-        "Score 8.0+ to auto-proceed",
-        "Banned word scan clean",
-        "Em dash scan clean (zero tolerance)",
-        "Feeling-first check passed"
-      ],
-      "priority": 5,
-      "passes": true,
-      "notes": "9.0/10. Voice: 9, Specificity: 9, Feeling-first: 8, Banned words: 10, SEO: 9, Embeds: 10, Practical: 9, Cut test: 8. All scans clean. v2 saved."
-    }
-  ,
-    {
-      "id": "PLAN-005",
-      "title": "Plan glamping for beginners educational guide",
-      "description": "Top-of-funnel educational guide: 'Glamping for Beginners: Your First Unique Stay, Explained'. Target keywords: glamping for beginners, first glamping trip, unique stay guide. 5 stay archetypes selected.",
-      "acceptanceCriteria": [
-        "Target keyword identified: glamping for beginners",
-        "5 stays selected representing different stay types (treehouse, dome, floating, converted, luxury cabin)",
-        "Article type confirmed: educational guide (1,400-2,000 words)",
-        "Competitive angle defined: decision framework + real bookable stays with prices (gap no competitor fills)"
-      ],
-      "priority": 1,
-      "passes": true,
-      "notes": "5 stays: basecamp-treeloft-perryville-mo, skydome-hideaway-gainesville-tx, tugboat-private-lake-va, green-mountain-chapel-vt, wander-broken-bow-trails. Geographic spread: MO, TX, VA, VT, OK."
-    },
-    {
-      "id": "RESEARCH-005",
-      "title": "Collect stay data and competitive research for beginners guide",
-      "description": "Gather stay details from curated listings database. Research competitor articles for keyword gap analysis.",
-      "acceptanceCriteria": [
-        "All 5 stays have valid affiliateUrl",
-        "One hyper-specific detail identified per stay",
-        "Competitive gap identified",
-        "Top competitor articles analyzed"
-      ],
-      "priority": 2,
-      "passes": true,
-      "notes": "Gap confirmed: no competitor combines definition + decision framework + actual bookable stays with prices. Top competitors (KOA, Adventure Daily, GlampingResorts) are generic with no specific US stays."
-    },
-    {
-      "id": "WRITE-005",
-      "title": "Write glamping for beginners draft",
-      "description": "Full editorial draft. 1,400-2,000 words. Feeling-first sections for each of 5 stay archetypes.",
-      "acceptanceCriteria": [
-        "1,400-2,000 words",
-        "5 stay sections each open with feeling",
-        "[EMBED: slug] placeholders for all 5 stays",
-        "No banned words, no exclamation marks, no em dashes"
-      ],
-      "priority": 3,
-      "passes": true,
-      "notes": "~1,800 body words. All criteria met. Draft at content/drafts/glamping-for-beginners.md"
+      "notes": "2,281 words. Draft saved to content/drafts/glamping-for-beginners.md and v2 saved."
     },
     {
       "id": "SEO-005",
       "title": "SEO optimization for beginners guide",
-      "description": "Keyword placement, FAQ, internal links, meta optimization.",
-      "acceptanceCriteria": [
-        "Primary keyword in title, meta, excerpt, first 100 words",
-        "FAQ section with 3-5 questions",
-        "2+ internal links to other journal posts",
-        "metaTitle under 60 chars, metaDescription under 160 chars"
-      ],
       "priority": 4,
       "passes": true,
-      "notes": "3 internal links (treehouse roundup, remote work guide, stargazing guide). 5 FAQ questions. metaTitle 47 chars, metaDescription 150 chars."
+      "notes": "3 internal links (A-frame guide, treehouse guide, stargazing guide), 5 FAQ questions, metaTitle 57 chars, metaDescription 152 chars."
     },
     {
       "id": "REVIEW-005",
       "title": "Quality gate scoring for beginners guide",
-      "description": "8-criteria rubric. Score 8.0+ to auto-proceed.",
-      "acceptanceCriteria": [
-        "Score 8.0+ to auto-proceed",
-        "Banned word scan clean",
-        "Em dash scan clean",
-        "Feeling-first check passed"
-      ],
       "priority": 5,
       "passes": true,
-      "notes": "9.0/10. Voice 9, Specificity 9, Feeling-first 9, Banned words 10, SEO 8, Embeds 10, Practical value 9, Cut test 8. All scans clean. v2 at content/drafts/glamping-for-beginners-v2.md"
+      "notes": "9.1/10. Voice 9, Specificity 9, Feeling-first 8.5, Banned words 10, SEO 9, Embeds 10, Practical value 9, Cut test 8. All scans clean."
     }
   ],
   "sprintNumber": 6
