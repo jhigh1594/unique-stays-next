@@ -7,6 +7,14 @@ async function getPayloadInstance() {
   return getPayload({ config })
 }
 
+const PUBLIC_STAY_FILTER = {
+  and: [
+    { price: { greater_than: 0 } },
+    { location: { not_equals: '' } },
+    { location: { not_equals: 'Unknown' } },
+  ] as { price: { greater_than: number } }[] & { location: { not_equals: string } }[],
+}
+
 function resolveImageUrl(doc: Record<string, unknown>): string {
   const image = doc.image as Record<string, unknown> | null
   if (image && typeof image === 'object' && image.url) return image.url as string
@@ -76,7 +84,7 @@ export const getFeaturedStays = unstable_cache(
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
-      where: { featured: { equals: true } },
+      where: { and: [{ featured: { equals: true } }, ...PUBLIC_STAY_FILTER.and] },
       limit: 8,
       depth: 1,
     })
@@ -91,7 +99,7 @@ export const getEditorsPickStays = unstable_cache(
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
-      where: { editorsPick: { equals: true } },
+      where: { and: [{ editorsPick: { equals: true } }, ...PUBLIC_STAY_FILTER.and] },
       limit: 8,
       depth: 1,
     })
@@ -106,6 +114,7 @@ export const getFilmstripStays = unstable_cache(
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
+      where: PUBLIC_STAY_FILTER,
       limit: 30,
       depth: 1,
     })
@@ -120,6 +129,7 @@ export const getAllStays = unstable_cache(
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
+      where: PUBLIC_STAY_FILTER,
       limit: 500,
       depth: 1,
     })
@@ -134,6 +144,7 @@ export const getPseoSitemapInventory = unstable_cache(
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
+      where: PUBLIC_STAY_FILTER,
       limit: 10000,
       depth: 1,
     })
@@ -168,7 +179,7 @@ export const getStaysBySpoke = unstable_cache(
     const spokeId = spokeResult.docs[0].id
     const result = await payload.find({
       collection: 'stays',
-      where: { spokes: { in: [spokeId] } },
+      where: { and: [{ spokes: { in: [spokeId] } }, ...PUBLIC_STAY_FILTER.and] },
       limit: 500,
       depth: 1,
     })
@@ -196,6 +207,7 @@ export const getStaysBySpokeAndState = unstable_cache(
         and: [
           { spokes: { in: [spokeId] } },
           { state: { equals: stateName } },
+          ...PUBLIC_STAY_FILTER.and,
         ],
       },
       limit: 100,
@@ -241,6 +253,7 @@ export const getRelatedStays = unstable_cache(
         and: [
           { category: { equals: categoryId } },
           { slug: { not_equals: excludeSlug } },
+          ...PUBLIC_STAY_FILTER.and,
         ],
       },
       limit: 4,
@@ -257,6 +270,7 @@ export const getAllStaySlugs = unstable_cache(
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
+      where: PUBLIC_STAY_FILTER,
       limit: 500,
       depth: 0,
     })

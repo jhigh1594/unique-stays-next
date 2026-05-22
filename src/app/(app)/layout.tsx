@@ -58,6 +58,37 @@ export const metadata: Metadata = {
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com'
+
+  const orgAndWebSiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        name: 'UniqueStaysUSA',
+        url: baseUrl,
+        logo: `${baseUrl}/logo-illustrated.png`,
+        description: 'Curated directory of unique vacation rentals across the USA — treehouses, domes, cabins, houseboats, and more.',
+        sameAs: [],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          email: 'hello@uniquestaysusa.com',
+          contactType: 'customer service',
+        },
+      },
+      {
+        '@type': 'WebSite',
+        name: 'UniqueStaysUSA',
+        url: baseUrl,
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${baseUrl}/collection?q={search_term_string}`,
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
+  }
+
   return (
     <html
       lang="en"
@@ -67,6 +98,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <meta
           name="impact-site-verification"
           content="6aeda553-2b8f-415e-b0fc-cff364c52b61"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgAndWebSiteJsonLd) }}
         />
         <script
           {...{

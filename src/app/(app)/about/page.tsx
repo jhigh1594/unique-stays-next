@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'About Us — Our Story',
   description: 'Learn how Unique Stays USA curates extraordinary vacation rentals across America.',
+  alternates: { canonical: '/about' },
 }
 
 export default function AboutPage() {
