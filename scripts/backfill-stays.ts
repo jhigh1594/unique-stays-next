@@ -32,6 +32,11 @@ const delay = parseInt(getArg('delay') ?? '3000', 10)
 const dryRun = hasFlag('dry-run')
 const force = hasFlag('force')
 
+if ([chunk, chunkSize, delay].some((v) => v !== undefined && isNaN(v))) {
+  console.error('Error: --chunk, --chunk-size, and --delay must be valid integers')
+  process.exit(1)
+}
+
 // ── Helpers ──────────────────────────────────────────────────────
 interface Stay {
   id: number
@@ -43,6 +48,7 @@ interface Stay {
   rating: number | null
   reviewCount: number | null
   tags: Array<{ tag: string }> | null
+  reviewReason?: string | null
 }
 
 function isMissingFields(s: Stay): boolean {
@@ -195,10 +201,13 @@ async function main() {
       if (!dryRun) {
         flaggedForReview.push(slug)
         try {
+          const reason = stay.reviewReason
+            ? `${stay.reviewReason}; Backfill scrape failed: ${message}`
+            : `Backfill scrape failed: ${message}`
           await payload.update({
             collection: 'stays',
             id: stay.id,
-            data: { needsReview: true, reviewReason: `Backfill scrape failed: ${message}` },
+            data: { needsReview: true, reviewReason: reason },
             overrideAccess: true,
           })
         } catch { /* best effort */ }
@@ -237,7 +246,7 @@ async function main() {
     failures.forEach(({ slug, error }) => console.log(`  - ${slug}: ${error}`))
   }
 
-  process.exit(failed > 0 ? 1 : 0)
+  process.exit(0)
 }
 
 main().catch((err) => {
