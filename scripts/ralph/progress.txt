@@ -169,45 +169,43 @@
 ### Sprint 5: Glamping for Beginners
 
 **PLAN-005** ✓ — "Glamping for Beginners: Your First Unique Stay, Explained"
-- Target keyword: glamping for beginners
-- Long-tails: first glamping trip, types of glamping
-- Article type: Activity-Based Guide (top-of-funnel education, 5 stays)
-- 5 stays by type: safari resort (Under Canvas Smoky Mtns), Airstream (AutoCamp Catskills), private canvas tent (Safari Tent Buena Vista CO), yurt (Turtle Yurts Lake Superior WI), geodesic dome (SkyDome Hideaway TX)
-- Geographic spread: TN, NY, CO, WI, TX
-- Price range: $125-$289/night
-- Competitive angle: organize by stay TYPE with one specific property each; most guides are generic gear lists
+- Target keyword: "glamping for beginners"
+- Article type: Educational curated guide (7 stays)
+- Competitive angle: organized by beginner friction level (most organized → most independent)
+- 7 stays across 7 states: TN, NY, TX, NH, GA, CO, AR
+- Stay types: safari tent camp, Airstream camp, tiny cabin, A-frame, treehouse, yurt, geodesic dome
 
-**RESEARCH-005** ✓ — Stay data from seo-listings.csv. Specific details identified:
-- Under Canvas: 182 acres, "Best Resort in the South" Travel + Leisure, 3,180 reviews, Stargazer tent skylights
-- AutoCamp Catskills: 31-foot Airstreams, minutes from Woodstock, 634 reviews
-- Safari Tent Buena Vista: Ranked #1 US glamping spot nationally, Arkansas Headwaters, $155/night, 389 reviews
-- Turtle Yurts: 20-foot Colorado Yurt with clear stargazing dome, Apostle Islands Lakeshore, $125/night, 209 reviews
-- SkyDome Hideaway: First luxury geodesic dome in DFW area, oak hill setting, outdoor shower, 4.98/5, 429 reviews
+**RESEARCH-005** ✓ — Stay data collected from seo-listings.csv:
+- undercanvas-smoky-mountains-tn: safari tent, $289, 4.9/3,180 reviews, 182 acres, Stargazer tents
+- autocamp-catskills-ny: Airstream, $219, 4.8/634 reviews, 90 min from NYC, Saugerties
+- tiny-home-texas: tiny cabin, $78, 4.9/312 reviews, 288 sq ft, HGTV "My Tiny Cabin"
+- white-mountains-aframe-nh: A-frame, $169, 4.92/312 reviews, Center Conway, all-pine
+- secluded-intown-treehouse-ga: treehouse, $195, 4.97/1,820 reviews, Peter Bahouth/recycled windows, Airbnb #1 Most Wished-For
+- dreamy-yurt-steamboat-co: yurt, $145, 4.97/312 reviews, "23 best glamping spots in US"
+- fox-wood-dome-ar: dome, $225, 4.95/370 reviews, 417 Magazine cover, Eureka Springs AR
+- Market: US glamping $4.2B in 2025, growing to $8.2B by 2032
 
 **WRITE-005** ✓ — Full draft: content/drafts/glamping-for-beginners.md
-- ~2,200 words
-- Structure: one section per stay type, organized by commitment level (resort > Airstream > private tent > yurt > dome)
-- Educational lede + definition + type guide + practical section + FAQ
-- Feeling-first opener revised for each section
+- 2,281 words
+- Organized from most supported (Under Canvas) to most immersive (dome)
+- Each section opens with feeling before context
+- No banned words, no exclamation marks, no em dashes
 
-**SEO-005** ✓ — SEO optimization pass:
-- "glamping for beginners" in title, excerpt, metaTitle, metaDescription, first 100 words, one H2 (FAQ heading)
-- "types of glamping" and "first glamping trip" woven into body
-- 2 internal links (stargazing guide, A-frame roundup)
-- metaTitle: 50 chars, metaDescription: 149 chars
-- Slug: glamping-for-beginners (kebab-case, no dates)
-- Cannibalization check: no existing post targets this keyword
+**SEO-005** ✓ — SEO pass completed:
+- "glamping for beginners" in title, metaTitle, first 100 words, H2, metaDescription, excerpt
+- 3 internal links: A-frame guide, treehouse guide, stargazing guide
+- 5 FAQ questions for AI citation coverage
+- metaTitle: 57 chars, metaDescription: 152 chars
+- Long-tail variants: first glamping trip, types of glamping stays, what is glamping
 
-**REVIEW-005** ✓ — Quality gate passed: 9.0/10
-- Voice match: 9, Specificity: 9, Feeling-first: 8, Banned words: 10
+**REVIEW-005** ✓ — Quality score: 9.1/10
+- Voice match: 9, Specificity: 9, Feeling-first: 8.5, Banned words: 10
 - SEO: 9, Embeds: 10, Practical value: 9, Cut test: 8
-- Yurt opener rewritten feeling-first (no corners, circle calming)
-- AutoCamp closing tightened ("chose rather than settled for")
-- All scans clean: 0 em dashes, 0 exclamation marks, 0 banned words
-- v2 saved to content/drafts/glamping-for-beginners-v2.md
+- All scans clean; v2 saved to content/drafts/glamping-for-beginners-v2.md
+- Status: draft committed to PR branch for editorial review
 
 ### Patterns
-- Educational/how-to format benefits from organizing by TYPE rather than geography; gives readers a decision framework
-- 5 stays is the right count for a type-by-type guide (one per type, not one per destination)
-- Review count signals matter more in a beginners guide than in roundups: first-timers need social proof
-- Feeling-first principle still applies even in educational content; opening each section with sensation rather than definition is what separates this from a Wikipedia article
+- Guide articles benefit from organizing by reader friction level rather than purely by property type — the "most organized to most independent" structure maps to how beginners actually think about risk
+- Organized camps (Under Canvas, AutoCamp) are systematically underused in editorial content; they have the highest review counts and the most predictable quality, making them ideal anchors for beginner content
+- Tiny cabin at $78/night is the strongest budget case in the database for top-of-funnel content; it directly addresses cost hesitation before it becomes an objection
+- Educational guide format allows more conceptual framing per section than pure dispatch format, but each section still needs its feeling-first moment before the practical details land
