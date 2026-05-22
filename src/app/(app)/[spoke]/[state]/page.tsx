@@ -14,6 +14,7 @@ import {
   getPseoRelatedSpokes,
   getPseoRelatedStates,
   getPseoRouteParams,
+  getPseoStats,
   resolvePseoRouteContext,
 } from '@/lib/pseo'
 import { getStaysBySpokeAndState } from '@/lib/payload-queries'
@@ -58,11 +59,13 @@ export default async function SpokeStatePage({
   const relatedStates = getPseoRelatedStates(context.state, 6)
   const relatedSpokes = getPseoRelatedSpokes(context.spoke)
   const pageTitle = getPseoPageTitle(config, stateConfig.name)
-  const intro = getPseoIntro(config, stateConfig.name, stays.length)
+  const stats = getPseoStats(stays)
+  const intro = getPseoIntro(config, stateConfig.name, stays.length, stats)
   const itemListJsonLd = getPseoItemListJsonLd({ baseUrl, config, stateName: stateConfig.name, stays })
   const breadcrumbJsonLd = getPseoBreadcrumbJsonLd({ baseUrl, config, stateConfig })
   const faqs = getPseoFaqs(config, stateConfig.name)
   const faqJsonLd = faqs.length > 0 ? getPseoFaqJsonLd(faqs) : null
+  const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 
   return (
     <main className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
@@ -137,6 +140,12 @@ export default async function SpokeStatePage({
               style={{ color: 'oklch(0.88 0.01 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
             >
               {intro}
+            </p>
+            <p
+              className="mt-3 text-xs"
+              style={{ color: 'oklch(0.70 0.01 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+            >
+              Last updated {lastUpdated}
             </p>
           </div>
         </div>

@@ -695,6 +695,27 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
 
       {/* ── MOBILE LAYOUT ──────────────────────────────────────── */}
       <div className="lg:hidden">
+        {/* Mobile breadcrumb */}
+        <div style={{ padding: '12px 16px 0' }}>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            <Link href="/" style={{ color: 'oklch(0.50 0.03 60)', textDecoration: 'none' }}>
+              Home
+            </Link>
+            <span style={{ color: 'oklch(0.70 0.02 60)' }}>·</span>
+            {primarySpoke ? (
+              <Link href={`/${primarySpoke.slug}`} style={{ color: 'oklch(0.50 0.03 60)', textDecoration: 'none' }}>
+                {primarySpoke.title}
+              </Link>
+            ) : (
+              <Link href="/collection" style={{ color: 'oklch(0.50 0.03 60)', textDecoration: 'none' }}>
+                Directory
+              </Link>
+            )}
+            <span style={{ color: 'oklch(0.70 0.02 60)' }}>·</span>
+            <span style={{ color: 'oklch(0.55 0.14 38)' }}>{stay.title.length > 25 ? stay.title.slice(0, 25) + '…' : stay.title}</span>
+          </nav>
+        </div>
+
         {currentImage && (
           <div>
             <div className="relative" style={{ height: 320 }}>

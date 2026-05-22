@@ -54,27 +54,61 @@ export function getPseoMetaDescription(config: SpokeConfig, stateName: string) {
   return `Explore ${label} in ${stateName}. Compare curated ${label}, view photos and prices, and find memorable stays across UniqueStaysUSA.`
 }
 
-export function getPseoIntro(config: SpokeConfig, stateName: string, count: number) {
+export type PseoStats = {
+  avgPrice: number
+  minPrice: number
+  maxPrice: number
+  topCategories: string[]
+}
+
+export function getPseoStats(stays: NormalizedStay[]): PseoStats {
+  const prices = stays.map((s) => s.price).filter((p) => p > 0)
+  const categoryCounts = new Map<string, number>()
+  stays.forEach((s) => {
+    if (s.category) categoryCounts.set(s.category, (categoryCounts.get(s.category) ?? 0) + 1)
+  })
+  const topCategories = [...categoryCounts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([cat]) => cat.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()))
+
+  return {
+    avgPrice: prices.length > 0 ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : 0,
+    minPrice: prices.length > 0 ? Math.min(...prices) : 0,
+    maxPrice: prices.length > 0 ? Math.max(...prices) : 0,
+    topCategories,
+  }
+}
+
+export function getPseoIntro(config: SpokeConfig, stateName: string, count: number, stats?: PseoStats) {
   const label = config.title.toLowerCase()
   const countPhrase = count === 1 ? '1 curated stay' : `${count} curated stays`
+  const priceRange = stats && stats.minPrice > 0
+    ? stats.minPrice === stats.maxPrice
+      ? `$${stats.avgPrice}/night`
+      : `$${stats.minPrice}–$${stats.maxPrice}/night (avg $${stats.avgPrice})`
+    : ''
+  const catPhrase = stats && stats.topCategories.length > 0
+    ? stats.topCategories.join(', ')
+    : ''
 
   if (config.slug === 'work-friendly') {
-    return `Planning a working trip through ${stateName}? This guide pulls together ${countPhrase} with practical remote-work details like WiFi, desks, quiet settings, and booking context, so you can compare places that work as well as they photograph. Whether you're base-camping in a single spot for a week or hopping between regions, these stays have the connectivity and setup to keep you productive — without trading away the scenery that made you want to work remotely in the first place. Each listing includes verified WiFi speeds, workspace photos, and notes on cell coverage for hotspot fallback.`
+    return `Planning a working trip through ${stateName}? This guide pulls together ${countPhrase} with practical remote-work details like WiFi, desks, quiet settings, and booking context, so you can compare places that work as well as they photograph.${priceRange ? ` Nightly rates range from $${stats!.minPrice} to $${stats!.maxPrice}.` : ''} Whether you're base-camping in a single spot for a week or hopping between regions, these stays have the connectivity and setup to keep you productive — without trading away the scenery that made you want to work remotely in the first place. Each listing includes verified WiFi speeds, workspace photos, and notes on cell coverage for hotspot fallback.`
   }
 
   if (config.slug === 'pet-friendly') {
-    return `Bringing a dog or cat to ${stateName} changes the search. These ${label} focus on places with clearer pet policies, outdoor access, and host details that help you choose a memorable stay without leaving part of the family behind. We look for fenced yards, nearby trails, pet fees (or the absence of them), and hosts who actually welcome animals rather than merely tolerating them. Every listing on this page has been reviewed for pet-specific details so you can book with confidence and spend less time reading fine print.`
+    return `Bringing a dog or cat to ${stateName} changes the search. These ${label} focus on places with clearer pet policies, outdoor access, and host details that help you choose a memorable stay without leaving part of the family behind.${priceRange ? ` Expect $${stats!.avgPrice}/night on average across ${count} verified listings.` : ''} We look for fenced yards, nearby trails, pet fees (or the absence of them), and hosts who actually welcome animals rather than merely tolerating them. Every listing on this page has been reviewed for pet-specific details so you can book with confidence and spend less time reading fine print.`
   }
 
   if (config.slug === 'rv-ready') {
-    return `${stateName} is a natural fit for road-trip stays, but hookup details matter. Use this page to compare ${label} with RV-friendly features, scenic settings, and a direct path into the stays worth a closer look. From full-hookup pull-through sites with 50-amp service to more rustic boondocking-adjacent spots with partial utilities, we verify the specs that matter most before you commit a route. Each listing includes rig-length limits, amp service, water and sewer details, and whether the setting lives up to the photographs.`
+    return `${stateName} is a natural fit for road-trip stays, but hookup details matter. Use this page to compare ${countPhrase} with RV-friendly features, scenic settings, and a direct path into the stays worth a closer look.${priceRange ? ` Prices range from $${stats!.minPrice} to $${stats!.maxPrice}/night.` : ''} From full-hookup pull-through sites with 50-amp service to more rustic boondocking-adjacent spots with partial utilities, we verify the specs that matter most before you commit a route. Each listing includes rig-length limits, amp service, water and sewer details, and whether the setting lives up to the photographs.`
   }
 
   if (config.slug === 'ev-ready') {
-    return `For EV road trips in ${stateName}, charging access can decide the whole route. These ${label} highlight rentals with on-site charging context, distinctive settings, and easy next steps for checking availability. We track charger types (Tesla Wall Connectors, J1772, Level 2, solar-assisted), estimated charge speeds, and whether the host provides a dedicated parking spot near the charger. If you've ever planned a day around a Supercharger stop, you know how much an overnight charge at your rental changes the calculus of the whole trip.`
+    return `For EV road trips in ${stateName}, charging access can decide the whole route. These ${label} highlight rentals with on-site charging context, distinctive settings, and easy next steps for checking availability.${priceRange ? ` Across ${count} listings, nightly rates average $${stats!.avgPrice}.` : ''} We track charger types (Tesla Wall Connectors, J1772, Level 2, solar-assisted), estimated charge speeds, and whether the host provides a dedicated parking spot near the charger. If you've ever planned a day around a Supercharger stop, you know how much an overnight charge at your rental changes the calculus of the whole trip.`
   }
 
-  return `${stateName} has more range than a standard hotel search can show. This page collects ${countPhrase} across treehouses, cabins, domes, converted structures, and other memorable places built for travelers who want the stay itself to be part of the trip. We vet every listing for photographic accuracy, host responsiveness, and the kind of architectural or natural detail that makes a place worth talking about. Use the filters to narrow by category, region within the state, or guest capacity — then read the shortlist and see what jumps out.`
+  return `${stateName} has more range than a standard hotel search can show. This page collects ${countPhrase}${catPhrase ? ` across ${catPhrase}, and other` : ' across treehouses, cabins, domes, converted structures, and other'} memorable places built for travelers who want the stay itself to be part of the trip.${priceRange ? ` Prices range from $${stats!.minPrice} to $${stats!.maxPrice}/night, averaging $${stats!.avgPrice}.` : ''} We vet every listing for photographic accuracy, host responsiveness, and the kind of architectural or natural detail that makes a place worth talking about. Use the filters to narrow by category, region within the state, or guest capacity — then read the shortlist and see what jumps out.`
 }
 
 export function getPseoCanonicalPath(context: PseoRouteContext) {

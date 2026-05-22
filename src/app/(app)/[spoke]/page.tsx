@@ -121,6 +121,7 @@ export default async function SpokePage({
   const spokeSlug = spoke as SpokeSlug
   const siblings = SPOKE_SLUGS.filter((s) => s !== spoke).map((s) => SPOKES_CONFIG[s])
   const stateLinks = getPseoStateLinks(spokeSlug)
+  const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 
   return (
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
@@ -214,6 +215,13 @@ export default async function SpokePage({
                   <ExternalLink className="w-3 h-3" />
                   {config.externalDomain} redirects here
                 </div>
+
+                <p
+                  className="mt-3 text-xs"
+                  style={{ color: 'oklch(0.70 0.01 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                >
+                  Last updated {lastUpdated}
+                </p>
               </div>
 
               <div className="flex gap-6">
