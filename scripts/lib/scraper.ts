@@ -77,7 +77,7 @@ function extractDescription(markdown: string): string {
   return ''
 }
 
-function extractAmenities(markdown: string): string[] {
+export function extractAmenities(markdown: string): string[] {
   const amenities: string[] = []
   const lower = markdown.toLowerCase()
 
