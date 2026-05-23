@@ -31,6 +31,7 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@tailwindcss/postcss": "^4.2.4",
     "@vercel/blob": "^2.3.3",
+    "@aws-sdk/client-s3": "^3.800.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
