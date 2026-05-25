@@ -5,7 +5,9 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
+import { AuditReports } from './collections/AuditReports'
 import { BlogPosts } from './collections/BlogPosts'
+import { CandidateStays } from './collections/CandidateStays'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Spokes } from './collections/Spokes'
@@ -63,7 +65,7 @@ export default buildConfig({
       },
     }),
   ],
-  collections: [Users, Media, Categories, Spokes, Stays, BlogPosts],
+  collections: [Users, Media, Categories, Spokes, Stays, BlogPosts, CandidateStays, AuditReports],
   editor: lexicalEditor(),
   secret: payloadSecret,
   serverURL,

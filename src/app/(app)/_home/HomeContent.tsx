@@ -1,17 +1,17 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
   ArrowRight,
   ChevronRight,
-  Search,
   CheckCircle2,
 } from 'lucide-react'
 import {
   motion,
 } from 'framer-motion'
+import posthog from 'posthog-js'
 import StayCard from '@/components/StayCard'
 import FilmstripSection from '@/components/FilmstripSection'
 import CorkboardTestimonials from '@/components/CorkboardTestimonials'
@@ -48,34 +48,6 @@ function useClipReveal() {
     )
     return () => observer.disconnect()
   }, [])
-}
-
-// ── Cycling search placeholder ───────────────────────────
-const SEARCH_SUGGESTIONS = [
-  'Try: treehouse in the Pacific Northwest',
-  'Try: geodesic dome, Joshua Tree',
-  'Try: lighthouse on the Maine coast',
-  'Try: cave dwelling, Sedona',
-  'Try: houseboat, Pacific Northwest',
-  'Try: A-frame cabin, Blue Ridge Mountains',
-]
-
-function useCyclingPlaceholder() {
-  const [idx, setIdx] = useState(0)
-  const [visible, setVisible] = useState(true)
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setVisible(false)
-      setTimeout(() => {
-        setIdx((i) => (i + 1) % SEARCH_SUGGESTIONS.length)
-        setVisible(true)
-      }, 280)
-    }, 3200)
-    return () => clearInterval(timer)
-  }, [])
-
-  return { placeholder: SEARCH_SUGGESTIONS[idx], visible }
 }
 
 // ── Ghost section number ──────────────────────────────────
@@ -253,17 +225,9 @@ export default function HomeContent({
 }: HomeContentProps) {
   useClipReveal()
 
-  const [activeCategory, setActiveCategory] = useState<string>('All')
-  const [searchQuery, setSearchQuery] = useState('')
   const [newsletterDone, setNewsletterDone] = useState(false)
-  const categoryScrollRef = useRef<HTMLDivElement>(null)
-  const { placeholder, visible: placeholderVisible } = useCyclingPlaceholder()
-
-  // Category-filtered content
-  const filteredStays =
-    activeCategory === 'All'
-      ? allStays.filter((s) => !s.featured).slice(0, 6)
-      : allStays.filter((s) => s.category === activeCategory).slice(0, 6)
+  const [newsletterLoading, setNewsletterLoading] = useState(false)
+  const [newsletterError, setNewsletterError] = useState<string | null>(null)
 
   return (
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
@@ -279,71 +243,6 @@ export default function HomeContent({
           { value: 12000, suffix: '+', label: 'Weekly Readers' },
         ]}
       />
-
-      {/* ══════════════════════════════════════════════════════
-          CATEGORIES STRIP
-      ══════════════════════════════════════════════════════ */}
-      <section
-        className="py-6 sticky top-[64px] z-30 border-b border-[oklch(0.88_0.025_75)]"
-        style={{ background: 'oklch(0.975 0.012 85)' }}
-      >
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            {/* Search */}
-            <div className="relative flex-shrink-0 hidden md:block">
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5"
-                style={{ color: 'oklch(0.55 0.03 60)' }}
-              />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8 pr-4 py-2 text-xs outline-none focus:ring-2 focus:ring-[oklch(0.55_0.14_38)] w-56 transition-all"
-                style={{
-                  background: 'oklch(0.95 0.01 75)',
-                  border: '1.5px solid oklch(0.88 0.025 75)',
-                  borderRadius: '2px',
-                  color: 'oklch(0.35 0.02 60)',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
-                }}
-                placeholder={placeholderVisible ? placeholder : ''}
-              />
-            </div>
-
-            {/* Scroll shadow */}
-            <div className="relative flex-1 overflow-hidden">
-              <div
-                className="absolute right-0 top-0 bottom-0 w-16 pointer-events-none z-10"
-                style={{ background: 'linear-gradient(to left, oklch(0.975 0.012 85), transparent)' }}
-              />
-              <div
-                ref={categoryScrollRef}
-                className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide pr-16"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                <button
-                  className={`category-pill flex-shrink-0 ${activeCategory === 'All' ? 'active' : 'inactive'}`}
-                  onClick={() => setActiveCategory('All')}
-                >
-                  🗺️ All Stays
-                </button>
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    className={`category-pill flex-shrink-0 ${activeCategory === cat.id ? 'active' : 'inactive'}`}
-                    onClick={() => setActiveCategory(cat.id)}
-                  >
-                    <span>{cat.emoji}</span>
-                    <span>{cat.label}</span>
-                    <span className="ml-1 text-xs opacity-55">{cat.count}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ══════════════════════════════════════════════════════
           01 — FEATURED STAYS
@@ -854,51 +753,6 @@ export default function HomeContent({
       <FilmstripSection stays={filmstripStays} />
 
       {/* ══════════════════════════════════════════════════════
-          FILTERED BROWSE
-      ══════════════════════════════════════════════════════ */}
-      {activeCategory !== 'All' && (
-        <section className="py-16 border-t border-[oklch(0.88_0.025_75)]">
-          <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-10"
-            >
-              <h2
-                className="font-bold"
-                style={{
-                  fontFamily: 'Fraunces, serif',
-                  fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)',
-                  color: 'oklch(0.22 0.01 60)',
-                }}
-              >
-                {categories.find((c) => c.id === activeCategory)?.emoji}{' '}
-                {categories.find((c) => c.id === activeCategory)?.label ?? activeCategory}
-              </h2>
-              <p
-                className="text-sm mt-1"
-                style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-              >
-                {filteredStays.length} curated stays
-              </p>
-            </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredStays.map((stay, i) => (
-                <motion.div
-                  key={stay.id}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.07 }}
-                >
-                  <StayCard stay={stay} href={stay.affiliateUrl} external index={i + 5} />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ══════════════════════════════════════════════════════
           PLATFORM LOGOS
       ══════════════════════════════════════════════════════ */}
       <section
@@ -994,15 +848,42 @@ export default function HomeContent({
             ) : (
               <form
                 className="flex flex-col sm:flex-row gap-3"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault()
-                  setNewsletterDone(true)
+                  setNewsletterError(null)
+                  setNewsletterLoading(true)
+                  const formData = new FormData(e.currentTarget)
+                  const email = formData.get('email') as string
+                  try {
+                    const res = await fetch('/api/newsletter', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'X-POSTHOG-DISTINCT-ID': posthog.get_distinct_id(),
+                      },
+                      body: JSON.stringify({ email }),
+                    })
+                    if (!res.ok) {
+                      const data = await res.json()
+                      setNewsletterError(data.error || 'Something went wrong')
+                      return
+                    }
+                    setNewsletterDone(true)
+                    posthog.identify(email, { email })
+                    posthog.capture('newsletter_subscribed', { source: 'homepage' })
+                  } catch {
+                    setNewsletterError('Network error. Please try again.')
+                  } finally {
+                    setNewsletterLoading(false)
+                  }
                 }}
               >
                 <input
                   type="email"
+                  name="email"
                   placeholder="your@email.com"
                   required
+                  disabled={newsletterLoading}
                   className="flex-1 px-4 py-3 text-sm outline-none focus:ring-2"
                   style={{
                     background: 'oklch(0.26 0.07 38)',
@@ -1014,7 +895,8 @@ export default function HomeContent({
                 />
                 <motion.button
                   type="submit"
-                  className="px-6 py-3 text-sm font-bold uppercase tracking-wider flex-shrink-0"
+                  disabled={newsletterLoading}
+                  className="px-6 py-3 text-sm font-bold uppercase tracking-wider flex-shrink-0 disabled:opacity-60"
                   style={{
                     background: 'oklch(0.85 0.10 45)',
                     color: 'oklch(0.22 0.01 60)',
@@ -1023,11 +905,19 @@ export default function HomeContent({
                     letterSpacing: '0.1em',
                     fontSize: '0.7rem',
                   }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={newsletterLoading ? undefined : { scale: 1.02 }}
+                  whileTap={newsletterLoading ? undefined : { scale: 0.98 }}
                 >
-                  Send Me Picks
+                  {newsletterLoading ? 'Subscribing...' : 'Send Me Picks'}
                 </motion.button>
+                {newsletterError && (
+                  <p
+                    className="text-xs sm:col-span-2"
+                    style={{ color: 'oklch(0.75 0.12 25)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                  >
+                    {newsletterError}
+                  </p>
+                )}
               </form>
             )}
 

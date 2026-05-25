@@ -1,10 +1,12 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Search, X } from 'lucide-react'
+import posthog from 'posthog-js'
 import StayCard from '@/components/StayCard'
 import type { SpokeSlug } from '@/lib/spokes-config'
 import type { NormalizedStay, SpokeConfig } from '@/lib/types'
+import { useStaySearch } from '@/lib/use-stay-search'
 
 const REGIONS = ['All', 'West', 'Southwest', 'South', 'Midwest', 'Northeast', 'Southeast'] as const
 type Region = typeof REGIONS[number]
@@ -28,22 +30,19 @@ export default function SpokeFilterBar({ stays, config, spokeSlug }: SpokeFilter
   const [activeFilter, setActiveFilter] = useState('All')
   const [activeRegion, setActiveRegion] = useState<Region>('All')
 
+  useEffect(() => {
+    posthog.capture('spoke_browsed', {
+      spoke: spokeSlug,
+      spoke_title: config.title,
+      total_stays: stays.length,
+    })
+  }, [spokeSlug, config.title, stays.length])
+
   const filters = SPOKE_FILTERS[spokeSlug]
+  const searchResults = useStaySearch(stays, searchQuery)
 
   const filtered = useMemo(() => {
-    let results = [...stays]
-
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase()
-      results = results.filter(
-        (s) =>
-          s.title.toLowerCase().includes(q) ||
-          s.location.toLowerCase().includes(q) ||
-          s.state.toLowerCase().includes(q) ||
-          s.tags.some((t) => t.toLowerCase().includes(q)) ||
-          s.description.toLowerCase().includes(q)
-      )
-    }
+    let results = searchResults ?? [...stays]
 
     if (activeRegion !== 'All') {
       results = results.filter((s) => s.region === activeRegion)
@@ -95,7 +94,7 @@ export default function SpokeFilterBar({ stays, config, spokeSlug }: SpokeFilter
     })
 
     return results
-  }, [stays, searchQuery, activeFilter, activeRegion, spokeSlug])
+  }, [stays, searchResults, activeFilter, activeRegion, spokeSlug])
 
   return (
     <>
@@ -126,7 +125,7 @@ export default function SpokeFilterBar({ stays, config, spokeSlug }: SpokeFilter
               )}
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="hidden sm:flex items-center gap-2 flex-wrap">
               {filters.map((f) => (
                 <button
                   key={f}
@@ -201,7 +200,7 @@ export default function SpokeFilterBar({ stays, config, spokeSlug }: SpokeFilter
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
               {filtered.map((stay, i) => (
                 <StayCard key={stay.id} stay={stay} accentColor={config.accentColor} index={i} />
               ))}

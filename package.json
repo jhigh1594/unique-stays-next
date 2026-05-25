@@ -3,13 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@11.0.8",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "11.0.8",
-      "onFail": "error"
-    }
-  },
   "type": "module",
   "scripts": {
     "dev": "next dev",
@@ -20,28 +13,37 @@
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "migrate:down": "payload migrate:down",
-    "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts",
-    "index:search": "node --env-file-if-exists=.env.local --import tsx/esm scripts/generate-search-index.ts"
+    "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts"
   },
   "dependencies": {
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-node": "^0.218.0",
     "@payloadcms/db-postgres": "^3.84.1",
     "@payloadcms/next": "^3.84.1",
     "@payloadcms/richtext-lexical": "^3.84.1",
     "@payloadcms/storage-vercel-blob": "^3.84.1",
+    "@posthog/ai": "^7.18.10",
     "@radix-ui/react-dialog": "^1.1.15",
     "@tailwindcss/postcss": "^4.2.4",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.3.3",
     "@aws-sdk/client-s3": "^3.800.0",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
+    "exa-js": "^2.13.0",
     "framer-motion": "^12.38.0",
+    "fuse.js": "^7.3.0",
     "graphql": "^16.14.0",
     "lucide-react": "^1.14.0",
     "next": "16.2.6",
     "payload": "^3.84.1",
+    "posthog-js": "^1.374.2",
+    "posthog-node": "^5.34.6",
     "puppeteer-core": "^24.43.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "resend": "^6.12.3",
     "sharp": "^0.34.5",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
@@ -49,7 +51,7 @@
   },
   "devDependencies": {
     "@ai-sdk/openai": "^3.0.63",
-    "@mendable/firecrawl-js": "^4.22.2",
+    "@mendable/firecrawl-js": "^4.23.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^20",

@@ -11,7 +11,6 @@ interface BroadsheetMastheadProps {
   onSortChange: (value: SortOption) => void
   isSidebarOpen: boolean
   onToggleSidebar: () => void
-  aiLoading: boolean
   activeFilterCount: number
   onClearFilters: () => void
 }
@@ -31,7 +30,6 @@ export default function BroadsheetMasthead({
   onSortChange,
   isSidebarOpen,
   onToggleSidebar,
-  aiLoading,
   activeFilterCount,
   onClearFilters,
 }: BroadsheetMastheadProps) {
@@ -39,7 +37,7 @@ export default function BroadsheetMasthead({
     <div className="broadsheet-masthead">
       <div className="flex items-baseline justify-between gap-4 flex-wrap">
         <span className="broadsheet-count">
-          {aiLoading ? '—' : resultCount} stays
+          {resultCount} stays
         </span>
 
         <select
@@ -79,9 +77,6 @@ export default function BroadsheetMasthead({
           >
             <X width={14} height={14} />
           </button>
-        )}
-        {aiLoading && (
-          <span className="field-search__ai-hint">searching...</span>
         )}
         <button
           className={`filter-stamp${isSidebarOpen ? ' filter-stamp--active' : ''}`}

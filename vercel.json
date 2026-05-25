@@ -4,6 +4,14 @@
     {
       "path": "/keep-alive",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/discover",
+      "schedule": "3 5 * * *"
+    },
+    {
+      "path": "/api/audit",
+      "schedule": "0 6 * * *"
     }
   ]
 }

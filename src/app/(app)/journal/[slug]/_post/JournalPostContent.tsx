@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight, MapPinned, Navigation } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import posthog from 'posthog-js'
 import FilmstripSection from '@/components/FilmstripSection'
 import RichTextRenderer from '@/components/RichTextRenderer'
 import type { NormalizedJournalPost } from '@/lib/types'
@@ -173,6 +174,15 @@ interface JournalPostContentProps {
 export default function JournalPostContent({ post, relatedPosts }: JournalPostContentProps) {
   const postmarkDate = formatPostmarkDate(post.publishedAt)
   const hasLinkedStays = post.linkedStays.length > 0
+
+  useEffect(() => {
+    posthog.capture('journal_post_viewed', {
+      post_slug: post.slug,
+      post_title: post.title,
+      post_location: [post.city, post.state].filter(Boolean).join(', ') || undefined,
+      linked_stays_count: post.linkedStays.length,
+    })
+  }, [post.slug, post.title, post.city, post.state, post.linkedStays.length])
 
   return (
     <main className="journal-post-shell">

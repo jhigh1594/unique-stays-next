@@ -5,27 +5,23 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import LogoMark from '@/components/LogoMark'
+import NewsletterModal from '@/components/NewsletterModal'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [hidden, setHidden] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [collectionsOpen, setCollectionsOpen] = useState(false)
+  const [newsletterOpen, setNewsletterOpen] = useState(false)
   const pathname = usePathname()
+  const isHome = pathname === '/'
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    let lastY = window.scrollY
     const onScroll = () => {
-      const y = window.scrollY
-      setScrolled(y > 40)
-      // Hide nav on scroll-down past 200px, show on scroll-up
-      if (y > 200 && y > lastY) setHidden(true)
-      else if (y < lastY) setHidden(false)
-      lastY = y
+      setScrolled(window.scrollY > 40)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -56,8 +52,6 @@ export default function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-hidden ? '-translate-y-full' : 'translate-y-0'
-        } ${
           usesLightNav
             ? 'bg-[oklch(0.975_0.012_85/0.97)] backdrop-blur-md shadow-[0_1px_0_0_oklch(0.88_0.025_75)]'
             : 'bg-transparent'
@@ -192,8 +186,9 @@ hidden ? '-translate-y-full' : 'translate-y-0'
             {/* CTA + Mobile Toggle */}
             <div className="flex items-center gap-3">
               <a
-                href="#newsletter"
-                className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all duration-200 hover:shadow-md"
+                href={isHome ? '#newsletter' : undefined}
+                onClick={isHome ? undefined : (e) => { e.preventDefault(); setNewsletterOpen(true) }}
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all duration-200 hover:shadow-md cursor-pointer"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
               >
                 Get Weekly Picks
@@ -276,10 +271,13 @@ hidden ? '-translate-y-full' : 'translate-y-0'
 
             <div className="mt-auto px-4">
               <a
-                href="#newsletter"
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all"
+                href={isHome ? '#newsletter' : undefined}
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-all cursor-pointer"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => {
+                  setMobileOpen(false)
+                  if (!isHome) setNewsletterOpen(true)
+                }}
               >
                 Get Weekly Picks
               </a>
@@ -287,6 +285,8 @@ hidden ? '-translate-y-full' : 'translate-y-0'
           </div>
         </div>
       )}
+
+      <NewsletterModal open={newsletterOpen} onClose={() => setNewsletterOpen(false)} />
     </>
   )
 }

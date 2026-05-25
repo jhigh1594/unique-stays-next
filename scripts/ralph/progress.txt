@@ -165,3 +165,189 @@
 - Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
 - Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
 - Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
+
+### Sprint 5: Glamping for Beginners
+
+**PLAN-005** ✓ — "Glamping for Beginners: Your First Unique Stay, Explained"
+- Target keyword: glamping for beginners, first glamping trip, unique stay guide
+- Article type: Activity-Based Guide hybrid with educational content
+- 7 stays across 7 types (dome, treehouse, yurt, hobbit house, tiny home, A-frame, silo) and 7 states (GA, MO, CO, AR, VT, NY, MT)
+- Competitive angle: editorial curation of the full glamping spectrum for first-timers, not generic tips
+
+**RESEARCH-005** ✓ — Stay data collected from seo-listings.csv. Specific details identified:
+- Georgia dome: 22 forested acres, outdoor shower + soaking tub, Sautee Nacoochee arts district
+- Missouri treehouse: 692 reviews (highest-reviewed treehouse in guide), Perryville woods, private hot tub
+- Colorado yurt: Named one of 23 best glamping spots in the US, $145/night, Steamboat Springs
+- Arkansas hobbit house: Underground geodesic dome, 4-foot clear dome tower, copper sink, sleeps 8
+- Vermont glass tiny: 200 sq ft, built in Estonia, most-wishlisted tiny home in Vermont, Sugarbush views
+- New York A-frame: Cedar barrel sauna, Catskills, wrap-around deck, 2 hrs from NYC
+- Montana silo: Converted grain silo, Bitterroot Valley, circular rooms, dog-friendly
+
+**WRITE-005** ✓ — First draft: content/drafts/glamping-for-beginners.md
+- 1,760 words body content
+- Each stay opens with feeling, follows with fact
+- No banned words, no exclamation marks, no em dashes
+
+**SEO-005** ✓ — SEO optimization pass:
+- "glamping" + "beginners" in title, meta, excerpt, first 100 words, multiple H2s
+- Long-tail variants: "first glamping trip", "glamping for beginners"
+- 3 internal links (remote workers guide, treehouse guide, lakefront stays)
+- 5 FAQ questions for AI citation coverage
+- metaTitle: 36 chars, metaDescription: 136 chars
+
+**REVIEW-005** ✓ — Quality score: 9.05/10
+- Voice match: 9, Specificity: 9, Feeling-first: 9, Banned words: 10
+- SEO: 9, Embeds: 10, Practical value: 9, Cut test: 8
+
+**PUBLISH-005** ✓ — Published to Payload CMS (post id=17):
+- Slug: glamping-for-beginners
+- 7 linked stays (IDs: 15, 7, 99, 22, 179, 118, 153)
+- Hero image uploaded (media id=15) via Vercel Blob
+- Lexical content with 7 stayEmbed blocks and 3 internal links
+- Status: published, verified 200 at /journal/glamping-for-beginners
+
+### Patterns
+- Educational/top-of-funnel content works well with the Activity-Based Guide template adapted for a broader purpose
+- 7 stay types showing the full range of "glamping" is a stronger editorial device than 7 similar stays
+- Price range transparency ($145-$325) builds trust for first-timers
+- Link paragraphs in Lexical content require `linkType: "custom"` in fields; the Payload Lexical validator rejects links without it
+- Multi-link paragraphs can be split into separate "See also" link paragraphs to avoid validation issues
+
+### Sprint 6: Best Unique Stays Near National Forests
+
+**PLAN-006** ✓ — Target keyword: unique stays near national forests. Article type: curated outdoor recreation roundup. 8 forest-forward stays selected across IL, AZ, WA, MI, OR, NH, GA, and TN.
+
+**RESEARCH-006** ✓ — Stay data collected, 8 specific details identified:
+- Shawnee Forest dome: 500 Mbps fiber internet in Shawnee National Forest
+- Coconino A-frame: 1.5 private acres at the edge of Coconino National Forest
+- Sequim dome: Olympic Peninsula forest sauna bathing setup
+- Lincoln Hills A-frame: direct Lincoln Hills Trail network access
+- Wander Arch Cape Forest: Sitka spruce walk to the Oregon Coast
+- White Mountains tiny home: North Woodstock base near Franconia Notch and Kancamagus Highway
+- Georgia mountains tiny house: Cohutta Wilderness and swimming-hole access
+- Tennessee Highlands dome: Cumberland Plateau waterfall-country setting
+
+**WRITE-006** ✓ — First draft: content/drafts/unique-stays-near-national-forests.md
+
+**SEO-006** ✓ — Keyword optimized, comparison table added, 3 authoritative Forest Service links included, FAQ added, 3 internal links added
+
+**REVIEW-006** ✓ — Quality score: 8.8/10, banned word scan clean, exclamation scan clean, em dash scan clean
+
+**PUBLISH-006** ✓ — content/published/unique-stays-near-national-forests.md
+- Published at: /journal/unique-stays-near-national-forests
+- Target keyword: unique stays near national forests
+- Word count: 2,068
+- Quality score: 8.8/10
+- Payload post id: 18
+- Hero image uploaded via Vercel Blob, media id=16
+- Public page verified at https://www.uniquestaysusa.com/journal/unique-stays-near-national-forests
+- Sitemap check: not yet included in cached production sitemap after journal revalidation
+
+### Patterns
+- National forest content works best when each stay is anchored to a named forest, trail system, wilderness area, or public-land corridor.
+- The useful editorial distinction is forest access versus forest atmosphere; "near trees" is not enough for this keyword.
+- For practical public-land articles, official Forest Service links add trust without making the piece feel like a rules explainer.
+
+### Sprint 7: October Unique Stays
+
+**PLAN-007** — Target keyword: october cabin getaways, fall foliage treehouses, autumn glamping deals. Article type: Seasonal Guide. 7 stays across 7 states (VT, NY, ME, VA, WI, CO, GA). Mix of barn/silo, lighthouse, hobbit house, glamping tent, yurt, treehouse, grain silo.
+
+**RESEARCH-007** — Stay data collected from seo-listings.csv. Specific details identified:
+- VT barn: 300 private acres, Shaker barn, resident treehouse, spring-fed pond
+- NY lighthouse: 128-year-old Coast Guard-maintained, tower still actively guides ships
+- ME hobbit: Littlefield Retreat 15-acre village, heated floors, Maine pond
+- VA glamping: Shenandoah River bank, Skyline Drive access, Blue Ridge silhouettes
+- WI yurt: Clear dome above queen bed, Apostle Islands walk
+- CO treehouse: Built 1971, 25 ft above Cattle Creek, 50+ years hosting
+- GA silo: 27-foot grain silo, 20-acre farm, Chickamauga battlefield
+
+**WRITE-007** — 1,764 words body content. October as the month where property, season, and light align. Each stay section opens with October-specific experience. No banned words, no exclamation marks, no em dashes.
+
+**SEO-007** — Keyword optimized, 3 internal links (national forests, lakefront stays, treehouse guide), 5 FAQ questions. metaTitle 55 chars, metaDescription 147 chars.
+
+**REVIEW-007** — Quality score: 8.75/10. Banned word, exclamation, and em dash scans clean. Fixed "the particular" repetition.
+
+**PUBLISH-007** — content/published/october-unique-stays.md
+- Published at: /journal/october-unique-stays
+- Target keyword: october cabin getaways, fall foliage treehouses, autumn glamping deals
+- Word count: 1,764
+- Quality score: 8.75/10
+- Payload post id: 19
+- Hero image uploaded via Vercel Blob, media id=18
+- Public page verified 200 at http://localhost:3000/journal/october-unique-stays
+
+### Patterns
+- Seasonal guides benefit from regional timing sections ("When to Go") that double as SEO content for long-tail queries like "when is peak fall foliage in Vermont"
+- October-specific stays need to earn their October designation; "nice in fall" is not enough
+- Price range matters in seasonal content ($125-$425 is a wide spread, adds practical value)
+- The "latest window" framing (Georgia silo catching color into November) gives the article legs beyond mid-October
+
+### Sprint 8: Snow Globe Stays
+
+**PLAN-008** — Target keyword: winter cabins with hot tub, fireplace cabins, ski in ski out glamping. Article type: Curated Roundup. 8 stays across 8 states (NY, IL, VT, MI, UT, TN, WA, ME). Mix of treehouse, dome×3, tiny home, yurt, hobbit house.
+
+**RESEARCH-008** — Stay data collected from Payload API. Specific details identified:
+- NY treehouse: Antony Gibbon architect, 34 private acres, wood-fired hot tub, no WiFi/cell
+- IL dome: 6-person hot tub, 500 Mbps fiber, Shawnee National Forest
+- VT glass tiny: 200 sq ft built in Estonia, most-wishlisted Vermont tiny home, Sugarbush
+- MI yurt: Wood-fired hot tub, Big Lake, sleeping loft, Michigan north woods
+- UT dome: Dark sky, sauna + hot tub, near Zion
+- TN treehouse: 15 ft up, Finnish sauna + hot tub + fire pits, Nashville access
+- WA dome: Forest sauna bathing ritual, Olympic Peninsula, off-grid
+- ME hobbit: Littlefield Retreat 15-acre village, private hot tub, heated floors
+
+**WRITE-008** — 1,850 words body content. Winter silence lede. Each stay section opens with winter-specific experience. No banned words, no exclamation marks, no em dashes.
+
+**SEO-008** — Keyword optimized, 3 internal links (national forests, October stays, glamping beginners), 5 FAQ questions. metaTitle 52 chars, metaDescription 154 chars.
+
+**REVIEW-008** — Quality score: 8.9/10. Banned word, exclamation, and em dash scans clean.
+
+**PUBLISH-008** — content/published/snow-globe-stays.md
+- Published at: /journal/snow-globe-stays
+- Target keyword: winter cabins with hot tub, fireplace cabins
+- Word count: 1,850
+- Quality score: 8.9/10
+- Payload post id: 22
+- Hero image uploaded via Vercel Blob, media id=19
+- Public page verified 200 at http://localhost:3000/journal/snow-globe-stays
+
+### Patterns
+- Winter amenity articles benefit from the "cold/hot contrast" framing; hot tubs and saunas earn their place in winter in a way they do not in summer
+- Wood-fired vs electric hot tub is a useful editorial distinction that doubles as practical advice
+- Temperature cycling (sauna/cold air/hot tub) gives practical value beyond just listing amenities
+- $185-$380 price range with two sub-$200 stays adds booking accessibility
+
+### Sprint 9: Thanksgiving Getaways
+
+**PLAN-009** ✓ — Target keyword: thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals. Article type: Seasonal Guide. 8 group-ready stays selected across AR, ME, MI, OR, VA, OK, and ID.
+
+**RESEARCH-009** ✓ — Stay data collected, 8 specific details identified:
+- Arkansas hobbit house: four-bedroom underground geodesic dome with lake views, copper sink, and clear dome tower
+- Maine lighthouse: five bedrooms, Chauncey Creek waterfront, private dock, kayaks
+- Michigan barn: 1956 family dairy barn on Saginaw Bay
+- Bend retreat: Cascade Mountain panoramas, hot tub, Starlink, Mt. Bachelor access
+- Arch Cape forest house: old-growth forest, ocean views, Sitka spruce walk to beach
+- Shenandoah A-frame: private spa, game room, movie room, mountain views
+- Broken Bow trails house: Ouachita National Forest, back-door hiking trails, fire pit
+- North Idaho A-frame: private beach, boat docks, hot tub, Schweitzer winter access
+
+**WRITE-009** ✓ — First draft: content/drafts/thanksgiving-getaways-unique-stays.md
+
+**SEO-009** ✓ — Keyword optimized, 3 internal links, FAQ added, AAA Thanksgiving travel source and USDA food safety source included
+
+**REVIEW-009** ✓ — Quality score: 8.7/10, banned word scan clean, exclamation scan clean, em dash scan clean
+
+**PUBLISH-009** ✓ — content/published/thanksgiving-getaways-unique-stays.md
+- Published at: /journal/thanksgiving-getaways-unique-stays
+- Target keyword: thanksgiving cabin rentals, friendsgiving unique stays
+- Word count: 1,744
+- Quality score: 8.7/10
+- Payload post id: 23
+- Hero image uploaded via Vercel Blob, media id=20
+- Public page verified 200 at http://localhost:3000/journal/thanksgiving-getaways-unique-stays
+- Sitemap verified includes /journal/thanksgiving-getaways-unique-stays
+
+### Patterns
+- Holiday content works best when it starts with the room and group logistics, then moves to the property features.
+- Group capacity is necessary but not sufficient; dining, parking, bad-weather plans, and refrigerator space are the practical questions readers need.
+- For seasonal holiday posts, exact future dates add planning value. Thanksgiving 2026 falls on November 26.

@@ -84,8 +84,8 @@ Based on competitive analysis and existing content, here are our priority keywor
 |------|--------------|-------------|-----------------|------|--------|
 | 1 | Journal Post | "Lakefront Unique Stays: Cabins, Domes & A-Frames on the Water" | lakefront cabins, waterfront unique stays, lake house alternatives | Summer travel capture | Published |
 | 2 | Journal Post | "Unique Stays with Pools: From Desert Oases to Mountain Plunge Pools" | cabins with pools, unique stays swimming pool, glamping pool access | Amenity-focused content | Published |
-| 3 | Journal Post | "Glamping for Beginners: Your First Unique Stay, Explained" | glamping for beginners, first glamping trip, unique stay guide | Top-of-funnel education | Planned |
-| 4 | Journal Post | "Best Unique Stays Near National Forests: Disperse, Disconnect, Unwind" | unique stays near national forests, forest cabins, woodland glamping | Outdoor recreation targeting | Planned |
+| 3 | Journal Post | "Glamping for Beginners: Your First Unique Stay, Explained" | glamping for beginners, first glamping trip, unique stay guide | Top-of-funnel education | Published |
+| 4 | Journal Post | "Best Unique Stays Near National Forests: Disperse, Disconnect, Unwind" | unique stays near national forests, forest cabins, woodland glamping | Outdoor recreation targeting | Published |
 
 ### Completed (Pre-Calendar)
 **Published before calendar was formalized — May 2026**
@@ -122,10 +122,10 @@ Based on competitive analysis and existing content, here are our priority keywor
 
 | Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
-| 1 | Journal Post | "October Unique Stays: Fall Color, Fewer Crowds, Cozy Nights" | october cabin getaways, fall foliage treehouses, autumn glamping deals | Capture fall planners | Planned |
+| 1 | Journal Post | "October Unique Stays: Fall Color, Fewer Crowds, Cozy Nights" | october cabin getaways, fall foliage treehouses, autumn glamping deals | Capture fall planners | Published |
 | 2 | Lead Magnet | Winter Escape Budget Calculator | winter cabin getaways under $150, affordable ski town lodging | Winter season prep | Planned |
-| 3 | Journal Post | "Snow Globe Stays: Unique Cabins with Hot Tub & Fireplace Access" | winter cabins with hot tub, ski in ski out glamping, fireplace cabins | Target winter travelers | Planned |
-| 4 | Journal Post | "Thanksgiving Getaways: Unique Stays for Holiday Celebrations" | thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals | Holiday travel capture | Planned |
+| 3 | Journal Post | "Snow Globe Stays: Unique Cabins with Hot Tub & Fireplace Access" | winter cabins with hot tub, ski in ski out glamping, fireplace cabins | Target winter travelers | Published |
+| 4 | Journal Post | "Thanksgiving Getaways: Unique Stays for Holiday Celebrations" | thanksgiving cabin rentals, friendsgiving unique stays, holiday treehouse rentals | Holiday travel capture | Published |
 
 ### October 2026: Peak Season Content
 **Theme:** Peak fall foliage and Halloween/Thanksgiving travel
