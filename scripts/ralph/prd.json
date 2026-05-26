@@ -666,7 +666,43 @@
       "priority": 7,
       "passes": true,
       "notes": "Progress log, calendar, and prd.json updated. Sitemap verified."
+    },
+    {
+      "id": "PLAN-010",
+      "title": "Plan Indoor-Outdoor Living roundup",
+      "description": "Curated roundup: 'Indoor-Outdoor Living: Unique Stays Where the Architecture Opens Up'. Target keywords: screened porch cabins, sunroom unique stays, indoor outdoor glamping. Calendar entry: December 2026 Week 2. Eligible now as evergreen. 8 stays across CO, NC, TX, WA, AR, ME, AZ, GA.",
+      "priority": 1,
+      "passes": true,
+      "notes": "8 stays: sage-canyon-cliff-house-co, romantic-mountain-dome-nc, skydome-hideaway-tx, treehouse-oregon, 87-getaway-treehouse-ar, houseboat-nomad-pemaquid-me, kiva-cave-creek-az, luxury-yurt-conyers-ga. Competitive angle: architectural thesis, not amenity list."
+    },
+    {
+      "id": "RESEARCH-010",
+      "title": "Collect stay data for Indoor-Outdoor Living roundup",
+      "priority": 2,
+      "passes": true,
+      "notes": "All 8 stays verified from seo-listings.csv: valid affiliateUrl, images, and one hyper-specific detail per stay. Colorado cliff house confirmed as Airbnb's most-wishlisted Colorado property (2025 data). Osprey Treehouse 42-inch Douglas fir detail confirmed."
+    },
+    {
+      "id": "WRITE-010",
+      "title": "Write Indoor-Outdoor Living roundup draft",
+      "priority": 3,
+      "passes": true,
+      "notes": "2,379 words. Draft at content/drafts/indoor-outdoor-living-unique-stays.md. Each section opens feeling-first. No banned words, no exclamation marks, no em dashes."
+    },
+    {
+      "id": "SEO-010",
+      "title": "SEO optimization for Indoor-Outdoor Living roundup",
+      "priority": 4,
+      "passes": true,
+      "notes": "Primary keywords in title, first 100 words, 3 H2s. screened porch in first 100 words and FAQ H2. 3 internal links. 5 FAQ questions. metaTitle 58 chars, metaDescription 133 chars."
+    },
+    {
+      "id": "REVIEW-010",
+      "title": "Quality gate scoring for Indoor-Outdoor Living roundup",
+      "priority": 5,
+      "passes": true,
+      "notes": "9.1/10. Em dash scan: 0. Exclamation scan: 0. Banned word scan: clean. v2 saved. PR opened on journal/draft-indoor-outdoor-living-unique-stays."
     }
   ],
-  "sprintNumber": 10
+  "sprintNumber": 11
 }

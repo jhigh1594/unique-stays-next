@@ -351,3 +351,58 @@
 - Holiday content works best when it starts with the room and group logistics, then moves to the property features.
 - Group capacity is necessary but not sufficient; dining, parking, bad-weather plans, and refrigerator space are the practical questions readers need.
 - For seasonal holiday posts, exact future dates add planning value. Thanksgiving 2026 falls on November 26.
+
+### Sprint 10: Indoor-Outdoor Living
+
+**PLAN-010** — Calendar entry: "Indoor-Outdoor Living: Unique Stays with Screened Porches & Sunrooms" (December 2026, Week 2). First eligible entry: evergreen (no seasonal keywords), eligible immediately under the 6-week seasonal guard. All October and November planned posts are seasonal (Halloween, Black Friday, Winter Wonderland, Year in Review, Solstice) and fall outside the 6-week window from today (May 26, 2026).
+- Target keyword: screened porch cabins, sunroom unique stays, indoor outdoor glamping
+- Article type: Curated Roundup (8 stays, ~1,900 words)
+- Competitive angle: treats indoor-outdoor design as the architectural thesis of each stay, not an amenity checklist. No competitor covers this as editorial.
+- 8 stays selected across 8 states (CO, NC, TX, WA, AR, ME, AZ, GA):
+  - sage-canyon-cliff-house-co (Colorado, $250, 4.98, 372 reviews)
+  - romantic-mountain-dome-nc (North Carolina, $225, 4.99, 236 reviews)
+  - skydome-hideaway-tx (Texas, $275, 4.98, 429 reviews)
+  - treehouse-oregon (Washington/Columbia River Gorge, $519, 4.94, 156 reviews)
+  - 87-getaway-treehouse-ar (Arkansas, $177, 4.91, 98 reviews)
+  - houseboat-nomad-pemaquid-me (Maine, $275, 4.88, 172 reviews)
+  - kiva-cave-creek-az (Arizona, $225, 4.88, 195 reviews)
+  - luxury-yurt-conyers-ga (Georgia, $266, 4.93, 88 reviews)
+
+**RESEARCH-010** — Stay data collected from seo-listings.csv. Specific details identified:
+- Colorado cliff house: exposed canyon wall as structural element, Colorado's most-wishlisted Airbnb (Airbnb 2025), petroglyphs visible, Sleeping Ute Mountain on horizon
+- NC dome: skylight directly above the bed, creek below, mountain hot tub outside
+- TX SkyDome: first luxury dome in DFW area, outdoor shower as architectural statement
+- Osprey Treehouse WA: 42-inch old-growth Douglas fir through floor to ceiling, sliding wall opens to PNW canopy
+- AR Treehouse: wrap-around deck bigger than the room, Mountain View courthouse jam sessions, Buffalo National River
+- Maine Houseboat: wrap deck floating above Lake Pemaquid, town of Bremen, June-September season
+- Kiva AZ: earth-sheltered kiva architecture, saguaro views, Tonto National Forest
+- GA Yurt: private lake on 80 acres, canoe included, 30 miles from Atlanta
+
+**WRITE-010** — First draft: content/drafts/indoor-outdoor-living-unique-stays.md
+- 2,379 words
+- Lede frames indoor-outdoor as an architectural thesis, not an amenity list
+- Each stay opens with feeling, follows with fact
+- No banned words, no exclamation marks, no em dashes
+
+**SEO-010** — SEO optimization pass:
+- Primary keywords: "indoor-outdoor" in title, first 100 words, 3x H2s; "screened porch" in first 100 words and FAQ H2; "sunroom" in first 100 words; "glamping" in first 100 words
+- 3 internal links (lakefront roundup, stargazing guide, glamping beginners)
+- 5 FAQ questions for AI citation
+- metaTitle: 58 chars, metaDescription: 133 chars
+- Definition paragraph for AI extractability
+
+**REVIEW-010** — Quality score: 9.1/10
+- Voice match: 9, Specificity: 9, Feeling-first: 9, Banned words: 10
+- SEO: 9, Embeds: 10, Practical value: 9, Cut test: 8
+- Em dash scan: 0 found (clean)
+- Exclamation scan: 0 found (clean)
+- Banned word scan: clean
+- v2 saved to content/drafts/indoor-outdoor-living-unique-stays-v2.md
+- Status: PR opened on journal/draft-indoor-outdoor-living-unique-stays
+
+### Patterns
+- Evergreen calendar entries from future months are eligible immediately under the seasonal guard — "Indoor-Outdoor Living" is a December calendar entry but has no seasonal keywords.
+- Indoor-outdoor as an architectural thesis (not amenity checklist) is a strong competitive gap: no existing editorial content covers it this way.
+- The Colorado cliff house is the strongest anchor for this article type: most-wishlisted status + structural outdoor element = the clearest embodiment of the theme.
+- Earth-sheltered (kiva) stays offer a useful counterpoint to the "open to the sky" pattern — different version of the same indoor-outdoor decision.
+- Price range $177-$519 gives the article editorial range without feeling unmoored.
