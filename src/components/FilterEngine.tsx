@@ -252,10 +252,12 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
                 activeFilterCount={activeFilterCount}
                 onClearFilters={handleReset}
               />
-              <CategoryIndex
-                activeCategory={filters.category}
-                onCategoryChange={handleCategoryChange}
-              />
+              <div className="hidden sm:block">
+                <CategoryIndex
+                  activeCategory={filters.category}
+                  onCategoryChange={handleCategoryChange}
+                />
+              </div>
             </div>
           </section>
 
