@@ -60,7 +60,14 @@ export default buildConfig({
     s3Storage({
       enabled: !!(process.env.R2_ACCESS_KEY_ID && process.env.R2_SECRET_ACCESS_KEY),
       collections: {
-        media: true,
+        media: {
+          disablePayloadAccessControl: true,
+          generateFileURL: ({ filename, prefix }) => {
+            const base = process.env.R2_PUBLIC_URL || ''
+            const key = prefix ? `${prefix}/${filename}` : filename
+            return `${base}/${key}`
+          },
+        },
       },
       config: {
         endpoint: `https://${process.env.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`,
