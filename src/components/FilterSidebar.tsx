@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import CategoryIndex from './CategoryIndex'
 import LocationCombobox from './LocationCombobox'
 import type { LocationFacets, FilterState, SpokeFilterState } from '@/lib/filter-utils'
 
@@ -173,6 +174,7 @@ export default function FilterSidebar({
   resultCount,
   isOpen,
   onClose,
+  onCategoryChange,
   onLocationChange,
   onPlatformToggle,
   onPriceMinChange,
@@ -253,6 +255,15 @@ export default function FilterSidebar({
                 <span className="wax-seal__label">stays</span>
               </div>
             </div>
+          </div>
+
+          {/* Category quick filters (mobile panel) */}
+          <div className="filter-sidebar__section filter-sidebar__category-index">
+            <span className="filter-sidebar__label">Category</span>
+            <CategoryIndex
+              activeCategory={state.category}
+              onCategoryChange={onCategoryChange}
+            />
           </div>
 
           {/* Location */}

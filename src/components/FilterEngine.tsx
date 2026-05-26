@@ -41,7 +41,6 @@ interface FilterEngineProps {
 export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps) {
   const [filters, setFilters] = useState<FilterState>(createEmptyFilterState)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [navHidden, setNavHidden] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
   // Location facets (precomputed once)
@@ -62,19 +61,6 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
     const url = qs ? `${window.location.pathname}?${qs}` : window.location.pathname
     window.history.replaceState(null, '', url)
   }, [filters])
-
-  // Track nav hide/show to adjust sticky top
-  useEffect(() => {
-    let lastY = window.scrollY
-    const onScroll = () => {
-      const y = window.scrollY
-      if (y > 200 && y > lastY) setNavHidden(true)
-      else if (y < lastY) setNavHidden(false)
-      lastY = y
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   // Client-side fuzzy search via Fuse.js
   const searchResults = useStaySearch(allStays, filters.search)
@@ -231,9 +217,7 @@ export default function FilterEngine({ allStays, spokeSlug }: FilterEngineProps)
         <div className="filter-layout__main">
           {/* ── SEARCH + FILTERS ────────────────────────────── */}
           <section
-            className={`sticky z-30 py-4 border-b transition-[top] duration-500 ${
-              navHidden ? 'top-0' : 'top-16 md:top-20'
-            }`}
+            className="sticky top-16 md:top-20 z-30 py-4 border-b"
             style={{
               borderColor: 'oklch(0.88 0.025 75)',
               background: 'oklch(0.975 0.012 85 / 0.97)',
