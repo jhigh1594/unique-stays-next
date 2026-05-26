@@ -71,7 +71,6 @@ export default buildConfig({
         },
       },
       bucket: process.env.R2_BUCKET_NAME || 'uniquestays-media',
-      publicURL: process.env.R2_PUBLIC_URL || 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev',
     }),
   ],
   collections: [Users, Media, Categories, Spokes, Stays, BlogPosts, CandidateStays, AuditReports],
