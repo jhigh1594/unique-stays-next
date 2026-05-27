@@ -666,7 +666,56 @@
       "priority": 7,
       "passes": true,
       "notes": "Progress log, calendar, and prd.json updated. Sitemap verified."
+    },
+    {
+      "id": "PLAN-010",
+      "title": "Plan Halloween Getaways",
+      "priority": 1,
+      "passes": true,
+      "notes": "Completed Sprint 10"
+    },
+    {
+      "id": "RESEARCH-010",
+      "title": "Research Halloween stays",
+      "priority": 2,
+      "passes": true,
+      "notes": "Completed Sprint 10"
+    },
+    {
+      "id": "SEO-010",
+      "title": "SEO optimize Halloween article",
+      "priority": 3,
+      "passes": true,
+      "notes": "Completed Sprint 10"
+    },
+    {
+      "id": "WRITE-010",
+      "title": "Write Halloween Getaways",
+      "priority": 4,
+      "passes": true,
+      "notes": "Completed Sprint 10"
+    },
+    {
+      "id": "REVIEW-010",
+      "title": "Review Halloween draft",
+      "priority": 5,
+      "passes": true,
+      "notes": "Completed Sprint 10"
+    },
+    {
+      "id": "PUBLISH-010",
+      "title": "Publish Halloween Getaways",
+      "priority": 6,
+      "passes": true,
+      "notes": "Completed Sprint 10"
+    },
+    {
+      "id": "SYNC-010",
+      "title": "Sync Halloween tracking",
+      "priority": 7,
+      "passes": true,
+      "notes": "Completed Sprint 10"
     }
   ],
-  "sprintNumber": 10
+  "sprintNumber": 11
 }
