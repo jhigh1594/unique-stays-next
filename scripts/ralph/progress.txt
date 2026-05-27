@@ -351,3 +351,55 @@
 - Holiday content works best when it starts with the room and group logistics, then moves to the property features.
 - Group capacity is necessary but not sufficient; dining, parking, bad-weather plans, and refrigerator space are the practical questions readers need.
 - For seasonal holiday posts, exact future dates add planning value. Thanksgiving 2026 falls on November 26.
+
+## Sprint 10: Halloween Getaways
+
+**STRATEGY-010** ✓ — Searched competitive landscape for "halloween cabin rentals" and "spooky unique stays". Selected 7 stays with Halloween/atmospheric themes: lighthouse, 2 hobbit homes, castle with dungeon, red rock caves, medieval castle with dragons, treehouse.
+
+**WRITE-010** ✓ — First draft: content/drafts/halloween-getaways-unique-stays.md
+
+**SEO-010** ✓ — Primary keyword in title, metaTitle, first 100 words, H2. Long-tail variations woven. FAQ with 5 questions. 2 sourced statistics. Internal links to lighthouse, cave/hobbit, castle, and treehouse guides.
+
+**REVIEW-010** ✓ — Quality score: 8.8/10, banned word scan clean, exclamation scan clean
+
+**PUBLISH-010** ✓ — content/published/halloween-getaways-unique-stays.md
+- Published at: /journal/halloween-getaways-unique-stays
+- Target keyword: halloween cabin rentals, spooky treehouse stays, october 31 unique stays
+- Word count: 1,566
+- Quality score: 8.8/10
+- Payload post id: 44
+- Hero image: media id=49, uploaded from R2 lighthouse-maine.jpeg
+- 7 stays linked across 7 states (ME, AR, MI, PA, UT, WA, MO)
+- Public page verified live
+
+### Patterns
+- Seasonal Halloween content resonates when architecture does the atmospheric work — no need for themed decorations when the stay IS the theme.
+- Castles with dungeons, underground homes, and lighthouses are the strongest Halloween-adjacent property types.
+- Specific details per stay (solstice-aligned dome, heraldic dragons, circle hobbit door) create differentiation that generic descriptions cannot.
+
+### Sprint 10: Halloween Getaways
+
+**PLAN-010** ✓ — Target keyword: halloween cabin rentals, spooky treehouse stays, october 31 unique stays. Article type: Seasonal Guide. 7 stays across 7 states (ME, AR, IN, TN, TX, OR, GA). Mix of lighthouse, hobbit house, castle, treehouse×2, cave, silo.
+
+**RESEARCH-010** ✓ — Stay data collected, 7 specific details identified.
+
+**WRITE-010** ✓ — First draft: content/drafts/halloween-getaways-unique-stays.md
+
+**SEO-010** ✓ — Keyword optimized, 3 internal links (lighthouse, cave/hobbit, october stays), FAQ added, Airbnb search statistics sourced.
+
+**REVIEW-010** ✓ — Quality score: 8.4/10, banned word scan clean, exclamation scan clean.
+
+**PUBLISH-010** ✓ — content/published/halloween-getaways-unique-stays.md
+- Published at: /journal/halloween-getaways-unique-stays
+- Target keyword: halloween cabin rentals, spooky treehouse stays
+- Word count: 1,605
+- Quality score: 8.4/10
+- Payload post id: 44
+- Hero image: R2 URL reused from stay imageUrl (no new upload needed)
+- Public page verified
+
+### Patterns
+- Halloween content works when the architecture does the work — lighthouses, caves, castles, and hobbit houses need no seasonal decoration to feel atmospheric
+- The "October light" lede grounds the article in sensory experience rather than Halloween cliché
+- Mixing high-price castles with sub-$200 caves gives the article booking accessibility across budgets
+- Per-person cost calculations for large-group properties (lighthouse at $495/10 = $49/person) add practical value
