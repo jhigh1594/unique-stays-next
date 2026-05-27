@@ -165,3 +165,49 @@
 - Pool roundups need a sharper safety/practical section than most amenity posts because families read them differently.
 - Private pool vs pool access is the useful editorial distinction; grouping both as "pool stays" without context feels thin.
 - Existing California inventory is strong for pool content, but the next pool-oriented expansion should add Southeast and Mountain West private-pool stays for better geographic balance.
+
+### Sprint 11: Indoor-Outdoor Living
+
+**STRATEGY-011** ✓ — Calendar scan complete. Today: May 27, 2026.
+- Next eligible Planned Journal Post: "Indoor-Outdoor Living: Unique Stays with Screened Porches & Sunrooms" (December 2026, Week 2)
+- Seasonal guard applied: Black Friday (Oct Wk 3), Winter Wonderland (Nov Wk 1), Year in Review (Nov Wk 3), Solstice Stays (Nov Wk 4) all ineligible (>6 weeks from target month). Indoor-outdoor living = evergreen, eligible immediately.
+- Competitive gap: competitors do dome/glass-wall roundups transactionally; our angle is the design philosophy of the dissolving threshold between inside and outside.
+- Article type: Curated Roundup (8 stays, 1,800-2,500 words)
+- Target keywords: indoor outdoor living cabin, screened porch cabin rentals, glass wall vacation rental, transparent dome stays
+
+**RESEARCH-011** ✓ — Stay data collected from stays-export.json. Payload API not reachable from remote environment; local data used. 8 stays selected:
+- dome-smoky-mountains-tn (TN): transparent bubble dome, deer at dawn through walls
+- romantic-mountain-dome-nc (NC): skylight dome, 4.99★, stargaze from bed
+- skydome-hideaway-tx (TX): first luxury geodesic dome in DFW area, outdoor shower, 4.98★/429 reviews
+- bide-in-trees-skydeck-ga (GA): skydeck treehouse 20 ft up, 4.99★/313 reviews
+- solar-yurt-bellingham-wa (WA): solar-powered yurt, clear skydome ceiling, $138/night
+- ark-tiny-zion-ut (UT): bay window tiny house, 75 private acres, 20 min from Zion
+- ravens-nest-treehouse-mt (MT): crow's nest deck above forest canopy, Glacier NP 30 min
+- lake-sunapee-treehouse-nh (NH): wrap-around deck, Lake Sunapee + Mount Sunapee access
+- Geographic spread: TN, NC, TX, GA, WA, UT, MT, NH (8 states, 6 regions)
+- All stays: rating ≥ 4.89, reviews ≥ 87, valid affiliate URLs, images confirmed
+
+**WRITE-011** ✓ — Draft: content/drafts/indoor-outdoor-living-unique-stays.md
+- 2,189 words including frontmatter
+- Lede: the moment you can't tell if you're inside or outside; architecture that eliminates the question
+- Each stay opens with feeling, follows with fact
+- No banned words, no exclamation marks, no em dashes
+
+**SEO-011** ✓ — Keyword optimized:
+- Primary keyword "indoor outdoor living" in title, first 100 words, H2, metaTitle, metaDescription, excerpt
+- Long-tail variants: screened porch cabin rentals, glass wall vacation rental, transparent dome stays
+- 3 internal links: stargazing getaways, glamping for beginners, national forests
+- FAQ: 5 questions for AI citation
+- metaTitle: 46 chars, metaDescription: 124 chars
+
+**REVIEW-011** ✓ — Quality score: 9.1/10
+- Voice match: 9, Specificity: 9, Feeling-first: 9, Banned words: 10
+- SEO: 9, Embeds: 10, Practical value: 9, Cut test: 8
+- Banned word scan: clean. Exclamation scan: clean. Em dash scan: clean.
+- Status: PASSES gate (8.0+). Draft committed to PR for editorial review and publish.
+
+### Patterns
+- Indoor-outdoor stays are strongest when the architecture IS the feature, not just a background detail: transparent domes, crow's nest platforms, solar skydome yurts
+- Price spread $138-$456 (8 stays, 8 states) gives the article accessible entry points across budgets
+- "When to Go" table earns its place for multi-region roundups with strongly seasonal considerations
+- Payload API not accessible from remote execution environment; local stays-export.json is reliable substitute for research phase
