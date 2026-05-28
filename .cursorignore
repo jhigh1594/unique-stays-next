@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+.pnpm-store/
 
 # Next.js build output
 .next/
@@ -16,6 +17,7 @@ data/search-index.json
 
 # Claude / agent tooling
 .claude/
+.agents/
 .gstack/
 .superpowers/
 .remember/
@@ -35,3 +37,8 @@ skills-lock.json
 
 # Logs
 *.log
+
+# Test/cache artifacts
+test-results/
+__pycache__/
+**/__pycache__/

@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/test-results/
 
 # next.js
 /.next/
@@ -46,9 +47,15 @@ src/payload-types.ts
 
 # Python crawl venv
 .venv-crawl/
+__pycache__/
+**/__pycache__/
 
 # Claude Code worktrees
 .claude/
+.agents/
 .gstack/
 .superpowers/
 .env.local
+
+# Local package manager store
+.pnpm-store/

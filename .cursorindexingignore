@@ -1,0 +1,38 @@
+# Dependencies and package manager stores
+node_modules/
+.pnpm-store/
+
+# Next.js build/cache output
+.next/
+out/
+build/
+
+# Test/cache artifacts
+coverage/
+test-results/
+__pycache__/
+**/__pycache__/
+*.tsbuildinfo
+next-env.d.ts
+
+# Generated app data
+src/payload-types.ts
+data/search-index.json
+
+# Agent/tooling state
+.claude/
+.agents/
+.gstack/
+.superpowers/
+.remember/
+.firecrawl/
+.gbrain/
+.cursor/hooks/
+skills-lock.json
+
+# Env and OS files
+.env*
+.DS_Store
+
+# Logs
+*.log
