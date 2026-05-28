@@ -1,0 +1,690 @@
+[
+  {
+    "id": 379,
+    "slug": "waip-luxury-eco-glamping-in-offgrid-geodesic-dome-northland",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 378,
+    "slug": "secluded-serenity-mountainside-dome-retreat",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 377,
+    "slug": "troll-dome-tjeld-ya",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 373,
+    "slug": "mama-moon-treehouse",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 372,
+    "slug": "weasley-s-enchanted-treehouse-vermont-retreet",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 368,
+    "slug": "the-treecastle-at-the-roundhouse-homestead",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 366,
+    "slug": "breeze-in-a-tree-the-appleton-retreat",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 365,
+    "slug": "boulder-tree-house",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 364,
+    "slug": "little-red-treehouse",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 363,
+    "slug": "private-treehouse-escape-minutes-from-downtown",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 362,
+    "slug": "schoolhouse-spa-retreat-on-a-vermont-farm",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 361,
+    "slug": "romantic-mountain-escape-with-hot-tub-great-view",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 360,
+    "slug": "the-highland-grainbin-highland-cows-firepit",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 359,
+    "slug": "the-dome-at-blueberry-hill",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 358,
+    "slug": "crestdomes-moonlight-milky-way",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 357,
+    "slug": "modern-a-frame-w-hot-tub-stargazing-dome",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 356,
+    "slug": "remote-lakefront-cabin-norfork-lake-hot-tub",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 355,
+    "slug": "the-farmhouse-goat-daddy-s",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 354,
+    "slug": "lost-creek-cabin-4-back-of-beyond",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 353,
+    "slug": "mystic-pond-cabin-dark-history",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 352,
+    "slug": "the-a-frame-luxurious-cabin-w-sauna-on-80-acres",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 351,
+    "slug": "lux-designer-private-waterfront-hot-tub-secluded",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 350,
+    "slug": "the-binocular-peaceful-architect-cottage",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 349,
+    "slug": "the-alpine-a-frame-cozy-cabin-with-barrel-sauna",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 348,
+    "slug": "secluded-offgrid-backcountry-lodge-in-natl-forest",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 347,
+    "slug": "private-stargazer-home-w-hot-tub-rooftop-deck",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 346,
+    "slug": "into-the-woods-aframe-hot-tub-firepit-6-acres",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 345,
+    "slug": "big-bottom-bungalow-park-views-secluded-hot-tub",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 344,
+    "slug": "new-coral-ridge-on-indian-creek-a-couples-getaway",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 343,
+    "slug": "liberty-hills-cabin-hot-tub-fire-pit",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 342,
+    "slug": "big-oak-hillside-retreat-secluded-tiny-cabin",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 341,
+    "slug": "forest-tiny-house-fire-pit-olympic-peninsula",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 340,
+    "slug": "cozy-comfort-on-250-acre-private-estate",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 339,
+    "slug": "boutique-tiny-home-private-hot-tub-walk-to-main-st",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 338,
+    "slug": "beautiful-timber-frame-retreat",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 337,
+    "slug": "the-maine-frame-modern-a-frame-cabin-in-freeport",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 336,
+    "slug": "lockwood-mansion-carriage-house-vampire-diaries",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 335,
+    "slug": "a-luxury-treehouse-experience-wood-fired-cedar-hot-tub",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 334,
+    "slug": "1973-airstream-at-panther-branch-farm-with-sauna",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 333,
+    "slug": "cozy-custom-a-frame-hot-tub-near-catawba-falls",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 332,
+    "slug": "1832-historic-washington-bottom-farm-log-cabin",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 331,
+    "slug": "solace-sphere",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 330,
+    "slug": "riverside-retreat-w-sauna-hot-tub-fireplace",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 329,
+    "slug": "the-smoky-mountain-treehouse-views-cedar-hot-tub",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 328,
+    "slug": "romantic-cliffside-bungalow-with-amazing-views",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 327,
+    "slug": "secluded-a-frame-w-hot-tub-forest",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 326,
+    "slug": "treehouse-hideaway-pet-friendly-hot-tub-game-room-fannin-county-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 325,
+    "slug": "magical-treehouse-w-full-disc-golf-course-polk-county-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 324,
+    "slug": "charming-historic-lighthouse-with-great-sunsets-vallejo-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 323,
+    "slug": "treehouse-on-the-katy-dogwood-warren-county-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 322,
+    "slug": "the-dogwood-in-treehouse-grove-at-norton-creek-gatlinburg-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 321,
+    "slug": "tahoe-treehouse-peak-lake-view-doggo-welcome-incline-village-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 320,
+    "slug": "treetop-hideaways-dogwood-treehouse-in-chattanooga-chattanooga-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 319,
+    "slug": "lighthouse-cottage-dog-friendly-historic-district-beaufort-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 318,
+    "slug": "situated-at-nash-point-lighthouse-stella-provides-accommodation-for-up-to-five-g",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 317,
+    "slug": "cedar-creek-hideaway-secluded-geodesic-dome-cabin-woodstove-bbq-dogs-ok-welches-",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 316,
+    "slug": "large-geodesic-dome-with-loft-near-lakes-and-minutes-from-wisconsin-dells-juneau",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 315,
+    "slug": "bluestone-at-entangled-acres-log-cabin-w-wifi-on-16-acre-animal-sanctuary-owego-",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 314,
+    "slug": "rustic-modern-luxury-cabin-hot-tub-and-pets",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 313,
+    "slug": "cozycattail-cabin-on-our-secluded-coastal-estuary-woodland-retreat-douglas-count",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 312,
+    "slug": "the-henhouse-a-tiny-home-on-wheels-pet-friendly-van-buren-county-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 311,
+    "slug": "5-mins-to-city-rooftop-deck-views-on-queen-anne",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 310,
+    "slug": "birdsong-double-decker-bus-tiny-house",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 309,
+    "slug": "fairytale-cabin",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 308,
+    "slug": "overview",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 307,
+    "slug": "sunset-cove-whispering-wood-bag-end-retreat",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 306,
+    "slug": "baumhaus-cabin-and-treehouse-vacation-rental",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 305,
+    "slug": "treehouse-point",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 304,
+    "slug": "cabin-in-the-sky-with-an-outdoor-kitchen",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 303,
+    "slug": "the-treehouse",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 300,
+    "slug": "pacific-bin-sauna-hot-tub-steam-room",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 299,
+    "slug": "interstellar-cabin",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 298,
+    "slug": "hawks-whistle-peaceful-dog-friendly-hot-tub-waterfall-nearby-suches-vrbo",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 297,
+    "slug": "carpenter-s-cabin",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 295,
+    "slug": "uphill-invisible-house",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 293,
+    "slug": "secluded-catskills-treehouse-hot-tub-roof-deck",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 289,
+    "slug": "black-desert-house",
+    "location": "Homestead Modern, LL",
+    "state": "LL",
+    "parsed_city": "Homestead Modern",
+    "parsed_state": "LL"
+  },
+  {
+    "id": 275,
+    "slug": "glamping",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 274,
+    "slug": "drovers-hill",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 273,
+    "slug": "oberon-cottage-beachfront-mt-rainer-view-privacy",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 272,
+    "slug": "pine-creek-haven",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 268,
+    "slug": "riverfront-cabin-hot-tub-fire-pit-steam-shower",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 267,
+    "slug": "cabin-on-the-river",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 266,
+    "slug": "the-nord-pine-smoky-mountains-scandinavian-a-frame-cabin-rental",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 265,
+    "slug": "treehouse-rental-highlands-nc",
+    "location": "Unknown",
+    "state": "Unknown",
+    "parsed_city": null,
+    "parsed_state": null
+  },
+  {
+    "id": 261,
+    "slug": "the-landing-house",
+    "location": "Homestead Modern, LL",
+    "state": "LL",
+    "parsed_city": "Homestead Modern",
+    "parsed_state": "LL"
+  }
+]

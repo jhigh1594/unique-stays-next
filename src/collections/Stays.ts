@@ -82,12 +82,23 @@ export const Stays: CollectionConfig = {
       name: 'location',
       type: 'text',
       required: true,
-      admin: { description: 'City, State (e.g. Joshua Tree, California)' },
+      admin: { description: 'Display string (e.g. Joshua Tree, California)' },
+    },
+    {
+      name: 'city',
+      type: 'text',
+      admin: { description: 'Parsed city name (e.g. Joshua Tree)', position: 'sidebar' },
     },
     {
       name: 'state',
       type: 'text',
       required: true,
+      admin: { description: 'Full state name (e.g. California)', position: 'sidebar' },
+    },
+    {
+      name: 'stateCode',
+      type: 'text',
+      admin: { description: '2-letter state code (e.g. CA)', position: 'sidebar' },
     },
     {
       name: 'region',
@@ -101,6 +112,14 @@ export const Stays: CollectionConfig = {
         { label: 'Northeast', value: 'Northeast' },
         { label: 'Southeast', value: 'Southeast' },
       ],
+    },
+    {
+      name: 'coordinates',
+      type: 'point',
+      admin: {
+        description: 'Latitude/longitude for distance queries',
+        position: 'sidebar',
+      },
     },
 
     // ── Classification ────────────────────────────────────────
