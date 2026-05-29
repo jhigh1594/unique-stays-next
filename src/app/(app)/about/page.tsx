@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import AboutContent from './_about/AboutContent'
 
 export const metadata: Metadata = {
-  title: 'About — Our Story',
+  title: 'About — This Started With a Treehouse',
   description:
-    'How Unique Stays USA finds and collects extraordinary vacation rentals across America. The story behind the directory.',
+    'How one treehouse in Oregon became a directory of four hundred extraordinary vacation rentals across America. The story behind Unique Stays USA.',
   alternates: { canonical: '/about' },
 }
 

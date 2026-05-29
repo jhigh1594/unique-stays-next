@@ -149,7 +149,7 @@ export default function AboutContent() {
 
   return (
     <div className="min-h-screen" style={{ background: C.cream }}>
-      {/* ── I. Hero ── */}
+      {/* ── I. The Moment ── */}
       <section className="pt-32 pb-20 relative overflow-hidden" style={{ background: C.sand }}>
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -158,7 +158,7 @@ export default function AboutContent() {
                 className="stamp-badge mb-6 inline-block"
                 style={{ color: C.terra, borderColor: C.terra }}
               >
-                Field Report / Est. 2024
+                Field Report / Est. 2026
               </span>
 
               <h1
@@ -172,17 +172,45 @@ export default function AboutContent() {
                 className="text-lg leading-relaxed mb-4 fade-up"
                 style={{ color: C.bodyText, fontFamily: FONT.body }}
               >
-                There&rsquo;s a treehouse in Oregon where the wind stays up in the canopy and the
-                ground is almost completely still. That particular quiet is what we spend our time
-                looking for.
+                Oregon, somewhere past Silverton. Forty feet up in a stand of Douglas fir. The host
+                had built the staircase himself, each plank a different width because he&rsquo;d cut
+                them by hand, and the railing was driftwood he&rsquo;d carried from the coast piece
+                by piece.
+              </p>
+
+              <p
+                className="text-base leading-relaxed mb-4 fade-up"
+                style={{ color: C.muted, fontFamily: FONT.body }}
+              >
+                The wind moved through the canopy but never quite reached the platform, and the
+                stillness up there felt like the trees were holding you. A kind of quiet
+                I&rsquo;d forgotten existed.
+              </p>
+
+              <p
+                className="text-base leading-relaxed mb-4 fade-up"
+                style={{ fontFamily: FONT.display, color: C.ink, fontStyle: 'italic' }}
+              >
+                I lay there thinking this is what a weekend is supposed to feel like.
+              </p>
+
+              <p
+                className="text-base leading-relaxed mb-4 fade-up"
+                style={{ color: C.bodyText, fontFamily: FONT.body }}
+              >
+                Three months later I tried to recreate that weekend. Another unforgettable stay,
+                somewhere that would stop me cold the way that treehouse did. Instead I scrolled
+                through cookie-cutter after cookie-cutter. The same cabin with a
+                &ldquo;Live, Laugh, Love&rdquo; sign on the same wall, the same generic
+                &ldquo;cozy retreat&rdquo; in every state, blurring together until I couldn&rsquo;t
+                tell if I&rsquo;d already seen this one or not.
               </p>
 
               <p
                 className="text-base leading-relaxed fade-up"
-                style={{ color: C.muted, fontFamily: FONT.body }}
+                style={{ color: C.bodyText, fontFamily: FONT.body }}
               >
-                We got tired of losing weekends to the scroll, past three thousand forgettable
-                listings, trying to find the one worth booking. So we started collecting.
+                I never set out to build a directory. I just wanted another weekend like that one.
               </p>
             </div>
 
@@ -220,7 +248,7 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* ── II. The Problem ── */}
+      {/* ── II. The Frustration ── */}
       <section
         className="py-28 relative overflow-hidden grain-overlay"
         style={{ background: C.forest }}
@@ -237,22 +265,35 @@ export default function AboutContent() {
           </span>
 
           <WordReveal
-            text="You want something memorable. You open the app. Page after page of the same cozy retreat with the same IKEA lamp. Fine places. Clean places. Places you'll forget by next Tuesday."
+            text="Then I went home and tried to find another one."
             className="text-2xl md:text-3xl font-bold leading-snug mb-10"
             style={{ fontFamily: FONT.display, color: C.light }}
           />
 
           <motion.p
-            className="text-lg leading-relaxed mb-10"
+            className="text-lg leading-relaxed mb-6"
             style={{ color: C.cream80, fontFamily: FONT.body }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
-            But somewhere on page eleven, there&rsquo;s a converted barn with a handmade iron bed
-            frame. A fire tower someone spent two years restoring by hand. A cave dwelling where the
-            light comes through the rock at four in the afternoon and turns everything amber.
+            You find one extraordinary place and you figure the algorithm will show you more like it.
+            That&rsquo;s the whole promise. But instead it&rsquo;s page after page of the same
+            white-on-white cozy retreat with the same sheepskin draped over the same accent chair.
+          </motion.p>
+
+          <motion.p
+            className="text-lg leading-relaxed mb-6"
+            style={{ color: C.cream80, fontFamily: FONT.body }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            Fine places. Clean places. Places you forget by next Tuesday. I&rsquo;d scroll through
+            hundreds of them on a Sunday afternoon, worn out by page six, and book whatever was left.
+            Then I&rsquo;d show up and think: this could be a Holiday Inn with better lighting.
           </motion.p>
 
           <motion.p
@@ -261,15 +302,17 @@ export default function AboutContent() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
           >
             <span style={{ color: C.terra }}>Fine is the enemy.</span>{' '}
-            <span style={{ color: C.light }}>We find what&rsquo;s buried.</span>
+            <span style={{ color: C.light }}>
+              But fine is all the algorithm knows how to give you.
+            </span>
           </motion.p>
         </div>
       </section>
 
-      {/* ── III. The Filter ── */}
+      {/* ── III. The Discovery ── */}
       <section className="py-24 relative overflow-hidden">
         <GhostNumber n="III" />
 
@@ -280,43 +323,43 @@ export default function AboutContent() {
                 className="stamp-badge mb-6 inline-block"
                 style={{ color: C.terra, borderColor: C.terra }}
               >
-                The Filter
+                The Spark
               </span>
 
               <h2
-                className="text-4xl md:text-5xl font-bold leading-tight mb-6 fade-up"
+                className="text-4xl md:text-5xl font-bold leading-tight mb-8 fade-up"
                 style={{ fontFamily: FONT.display, color: C.ink }}
               >
-                What makes the cut
+                Page six. Four times.
               </h2>
 
               <div
                 className="space-y-5 fade-up"
                 style={{ color: C.bodyText, fontFamily: FONT.body }}
               >
+                <p className="text-base leading-relaxed">
+                  A converted barn in upstate New York with a handmade iron bed frame and exposed
+                  beams that were actually old, not &ldquo;reclaimed&rdquo; from a warehouse sale.
+                  A woodstove and a window seat where the morning light came in at an angle and
+                  stayed for an hour.
+                </p>
+
+                <p className="text-base leading-relaxed">
+                  A fire tower in the Southwest that someone spent two years restoring by hand. The
+                  cabin at the top had a 360-degree view of canyon and sky and nothing else.
+                </p>
+
+                <p className="text-base leading-relaxed">
+                  A cave dwelling where the light came through the rock at four in the afternoon and
+                  turned everything amber.
+                </p>
+
                 <p
-                  className="text-lg font-semibold"
+                  className="text-lg font-bold mt-6"
                   style={{ fontFamily: FONT.display, color: C.ink }}
                 >
-                  Every stay passes one test: does it make us stop scrolling?
-                </p>
-
-                <p className="text-base leading-relaxed">
-                  Not commission potential. Not platform popularity. Not whether it photographs well
-                  from every angle. We look for architectural singularity. A setting that stops you
-                  cold. Something you&rsquo;ll describe to friends.
-                </p>
-
-                <p className="text-base leading-relaxed">
-                  We check Airbnb, VRBO, Wander, and direct booking sites. Read the reviews. Study
-                  the photos. Look at the map. If a stay stops being great, it comes down.
-                </p>
-
-                <p
-                  className="text-xl font-bold mt-8"
-                  style={{ fontFamily: FONT.display, color: C.terra }}
-                >
-                  We looked at over ten thousand. Roughly four hundred made it.
+                  These places existed. They were just buried on page six behind hundreds of
+                  listings with the word &ldquo;charming&rdquo; in the title.
                 </p>
               </div>
             </div>
@@ -357,7 +400,7 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* ── IV. How It Works ── */}
+      {/* ── IV. The Obsession ── */}
       <section className="py-24 relative overflow-hidden" style={{ background: C.sand }}>
         <GhostNumber n="IV" />
 
@@ -367,17 +410,69 @@ export default function AboutContent() {
               className="stamp-badge mb-4 inline-block"
               style={{ color: C.terra, borderColor: C.terra }}
             >
-              Simple as it gets
+              The List
             </span>
             <h2
-              className="text-4xl md:text-5xl font-bold"
+              className="text-4xl md:text-5xl font-bold mb-6"
               style={{ fontFamily: FONT.display, color: C.ink }}
             >
-              How It{' '}
-              <span style={{ fontStyle: 'italic', color: C.terra }}>Works</span>
+              It started with a spreadsheet.
             </h2>
+            <p
+              className="text-base leading-relaxed max-w-xl mx-auto mb-2"
+              style={{ color: C.muted, fontFamily: FONT.body }}
+            >
+              URL, location, one sentence about what made it different. Then a folder of saved
+              photos, then a notes file with links and prices and reviews I&rsquo;d actually read
+              all the way through.
+            </p>
+            <p
+              className="text-base leading-relaxed max-w-xl mx-auto"
+              style={{ color: C.muted, fontFamily: FONT.body }}
+            >
+              I showed it to friends. They said, &ldquo;How did you find this?&rdquo; Page six.
+              Every time.
+            </p>
           </div>
 
+          <div className="max-w-2xl mx-auto mb-12">
+            <motion.p
+              className="text-lg leading-relaxed text-center mb-4"
+              style={{ color: C.bodyText, fontFamily: FONT.body }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.8 }}
+            >
+              Then a friend texted on a Thursday looking for a place in Vermont that weekend,
+              something like that barn I&rsquo;d shown him. I had an answer in three minutes because
+              I&rsquo;d already looked at every listing in the state.
+            </motion.p>
+
+            <motion.p
+              className="text-lg leading-relaxed text-center mb-4"
+              style={{ color: C.bodyText, fontFamily: FONT.body }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+            >
+              A few more friends asked the same question over the next couple months.
+            </motion.p>
+
+            <motion.p
+              className="text-xl font-bold text-center mt-6"
+              style={{ fontFamily: FONT.display, color: C.terra }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              That&rsquo;s when the spreadsheet stopped being a spreadsheet.
+            </motion.p>
+          </div>
+
+          {/* Step cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {STEPS.map((item, i) => (
               <motion.div
@@ -424,9 +519,62 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* ── V. Spokes ── */}
+      {/* ── V. The Standard ── */}
       <section className="py-24 relative overflow-hidden">
         <GhostNumber n="V" />
+
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="mb-10 fade-up">
+            <span
+              className="stamp-badge mb-6 inline-block"
+              style={{ color: C.terra, borderColor: C.terra }}
+            >
+              The Filter
+            </span>
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-6"
+              style={{ fontFamily: FONT.display, color: C.ink }}
+            >
+              What makes the cut.
+            </h2>
+            <p
+              className="text-lg font-semibold mb-6"
+              style={{ fontFamily: FONT.display, color: C.ink }}
+            >
+              Every stay passes one test: does it make us stop scrolling?
+            </p>
+            <p className="text-base leading-relaxed mb-4" style={{ color: C.bodyText, fontFamily: FONT.body }}>
+              We&rsquo;re looking for a place that doesn&rsquo;t look like every other place, with a
+              setting that stops you cold and something you&rsquo;ll actually describe to friends
+              afterward.
+            </p>
+            <p className="text-base leading-relaxed mb-4" style={{ color: C.bodyText, fontFamily: FONT.body }}>
+              We check Airbnb, VRBO, Wander, and direct booking sites and read the reviews and study
+              the photos and look at the map. We&rsquo;ve spent an hour on a listing before realizing
+              the photos were hiding a parking lot two feet from the &ldquo;secluded&rdquo; deck, or
+              a highway visible through the &ldquo;forest&rdquo; view. Stays come down when they stop
+              being great.
+            </p>
+            <p
+              className="text-xl font-bold mt-8"
+              style={{ fontFamily: FONT.display, color: C.terra }}
+            >
+              We looked at thousands. A few hundred made it.
+            </p>
+            <p
+              className="text-base mt-4"
+              style={{ fontFamily: FONT.display, color: C.ink, fontStyle: 'italic' }}
+            >
+              That&rsquo;s the work. Finding the right ones and having the discipline to leave the
+              rest.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── VI. The Collection ── */}
+      <section className="py-24 relative overflow-hidden" style={{ background: C.sand }}>
+        <GhostNumber n="VI" />
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12 fade-up">
@@ -440,11 +588,16 @@ export default function AboutContent() {
               className="text-4xl md:text-5xl font-bold mb-4"
               style={{ fontFamily: FONT.display, color: C.ink }}
             >
-              For every kind of trip
+              For every kind of trip.
             </h2>
-            <p className="text-base" style={{ color: C.muted, fontFamily: FONT.body }}>
+            <p className="text-base mb-2" style={{ color: C.muted, fontFamily: FONT.body }}>
               Some travelers know exactly what they need. A desk, strong wifi, a door that closes.
               Others know only that the dog has to come.
+            </p>
+            <p className="text-base mb-8" style={{ color: C.muted, fontFamily: FONT.body }}>
+              The collections grew from real trips. The work trip where we needed reliable internet
+              and found a yurt with fiber. The weekend we couldn&rsquo;t bring the dog because we
+              couldn&rsquo;t find a single place that meant it when they said &ldquo;pet-friendly.&rdquo;
             </p>
           </div>
 
@@ -478,19 +631,82 @@ export default function AboutContent() {
             className="mt-10 text-base font-semibold fade-up"
             style={{ fontFamily: FONT.display, color: C.ink }}
           >
-            Same standard, different need. Only the ones worth your time.
-          </p>
-
-          <p
-            className="mt-8 text-base fade-up"
-            style={{ color: C.muted, fontFamily: FONT.body }}
-          >
-            For longer reads between trips, the Journal is our field report.
+            Same standard. Different need. Only the ones worth your time.
           </p>
         </div>
       </section>
 
-      {/* ── VI. Journal ── */}
+      {/* ── VII. The Invitation ── */}
+      <section
+        className="py-24 relative overflow-hidden grain-overlay"
+        style={{ background: C.terra }}
+      >
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center relative z-10">
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ fontFamily: FONT.display, color: C.light }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            The treehouse is in here.
+            <br />
+            So are a few hundred others.
+          </motion.h2>
+
+          <motion.p
+            className="text-base mb-2"
+            style={{ color: C.cream80, fontFamily: FONT.body }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            That treehouse in Oregon. The barn. The fire tower. The cave. And a few hundred more
+            that made us stop scrolling.
+          </motion.p>
+
+          <motion.p
+            className="text-lg font-semibold mb-8"
+            style={{ fontFamily: FONT.display, color: C.light }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            We built this because we were tired of settling for page six.
+          </motion.p>
+
+          <motion.p
+            className="text-xl mb-8"
+            style={{ fontFamily: FONT.display, color: C.light, fontStyle: 'italic' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            Now you don&rsquo;t have to either.
+          </motion.p>
+
+          <Link href="/collection">
+            <motion.button
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold"
+              style={{
+                background: C.light,
+                color: C.terra,
+                fontFamily: FONT.body,
+              }}
+              whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(0,0,0,0.2)' }}
+              transition={{ duration: 0.2 }}
+            >
+              Explore the directory <ArrowRight className="w-5 h-5" />
+            </motion.button>
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Journal ── */}
       <section className="py-20 relative overflow-hidden" style={{ background: C.sand }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span
@@ -519,13 +735,6 @@ export default function AboutContent() {
             letter from someone who just got back.
           </p>
 
-          <p
-            className="text-sm fade-up"
-            style={{ fontFamily: FONT.hand, color: C.lightMuted, fontSize: '1.1rem' }}
-          >
-            Pinned to the board as they arrive.
-          </p>
-
           <motion.div className="mt-8" whileHover={{ gap: '12px' }} transition={{ duration: 0.2 }}>
             <Link
               href="/journal"
@@ -535,49 +744,6 @@ export default function AboutContent() {
               Read the Journal <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* ── VII. CTA ── */}
-      <section
-        className="py-24 relative overflow-hidden grain-overlay"
-        style={{ background: C.terra }}
-      >
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-4"
-            style={{ fontFamily: FONT.display, color: C.light }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            The treehouse is in here.
-            <br />
-            So are four hundred others.
-          </motion.h2>
-
-          <p
-            className="text-base mb-8"
-            style={{ color: C.cream80, fontFamily: FONT.body }}
-          >
-            Your next trip is waiting.
-          </p>
-
-          <Link href="/collection">
-            <motion.button
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold"
-              style={{
-                background: C.light,
-                color: C.terra,
-                fontFamily: FONT.body,
-              }}
-              whileHover={{ scale: 1.03, boxShadow: '0 8px 30px rgba(0,0,0,0.2)' }}
-              transition={{ duration: 0.2 }}
-            >
-              Explore the directory <ArrowRight className="w-5 h-5" />
-            </motion.button>
-          </Link>
         </div>
       </section>
     </div>
