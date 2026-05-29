@@ -7,6 +7,11 @@ const ipCounts = new Map<string, { count: number; resetAt: number }>()
 const IP_LIMIT = 5
 const IP_WINDOW_MS = 60 * 60 * 1000
 
+/** Normalize email: lowercase, trim, strip Gmail-style + aliases for dedup. */
+function normalizeEmail(raw: string): string {
+  return raw.trim().toLowerCase().replace(/\+[^@]*@/, '@')
+}
+
 function isIpRateLimited(ip: string): boolean {
   const now = Date.now()
   const entry = ipCounts.get(ip)
@@ -49,12 +54,17 @@ export async function POST(req: NextRequest) {
 
     // Basic email validation
     const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRe.test(rawEmail)) {
+    if (!emailRe.test(rawEmail) || rawEmail.length > 254) {
       return NextResponse.json({ error: 'invalid email' }, { status: 400 })
     }
 
-    // Normalize email to lowercase for consistent dedup + storage
-    const email = rawEmail.toLowerCase()
+    // Zip code format validation (5-digit US)
+    if (!/^\d{5}$/.test(zipCode)) {
+      return NextResponse.json({ error: 'invalid zip code' }, { status: 400 })
+    }
+
+    // Normalize email: lowercase + strip + aliases for dedup
+    const email = normalizeEmail(rawEmail)
 
     // Rate limit: check if this email was already saved today
     const payload = await getPayload({ config })
