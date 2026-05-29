@@ -12,24 +12,43 @@ export default function VacationQuizClient() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [started, setStarted] = useState(false)
+  const [pendingAnswers, setPendingAnswers] = useState<QuizAnswers | null>(null)
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState<string | null>(null)
 
-  const handleComplete = useCallback(async (quizAnswers: QuizAnswers) => {
+  const handleSubmitWithQuiz = useCallback(async (quizAnswers: QuizAnswers, userEmail: string) => {
     setLoading(true)
     setError(null)
     setAnswers(quizAnswers)
 
     try {
-      const res = await fetch('/api/vacation-quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(quizAnswers),
-      })
+      // Fire quiz scoring and lead save in parallel
+      const [quizRes] = await Promise.all([
+        fetch('/api/vacation-quiz', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(quizAnswers),
+        }),
+        fetch('/api/vacation-quiz/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: userEmail,
+            zipCode: quizAnswers.zipCode,
+            occasion: quizAnswers.occasion,
+            vibe: quizAnswers.vibe,
+            distance: quizAnswers.distance,
+            budget: quizAnswers.budget,
+            mustHave: quizAnswers.mustHave,
+          }),
+        }).catch(() => null), // lead failure must not block results
+      ])
 
-      if (!res.ok) {
+      if (!quizRes.ok) {
         throw new Error('Failed to get matches')
       }
 
-      const data = await res.json()
+      const data = await quizRes.json()
       setResults(data.results)
       setResultSlug(data.resultSlug)
 
@@ -51,12 +70,31 @@ export default function VacationQuizClient() {
     }
   }, [])
 
+  const handleComplete = useCallback((quizAnswers: QuizAnswers) => {
+    setPendingAnswers(quizAnswers)
+  }, [])
+
+  const handleEmailSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault()
+    if (!pendingAnswers) return
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRe.test(email)) {
+      setEmailError('Please enter a valid email address')
+      return
+    }
+    setEmailError(null)
+    handleSubmitWithQuiz(pendingAnswers, email.trim())
+  }, [pendingAnswers, email, handleSubmitWithQuiz])
+
   const handleRetake = useCallback(() => {
     setResults(null)
     setAnswers(null)
     setResultSlug('')
     setError(null)
     setStarted(false)
+    setPendingAnswers(null)
+    setEmail('')
+    setEmailError(null)
     window.history.replaceState({}, '', '/vacation-quiz')
   }, [])
 
@@ -100,6 +138,49 @@ export default function VacationQuizClient() {
           >
             Try Again
           </button>
+        </div>
+      </div>
+    )
+  }
+
+  // Email gate — required before seeing results
+  if (pendingAnswers && !results) {
+    return (
+      <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md text-center">
+          <p className="font-body text-sm font-bold tracking-widest uppercase text-terracotta mb-3">
+            Almost there!
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl font-semibold text-foreground leading-tight mb-3">
+            See your curated matches
+          </h2>
+          <p className="font-body text-muted-foreground mb-8">
+            Enter your email to unlock your personalized stay recommendations.
+          </p>
+          <form onSubmit={handleEmailSubmit} className="space-y-4">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              required
+              autoFocus
+              className="w-full px-4 py-3 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground font-body focus:outline-none focus:ring-2 focus:ring-terracotta/40 focus:border-terracotta transition-all"
+            />
+            {emailError && (
+              <p className="font-body text-sm text-red-500">{emailError}</p>
+            )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full px-6 py-3 rounded-lg bg-terracotta text-warm-white font-body font-bold text-lg shadow-lg hover:bg-terracotta-light hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Finding your matches...' : 'Show My Matches →'}
+            </button>
+          </form>
+          <p className="font-body text-xs text-muted-foreground mt-4">
+            We&apos;ll also send you curated picks. Unsubscribe anytime.
+          </p>
         </div>
       </div>
     )
