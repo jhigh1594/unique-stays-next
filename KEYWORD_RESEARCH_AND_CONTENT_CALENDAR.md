@@ -1,5 +1,5 @@
 # UniqueStaysUSA — Keyword Research & Content Calendar Strategy
-**Prepared:** May 2026 | **Version:** 1.0
+**Prepared:** May 2026 | **Reviewed:** May 28, 2026 | **Version:** 1.1
 
 ## Executive Summary
 
@@ -10,6 +10,25 @@ Our strategy combines:
 2. **Editorial content** (blog/journal) targeting high-intent informational and commercial queries
 3. **Lead magnets** that capture email while ranking for specific long-tail queries
 4. **Seasonal content** aligned with travel planning cycles
+
+### May 28, 2026 Current-State Audit
+
+Payload currently contains **39 published journal posts**. The original calendar is directionally correct, but it is no longer current: several June-September concepts were pulled forward and published in May, and a large new batch of property-type, amenity, audience, and direct-intent roundups has been added.
+
+**Published content now over-indexes on:**
+- Property types: treehouses, A-frames, domes, yurts, tiny homes, houseboats, lighthouses, caves/hobbit houses, converted barns/silos, castles/estates.
+- Amenities and booking filters: hot tubs, saunas, pools, fireplaces, mountain views, hiking access, under-$200 stays.
+- Audience/occasion roundups: romantic, pet-friendly, family-friendly, large groups, summer, Thanksgiving.
+- Brand/editorial foundations: Joshua Tree, Skip the Crowds, Workcation Manifesto, Why We Built UniqueStaysUSA.
+
+**Under-covered after the May publishing sprint:**
+- Geo-specific state and region guides beyond Joshua Tree.
+- Direct-booking/editorial trust content that differentiates UniqueStaysUSA from Airbnb/VRBO-only roundups.
+- Planning utilities and lead magnets; none of the calculator/finder concepts appear to be launched yet.
+- Decision-stage comparison content: platform comparisons, booking strategy, cancellation/fee guidance, and "where to book" intent.
+- Localized national-park adjacency guides; Skip the Crowds exists, but park-by-park commercial pages are still mostly open.
+
+**Calendar implication:** Do not keep publishing broad national "best X in America" roundups as the default next move. The next tranche should diversify into geo, direct-booking trust, planning tools, and decision-stage buying help.
 
 ## Part 1: High-Value Keyword Clusters
 
@@ -77,15 +96,43 @@ Based on competitive analysis and existing content, here are our priority keywor
 | 2 | Journal Post | "The Best Treehouse Rentals in the USA" | best treehouse rentals USA, treehouse stays America | Authority building, backlinks | Published |
 | 3 | Journal Post | "Fishing Cabins: Top Unique Stays for Anglers Across America" | fishing cabins, fly fishing retreats, anglers unique stays | Niche activity targeting | Published |
 
-### June 2026: Summer Kickoff
-**Theme:** Summer travel planning and outdoor activities
+### June 2026: The Anti-Crowd Summer Guide
+**Theme:** National U.S. summer travel planning for readers who want memorable trips without following everyone else to the same places.
 
-| Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
+Prioritize crowd-avoidance, regional travel intent, road-trip planning, cool-weather escapes, lake/coast trips, and booking-trust guidance. Each post should internally link to 2-4 existing May assets where relevant, especially treehouses, A-frames, domes, lakefront stays, hiking stays, mountain views, pools, saunas, under-$200 stays, family-friendly stays, and direct-booking content.
+
+| Date | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
-| 1 | Journal Post | "Lakefront Unique Stays: Cabins, Domes & A-Frames on the Water" | lakefront cabins, waterfront unique stays, lake house alternatives | Summer travel capture | Published |
-| 2 | Journal Post | "Unique Stays with Pools: From Desert Oases to Mountain Plunge Pools" | cabins with pools, unique stays swimming pool, glamping pool access | Amenity-focused content | Published |
-| 3 | Journal Post | "Glamping for Beginners: Your First Unique Stay, Explained" | glamping for beginners, first glamping trip, unique stay guide | Top-of-funnel education | Published |
-| 4 | Journal Post | "Best Unique Stays Near National Forests: Disperse, Disconnect, Unwind" | unique stays near national forests, forest cabins, woodland glamping | Outdoor recreation targeting | Published |
+| Jun 1 | Journal Post | "Avoid Yosemite Crowds: Sierra Escapes That Still Feel Wild" | Yosemite alternatives, less crowded Sierra Nevada, places like Yosemite | Launch anti-crowd theme with high-demand park intent | Planned |
+| Jun 2 | Journal Post | "Skip Zion This Summer: Red Rock Trips Without the Shuttle Line" | Zion alternatives, less crowded Utah parks, red rock vacation | Capture Utah summer planning intent | Planned |
+| Jun 3 | Journal Post | "Avoid Yellowstone Crowds: Big Sky Escapes Beyond the Boardwalks" | Yellowstone alternatives, Montana summer vacation, less crowded Yellowstone | Build Mountain West park-adjacent cluster | Planned |
+| Jun 4 | Journal Post | "The Best Undiscovered U.S. Places for a Summer Vacation" | undiscovered summer vacation spots USA, underrated summer destinations | Broad shareable hub for the month | Planned |
+| Jun 5 | Journal Post | "Best Cool-Weather Summer Escapes in America" | cool summer vacations USA, escape summer heat, mountain summer towns | Practical heat-escape search intent | Planned |
+| Jun 6 | Journal Post | "The Quiet Great Lakes Summer Guide" | Great Lakes summer vacation, quiet lake towns Midwest, underrated lake towns | Diversify beyond West/Southwest | Planned |
+| Jun 7 | Journal Post | "The Anti-Crowd Pacific Northwest Road Trip" | Pacific Northwest road trip, Oregon Washington summer route, uncrowded PNW | Route-based Pinterest/search content | Planned |
+| Jun 8 | Journal Post | "Skip Grand Canyon Crowds: Northern Arizona Places That Still Feel Vast" | Grand Canyon alternatives, Northern Arizona road trip, less crowded Arizona | Southwest alternative cluster | Planned |
+| Jun 9 | Journal Post | "Avoid Acadia Crowds: Maine Coast Escapes Beyond Bar Harbor" | Acadia alternatives, Maine coast cabins, less crowded Maine summer | Northeast coastal search intent | Planned |
+| Jun 10 | Journal Post | "Under-the-Radar Desert Towns for Design-Forward Stays" | underrated desert towns USA, desert vacation rentals, design-forward desert stays | Connect travel angle to unique-stay positioning | Planned |
+| Jun 11 | Journal Post | "Airbnb vs Direct Booking for Unique Stays" | Airbnb vs direct booking, book direct vacation rental, unique stays booking | Decision-stage trust content | Planned |
+| Jun 12 | Journal Post | "The U.S. Lake Towns That Still Feel Like Secret Summer" | best lake towns USA, quiet lake vacations, summer lake getaways | Summer water intent | Planned |
+| Jun 13 | Journal Post | "The Blue Ridge Road Trip Beyond Asheville" | Blue Ridge road trip, Asheville alternatives, North Carolina mountain towns | Southeast route content | Planned |
+| Jun 14 | Journal Post | "Skip Great Smoky Mountains Crowds: Southern Appalachia Alternatives" | Smoky Mountains alternatives, less crowded Appalachia, Gatlinburg alternatives | Capture highest-volume park-adjacent intent | Planned |
+| Jun 15 | Journal Post | "The Driftless Summer Guide: Wisconsin, Minnesota, and Iowa Without the Crowds" | Driftless Area vacation, Wisconsin summer getaway, Midwest hidden vacation spots | Under-discovered regional authority | Planned |
+| Jun 16 | Journal Post | "Avoid Rocky Mountain National Park Crowds: Colorado Escapes Beyond Estes Park" | Rocky Mountain National Park alternatives, Estes Park alternatives, Colorado mountain vacation | Colorado summer planning intent | Planned |
+| Jun 17 | Journal Post | "The Most Overcrowded Summer Destinations and Where to Go Instead" | overcrowded summer destinations, where to go instead, avoid tourist crowds | Shareable comparison piece | Planned |
+| Jun 18 | Journal Post | "A Quiet Great Lakes Road Trip for Long Summer Weekends" | Great Lakes road trip, Midwest summer road trip, lake cabin route | Itinerary content for drivers | Planned |
+| Jun 19 | Journal Post | "Idaho Panhandle Summer: Lakes, Fire Lookouts, and Mountain Stays" | Idaho Panhandle vacation, Northern Idaho summer, Coeur d'Alene alternatives | Mountain/lake under-discovered cluster | Planned |
+| Jun 20 | Journal Post | "High-Elevation Summer Stays for When the City Feels Too Hot" | high elevation summer vacation, mountain towns summer, cool mountain getaways | Heat-escape conversion intent | Planned |
+| Jun 21 | Journal Post | "Skip Glacier Crowds: Northern Rockies Trips With More Breathing Room" | Glacier alternatives, Northern Rockies summer trip, Montana Idaho road trip | Northern Rockies cluster | Planned |
+| Jun 22 | Journal Post | "How to Find Book-Direct Unique Stays Without Getting Burned" | book direct vacation rentals, direct booking checklist, unique stays direct booking | Differentiated trust content | Planned |
+| Jun 23 | Journal Post | "Arkansas Ozarks Summer: Rivers, Cabins, and Quiet Mountain Roads" | Arkansas Ozarks vacation, Ozark cabin summer, Buffalo River stays | South/South-central diversification | Planned |
+| Jun 24 | Journal Post | "The Oregon Coast Unique Stay Road Trip" | Oregon Coast road trip, Oregon coast unique stays, Pacific coast cabins | High-visual route content | Planned |
+| Jun 25 | Journal Post | "Avoid Olympic National Park Crowds: Washington Forest and Island Alternatives" | Olympic National Park alternatives, Washington coast vacation, Puget Sound islands | PNW park-adjacent search | Planned |
+| Jun 26 | Journal Post | "Coastal Fog Escapes: U.S. Summer Trips That Stay Cool" | coastal summer escapes, cool beach towns USA, foggy coast vacation | Weather + coast angle | Planned |
+| Jun 27 | Journal Post | "North Georgia and the Southern Blue Ridge for a Quieter Summer" | North Georgia vacation, Blue Ridge Georgia cabins, Southern Appalachia summer | Southeast geo cluster | Planned |
+| Jun 28 | Journal Post | "When to Book a Cabin, Treehouse, or Glamping Stay for the Best Summer Price" | when to book cabin rental, glamping booking tips, summer vacation rental prices | Decision-stage planning | Planned |
+| Jun 29 | Journal Post | "The Quiet Side of California: A Summer Road Trip Beyond Big Sur and Joshua Tree" | California road trip alternatives, quiet California coast towns, Big Sur alternatives | California without repeating Joshua Tree | Planned |
+| Jun 30 | Journal Post | "How to Spot an Overhyped Destination Before You Book" | overhyped travel destinations, how to avoid tourist traps, vacation booking tips | Close month with durable trust content | Planned |
 
 ### Completed (Pre-Calendar)
 **Published before calendar was formalized — May 2026**
@@ -96,6 +143,35 @@ Based on competitive analysis and existing content, here are our priority keywor
 | - | Journal Post | "The 10 Most Extraordinary Treehouses in America" | best treehouse rentals USA, extraordinary treehouses America | Authority building, backlinks | Published |
 | - | Journal Post | "The Workcation Manifesto: Remote Work from a Treehouse" | remote work treehouse, work from anywhere unique stays | Target work-friendly spoke | Published |
 | - | Journal Post | "The 10 Best A-Frame Cabin Rentals in America" | best A-frame cabin rentals USA, A-frame cabins America | Authority building, backlinks | Published |
+
+### Completed Since Calendar Draft
+**Published in Payload between May 16-28, 2026 — added to keep the roadmap current**
+
+| Date | Content Type | Title/Topic | Primary Cluster | Strategy Note |
+|------|--------------|-------------|-----------------|---------------|
+| May 16 | Journal Post | "The Best Geodesic Dome Rentals in America" | Property type | Strengthens glamping/dome authority; avoid another broad dome roundup soon |
+| May 16 | Journal Post | "The Best Tiny Home Rentals in America" | Property type | Covers tiny-home generic demand; follow with state or budget variants |
+| May 17 | Journal Post | "The Best Houseboat Rentals in America" | Property type | Covers floating-stay demand; pair with lake/coastal guides |
+| May 17 | Journal Post | "Underground America: The Best Cave and Hobbit House Stays You Can Actually Book" | Property type | Strong shareable angle; useful for PR/backlinks |
+| May 18 | Journal Post | "The Best Converted Barn and Silo Rentals in America" | Property type | Farm/rural architecture cluster |
+| May 18 | Journal Post | "Best Lighthouse Rentals in the U.S." | Property type | Coastal/lighthouse cluster; can support Northeast and Great Lakes guides |
+| May 19 | Journal Post | "The Best Castle and Estate Rentals in America" | Property type | Luxury/group-adjacent cluster |
+| May 19 | Journal Post | "Best Yurt Rentals in America" | Property type | Covers yurt generic demand already planned for March 2027 |
+| May 20 | Journal Post | "Best Glamping Resorts in America" | Property type / Commercial | Broad commercial glamping query coverage |
+| May 20 | Journal Post | "Best Unique Stays with Hot Tubs in America" | Amenity | Amenity content now has meaningful coverage |
+| May 21 | Journal Post | "Best Pet-Friendly Unique Stays in America" | Audience / Spoke | Supports pet-friendly spoke |
+| May 21 | Journal Post | "The Most Romantic Unique Stays in America" | Audience / Occasion | Valentine's concept was pulled forward |
+| May 22 | Journal Post | "The Best Unique Large-Group Stays in America" | Audience | Supports group/family reunion intent |
+| May 22 | Journal Post | "Best Summer Getaways at Unique Stays in America" | Seasonal | Summer national roundup is covered |
+| May 23 | Journal Post | "The Best Unique Stays in America Under $200 a Night" | Price / Decision | Budget content is now covered at national level |
+| May 23 | Journal Post | "The Best Family-Friendly Unique Stays in America" | Audience | Family concept was pulled forward |
+| May 24 | Journal Post | "Coastal Unique Stays: Beachfront Domes, Lighthouses & Waterfront Cabins" | Region / Activity | Coastal cluster started |
+| May 24 | Journal Post | "Best Unique Stays with Saunas in America" | Amenity | Wellness amenity coverage started |
+| May 27 | Journal Post | "Best Unique Stays with Mountain Views in America" | Amenity / Region | Mountain-view cluster started |
+| May 28 | Journal Post | "Best Unique Stays for Hiking: Trail-Adjacent Cabins, Domes & Treehouses" | Activity | Hiking cluster started |
+| May 28 | Journal Post | "Best Unique Stays with Fireplaces in America" | Amenity / Seasonal | Winter/cozy amenity coverage started |
+
+**Special note:** "Halloween Getaways: Spooky and Secluded Unique Stays" is already a published Payload record with `publishedAt` set to October 1, 2026. Treat it as scheduled/future-dated content and verify whether the public journal index should display future-dated published posts.
 
 ### July 2026: Foundation Building
 **Theme:** Launch core content pillars and lead magnets
@@ -132,7 +208,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 
 | Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
-| 1 | Journal Post | "Halloween Getaways: Spooky & Secluded Unique Stays" | halloween cabin rentals, spooky treehouse stays, october 31 unique stays | Seasonal event traffic | Planned |
+| 1 | Journal Post | "Halloween Getaways: Spooky & Secluded Unique Stays" | halloween cabin rentals, spooky treehouse stays, october 31 unique stays | Seasonal event traffic | Published in Payload; future-dated Oct 1 |
 | 2 | Lead Magnet | Thanksgiving Meal Planner for Cabins | thanksgiving dinner cabin rental, friendsgiving cooking facilities | Holiday-specific capture | Planned |
 | 3 | Journal Post | "Black Friday to Cyber Monday: Unique Stay Deals & Early Booking Guide" | black friday cabin deals, cyber monday glamping discounts, november travel deals | Commercial intent capture | Planned |
 | 4 | Programmatic | Review & optimize underperforming spoke/state pages | [analyze via GSC] | Continuous improvement | Planned |
@@ -162,7 +238,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 
 | Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
-| 1 | Journal Post | "Best Geodesic Dome Stays in America: Stargazing from Your Bedroom" | geodesic dome rentals USA, dome cabins, glamping domes, stargazing domes | Property-type authority | Planned |
+| 1 | Journal Post | "Best Geodesic Dome Stays in America: Stargazing from Your Bedroom" | geodesic dome rentals USA, dome cabins, glamping domes, stargazing domes | Property-type authority | Published early May 16 |
 | 2 | Journal Post | "Best Unique Stays in Colorado: Mountains, Domes & Hot Springs" | unique stays Colorado, Colorado cabin rentals, Colorado treehouse, Colorado glamping | Geo-specific capture (high-volume state) | Planned |
 | 3 | Journal Post | "Ski-In/Ski-Out Unique Stays: Skip the Hotel, Book the Cabin" | ski in ski out cabin, ski cabin rental, unique ski lodging, ski resort alternatives | Activity + stay targeting | Planned |
 | 4 | Journal Post | "Hot Spring Stays: Unique Properties with Natural Mineral Pools" | hot spring cabin rental, natural hot spring stays, mineral pool glamping, hot springs Airbnb | Activity + stay targeting | Planned |
@@ -172,20 +248,20 @@ Based on competitive analysis and existing content, here are our priority keywor
 
 | Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
-| 1 | Journal Post | "Romantic Unique Stays: Most Secluded Getaways for Couples" | romantic unique stays, couples cabin rentals, secluded treehouse couples, romantic glamping | Valentine's traffic capture | Planned |
+| 1 | Journal Post | "Romantic Unique Stays: Most Secluded Getaways for Couples" | romantic unique stays, couples cabin rentals, secluded treehouse couples, romantic glamping | Valentine's traffic capture | Published early May 21 |
 | 2 | Journal Post | "Best Unique Stays in Oregon: Coast, Cascades & High Desert" | unique stays Oregon, Oregon coast cabins, Oregon treehouse, Oregon glamping | Geo-specific capture (high-volume state) | Planned |
 | 3 | Journal Post | "Digital Detox Stays: Unique Properties with Zero WiFi (On Purpose)" | digital detox cabin, no wifi vacation, off grid cabin rental, unplugged retreat | Niche audience + work-friendly spoke inverse | Planned |
-| 4 | Journal Post | "Lighthouse Stays: Sleep Where the Keepers Once Watched" | lighthouse rentals USA, lighthouse B&B, lighthouse vacation, coastal unique stays | Unique property-type authority | Planned |
+| 4 | Journal Post | "Lighthouse Stays: Sleep Where the Keepers Once Watched" | lighthouse rentals USA, lighthouse B&B, lighthouse vacation, coastal unique stays | Unique property-type authority | Published early May 18 |
 
 ### March 2027: Spring Awakening
 **Theme:** Spring travel + state guides for spring break planning
 
 | Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
-| 1 | Journal Post | "Yurt Stays in the USA: From Mongolia to Montana" | yurt rentals USA, glamping yurts, yurt camping near me, yurt Airbnb | Property-type authority | Planned |
+| 1 | Journal Post | "Yurt Stays in the USA: From Mongolia to Montana" | yurt rentals USA, glamping yurts, yurt camping near me, yurt Airbnb | Property-type authority | Published early May 19 |
 | 2 | Journal Post | "Best Unique Stays in Tennessee: Smokies, Music City & Beyond" | unique stays Tennessee, Tennessee cabin rentals, Smoky Mountain glamping, Nashville unique stays | Geo-specific capture (high-volume state) | Planned |
-| 3 | Journal Post | "Tiny Home Vacations: 15 Micro-Stays with Mega Views" | tiny home rentals vacation, tiny house Airbnb, small cabin stays, micro cabin | Property-type authority | Planned |
-| 4 | Journal Post | "Unique Stays Under $150/Night: Budget-Friendly Extraordinary" | affordable unique stays, cheap glamping, cabin under 150, budget treehouse | Price-sensitive long-tail capture | Planned |
+| 3 | Journal Post | "Tiny Home Vacations: 15 Micro-Stays with Mega Views" | tiny home rentals vacation, tiny house Airbnb, small cabin stays, micro cabin | Property-type authority | Published early May 16 |
+| 4 | Journal Post | "Unique Stays Under $150/Night: Budget-Friendly Extraordinary" | affordable unique stays, cheap glamping, cabin under 150, budget treehouse | Price-sensitive long-tail capture | Partially covered by under-$200 post May 23 |
 
 ### April 2027: Adventure Season
 **Theme:** Spring adventure + family planning for summer
@@ -194,7 +270,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 |------|--------------|-------------|-----------------|------|--------|
 | 1 | Journal Post | "Best Unique Stays in Washington: Pacific Northwest Escapes" | unique stays Washington, Washington cabin rentals, PNW glamping, Olympic Peninsula cabins | Geo-specific capture (high-volume state) | Planned |
 | 2 | Journal Post | "Unique Stays Near the Grand Canyon: Rim to Ranch" | Grand Canyon unique stays, Grand Canyon cabins, Sedona glamping, Arizona unique stays | National park adjacency (high commercial intent) | Planned |
-| 3 | Journal Post | "Unique Stays for Families: Kid-Approved Cabins, Domes & Treehouses" | family friendly unique stays, kid-friendly cabin rentals, family glamping, treehouse for kids | Audience segment capture | Planned |
+| 3 | Journal Post | "Unique Stays for Families: Kid-Approved Cabins, Domes & Treehouses" | family friendly unique stays, kid-friendly cabin rentals, family glamping, treehouse for kids | Audience segment capture | Published early May 23 |
 | 4 | Journal Post | "Wine Country Unique Stays: Vineyard Cabins & Estate Glamping" | wine country cabin rental, vineyard glamping, Napa unique stays, wine region lodging | Activity + stay targeting | Planned |
 
 ### May 2027: Summer Prep
@@ -203,7 +279,7 @@ Based on competitive analysis and existing content, here are our priority keywor
 | Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
 | 1 | Journal Post | "Best Unique Stays in Montana: Big Sky Country Cabins & Ranches" | unique stays Montana, Montana cabin rentals, Montana glamping, Big Sky cabins | Geo-specific capture (high-volume state) | Planned |
-| 2 | Journal Post | "Converted Barns & Farmhouse Stays: Rustic Luxury Across America" | barn rentals vacation, converted barn stays, farmhouse Airbnb, rustic luxury cabins | Property-type authority | Planned |
+| 2 | Journal Post | "Converted Barns & Farmhouse Stays: Rustic Luxury Across America" | barn rentals vacation, converted barn stays, farmhouse Airbnb, rustic luxury cabins | Property-type authority | Published early May 18 |
 | 3 | Journal Post | "Unique Stays Near Yellowstone: Geysers, Lodges & Off-Grid Cabins" | Yellowstone unique stays, Yellowstone cabins, Montana geothermal stays, Yellowstone lodging alternatives | National park adjacency (high commercial intent) | Planned |
 | 4 | Journal Post | "What to Pack for a Unique Stay: The Complete Packing Guide" | what to pack for glamping, cabin packing list, treehouse stay essentials, glamping checklist | Decision-stage content, shareable | Planned |
 
@@ -213,9 +289,9 @@ Based on competitive analysis and existing content, here are our priority keywor
 | Week | Content Type | Title/Topic | Target Keywords | Goal | Status |
 |------|--------------|-------------|-----------------|------|--------|
 | 1 | Journal Post | "Best Unique Stays in Utah: Desert Domes & Canyon Cabins" | unique stays Utah, Utah glamping, Zion area cabins, Moab unique stays | Geo-specific capture (high-volume state) | Planned |
-| 2 | Journal Post | "Houseboat & Floating Home Rentals: Wake Up on the Water" | houseboat rentals USA, floating home vacation, boat stay Airbnb, lake houseboat | Property-type authority | Planned |
+| 2 | Journal Post | "Houseboat & Floating Home Rentals: Wake Up on the Water" | houseboat rentals USA, floating home vacation, boat stay Airbnb, lake houseboat | Property-type authority | Published early May 17 |
 | 3 | Journal Post | "Unique Stays Near Great Smoky Mountains: Cabins Beyond Gatlinburg" | Smoky Mountain unique stays, Gatlinburg alternatives, Tennessee cabins, Pigeon Forge glamping | National park adjacency (high commercial intent) | Planned |
-| 4 | Journal Post | "Large Group Unique Stays: Treehouses & Cabins for 10+ Guests" | large group cabin rental, unique stays big groups, family reunion cabin, group glamping | Audience segment capture | Planned |
+| 4 | Journal Post | "Large Group Unique Stays: Treehouses & Cabins for 10+ Guests" | large group cabin rental, unique stays big groups, family reunion cabin, group glamping | Audience segment capture | Published early May 22 |
 
 ### July 2027: Peak Summer
 **Theme:** Peak travel + New England + decision content
@@ -284,6 +360,7 @@ Based on competitive analysis and existing content, here are our priority keywor
    - "The Workcation Manifesto: Remote Work from a Treehouse" — `/journal/workcation-manifesto-remote-work-treehouse`
    - "The 10 Best A-Frame Cabin Rentals in America" — `/journal/best-aframe-cabins-america`
    - "Skip the Crowds: 10 National Park Alternatives With Extraordinary Places to Stay" — `/journal/skip-the-crowds-national-park-alternatives`
+   - May 2026 sprint library: 20+ additional published national roundups across property type, amenity, audience, activity, budget, and seasonal intent.
 
 2. **Planned Infrastructure**:
    - Journal section at `/journal` (already in codebase)
@@ -297,11 +374,88 @@ Based on competitive analysis and existing content, here are our priority keywor
    - Adapt lead magnet concepts from research docs
 
 ### Immediate Next Steps
-1. **Week 1**: Build and launch Glamping Cost Calculator lead magnet
-2. **Week 2**: Publish expanded "Skip the Crowds" journal post
-3. **Week 3**: Deploy all 250 spoke + state programmatic pages
-4. **Week 4**: Publish Remote Worker's Guide journal post
-5. **Ongoing**: Follow content calendar above
+1. **Audit live journal index behavior**: confirm whether future-dated published posts, especially Halloween, appear publicly before their intended season.
+2. **Build and launch Glamping Cost Calculator lead magnet**: the published library now has enough cost/rate data to support a useful calculator and email capture loop.
+3. **Ship the first geo-specific cluster**: prioritize 5-8 state or region guides that internally link to the existing national roundups.
+4. **Deploy all 250 spoke + state programmatic pages**: connect them to the strongest existing journal posts by intent, not just generic related links.
+5. **Launch direct-booking trust content**: explain how UniqueStaysUSA finds independent/book-direct stays and how travelers can evaluate them safely.
+
+## Part 6: Diversification Brainstorm
+
+The May sprint gave UniqueStaysUSA a strong national-roundup base. The next strategic risk is sameness: too many posts can blur into "best unique stays with X in America." Diversification should create new reasons to trust, revisit, and search for the brand.
+
+### Direction 1: Geo Clusters With Real Local Utility
+
+Build state, region, and park-adjacent clusters that reuse the national roundup inventory but answer more specific planning intent.
+
+**Recommended first cluster: Pacific Northwest**
+- "Best Unique Stays in Oregon: Coast, Cascades & High Desert"
+- "Best Unique Stays in Washington: Islands, Rainforest & Mountain Cabins"
+- "Unique Stays Near Olympic National Park"
+- "Unique Stays Near Mount Rainier"
+- "Pacific Northwest Treehouses, Domes & Saunas: A Weekend Planning Guide"
+
+**Why now:** The site has enough property-type authority to support geo pages, and geo queries are closer to booking intent than broad inspiration content.
+
+### Direction 2: Direct-Booking Trust and Discovery
+
+Turn the new direct-booking discovery work into content that users and search engines can understand.
+
+**Potential topics:**
+- "How to Find Book-Direct Unique Stays Without Getting Burned"
+- "Airbnb vs Direct Booking for Unique Stays: Fees, Policies, and What to Check"
+- "OwnerRez, Lodgify, and Hostaway: What Travelers Should Know Before Booking Direct"
+- "The UniqueStaysUSA Direct-Booking Checklist"
+
+**Why now:** Direct properties are a differentiator. Most competitors either aggregate platform listings or write generic travel content; this gives UniqueStaysUSA a trust angle.
+
+### Direction 3: Tools and Lead Magnets
+
+Move from editorial-only traffic to interactive planning.
+
+**Highest-priority tools:**
+- Glamping Cost Calculator
+- Unique Stay Budget Planner
+- Stay-Type Finder Quiz
+- Remote Work Retreat Finder
+- Pet-Friendly Stay Finder
+
+**Why now:** The published post library already creates top-of-funnel traffic. Tools convert that traffic into email subscribers and repeat visits.
+
+### Direction 4: Decision-Stage Booking Help
+
+Create commercially useful guides for people close to booking.
+
+**Potential topics:**
+- "Airbnb vs VRBO vs Direct Booking for Unique Stays"
+- "How to Compare Cleaning Fees, Service Fees, and Total Trip Cost"
+- "When to Book a Cabin, Treehouse, or Glamping Stay for the Best Price"
+- "Unique Stay Cancellation Policies: What to Check Before You Reserve"
+- "How to Tell Whether a Unique Stay Listing Is Worth the Price"
+
+**Why now:** Existing content inspires. Decision-stage content helps users choose and click.
+
+### Direction 5: Data-Led Editorial
+
+Use the database to publish proprietary insights no generic travel blog can copy.
+
+**Potential topics:**
+- "What $200/Night Gets You in Unique Stays Across America"
+- "The States With the Most Treehouses, Domes, and A-Frames"
+- "Are Hot Tubs Worth It? Price Differences Across Unique Stays"
+- "The Unique Stay Trend Report: What Travelers Are Booking in 2026"
+
+**Why now:** This creates shareable content, earns links, and supports AI/LLM discovery because it gives the brand original claims.
+
+### Recommended Next 30 Days
+
+| Priority | Workstream | Output | Why |
+|----------|------------|--------|-----|
+| 1 | Live content hygiene | Verify future-dated published posts and refresh calendar statuses | Prevent stale or prematurely visible seasonal content |
+| 2 | Lead magnet | Glamping Cost Calculator v1 | Converts existing glamping/property-type traffic |
+| 3 | Geo cluster | Oregon + Washington + 2 national-park-adjacent guides | Diversifies beyond national roundups |
+| 4 | Direct-booking trust | Direct-booking checklist + Airbnb/VRBO/direct comparison | Establishes differentiated trust positioning |
+| 5 | Internal linking | Add cluster links from national roundups into geo/tool/decision pages | Compounds existing published assets |
 
 ## Conclusion
 
