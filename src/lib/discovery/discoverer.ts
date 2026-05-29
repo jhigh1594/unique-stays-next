@@ -174,30 +174,45 @@ interface ExaSearchResult {
   image: string | undefined
 }
 
+const GENERIC_PLATFORM_PATTERNS = [
+  /vacation rentals?,?\s*cabins?,?\s*beach/i,
+  /^airbnb\s*[:–—]/i,
+  /^vrbo\s*[:–—]/i,
+  /^wander\s*[:–—]/i,
+  /^holiday rentals/i,
+  /book unique/i,
+  /^home$/i,
+]
+
+function isGenericPlatformPage(title: string): boolean {
+  if (title.length < 5) return true
+  return GENERIC_PLATFORM_PATTERNS.some((p) => p.test(title))
+}
+
 function cleanUrl(url: string, platform: 'Airbnb' | 'VRBO' | 'Wander'): string {
   // Decode HTML entities
   let cleaned = url.replace(/&amp;/g, '&')
 
-  // Strip to canonical URL per platform
+  // Strip to canonical URL per platform; return "" if not a real listing page
   if (platform === 'Airbnb') {
+    // Must be a listing: airbnb.com/rooms/{digits}, not search (/s/...) or homepage
     const match = cleaned.match(/airbnb\.com\/rooms\/(\d+)/)
     if (match) return `https://www.airbnb.com/rooms/${match[1]}`
+    return ''
   } else if (platform === 'VRBO') {
-    const match = cleaned.match(/vrbo\.com\/\d+[a-z]?/)
-    if (match) return `https://www.${match[0]}`
+    // Must be a listing: vrbo.com/{digits} or vrbo.com/{numeric-slug}
+    const match = cleaned.match(/vrbo\.com\/(\d+[a-z]?(?:[a-z0-9-]*))/)
+    if (match) return `https://www.vrbo.com/${match[1]}`
+    return ''
   } else if (platform === 'Wander') {
+    // Must be a property page, not homepage or search
     const match = cleaned.match(/wander\.com\/(property\/[a-z0-9-]+)/)
       ?? cleaned.match(/wander\.com\/([a-z0-9-]+)/)
     if (match) return `https://www.wander.com/${match[1]}`
+    return ''
   }
 
-  // Fallback: strip query params
-  try {
-    const parsed = new URL(cleaned)
-    return `${parsed.origin}${parsed.pathname}`
-  } catch {
-    return cleaned
-  }
+  return ''
 }
 
 function extractTitle(result: ExaSearchResult, platform: 'Airbnb' | 'VRBO' | 'Wander'): string {
@@ -282,7 +297,9 @@ export async function discoverAirbnb(limit?: number): Promise<DiscoverResult> {
 
       const listings = (response.results as unknown as ExaSearchResult[])
         .filter((r) => r.url && r.title)
+        .filter((r) => !isGenericPlatformPage(r.title ?? ''))
         .map((r) => mapToListing(r, 'Airbnb'))
+        .filter((r) => r.sourceUrl !== '')
 
       allListings.push(...listings)
       process.stdout.write(`  Airbnb "${query}": ${listings.length} listings\n`)
@@ -319,7 +336,9 @@ export async function discoverVRBO(limit?: number): Promise<DiscoverResult> {
 
       const listings = (response.results as unknown as ExaSearchResult[])
         .filter((r) => r.url && r.title)
+        .filter((r) => !isGenericPlatformPage(r.title ?? ''))
         .map((r) => mapToListing(r, 'VRBO'))
+        .filter((r) => r.sourceUrl !== '')
 
       allListings.push(...listings)
       process.stdout.write(`  VRBO "${query}": ${listings.length} listings\n`)
@@ -360,7 +379,9 @@ export async function discoverWander(limit?: number): Promise<DiscoverResult> {
 
       const listings = (response.results as unknown as ExaSearchResult[])
         .filter((r) => r.url && r.title)
+        .filter((r) => !isGenericPlatformPage(r.title ?? ''))
         .map((r) => mapToListing(r, 'Wander'))
+        .filter((r) => r.sourceUrl !== '')
 
       allListings.push(...listings)
       process.stdout.write(`  Wander "${query}": ${listings.length} listings\n`)

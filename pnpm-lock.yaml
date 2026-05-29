@@ -16,7 +16,7 @@ importers:
         version: 0.218.0(@opentelemetry/api@1.9.0)
       '@payloadcms/db-postgres':
         specifier: ^3.84.1
-        version: 3.84.1(@opentelemetry/api@1.9.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))
+        version: 3.84.1(@opentelemetry/api@1.9.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))(postgres@3.4.9)
       '@payloadcms/next':
         specifier: ^3.84.1
         version: 3.84.1(@types/react@19.2.14)(graphql@16.14.0)(monaco-editor@0.55.1)(next@16.2.6(@opentelemetry/api@1.9.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(sass@1.77.4))(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
@@ -129,6 +129,9 @@ importers:
       jsdom:
         specifier: ^29.1.1
         version: 29.1.1
+      postgres:
+        specifier: ^3.4.9
+        version: 3.4.9
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -3972,6 +3975,10 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
+  postgres@3.4.9:
+    resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
+    engines: {node: '>=12'}
+
   posthog-js@1.374.2:
     resolution: {integrity: sha512-6z1xGlVocd3NmSZlJNFfpedLIHLcejuuQPxvrpHDvtyVI9tN1NPqbM7T7coXw2It6gdZ/nAgDuZkNxfIut+Spw==}
 
@@ -6336,13 +6343,13 @@ snapshots:
 
   '@oxc-project/types@0.128.0': {}
 
-  '@payloadcms/db-postgres@3.84.1(@opentelemetry/api@1.9.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))':
+  '@payloadcms/db-postgres@3.84.1(@opentelemetry/api@1.9.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))(postgres@3.4.9)':
     dependencies:
-      '@payloadcms/drizzle': 3.84.1(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))(pg@8.20.0)
+      '@payloadcms/drizzle': 3.84.1(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))(pg@8.20.0)(postgres@3.4.9)
       '@types/pg': 8.20.0
       console-table-printer: 2.12.1
       drizzle-kit: 0.31.7
-      drizzle-orm: 0.45.2(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(pg@8.20.0)
+      drizzle-orm: 0.45.2(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(pg@8.20.0)(postgres@3.4.9)
       payload: 3.84.1(graphql@16.14.0)(typescript@5.9.3)
       pg: 8.20.0
       prompts: 2.4.2
@@ -6379,11 +6386,11 @@ snapshots:
       - sqlite3
       - supports-color
 
-  '@payloadcms/drizzle@3.84.1(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))(pg@8.20.0)':
+  '@payloadcms/drizzle@3.84.1(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(payload@3.84.1(graphql@16.14.0)(typescript@5.9.3))(pg@8.20.0)(postgres@3.4.9)':
     dependencies:
       console-table-printer: 2.12.1
       dequal: 2.0.3
-      drizzle-orm: 0.45.2(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(pg@8.20.0)
+      drizzle-orm: 0.45.2(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(pg@8.20.0)(postgres@3.4.9)
       payload: 3.84.1(graphql@16.14.0)(typescript@5.9.3)
       prompts: 2.4.2
       to-snake-case: 1.0.0
@@ -7501,11 +7508,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.45.2(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(pg@8.20.0):
+  drizzle-orm@0.45.2(@opentelemetry/api@1.9.0)(@types/pg@8.20.0)(pg@8.20.0)(postgres@3.4.9):
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
       '@types/pg': 8.20.0
       pg: 8.20.0
+      postgres: 3.4.9
 
   dunder-proto@1.0.1:
     dependencies:
@@ -8839,6 +8847,8 @@ snapshots:
   postgres-interval@1.2.0:
     dependencies:
       xtend: 4.0.2
+
+  postgres@3.4.9: {}
 
   posthog-js@1.374.2:
     dependencies:

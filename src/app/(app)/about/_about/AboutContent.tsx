@@ -188,29 +188,10 @@ export default function AboutContent() {
               </p>
 
               <p
-                className="text-base leading-relaxed mb-4 fade-up"
+                className="text-base leading-relaxed fade-up"
                 style={{ fontFamily: FONT.display, color: C.ink, fontStyle: 'italic' }}
               >
                 I lay there thinking this is what a weekend is supposed to feel like.
-              </p>
-
-              <p
-                className="text-base leading-relaxed mb-4 fade-up"
-                style={{ color: C.bodyText, fontFamily: FONT.body }}
-              >
-                Three months later I tried to recreate that weekend. Another unforgettable stay,
-                somewhere that would stop me cold the way that treehouse did. Instead I scrolled
-                through cookie-cutter after cookie-cutter. The same cabin with a
-                &ldquo;Live, Laugh, Love&rdquo; sign on the same wall, the same generic
-                &ldquo;cozy retreat&rdquo; in every state, blurring together until I couldn&rsquo;t
-                tell if I&rsquo;d already seen this one or not.
-              </p>
-
-              <p
-                className="text-base leading-relaxed fade-up"
-                style={{ color: C.bodyText, fontFamily: FONT.body }}
-              >
-                I never set out to build a directory. I just wanted another weekend like that one.
               </p>
             </div>
 
@@ -278,6 +259,22 @@ export default function AboutContent() {
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
+            Three months later I tried to recreate that weekend. Another unforgettable stay,
+            somewhere that would stop me cold the way that treehouse did. Instead I scrolled
+            through cookie-cutter after cookie-cutter. The same cabin with a
+            &ldquo;Live, Laugh, Love&rdquo; sign on the same wall, the same generic
+            &ldquo;cozy retreat&rdquo; in every state, blurring together until I couldn&rsquo;t
+            tell if I&rsquo;d already seen this one or not.
+          </motion.p>
+
+          <motion.p
+            className="text-lg leading-relaxed mb-6"
+            style={{ color: C.cream80, fontFamily: FONT.body }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
             You find one extraordinary place and you figure the algorithm will show you more like it.
             That&rsquo;s the whole promise. But instead it&rsquo;s page after page of the same
             white-on-white cozy retreat with the same sheepskin draped over the same accent chair.
@@ -289,15 +286,15 @@ export default function AboutContent() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
           >
             Fine places. Clean places. Places you forget by next Tuesday. I&rsquo;d scroll through
-            hundreds of them on a Sunday afternoon, worn out by page six, and book whatever was left.
-            Then I&rsquo;d show up and think: this could be a Holiday Inn with better lighting.
+            hundreds of them on a Sunday afternoon, worn out by page six, and book. Then I&rsquo;d
+            show up and think: this could be a Holiday Inn with better lighting.
           </motion.p>
 
           <motion.p
-            className="text-2xl md:text-3xl font-bold"
+            className="text-2xl md:text-3xl font-bold mb-8"
             style={{ fontFamily: FONT.display }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -308,6 +305,17 @@ export default function AboutContent() {
             <span style={{ color: C.light }}>
               But fine is all the algorithm knows how to give you.
             </span>
+          </motion.p>
+
+          <motion.p
+            className="text-lg leading-relaxed"
+            style={{ color: C.cream80, fontFamily: FONT.body }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.8, delay: 0.85 }}
+          >
+            I never set out to build a directory. I just wanted another weekend like that one.
           </motion.p>
         </div>
       </section>

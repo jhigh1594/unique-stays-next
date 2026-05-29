@@ -139,22 +139,38 @@ def normalize_state(raw_state: str | None, parsed_state: str | None) -> tuple[st
     return None, None
 
 
+def fetch_with_retry(url, headers, timeout=30, max_retries=5, method='GET', data=None):
+    """HTTP request with retry logic for flaky dev server."""
+    for attempt in range(max_retries):
+        try:
+            req = urllib.request.Request(url, data=data, method=method, headers=headers)
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp
+        except Exception as e:
+            if attempt < max_retries - 1:
+                wait = 5 * (attempt + 1)
+                print(f"    ⚠️  Retry {attempt+1}/{max_retries} after error: {e}")
+                time.sleep(wait)
+            else:
+                raise
+
+
 def fetch_all_stays() -> list[dict]:
     """Fetch all stays from Payload API."""
     all_docs = []
     page = 1
     while True:
         url = f"{API_BASE}/api/stays?limit=100&page={page}&depth=0"
-        req = urllib.request.Request(url, headers={
+        headers = {
             'Authorization': f'users API-Key {API_KEY}',
             'User-Agent': 'UniqueStaysUSA-LocationMigration/1.0',
-        })
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read())
-            all_docs.extend(data['docs'])
-            if data['nextPage'] is None:
-                break
-            page = data['nextPage']
+        }
+        resp = fetch_with_retry(url, headers)
+        data = json.loads(resp.read())
+        all_docs.extend(data['docs'])
+        if data['nextPage'] is None:
+            break
+        page = data['nextPage']
     return all_docs
 
 
@@ -162,14 +178,14 @@ def update_stay(stay_id: int, fields: dict) -> bool:
     """Update a stay record via Payload API."""
     url = f"{API_BASE}/api/stays/{stay_id}"
     body = json.dumps(fields).encode()
-    req = urllib.request.Request(url, data=body, method='PATCH', headers={
+    headers = {
         'Authorization': f'users API-Key {API_KEY}',
         'Content-Type': 'application/json',
         'User-Agent': 'UniqueStaysUSA-LocationMigration/1.0',
-    })
+    }
     try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            return resp.status == 200
+        resp = fetch_with_retry(url, headers, timeout=15, max_retries=3, method='PATCH', data=body)
+        return resp.status == 200
     except Exception as e:
         print(f"    ❌ Update failed for stay {stay_id}: {e}")
         return False

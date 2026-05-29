@@ -61,6 +61,43 @@ Score this listing on experience novelty (0-10). Return JSON:
 }`
 }
 
+const US_STATES = [
+  'Alabama','AL','Alaska','AK','Arizona','AZ','Arkansas','AR','California','CA',
+  'Colorado','CO','Connecticut','CT','Delaware','DE','Florida','FL','Georgia','GA',
+  'Hawaii','HI','Idaho','ID','Illinois','IL','Indiana','IN','Iowa','IA','Kansas','KS',
+  'Kentucky','KY','Louisiana','LA','Maine','ME','Maryland','MD','Massachusetts','MA',
+  'Michigan','MI','Minnesota','MN','Mississippi','MS','Missouri','MO','Montana','MT',
+  'Nebraska','NE','Nevada','NV','New Hampshire','NH','New Jersey','NJ','New Mexico','NM',
+  'New York','NY','North Carolina','NC','North Dakota','ND','Ohio','OH','Oklahoma','OK',
+  'Oregon','OR','Pennsylvania','PA','Rhode Island','RI','South Carolina','SC',
+  'South Dakota','SD','Tennessee','TN','Texas','TX','Utah','UT','Vermont','VT',
+  'Virginia','VA','Washington','WA','West Virginia','WV','Wisconsin','WI','Wyoming','WY',
+  'District of Columbia','DC',
+]
+
+const NON_US_INDICATORS = [
+  'Italy','Spain','Costa Rica','Greece','Australia','Guatemala','Austria',
+  'India','France','Mexico','United Kingdom','Tasmania','British Columbia','Ontario',
+  'Queensland','Canada','Germany','Portugal','Thailand','Japan','Brazil','Argentina',
+  'Chile','Peru','Colombia','Ecuador','Belize','Honduras','Nicaragua','Panama',
+  'New Zealand','Ireland','Scotland','Wales','Netherlands','Belgium','Switzerland',
+  'Czech Republic','Croatia','Slovenia','Sweden','Norway','Denmark','Finland',
+  'Iceland','Poland','Hungary','Romania','Bulgaria','Turkey','Morocco','South Africa',
+  'Kenya','Tanzania','Uganda','Philippines','Indonesia','Vietnam','Cambodia',
+  'Malaysia','South Korea','China','Taiwan','Singapore',
+]
+
+function isUsListing(location: string): boolean {
+  const loc = location || ''
+  const hasUsState = US_STATES.some(
+    (s) => loc.includes(`, ${s}`) || loc.includes(`, ${s},`) || loc.endsWith(`, ${s}`) || loc === s,
+  )
+  if (hasUsState) return true
+  const hasNonUs = NON_US_INDICATORS.some((ind) => loc.includes(ind))
+  if (hasNonUs) return false
+  return true
+}
+
 const MAX_RETRIES = 5
 const RETRY_BASE_MS = 2000
 
@@ -68,6 +105,10 @@ export async function scoreNovelty(
   listing: ScorableListing,
   modelId?: string,
 ): Promise<NoveltyScore> {
+  if (!isUsListing(listing.location)) {
+    return { score: 0, reason: 'Non-US listing', category: 'filtered' }
+  }
+
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       const { text: rawText, provider } = await generateWithFailover({
@@ -87,6 +128,13 @@ export async function scoreNovelty(
     let text = rawText.trim()
     const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
     if (fenceMatch) text = fenceMatch[1].trim()
+
+    // Extract first JSON object with "score" key from possibly noisy text
+    const jsonMatch = text.match(/\{[\s\S]*?"score"[\s\S]*?\}/)
+    if (jsonMatch) text = jsonMatch[0]
+
+    // Fix single-quoted JSON
+    text = text.replace(/'/g, '"')
 
     const parsed = JSON.parse(text)
 

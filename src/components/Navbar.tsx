@@ -10,6 +10,15 @@ import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
+/** Pages with a light top section — nav links stay dark before scroll. */
+const LIGHT_HERO_PREFIXES = ['/about', '/submit', '/privacy', '/disclosure'] as const
+
+function hasLightHeroPath(pathname: string): boolean {
+  return LIGHT_HERO_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  )
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -39,7 +48,8 @@ export default function Navbar() {
 
   const isOnSpoke = SPOKE_SLUGS.some((s) => pathname === `/${s}`)
   const isDetailPage = pathname.startsWith('/stays/')
-  const usesLightNav = scrolled || isDetailPage
+  const usesLightHeader = scrolled || isDetailPage
+  const usesDarkNavText = usesLightHeader || hasLightHeroPath(pathname)
 
   const navLinks = [
     { href: '/collection', label: 'The Collection' },
@@ -52,7 +62,7 @@ export default function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          usesLightNav
+          usesLightHeader
             ? 'bg-[oklch(0.975_0.012_85/0.97)] backdrop-blur-md shadow-[0_1px_0_0_oklch(0.88_0.025_75)]'
             : 'bg-transparent'
         }`}
@@ -75,7 +85,7 @@ export default function Navbar() {
                   className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 ${
                     isOnSpoke
                       ? 'text-[oklch(0.55_0.14_38)]'
-                      : usesLightNav
+                      : usesDarkNavText
                         ? 'text-[oklch(0.40_0.03_60)] hover:text-[oklch(0.55_0.14_38)]'
                         : 'text-[oklch(0.90_0.01_85)] hover:text-white'
                   }`}
@@ -166,7 +176,7 @@ export default function Navbar() {
                     className={`text-sm font-medium transition-colors duration-200 relative group ${
                       pathname === link.href
                         ? 'text-[oklch(0.55_0.14_38)]'
-                        : usesLightNav
+                        : usesDarkNavText
                           ? 'text-[oklch(0.40_0.03_60)] hover:text-[oklch(0.55_0.14_38)]'
                           : 'text-[oklch(0.90_0.01_85)] hover:text-white'
                     }`}
@@ -195,7 +205,7 @@ export default function Navbar() {
               </a>
               <button
                 className={`md:hidden p-2 rounded-lg transition-colors ${
-                  usesLightNav
+                  usesDarkNavText
                     ? 'text-[oklch(0.40_0.03_60)] hover:bg-[oklch(0.93_0.025_75)]'
                     : 'text-white hover:bg-white/10'
                 }`}

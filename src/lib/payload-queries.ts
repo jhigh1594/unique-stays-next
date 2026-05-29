@@ -79,16 +79,42 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
   }
 }
 
+/**
+ * Deterministic 5-day rotation for "This Week's Stays".
+ * All visitors see the same set; changes every 5 days automatically.
+ * Rotation is keyed by slug so reordering is stable across deploys.
+ */
+const ROTATION_WINDOW_DAYS = 5
+const ROTATION_PICK_COUNT = 8
+
 export const getFeaturedStays = unstable_cache(
   async (): Promise<NormalizedStay[]> => {
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
       where: { and: [{ featured: { equals: true } }, ...PUBLIC_STAY_FILTER.and] },
-      limit: 8,
+      limit: 100,
       depth: 1,
     })
-    return result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))
+
+    const all = result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))
+
+    if (all.length <= ROTATION_PICK_COUNT) return all
+
+    // Stable sort by slug so rotation windows are deterministic
+    const sorted = [...all].sort((a, b) => a.slug.localeCompare(b.slug))
+
+    // 5-day epoch index — same for every visitor on the same day
+    const epoch = Math.floor(Date.now() / (ROTATION_WINDOW_DAYS * 86_400_000))
+    const offset = (epoch * ROTATION_PICK_COUNT) % sorted.length
+
+    // Pick ROTATION_PICK_COUNT stays wrapping around
+    const picked: NormalizedStay[] = []
+    for (let i = 0; i < ROTATION_PICK_COUNT; i++) {
+      picked.push(sorted[(offset + i) % sorted.length])
+    }
+
+    return picked
   },
   ['stays-featured'],
   { tags: ['stays', 'stays:featured'], revalidate: 3600 }

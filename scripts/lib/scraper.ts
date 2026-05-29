@@ -1,5 +1,5 @@
-// Firecrawl scraping module for platform listing pages
-// Extracts host description, amenities, neighborhood info, and photo URLs
+// Scraping module for platform listing pages
+// Primary: Firecrawl. Fallback: raw HTTP fetch when credits exhausted.
 
 import Firecrawl from '@mendable/firecrawl-js'
 
@@ -16,38 +16,94 @@ export interface ScrapeResult {
   error?: string
 }
 
+function isCreditsError(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err)
+  return msg.includes('Insufficient credits') || msg.includes('credits') || msg.includes('429')
+}
+
+async function scrapeWithFetch(url: string): Promise<{ markdown: string; html: string }> {
+  const resp = await fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+      Accept: 'text/html,application/xhtml+xml',
+    },
+    signal: AbortSignal.timeout(20000),
+  })
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
+  const html = await resp.text()
+  const markdown = htmlToMarkdown(html)
+  return { markdown, html }
+}
+
+function htmlToMarkdown(html: string): string {
+  let md = html
+  md = md.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+  md = md.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+  md = md.replace(/<br\s*\/?>/gi, '\n')
+  md = md.replace(/<\/p>/gi, '\n\n')
+  md = md.replace(/<\/h[1-6]>/gi, '\n\n')
+  md = md.replace(/<h[1-6][^>]*>/gi, (m) => {
+    const level = parseInt(m.match(/<h([1-6])/)?.[1] ?? '2')
+    return '#'.repeat(level) + ' '
+  })
+  md = md.replace(/<li[^>]*>/gi, '- ')
+  md = md.replace(/<[^>]+>/g, '')
+  md = md.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  md = md.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
+  md = md.replace(/\n{3,}/g, '\n\n')
+  return md.trim()
+}
+
 export async function scrapeListing(affiliateUrl: string, apiKey?: string): Promise<ScrapeResult> {
   const key = apiKey ?? process.env.FIRECRAWL_API_KEY
-  if (!key) {
-    return { success: false, error: 'FIRECRAWL_API_KEY not set' }
+
+  let markdown = ''
+  let html = ''
+
+  if (key) {
+    try {
+      const client = new Firecrawl({ apiKey: key, apiUrl: 'https://api.firecrawl.dev' })
+      const result = await client.scrape(affiliateUrl, {
+        formats: ['markdown', 'html'],
+        timeout: 30000,
+      })
+      if (result?.markdown) {
+        markdown = result.markdown as string
+        html = (result.html as string) ?? ''
+      }
+    } catch (err) {
+      if (!isCreditsError(err)) {
+        const message = err instanceof Error ? err.message : String(err)
+        return { success: false, error: message }
+      }
+      // Credits exhausted — fall through to fetch fallback
+      process.stdout.write('  Firecrawl credits exhausted, using fetch fallback\n')
+    }
   }
 
-  try {
-    const client = new Firecrawl({ apiKey: key, apiUrl: 'https://api.firecrawl.dev' })
-    const result = await client.scrape(affiliateUrl, {
-      formats: ['markdown', 'html'],
-      timeout: 30000,
-    })
-
-    if (!result || !result.markdown) {
-      return { success: false, error: 'Scrape returned no content' }
+  if (!markdown) {
+    try {
+      const fetched = await scrapeWithFetch(affiliateUrl)
+      markdown = fetched.markdown
+      html = fetched.html
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err)
+      return { success: false, error: `Fetch fallback failed: ${message}` }
     }
+  }
 
-    const markdown = result.markdown as string
-    const html = (result.html as string) ?? ''
+  if (!markdown || markdown.length < 50) {
+    return { success: false, error: 'Scrape returned insufficient content' }
+  }
 
-    const description = extractDescription(markdown)
-    const amenities = extractAmenities(markdown)
-    const neighborhood = extractNeighborhood(markdown)
-    const photoUrls = extractPhotoUrls(html, markdown)
+  const description = extractDescription(markdown)
+  const amenities = extractAmenities(markdown)
+  const neighborhood = extractNeighborhood(markdown)
+  const photoUrls = extractPhotoUrls(html, markdown)
 
-    return {
-      success: true,
-      data: { description, amenities, neighborhood, photoUrls },
-    }
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err)
-    return { success: false, error: message }
+  return {
+    success: true,
+    data: { description, amenities, neighborhood, photoUrls },
   }
 }
 
