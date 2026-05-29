@@ -4,7 +4,7 @@ import AboutContent from './_about/AboutContent'
 export const metadata: Metadata = {
   title: 'About — This Started With a Treehouse',
   description:
-    'How one treehouse in Oregon became a directory of four hundred extraordinary vacation rentals across America. The story behind Unique Stays USA.',
+    '352 curated extraordinary vacation rentals across all 50 states. Born from a treehouse in Oregon — because fine is the enemy, and the best places are buried on page six.',
   alternates: { canonical: '/about' },
 }
 
