@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Star, MapPin, Users, ExternalLink } from 'lucide-react'
 import type { CSSProperties, ReactNode } from 'react'
-import posthog from 'posthog-js'
+import { getPostHog } from '@/lib/posthog-lazy'
 import type { NormalizedStay } from '@/lib/types'
 
 interface StayCardProps {
@@ -252,8 +252,9 @@ export default function StayCard({
     </>
   )
 
-  const handleClick = () => {
-    posthog.capture('stay_card_clicked', {
+  const handleClick = async () => {
+    const ph = await getPostHog()
+    ph.capture('stay_card_clicked', {
       stay_slug: stay.slug,
       stay_title: stay.title,
       stay_location: stay.location,

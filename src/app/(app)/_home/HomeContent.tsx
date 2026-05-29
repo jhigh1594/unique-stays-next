@@ -13,8 +13,10 @@ import {
 } from 'framer-motion'
 import { getPostHog } from '@/lib/posthog-lazy'
 import StayCard from '@/components/StayCard'
-import FilmstripSection from '@/components/FilmstripSection'
-import CorkboardTestimonials from '@/components/CorkboardTestimonials'
+import dynamic from 'next/dynamic'
+
+const FilmstripSection = dynamic(() => import('@/components/FilmstripSection'), { ssr: false })
+const CorkboardTestimonials = dynamic(() => import('@/components/CorkboardTestimonials'), { ssr: false })
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 import type { NormalizedStay } from '@/lib/types'
 import type { CategoryConfig } from '@/lib/categories-config'

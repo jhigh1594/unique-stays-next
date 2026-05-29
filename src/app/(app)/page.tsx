@@ -1,4 +1,5 @@
 import HomeContent from './_home/HomeContent'
+import { HERO_FIRST_IMAGE } from './_home/Hero'
 import {
   getFeaturedStays,
   getEditorsPickStays,
@@ -24,7 +25,9 @@ export default async function HomePage() {
   }))
 
   return (
-    <HomeContent
+    <>
+      <link rel="preload" as="image" href={HERO_FIRST_IMAGE} />
+      <HomeContent
       featuredStays={featuredStays}
       editorsPickStays={editorsPickStays}
       filmstripStays={filmstripStays}
@@ -32,5 +35,6 @@ export default async function HomePage() {
       categories={categories}
       totalCount={allStays.length}
     />
+    </>
   )
 }
