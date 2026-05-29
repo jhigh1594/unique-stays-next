@@ -108,7 +108,7 @@
 **PUBLISH-003** ✓ — Published to Payload CMS (post id=14):
 - Slug: lakefront-unique-stays-water-cabins-domes-aframes
 - 8 linked stays (IDs: 109, 107, 113, 114, 139, 17, 188, 200)
-- Hero image uploaded (media id=13) via Vercel Blob
+- Hero image uploaded (media id=13); storage migrated to Cloudflare R2
 - Lexical content with 8 stayEmbed blocks
 - Status: published, live at /journal/lakefront-unique-stays-water-cabins-domes-aframes
 
@@ -157,7 +157,7 @@
 - Word count: 1,902
 - Quality score: 8.7/10
 - Payload post id: 16
-- Hero image uploaded via Vercel Blob, media id=14
+- Hero image uploaded via Cloudflare R2, media id=14
 - Public page verified at https://www.uniquestaysusa.com/journal/unique-stays-with-pools
 - Sitemap check: not yet included in cached production sitemap after journal tag revalidation; direct Payload slug query includes it
 
@@ -202,7 +202,7 @@
 **PUBLISH-005** ✓ — Published to Payload CMS (post id=17):
 - Slug: glamping-for-beginners
 - 7 linked stays (IDs: 15, 7, 99, 22, 179, 118, 153)
-- Hero image uploaded (media id=15) via Vercel Blob
+- Hero image uploaded (media id=15); storage migrated to Cloudflare R2
 - Lexical content with 7 stayEmbed blocks and 3 internal links
 - Status: published, verified 200 at /journal/glamping-for-beginners
 
@@ -239,7 +239,7 @@
 - Word count: 2,068
 - Quality score: 8.8/10
 - Payload post id: 18
-- Hero image uploaded via Vercel Blob, media id=16
+- Hero image uploaded via Cloudflare R2, media id=16
 - Public page verified at https://www.uniquestaysusa.com/journal/unique-stays-near-national-forests
 - Sitemap check: not yet included in cached production sitemap after journal revalidation
 
@@ -273,7 +273,7 @@
 - Word count: 1,764
 - Quality score: 8.75/10
 - Payload post id: 19
-- Hero image uploaded via Vercel Blob, media id=18
+- Hero image uploaded via Cloudflare R2, media id=18
 - Public page verified 200 at http://localhost:3000/journal/october-unique-stays
 
 ### Patterns
@@ -308,7 +308,7 @@
 - Word count: 1,850
 - Quality score: 8.9/10
 - Payload post id: 22
-- Hero image uploaded via Vercel Blob, media id=19
+- Hero image uploaded via Cloudflare R2, media id=19
 - Public page verified 200 at http://localhost:3000/journal/snow-globe-stays
 
 ### Patterns
@@ -343,7 +343,7 @@
 - Word count: 1,744
 - Quality score: 8.7/10
 - Payload post id: 23
-- Hero image uploaded via Vercel Blob, media id=20
+- Hero image uploaded via Cloudflare R2, media id=20
 - Public page verified 200 at http://localhost:3000/journal/thanksgiving-getaways-unique-stays
 - Sitemap verified includes /journal/thanksgiving-getaways-unique-stays
 

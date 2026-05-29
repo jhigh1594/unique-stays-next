@@ -268,7 +268,7 @@ import { uploadHeroImage } from './lib/upload-hero.js'
 await uploadHeroImage({ imageUrl, filename: `${slug}-hero.jpg`, alt, postSlug: slug })
 ```
 
-The utility lives at `scripts/lib/upload-hero.ts`. It always uploads via `@vercel/blob` `put()` directly.
+The utility lives at `scripts/lib/upload-hero.ts`. It creates Payload media records backed by Cloudflare R2. Do not use Vercel Blob or `@vercel/blob` for journal images.
 
 **Step 3: Check for existing post**
 ```bash

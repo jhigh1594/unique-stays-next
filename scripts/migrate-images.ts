@@ -1,13 +1,18 @@
-// Migrate external image URLs to Vercel Blob
+// Migrate external image URLs to Cloudflare R2
 // Run: pnpm migrate-images
-// Requires: DATABASE_URI, PAYLOAD_SECRET, BLOB_READ_WRITE_TOKEN in .env.local
+// Requires: DATABASE_URI, PAYLOAD_SECRET, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, CLOUDFLARE_ACCOUNT_ID in .env.local
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { put } from '@vercel/blob'
+import { uploadToR2 } from './lib/r2-upload'
 
 const CONCURRENCY = 5
 const RETRY_COUNT = 3
+const R2_HOST_MARKERS = ['r2.dev', 'media.uniquestaysusa.com']
+
+function isR2Url(url: string) {
+  return R2_HOST_MARKERS.some(marker => url.includes(marker))
+}
 
 async function fetchWithRetry(url: string, retries = RETRY_COUNT): Promise<Response> {
   for (let i = 0; i < retries; i++) {
@@ -31,18 +36,14 @@ async function fetchWithRetry(url: string, retries = RETRY_COUNT): Promise<Respo
 async function migrateImage(slug: string, imageUrl: string): Promise<string> {
   const ext = imageUrl.split('.').pop()?.split('?')[0] ?? 'jpg'
   const cleanExt = ext.length <= 4 ? ext : 'jpg'
-  const blobPath = `stays/${slug}.${cleanExt}`
+  const key = `stays/${slug}.${cleanExt}`
 
   const res = await fetchWithRetry(imageUrl)
   const buffer = Buffer.from(await res.arrayBuffer())
 
-  const blob = await put(blobPath, buffer, {
-    access: 'public',
-    allowOverwrite: true,
-    contentType: res.headers.get('content-type') ?? 'image/jpeg',
-  })
+  const uploaded = await uploadToR2(key, buffer, res.headers.get('content-type') ?? 'image/jpeg')
 
-  return blob.url
+  return uploaded.url
 }
 
 async function processBatch(
@@ -52,17 +53,17 @@ async function processBatch(
   await Promise.all(
     stays.map(async (stay) => {
       try {
-        if (stay.imageUrl.includes('blob.vercel-storage.com')) {
+        if (isR2Url(stay.imageUrl)) {
           onProgress(stay.slug, 'skipped')
           return
         }
 
-        const blobUrl = await migrateImage(stay.slug, stay.imageUrl)
+        const r2Url = await migrateImage(stay.slug, stay.imageUrl)
         const payload = await getPayload({ config })
         await payload.update({
           collection: 'stays',
           id: stay.id,
-          data: { imageUrl: blobUrl },
+          data: { imageUrl: r2Url },
         })
         onProgress(stay.slug, 'migrated')
       } catch (err) {
@@ -73,8 +74,11 @@ async function processBatch(
 }
 
 async function main() {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    console.error('BLOB_READ_WRITE_TOKEN is required. Add it to .env.local')
+  const missingR2Env = ['R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'CLOUDFLARE_ACCOUNT_ID'].filter(
+    key => !process.env[key],
+  )
+  if (missingR2Env.length > 0) {
+    console.error(`${missingR2Env.join(', ')} required. Add R2 credentials to .env.local`)
     process.exit(1)
   }
 
@@ -104,10 +108,10 @@ async function main() {
     page++
   }
 
-  const alreadyMigrated = allStays.filter(s => s.imageUrl.includes('blob.vercel-storage.com')).length
-  const toMigrate = allStays.filter(s => !s.imageUrl.includes('blob.vercel-storage.com'))
+  const alreadyMigrated = allStays.filter(s => isR2Url(s.imageUrl)).length
+  const toMigrate = allStays.filter(s => !isR2Url(s.imageUrl))
 
-  console.log(`Found ${allStays.length} stays with images (${alreadyMigrated} already in Blob, ${toMigrate.length} to migrate)`)
+  console.log(`Found ${allStays.length} stays with images (${alreadyMigrated} already in R2, ${toMigrate.length} to migrate)`)
 
   let migrated = 0
   let skipped = alreadyMigrated

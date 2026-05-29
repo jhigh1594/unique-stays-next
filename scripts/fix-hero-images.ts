@@ -1,11 +1,11 @@
 // Fix wrong hero images by scraping real listing photos
 // Run: node --env-file=.env.local --import tsx/esm scripts/fix-hero-images.ts
-// Requires: DATABASE_URI, PAYLOAD_SECRET, FIRECRAWL_API_KEY, BLOB_READ_WRITE_TOKEN
+// Requires: DATABASE_URI, PAYLOAD_SECRET, FIRECRAWL_API_KEY, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, CLOUDFLARE_ACCOUNT_ID
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { scrapeListing } from './lib/scraper'
-import { put } from '@vercel/blob'
+import { uploadToR2 } from './lib/r2-upload'
 
 const MISMATCH_IDS = [
   33, 35, 41, 49, 50, 52, 53, 54, 58, 59, 60, 61, 62,
@@ -77,25 +77,21 @@ async function fixStay(payload: Awaited<ReturnType<typeof getPayload>>, id: numb
         continue
       }
 
-      // Upload to Vercel Blob
+      // Upload to Cloudflare R2
       const ext = contentType.split('/')[1]?.replace('jpeg', 'jpg') ?? 'jpg'
-      const blobPath = `stays/${slug}.${ext}`
+      const key = `stays/${slug}.${ext}`
 
-      const blob = await put(blobPath, buffer, {
-        access: 'public',
-        allowOverwrite: true,
-        contentType,
-      })
+      const uploaded = await uploadToR2(key, buffer, contentType)
 
       // Update stay in Payload
       await payload.update({
         collection: 'stays',
         id,
-        data: { imageUrl: blob.url },
+        data: { imageUrl: uploaded.url },
       })
 
-      console.log(`  ✓ Updated: ${blob.url}`)
-      return { id, slug, status: 'fixed', newUrl: blob.url }
+      console.log(`  ✓ Updated: ${uploaded.url}`)
+      return { id, slug, status: 'fixed', newUrl: uploaded.url }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       console.log(`  Photo ${i}: failed (${msg})`)

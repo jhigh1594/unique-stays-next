@@ -7,7 +7,7 @@ import config from '@payload-config'
 const POST_SLUG = 'most-extraordinary-treehouses-america'
 
 // Hero image — Secluded Intown Treehouse (Airbnb's #1 Most Wished-For, iconic rope bridge shot)
-const HERO_IMAGE_URL = 'https://a7v1qq3bzbgnznqq.public.blob.vercel-storage.com/stays/secluded-intown-treehouse-ga.jpg'
+const HERO_IMAGE_URL = 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/stays/secluded-intown-treehouse-ga.jpg'
 
 // Stay slugs in article order → IDs verified from production
 const STAY_MAP: Record<string, number> = {

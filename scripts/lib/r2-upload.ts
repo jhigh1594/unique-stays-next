@@ -27,8 +27,8 @@ function getBucket(): string {
 }
 
 function getPublicUrl(key: string): string {
-  const base = process.env.R2_PUBLIC_URL || ''
-  return `${base}/${key}`
+  const base = process.env.R2_PUBLIC_URL || 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev'
+  return `${base.replace(/\/$/, '')}/${key}`
 }
 
 export interface UploadResult {
