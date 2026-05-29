@@ -116,6 +116,12 @@ export default async function SpokePage({
   if (!config) notFound()
 
   const stays = await getStaysBySpoke(spoke)
+  const uniqueStates = new Set(stays.map((s) => s.state)).size
+  const dynamicStats = [
+    { value: `${stays.length}+`, label: config.stats[0].label },
+    { value: `${uniqueStates}`, label: config.stats[1].label },
+    ...config.stats.slice(2),
+  ]
   const baseUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com').replace(/\/$/, '')
   const hubJsonLd = getSpokeHubJsonLd({ baseUrl, config, stays })
   const spokeSlug = spoke as SpokeSlug
@@ -225,7 +231,7 @@ export default async function SpokePage({
               </div>
 
               <div className="flex gap-6">
-                {config.stats.map((stat, i) => (
+                {dynamicStats.map((stat, i) => (
                   <div key={i} className="text-center">
                     <div
                       className="text-3xl font-bold"

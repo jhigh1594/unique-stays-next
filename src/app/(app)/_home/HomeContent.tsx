@@ -11,7 +11,7 @@ import {
 import {
   motion,
 } from 'framer-motion'
-import posthog from 'posthog-js'
+import { getPostHog } from '@/lib/posthog-lazy'
 import StayCard from '@/components/StayCard'
 import FilmstripSection from '@/components/FilmstripSection'
 import CorkboardTestimonials from '@/components/CorkboardTestimonials'
@@ -28,6 +28,7 @@ interface HomeContentProps {
   filmstripStays: NormalizedStay[]
   allStays: NormalizedStay[]
   categories: CategoryConfig[]
+  totalCount: number
 }
 
 // ── Intersection-based clip-reveal observer ────────────────
@@ -222,6 +223,7 @@ export default function HomeContent({
   filmstripStays,
   allStays,
   categories,
+  totalCount,
 }: HomeContentProps) {
   useClipReveal()
 
@@ -238,7 +240,7 @@ export default function HomeContent({
       <Hero
         categories={categories}
         stats={[
-          { value: 231, suffix: '+', label: 'Curated Stays' },
+          { value: totalCount, suffix: '+', label: 'Curated Stays' },
           { value: 10, suffix: '', label: 'Unique Categories' },
           { value: 12000, suffix: '+', label: 'Weekly Readers' },
         ]}
@@ -614,7 +616,7 @@ export default function HomeContent({
                       padding: '4px 10px',
                     }}
                   >
-                    400+ stays found ✦
+                    {totalCount}+ stays found ✦
                   </span>
                 </motion.div>
               </motion.div>
@@ -859,7 +861,7 @@ export default function HomeContent({
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json',
-                        'X-POSTHOG-DISTINCT-ID': posthog.get_distinct_id(),
+                        'X-POSTHOG-DISTINCT-ID': (await getPostHog()).get_distinct_id(),
                       },
                       body: JSON.stringify({ email }),
                     })
@@ -869,8 +871,9 @@ export default function HomeContent({
                       return
                     }
                     setNewsletterDone(true)
-                    posthog.identify(email, { email })
-                    posthog.capture('newsletter_subscribed', { source: 'homepage' })
+                    const ph = await getPostHog()
+                    ph.identify(email, { email })
+                    ph.capture('newsletter_subscribed', { source: 'homepage' })
                   } catch {
                     setNewsletterError('Network error. Please try again.')
                   } finally {
@@ -1056,7 +1059,7 @@ export default function HomeContent({
                       letterSpacing: '0.14em',
                     }}
                   >
-                    400+ stays & counting ✦
+                    {totalCount}+ stays & counting ✦
                   </span>
                 </motion.div>
               </div>

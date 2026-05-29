@@ -4,10 +4,13 @@ import type { Metadata } from 'next'
 
 export const dynamic = 'force-static'
 
-export const metadata: Metadata = {
-  title: 'The Collection — All Curated Stays',
-  description: 'Browse all 230+ curated unique vacation rentals across America. Filter by category, region, and platform.',
-  alternates: { canonical: '/collection' },
+export async function generateMetadata(): Promise<Metadata> {
+  const allStays = await getAllStays()
+  return {
+    title: 'The Collection — All Curated Stays',
+    description: `Browse all ${allStays.length}+ curated unique vacation rentals across America. Filter by category, region, and platform.`,
+    alternates: { canonical: '/collection' },
+  }
 }
 
 export default async function DirectoryPage() {

@@ -30,6 +30,7 @@ export default async function HomePage() {
       filmstripStays={filmstripStays}
       allStays={allStays}
       categories={categories}
+      totalCount={allStays.length}
     />
   )
 }
