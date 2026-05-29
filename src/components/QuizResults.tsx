@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import type { StayMatch } from '@/lib/matching-engine'
+import type { StayMatch, QuizAnswers } from '@/lib/matching-engine'
 
 function cn(...inputs: Parameters<typeof clsx>) {
   return twMerge(clsx(inputs))
@@ -12,7 +12,7 @@ function cn(...inputs: Parameters<typeof clsx>) {
 export interface QuizResultsProps {
   results: StayMatch[]
   resultSlug: string
-  answers: Record<string, string>
+  answers: QuizAnswers
   onRetake: () => void
 }
 
