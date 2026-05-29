@@ -10,12 +10,11 @@ export default function LoadingSplash() {
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    const minWait = new Promise<void>((resolve) => setTimeout(resolve, 900))
     const pageReady = new Promise<void>((resolve) => {
       if (document.readyState === 'complete') return resolve()
       window.addEventListener('load', () => resolve(), { once: true })
     })
-    Promise.all([minWait, pageReady]).then(() => setVisible(false))
+    pageReady.then(() => setVisible(false))
   }, [])
 
   return (
@@ -25,7 +24,7 @@ export default function LoadingSplash() {
           className="fixed inset-0 z-[9999] flex items-center justify-center"
           style={{ background: 'oklch(0.975 0.012 85)' }}
           exit={{ y: '-100%' }}
-          transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 0.25, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="flex flex-col items-center gap-5">
             <div className="relative w-32 h-32 flex items-center justify-center">

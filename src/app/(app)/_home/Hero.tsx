@@ -21,25 +21,21 @@ interface HeroSlide {
 const HERO_POOL: HeroSlide[] = [
   { url: 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/stays/sitka-lighthouse-ak.jpeg', label: 'Lighthouse on the Coast', location: 'Sitka, Alaska', categoryLabel: 'Lighthouses', categoryEmoji: '🗼' },
   { url: 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/stays/luxury-castle-davis-ca.jpeg', label: 'Castle Estate', location: 'Davis, California', categoryLabel: 'Castles & Estates', categoryEmoji: '🏰' },
-  { url: 'https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?w=1920&q=90&auto=format&fit=crop', label: 'Geodesic Dome on the Water', location: 'Alaska', categoryLabel: 'Geodesic Domes', categoryEmoji: '🔮' },
-  { url: 'https://images.unsplash.com/photo-1723663561534-9b129f182785?w=1920&q=90&auto=format&fit=crop', label: 'A-Frame in the Pacific Northwest', location: 'Washington', categoryLabel: 'A-Frame Cabins', categoryEmoji: '🏔️' },
-  { url: 'https://images.unsplash.com/photo-1486944936280-f152c82ac151?w=1920&q=90&auto=format&fit=crop', label: 'Lighthouse on the Rocky Coast', location: 'Oregon Coast', categoryLabel: 'Lighthouses', categoryEmoji: '🗼' },
-  { url: 'https://images.unsplash.com/photo-1623390003550-7af401e1f9c7?w=1920&q=90&auto=format&fit=crop', label: 'Houseboat on Calm Waters', location: 'Finland', categoryLabel: 'Houseboats', categoryEmoji: '⛵' },
-  { url: 'https://images.unsplash.com/photo-1605272058466-5988743ff1db?w=1920&q=90&auto=format&fit=crop', label: 'Tiny House in the Mountains', location: 'Montenegro', categoryLabel: 'Tiny Homes', categoryEmoji: '🏡' },
-  { url: 'https://images.unsplash.com/photo-1532460089048-7b14bf14cb65?w=1920&q=90&auto=format&fit=crop', label: 'Tiny House in the Countryside', location: 'Sweden', categoryLabel: 'Tiny Homes', categoryEmoji: '🏡' },
-  { url: 'https://images.unsplash.com/photo-1632367294096-4e77d53c4ae9?w=1920&q=90&auto=format&fit=crop', label: 'Glamping with Mountain Views', location: 'Switzerland', categoryLabel: 'Glamping', categoryEmoji: '⛺' },
-  { url: 'https://images.unsplash.com/photo-1714326029322-fcc1464df757?w=1920&q=90&auto=format&fit=crop', label: 'Safari Tent at Sunset', location: 'Tanzania', categoryLabel: 'Glamping', categoryEmoji: '⛺' },
-  { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1920&q=90&auto=format&fit=crop', label: 'Castle in Morning Fog', location: 'Bavaria', categoryLabel: 'Castles & Estates', categoryEmoji: '🏰' },
+  { url: 'https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?w=1200&q=80&auto=format&fit=crop', label: 'Geodesic Dome on the Water', location: 'Alaska', categoryLabel: 'Geodesic Domes', categoryEmoji: '🔮' },
+  { url: 'https://images.unsplash.com/photo-1723663561534-9b129f182785?w=1200&q=80&auto=format&fit=crop', label: 'A-Frame in the Pacific Northwest', location: 'Washington', categoryLabel: 'A-Frame Cabins', categoryEmoji: '🏔️' },
+  { url: 'https://images.unsplash.com/photo-1486944936280-f152c82ac151?w=1200&q=80&auto=format&fit=crop', label: 'Lighthouse on the Rocky Coast', location: 'Oregon Coast', categoryLabel: 'Lighthouses', categoryEmoji: '🗼' },
+  { url: 'https://images.unsplash.com/photo-1623390003550-7af401e1f9c7?w=1200&q=80&auto=format&fit=crop', label: 'Houseboat on Calm Waters', location: 'Finland', categoryLabel: 'Houseboats', categoryEmoji: '⛵' },
+  { url: 'https://images.unsplash.com/photo-1605272058466-5988743ff1db?w=1200&q=80&auto=format&fit=crop', label: 'Tiny House in the Mountains', location: 'Montenegro', categoryLabel: 'Tiny Homes', categoryEmoji: '🏡' },
+  { url: 'https://images.unsplash.com/photo-1532460089048-7b14bf14cb65?w=1200&q=80&auto=format&fit=crop', label: 'Tiny House in the Countryside', location: 'Sweden', categoryLabel: 'Tiny Homes', categoryEmoji: '🏡' },
+  { url: 'https://images.unsplash.com/photo-1632367294096-4e77d53c4ae9?w=1200&q=80&auto=format&fit=crop', label: 'Glamping with Mountain Views', location: 'Switzerland', categoryLabel: 'Glamping', categoryEmoji: '⛺' },
+  { url: 'https://images.unsplash.com/photo-1714326029322-fcc1464df757?w=1200&q=80&auto=format&fit=crop', label: 'Safari Tent at Sunset', location: 'Tanzania', categoryLabel: 'Glamping', categoryEmoji: '⛺' },
+  { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&q=80&auto=format&fit=crop', label: 'Castle in Morning Fog', location: 'Bavaria', categoryLabel: 'Castles & Estates', categoryEmoji: '🏰' },
 ]
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
+// Deterministic daily rotation — no hydration mismatch, no double-render
+const DAY_OFFSET = new Date().getDate() % HERO_POOL.length
+const INITIAL_SLIDES = [...HERO_POOL.slice(DAY_OFFSET), ...HERO_POOL.slice(0, DAY_OFFSET)].slice(0, SHOW_COUNT)
+export const HERO_FIRST_IMAGE = INITIAL_SLIDES[0].url
 
 function AnimatedStat({ to, suffix = '' }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null)
@@ -68,18 +64,9 @@ interface HeroProps {
 }
 
 export default function Hero({ categories, stats }: HeroProps) {
-  const [slides, setSlides] = useState(() => HERO_POOL.slice(0, SHOW_COUNT))
+  const [slides] = useState(INITIAL_SLIDES)
   const [active, setActive] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const mountedRef = useRef(false)
-
-  // Shuffle on client only to avoid hydration mismatch
-  useEffect(() => {
-    if (!mountedRef.current) {
-      setSlides(shuffle(HERO_POOL).slice(0, SHOW_COUNT))
-      mountedRef.current = true
-    }
-  }, [])
 
   const resetTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -119,7 +106,7 @@ export default function Hero({ categories, stats }: HeroProps) {
               alt={`${current.label} — ${current.location}`}
               fill
               sizes="100vw"
-              quality={100}
+              quality={80}
               className="object-cover will-change-transform"
               priority={active === 0}
             />

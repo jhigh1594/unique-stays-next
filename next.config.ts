@@ -24,7 +24,6 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   serverExternalPackages: ['sharp', 'pg'],
   images: {
-    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'uniquestaysusa.com' },
       { protocol: 'https', hostname: '**.muscache.com' },

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, CheckCircle2 } from 'lucide-react'
-import posthog from 'posthog-js'
+import { getPostHog } from '@/lib/posthog-lazy'
 
 interface NewsletterModalProps {
   open: boolean
@@ -126,7 +126,7 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
-                          'X-POSTHOG-DISTINCT-ID': posthog.get_distinct_id(),
+                          'X-POSTHOG-DISTINCT-ID': (await getPostHog()).get_distinct_id(),
                         },
                         body: JSON.stringify({ email }),
                       })
@@ -136,8 +136,9 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
                         return
                       }
                       setDone(true)
-                      posthog.identify(email, { email })
-                      posthog.capture('newsletter_subscribed', { source: 'modal' })
+                      const ph = await getPostHog()
+                      ph.identify(email, { email })
+                      ph.capture('newsletter_subscribed', { source: 'modal' })
                     } catch {
                       setError('Network error. Please try again.')
                     } finally {
