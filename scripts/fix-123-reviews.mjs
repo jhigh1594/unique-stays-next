@@ -38,7 +38,7 @@ async function main() {
   const client = new pg.Client({
     host: dbUrl.hostname, port: parseInt(dbUrl.port || '5432'),
     database: dbUrl.pathname.slice(1), user: dbUrl.username, password: dbUrl.password,
-    ssl: { rejectUnauthorized: false }
+    ssl: true
   })
   await client.connect()
 
