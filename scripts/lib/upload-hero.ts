@@ -1,6 +1,6 @@
 // Reusable hero image upload utility.
-// Downloads an image, uploads to Vercel Blob, creates/patches the Payload media
-// record, links it to the blog post, and revalidates ISR cache.
+// Downloads an image, creates a Payload media record backed by R2,
+// links it to the blog post, and revalidates ISR cache.
 //
 // Usage (programmatic):
 //   import { uploadHeroImage } from './lib/upload-hero.js'
@@ -14,12 +14,11 @@
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { put } from '@vercel/blob'
 
 export interface UploadHeroOptions {
   /** External image URL to download (Unsplash, etc.) */
   imageUrl: string
-  /** Filename for Vercel Blob (e.g. "aframe-cabins-hero.jpg") */
+  /** Filename for R2/Payload media (e.g. "aframe-cabins-hero.jpg") */
   filename: string
   /** Alt text for the media record */
   alt: string
@@ -39,20 +38,7 @@ export async function uploadHeroImage(opts: UploadHeroOptions) {
   const buffer = Buffer.from(await imgRes.arrayBuffer())
   console.log(`  Downloaded ${(buffer.byteLength / 1024).toFixed(0)}KB`)
 
-  // 2. Upload to Vercel Blob directly
-  console.log('  Uploading to Vercel Blob...')
-  const blob = await put(`stays/${filename}`, buffer, {
-    access: 'public',
-    contentType: 'image/jpeg',
-  })
-  console.log(`  Blob URL: ${blob.url}`)
-
-  // 3. Verify the Blob URL is accessible
-  const verifyRes = await fetch(blob.url, { method: 'HEAD' })
-  if (!verifyRes.ok) throw new Error(`Blob URL returned ${verifyRes.status} — upload may have failed`)
-  console.log('  Verified: Blob URL returns 200')
-
-  // 4. Create or update Payload media record
+  // 2. Create or update Payload media record. The media collection is backed by R2.
   const payload = await getPayload({ config })
 
   let media
@@ -64,36 +50,33 @@ export async function uploadHeroImage(opts: UploadHeroOptions) {
   })
 
   if (existing.totalDocs > 0) {
-    // Patch existing record URL
-    media = existing.docs[0]
-    await payload.update({
+    await payload.delete({
       collection: 'media',
-      id: media.id as number,
-      data: { url: blob.url, alt } as any,
+      id: existing.docs[0].id as number,
+      overrideAccess: true,
     })
-    console.log(`  Updated media id=${media.id} URL → Blob`)
-  } else {
-    // Create new media record with Blob URL
-    media = await payload.create({
-      collection: 'media',
-      data: { alt, url: blob.url } as any,
-      file: {
-        data: buffer,
-        mimetype: 'image/jpeg',
-        name: filename,
-        size: buffer.byteLength,
-      },
-    })
-    // Immediately patch URL in case Payload's upload overwrote it
-    await payload.update({
-      collection: 'media',
-      id: media.id as number,
-      data: { url: blob.url } as any,
-    })
-    console.log(`  Created media id=${media.id}, patched URL → Blob`)
   }
 
-  // 5. Link hero image to blog post
+  media = await payload.create({
+    collection: 'media',
+    data: { alt },
+    file: {
+      data: buffer,
+      mimetype: 'image/jpeg',
+      name: filename,
+      size: buffer.byteLength,
+    },
+    overrideAccess: true,
+  })
+  console.log(`  Uploaded media id=${media.id} to R2`)
+
+  if (typeof media.url === 'string') {
+    const verifyRes = await fetch(media.url, { method: 'HEAD' })
+    if (!verifyRes.ok) throw new Error(`R2 media URL returned ${verifyRes.status} — upload may have failed`)
+    console.log('  Verified: R2 media URL returns 200')
+  }
+
+  // 3. Link hero image to blog post
   const posts = await payload.find({
     collection: 'blog-posts',
     where: { slug: { equals: postSlug } },
@@ -110,7 +93,7 @@ export async function uploadHeroImage(opts: UploadHeroOptions) {
   })
   console.log(`  Linked hero image (media id=${media.id}) to post "${postSlug}" (id=${post.id})`)
 
-  // 6. Revalidate ISR cache
+  // 4. Revalidate ISR cache
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://www.uniquestaysusa.com'
   const revalRes = await fetch(`${serverUrl}/api/revalidate`, {
     method: 'POST',
@@ -123,7 +106,7 @@ export async function uploadHeroImage(opts: UploadHeroOptions) {
   const revalText = await revalRes.text()
   console.log(`  ISR revalidation: ${revalText}`)
 
-  // 7. Verify final state
+  // 5. Verify final state
   const finalCheck = await payload.find({
     collection: 'blog-posts',
     where: { slug: { equals: postSlug } },
@@ -134,13 +117,13 @@ export async function uploadHeroImage(opts: UploadHeroOptions) {
   const heroImage = finalPost.heroImage as Record<string, unknown> | null
   const finalUrl = heroImage && typeof heroImage === 'object' && typeof heroImage.url === 'string' ? heroImage.url : ''
 
-  if (!finalUrl.includes('blob.vercel-storage.com')) {
-    throw new Error(`Hero image URL is not a Blob URL: ${finalUrl}`)
+  if (!finalUrl.includes('r2.dev') && !finalUrl.includes('media.uniquestaysusa.com')) {
+    throw new Error(`Hero image URL is not an R2 URL: ${finalUrl}`)
   }
 
   console.log(`\n✓ Hero image set successfully`)
   console.log(`  Post: /journal/${postSlug}`)
   console.log(`  Image: ${finalUrl}`)
 
-  return { mediaId: media.id, postId: post.id, blobUrl: blob.url }
+  return { mediaId: media.id, postId: post.id, imageUrl: finalUrl }
 }

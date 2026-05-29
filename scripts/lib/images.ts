@@ -1,8 +1,8 @@
-// Image download, validation, and Vercel Blob upload module
-// Downloads listing photos, validates content type via sharp, uploads to Blob
+// Image download, validation, and R2 upload module
+// Downloads listing photos, validates content type via sharp, uploads to R2
 
-import { put } from '@vercel/blob'
 import sharp from 'sharp'
+import { uploadToR2 } from './r2-upload'
 
 const RETRY_COUNT = 3
 const MIN_IMAGE_BYTES = 10240 // 10KB — filter thumbnails/logos
@@ -57,15 +57,10 @@ export async function downloadAndUploadImage(
     const contentType = await validateImage(buffer)
 
     const ext = contentType.split('/')[1] ?? 'jpg'
-    const blobPath = `stays/${slug}/gallery-${index}.${ext}`
+    const key = `stays/${slug}/gallery-${index}.${ext}`
+    const uploaded = await uploadToR2(key, buffer, contentType)
 
-    const blob = await put(blobPath, buffer, {
-      access: 'public',
-      allowOverwrite: true,
-      contentType,
-    })
-
-    return { imageUrl: blob.url }
+    return { imageUrl: uploaded.url }
   } catch {
     return null
   }

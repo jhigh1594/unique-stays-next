@@ -19,8 +19,8 @@ interface HeroSlide {
 }
 
 const HERO_POOL: HeroSlide[] = [
-  { url: 'https://a7v1qq3bzbgnznqq.public.blob.vercel-storage.com/stays/sitka-lighthouse-ak.jpeg', label: 'Lighthouse on the Coast', location: 'Sitka, Alaska', categoryLabel: 'Lighthouses', categoryEmoji: '🗼' },
-  { url: 'https://a7v1qq3bzbgnznqq.public.blob.vercel-storage.com/stays/luxury-castle-davis-ca.jpeg', label: 'Castle Estate', location: 'Davis, California', categoryLabel: 'Castles & Estates', categoryEmoji: '🏰' },
+  { url: 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/stays/sitka-lighthouse-ak.jpeg', label: 'Lighthouse on the Coast', location: 'Sitka, Alaska', categoryLabel: 'Lighthouses', categoryEmoji: '🗼' },
+  { url: 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/stays/luxury-castle-davis-ca.jpeg', label: 'Castle Estate', location: 'Davis, California', categoryLabel: 'Castles & Estates', categoryEmoji: '🏰' },
   { url: 'https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?w=1920&q=90&auto=format&fit=crop', label: 'Geodesic Dome on the Water', location: 'Alaska', categoryLabel: 'Geodesic Domes', categoryEmoji: '🔮' },
   { url: 'https://images.unsplash.com/photo-1723663561534-9b129f182785?w=1920&q=90&auto=format&fit=crop', label: 'A-Frame in the Pacific Northwest', location: 'Washington', categoryLabel: 'A-Frame Cabins', categoryEmoji: '🏔️' },
   { url: 'https://images.unsplash.com/photo-1486944936280-f152c82ac151?w=1920&q=90&auto=format&fit=crop', label: 'Lighthouse on the Rocky Coast', location: 'Oregon Coast', categoryLabel: 'Lighthouses', categoryEmoji: '🗼' },

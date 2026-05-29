@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   serverExternalPackages: ['sharp', 'pg'],
   images: {
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'uniquestaysusa.com' },
       { protocol: 'https', hostname: '**.muscache.com' },
@@ -32,8 +33,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**.wander.com' },
       { protocol: 'https', hostname: '**.cloudfront.net' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: '**.public.blob.vercel-storage.com' },
-      { protocol: 'https', hostname: '**.vercel-storage.com' },
       { protocol: 'https', hostname: '**.r2.dev' },
       { protocol: 'https', hostname: 'media.uniquestaysusa.com' },
     ],
