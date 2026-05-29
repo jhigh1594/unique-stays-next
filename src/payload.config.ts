@@ -49,6 +49,7 @@ const payloadSecret = requireEnv('PAYLOAD_SECRET')
 const databaseUri = normalizeDatabaseUri(requireEnv('DATABASE_URI'))
 const serverURL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || serverURL).split(',').filter(Boolean)
+const r2PublicUrl = process.env.R2_PUBLIC_URL || 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev'
 
 export default buildConfig({
   admin: {
@@ -64,9 +65,8 @@ export default buildConfig({
         media: {
           disablePayloadAccessControl: true,
           generateFileURL: ({ filename, prefix }) => {
-            const base = process.env.R2_PUBLIC_URL || ''
             const key = prefix ? `${prefix}/${filename}` : filename
-            return `${base}/${key}`
+            return `${r2PublicUrl}/${key}`
           },
         },
       },

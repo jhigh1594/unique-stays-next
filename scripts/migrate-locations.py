@@ -155,6 +155,7 @@ def fetch_with_retry(url, headers, timeout=30, max_retries=5, method='GET', data
                 raise
 
 
+
 def fetch_all_stays() -> list[dict]:
     """Fetch all stays from Payload API."""
     all_docs = []
