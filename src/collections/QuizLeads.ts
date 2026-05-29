@@ -8,7 +8,7 @@ export const QuizLeads: CollectionConfig = {
     description: 'Email leads captured from the vacation quiz',
   },
   access: {
-    create: () => true, // public quiz submissions
+    create: ({ req: { user } }) => Boolean(user),
     read: ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
