@@ -47,8 +47,8 @@ export async function POST(req: Request) {
             price: stay.price,
             coordinates: stay.coordinates as any,
             tags,
-            rating: stay.rating,
-            reviewCount: stay.reviewCount,
+            rating: stay.rating ?? undefined,
+            reviewCount: stay.reviewCount ?? undefined,
           },
           answers,
           userCoords || undefined
