@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   serverExternalPackages: ['sharp', 'pg'],
   images: {
+    // Vercel hobby plan has 1000 images/mo optimization limit.
+    // With 384 stays × 3+ images each, we blow through it immediately.
+    // Bypass Vercel's optimizer — CDNs (R2, muscache, trvl-media) serve optimized formats already.
+    unoptimized: true,
     remotePatterns: [
       // Our own CDN / storage
       { protocol: 'https', hostname: 'uniquestaysusa.com' },
