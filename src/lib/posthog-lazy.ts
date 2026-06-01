@@ -6,3 +6,4 @@ export async function getPostHog() {
     ph = mod.default
   }
   return ph
+}
