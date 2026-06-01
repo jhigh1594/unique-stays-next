@@ -11,8 +11,8 @@ const ALLOWED_PREFIXES = ['stays/', 'hero/', 'spokes/', 'media/']
 const SAFE_KEY_RE = /^[a-zA-Z0-9_\-./]+$/
 
 function sanitizeKey(raw: string): string | null {
-  // Decode, strip traversal, validate charset + prefix
-  const decoded = decodeURIComponent(raw)
+  let decoded: string
+  try { decoded = decodeURIComponent(raw) } catch { return null }
   if (decoded.includes('..') || !SAFE_KEY_RE.test(decoded)) return null
   if (!ALLOWED_PREFIXES.some((p) => decoded.startsWith(p))) return null
   return decoded
