@@ -61,7 +61,12 @@ const imageLoader: ImageLoader = ({ src, width, quality }) => {
 
   // R2-hosted images: route through Worker CDN
   if (isR2Url(url.hostname)) {
-    const key = url.pathname.slice(1) // strip leading /
+    const raw = url.pathname.slice(1) // strip leading /
+    if (!/^[\w\-./~]+$/.test(raw)) {
+      console.warn('[image-loader] Blocked malformed R2 path:', raw)
+      return FALLBACK
+    }
+    const key = raw.replace(/\.\.+/g, '') // strip path traversal
     const v = url.searchParams.get('v')
     const bust = v ? `&v=${v}` : ''
     return `https://${CDN_HOST}/${key}?w=${width}&q=${quality || 75}${bust}`
