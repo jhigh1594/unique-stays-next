@@ -11,7 +11,7 @@ export const SPOKES_CONFIG: Record<string, SpokeConfig> = {
     accentColor: 'oklch(0.55 0.14 38)',
     accentColorLight: 'oklch(0.93 0.025 75)',
     heroImage:
-      'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM2NDA2MDI3NzM3ODA5OTYxNA==/original/75d84473-a0a1-413f-a370-0d7081565e17.jpeg?im_w=720&width=720&quality=70&auto=webp',
+      'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/spokes/unique.jpg',
     stats: [
       { value: '400+', label: 'Curated Stays' },
       { value: '48', label: 'States' },
@@ -32,7 +32,7 @@ export const SPOKES_CONFIG: Record<string, SpokeConfig> = {
     heroEmoji: '💻',
     accentColor: 'oklch(0.45 0.12 250)',
     accentColorLight: 'oklch(0.93 0.025 250)',
-    heroImage: 'https://a0.muscache.com/im/pictures/56dd4335-57f0-4e32-a823-f00cc2a73589.jpg',
+    heroImage: 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/spokes/work-friendly.jpg',
     stats: [
       { value: '150+', label: 'Verified Stays' },
       { value: '100+', label: 'Mbps Avg WiFi' },
@@ -54,7 +54,7 @@ export const SPOKES_CONFIG: Record<string, SpokeConfig> = {
     accentColor: 'oklch(0.50 0.14 145)',
     accentColorLight: 'oklch(0.93 0.025 145)',
     heroImage:
-      'https://a0.muscache.com/im/pictures/miso/Hosting-686663596322266612/original/2ead3374-5b5b-4e37-b480-17007c78a1af.jpeg',
+      'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/spokes/pet-friendly.jpg',
     stats: [
       { value: '200+', label: 'Pet-Friendly Stays' },
       { value: '40+', label: 'States' },
@@ -75,7 +75,7 @@ export const SPOKES_CONFIG: Record<string, SpokeConfig> = {
     heroEmoji: '🚐',
     accentColor: 'oklch(0.50 0.14 60)',
     accentColorLight: 'oklch(0.93 0.025 60)',
-    heroImage: 'https://a0.muscache.com/im/pictures/640b457f-57c8-446e-acaf-0dca0296c63f.jpg',
+    heroImage: 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/spokes/rv-ready.jpg?v=2',
     stats: [
       { value: '120+', label: 'RV Sites' },
       { value: '35', label: 'States' },
@@ -97,7 +97,7 @@ export const SPOKES_CONFIG: Record<string, SpokeConfig> = {
     accentColor: 'oklch(0.50 0.14 200)',
     accentColorLight: 'oklch(0.93 0.025 200)',
     heroImage:
-      'https://a0.muscache.com/im/pictures/prohost-api/Hosting-1019552852537000331/original/bce544ba-9a68-4e68-801d-0b4297d78d8f.jpeg',
+      'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/spokes/ev-ready.jpg?v=2',
     stats: [
       { value: '90+', label: 'EV-Verified Stays' },
       { value: '32', label: 'States' },

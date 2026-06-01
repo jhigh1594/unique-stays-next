@@ -24,36 +24,11 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   serverExternalPackages: ['sharp', 'pg'],
   images: {
-    // Vercel hobby plan has 1000 images/mo optimization limit.
-    // With 384 stays × 3+ images each, we blow through it immediately.
-    // Bypass Vercel's optimizer — CDNs (R2, muscache, trvl-media) serve optimized formats already.
-    unoptimized: true,
-    remotePatterns: [
-      // Our own CDN / storage
-      { protocol: 'https', hostname: 'uniquestaysusa.com' },
-      { protocol: 'https', hostname: '**.r2.dev' },
-      { protocol: 'https', hostname: 'media.uniquestaysusa.com' },
-      // Platform CDNs
-      { protocol: 'https', hostname: '**.muscache.com' },
-      { protocol: 'https', hostname: '**.vrboassets.com' },
-      { protocol: 'https', hostname: '**.trvl-media.com' },
-      { protocol: 'https', hostname: '**.icdbcdn.com' },
-      { protocol: 'https', hostname: '**.orez.io' },
-      { protocol: 'https', hostname: '**.wander.com' },
-      { protocol: 'https', hostname: '**.vacasa.com' },
-      { protocol: 'https', hostname: '**.cloudfront.net' },
-      { protocol: 'https', hostname: '**.streamlinevrs.com' },
-      { protocol: 'https', hostname: '**.hospitable.com' },
-      // Direct booking / host website CDNs
-      { protocol: 'https', hostname: '**.squarespace-cdn.com' },
-      { protocol: 'https', hostname: '**.wsimg.com' },
-      { protocol: 'https', hostname: '**.wixstatic.com' },
-      { protocol: 'https', hostname: '**.wp.com' },
-      { protocol: 'https', hostname: '**.homesteadmodern.com' },
-      { protocol: 'https', hostname: '**.brokenbow.com' },
-      { protocol: 'https', hostname: '**.enjoyuniquestays.com' },
-      { protocol: 'https', hostname: 'images.unsplash.com' },
-    ],
+    // Custom loader routes all R2 images through Cloudflare Worker CDN
+    // (img.uniquestaysusa.com) instead of Vercel _next/image optimizer.
+    // See src/lib/image-loader.ts for routing logic.
+    loader: 'custom',
+    loaderFile: './src/lib/image-loader.ts',
   },
 }
 

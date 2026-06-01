@@ -768,6 +768,51 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
             </a>
           </div>
 
+          {/* Mobile listing metadata */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, padding: '4px 0' }}>
+            {[
+              { label: 'Location', value: `${stay.location.split(',')[0]}, ${stay.state}` },
+              { label: 'Bedrooms', value: `${stay.bedrooms} ${stay.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}` },
+              { label: 'Bathrooms', value: `${stay.bathrooms} ${stay.bathrooms === 1 ? 'Bath' : 'Baths'}` },
+              { label: 'Capacity', value: `Sleeps ${stay.sleeps}` },
+            ].map(({ label, value }) => (
+              <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'oklch(0.60 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{label}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'oklch(0.24 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile reviews */}
+          {stay.rating != null && (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '10px 14px',
+              background: 'oklch(0.985 0.008 80)',
+              border: '1px solid oklch(0.80 0.04 70)',
+              borderRadius: 3,
+            }}>
+              <div style={{
+                fontFamily: 'Fraunces, serif', fontSize: 22, fontWeight: 800,
+                color: 'oklch(0.55 0.14 38)', lineHeight: 1, letterSpacing: '-0.04em',
+              }}>
+                {stay.rating}
+              </div>
+              <div>
+                <div style={{ display: 'flex', gap: 1.5 }}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span key={star} style={{ fontSize: 12, color: star <= Math.round(stay.rating!) ? 'oklch(0.70 0.14 75)' : 'oklch(0.82 0.02 75)' }}>★</span>
+                  ))}
+                </div>
+                {stay.reviewCount != null && (
+                  <span style={{ fontSize: 11, color: 'oklch(0.52 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                    {stay.reviewCount} reviews
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Mobile description */}
           <p style={{ fontSize: 15, lineHeight: 1.8, color: 'oklch(0.35 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
             {stay.body || stay.description}
