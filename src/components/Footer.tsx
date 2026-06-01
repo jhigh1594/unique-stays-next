@@ -112,6 +112,7 @@ export default function Footer() {
               {[
                 { label: 'About Us', href: '/about' },
                 { label: 'How It Works', href: '/about#how-it-works' },
+                { label: 'Unique Score', href: '/unique-score' },
                 { label: 'Submit a Stay', href: '/submit' },
                 { label: 'Affiliate Disclosure', href: '/disclosure' },
                 { label: 'Privacy Policy', href: '/privacy' },
