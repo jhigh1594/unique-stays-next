@@ -348,6 +348,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                         { label: 'Region', value: stay.region },
                         { label: 'Location', value: `${stay.location.split(',')[0]}, ${stay.state}` },
                         { label: 'Bedrooms', value: `${stay.bedrooms} ${stay.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}` },
+                        { label: 'Bathrooms', value: `${stay.bathrooms} ${stay.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}` },
                         { label: 'Capacity', value: `Sleeps ${stay.sleeps}` },
                       ].map(({ label, value }) => (
                         <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

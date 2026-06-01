@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -86,7 +86,21 @@ const SPOKE_SHADOWS = [
   '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
 ]
 
-function SpokeHubSection() {
+function SpokeHubSection({ allStays }: { allStays: NormalizedStay[] }) {
+  // Derive real per-spoke counts from allStays — no new DB queries
+  const spokeLiveStats = useMemo(() => {
+    const map = new Map<string, { count: number; states: number }>()
+    for (const slug of SPOKE_SLUGS) {
+      const matched = slug === 'unique'
+        ? allStays
+        : allStays.filter((s) => s.spokes?.includes(slug))
+      map.set(slug, {
+        count: matched.length,
+        states: new Set(matched.map((s) => s.state)).size,
+      })
+    }
+    return map
+  }, [allStays])
   return (
     <section className="py-20" style={{ background: 'oklch(0.22 0.01 60)' }} data-dark-section>
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -182,7 +196,16 @@ function SpokeHubSection() {
                     </p>
                     <div className="flex items-center justify-between mt-auto" style={{ paddingBottom: '6px' }}>
                       <div className="flex gap-3">
-                        {spoke.stats.slice(0, 2).map((stat, j) => (
+                        {(spoke.slug === 'unique'
+                          ? [
+                              { value: `${spokeLiveStats.get(spoke.slug)?.count ?? 0}+`, label: spoke.stats[0].label },
+                              { value: `${spokeLiveStats.get(spoke.slug)?.states ?? 0}`, label: spoke.stats[1].label },
+                            ]
+                          : [
+                              { value: `${spokeLiveStats.get(spoke.slug)?.count ?? 0}+`, label: spoke.stats[0].label },
+                              { value: `${spokeLiveStats.get(spoke.slug)?.states ?? 0}`, label: spoke.stats[1].label },
+                            ]
+                        ).map((stat, j) => (
                           <div key={j}>
                             <div className="text-sm font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.30 0.02 60)' }}>
                               {stat.value}
@@ -749,7 +772,7 @@ export default function HomeContent({
       {/* ══════════════════════════════════════════════════════
           HUB & SPOKE COLLECTIONS
       ══════════════════════════════════════════════════════ */}
-      <SpokeHubSection />
+      <SpokeHubSection allStays={allStays} />
 
       {/* ══════════════════════════════════════════════════════
           03 — FILMSTRIP

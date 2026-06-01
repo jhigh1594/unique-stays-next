@@ -16,6 +16,7 @@ export type NormalizedStay = {
   reviewCount: number | null
   sleeps: number
   bedrooms: number
+  bathrooms: number
   description: string
   body?: string
   areaGuide?: string

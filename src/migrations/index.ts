@@ -11,6 +11,7 @@ import * as migration_20260515_140415 from './20260515_140415';
 import * as migration_20260521_155515 from './20260521_155515';
 import * as migration_20260528_location_fields from './20260528_location_fields';
 import * as migration_20260529_045859 from './20260529_045859';
+import * as migration_20260601_043022 from './20260601_043022';
 import * as migration_20260601_unique_score_collections from './20260601_unique_score_collections';
 
 export const migrations = [
@@ -80,8 +81,13 @@ export const migrations = [
     name: '20260529_045859',
   },
   {
+    up: migration_20260601_043022.up,
+    down: migration_20260601_043022.down,
+    name: '20260601_043022',
+  },
+  {
     up: migration_20260601_unique_score_collections.up,
     down: migration_20260601_unique_score_collections.down,
-    name: '20260601_unique_score_collections',
+    name: '20260601_unique_score_collections'
   },
 ];

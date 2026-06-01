@@ -58,6 +58,7 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
     reviewCount: (doc.reviewCount as number | null) ?? null,
     sleeps: doc.sleeps as number,
     bedrooms: doc.bedrooms as number,
+    bathrooms: (doc.bathrooms as number) ?? 1,
     description: doc.description as string,
     body: (doc.body as string) ?? undefined,
     areaGuide: (doc.areaGuide as string) ?? undefined,

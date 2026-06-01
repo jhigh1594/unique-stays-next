@@ -2,8 +2,12 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   CREATE TYPE "public"."enum_score_reports_platform" AS ENUM('airbnb', 'vrbo', 'wander');
-   CREATE TABLE "score_reports" (
+   DO $$ BEGIN
+     CREATE TYPE "public"."enum_score_reports_platform" AS ENUM('airbnb', 'vrbo', 'wander');
+   EXCEPTION WHEN duplicate_object THEN null;
+   END $$;
+
+   CREATE TABLE IF NOT EXISTS "score_reports" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"url_hash" varchar NOT NULL,
   	"listing_url" varchar NOT NULL,
@@ -16,12 +20,16 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
    );
-   CREATE UNIQUE INDEX "score_reports_url_hash_unique" ON "score_reports" USING btree ("url_hash");
-   CREATE INDEX "score_reports_updated_at_idx" ON "score_reports" USING btree ("updated_at");
-   CREATE INDEX "score_reports_created_at_idx" ON "score_reports" USING btree ("created_at");
+   CREATE UNIQUE INDEX IF NOT EXISTS "score_reports_url_hash_unique" ON "score_reports" USING btree ("url_hash");
+   CREATE INDEX IF NOT EXISTS "score_reports_updated_at_idx" ON "score_reports" USING btree ("updated_at");
+   CREATE INDEX IF NOT EXISTS "score_reports_created_at_idx" ON "score_reports" USING btree ("created_at");
 
-   CREATE TYPE "public"."enum_host_leads_source" AS ENUM('free', 'paid');
-   CREATE TABLE "host_leads" (
+   DO $$ BEGIN
+     CREATE TYPE "public"."enum_host_leads_source" AS ENUM('free', 'paid');
+   EXCEPTION WHEN duplicate_object THEN null;
+   END $$;
+
+   CREATE TABLE IF NOT EXISTS "host_leads" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"email" varchar NOT NULL,
   	"listing_url" varchar NOT NULL,
@@ -30,15 +38,31 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
    );
-   CREATE INDEX "host_leads_updated_at_idx" ON "host_leads" USING btree ("updated_at");
-   CREATE INDEX "host_leads_created_at_idx" ON "host_leads" USING btree ("created_at");
+   CREATE INDEX IF NOT EXISTS "host_leads_updated_at_idx" ON "host_leads" USING btree ("updated_at");
+   CREATE INDEX IF NOT EXISTS "host_leads_created_at_idx" ON "host_leads" USING btree ("created_at");
 
-   ALTER TABLE "payload_locked_documents_rels" ADD COLUMN "score_reports_id" integer;
-   ALTER TABLE "payload_locked_documents_rels" ADD COLUMN "host_leads_id" integer;
-   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_score_reports_fk" FOREIGN KEY ("score_reports_id") REFERENCES "public"."score_reports"("id") ON DELETE cascade ON UPDATE no action;
-   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_host_leads_fk" FOREIGN KEY ("host_leads_id") REFERENCES "public"."host_leads"("id") ON DELETE cascade ON UPDATE no action;
-   CREATE INDEX "payload_locked_documents_rels_score_reports_id_idx" ON "payload_locked_documents_rels" USING btree ("score_reports_id");
-   CREATE INDEX "payload_locked_documents_rels_host_leads_id_idx" ON "payload_locked_documents_rels" USING btree ("host_leads_id");
+   DO $$ BEGIN
+     ALTER TABLE "payload_locked_documents_rels" ADD COLUMN "score_reports_id" integer;
+   EXCEPTION WHEN duplicate_column THEN null;
+   END $$;
+
+   DO $$ BEGIN
+     ALTER TABLE "payload_locked_documents_rels" ADD COLUMN "host_leads_id" integer;
+   EXCEPTION WHEN duplicate_column THEN null;
+   END $$;
+
+   DO $$ BEGIN
+     ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_score_reports_fk" FOREIGN KEY ("score_reports_id") REFERENCES "public"."score_reports"("id") ON DELETE cascade ON UPDATE no action;
+   EXCEPTION WHEN duplicate_object THEN null;
+   END $$;
+
+   DO $$ BEGIN
+     ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_host_leads_fk" FOREIGN KEY ("host_leads_id") REFERENCES "public"."host_leads"("id") ON DELETE cascade ON UPDATE no action;
+   EXCEPTION WHEN duplicate_object THEN null;
+   END $$;
+
+   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_score_reports_id_idx" ON "payload_locked_documents_rels" USING btree ("score_reports_id");
+   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_host_leads_id_idx" ON "payload_locked_documents_rels" USING btree ("host_leads_id");
   `)
 }
 

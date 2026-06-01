@@ -235,7 +235,7 @@ export default function StayCard({
                   className="text-xs"
                   style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                 >
-                  Sleeps {stay.sleeps}
+                  {stay.bedrooms}bd · {stay.bathrooms}ba · Sleeps {stay.sleeps}
                 </span>
               </div>
               <span
