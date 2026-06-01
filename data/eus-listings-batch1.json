@@ -1,0 +1,502 @@
+[
+  {
+    "name": "All-Season Escape at Lake Huron Cottage 1",
+    "rating": 4.8,
+    "price": 65,
+    "location": "Greenbush",
+    "type": "Cabin",
+    "guests": 8,
+    "bedrooms": 2,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Autumn Blaze at Maple Treehouse",
+    "rating": 4.8,
+    "price": 184,
+    "location": "Wildwood",
+    "type": "Treehouse",
+    "guests": 5,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Barndominium at Paradise Pointe",
+    "rating": 5.0,
+    "price": 101,
+    "location": "Bryant",
+    "type": "House",
+    "guests": 8,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Big Time Hill Cabin with an indoor pool, hot tub, & great views!",
+    "rating": 4.8,
+    "price": 162,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 8,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Bluffview on the River with a hot tub, sauna, pool table, and more!",
+    "rating": 4.7,
+    "price": 213,
+    "location": "Berrien Springs",
+    "type": "House",
+    "guests": 16,
+    "bedrooms": 6,
+    "bathrooms": 4.0
+  },
+  {
+    "name": "Cabin in the Sky with an outdoor kitchen!",
+    "rating": 4.8,
+    "price": 108,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 8,
+    "bedrooms": 3,
+    "bathrooms": 2.5
+  },
+  {
+    "name": "Firefly at Mentone with Hot Tub & Internet, Woods!",
+    "rating": 4.6,
+    "price": 68,
+    "location": "Mentone",
+    "type": "House",
+    "guests": 7,
+    "bedrooms": 2,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "French Quarter \u2013 New Orleans Charm in the Mountain",
+    "rating": 5.0,
+    "price": 168,
+    "location": "Mentone",
+    "type": "House",
+    "guests": 28,
+    "bedrooms": 7,
+    "bathrooms": 4.5
+  },
+  {
+    "name": "Golden Dawn at Saluda Mountain Retreats!",
+    "rating": 4.9,
+    "price": 107,
+    "location": "Saluda",
+    "type": "House",
+    "guests": 8,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "High Top cabin at Saluda Grade Cabins!",
+    "rating": 4.7,
+    "price": 85,
+    "location": "Saluda",
+    "type": "Cabin",
+    "guests": 5,
+    "bedrooms": 2,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Hot Tub, Firepit & Games \u2013 Falcon Lodge, Family !",
+    "rating": 4.7,
+    "price": 88,
+    "location": "Mentone",
+    "type": "House",
+    "guests": 8,
+    "bedrooms": 4,
+    "bathrooms": 1.5
+  },
+  {
+    "name": "Lakeshore Retreat with Lake Lanier views & hot tub",
+    "rating": 4.8,
+    "price": 151,
+    "location": "Landrum",
+    "type": "House",
+    "guests": 16,
+    "bedrooms": 5,
+    "bathrooms": 3.0
+  },
+  {
+    "name": "Live Oak Treehouse at Treetop Escapes",
+    "rating": 4.8,
+    "price": 178,
+    "location": "Wildwood",
+    "type": "Treehouse",
+    "guests": 8,
+    "bedrooms": 2,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Lover\u2019s Nest at Saluda Grade Cabins!",
+    "rating": 4.8,
+    "price": 77,
+    "location": "Saluda",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Ma & Pa\u2019s cabin at Saluda Grade Cabins!",
+    "rating": 4.8,
+    "price": 86,
+    "location": "Saluda",
+    "type": "Cabin",
+    "guests": 8,
+    "bedrooms": 2,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Mountain High Cabin with hot tub, fire pit, & indoor pool!",
+    "rating": 4.9,
+    "price": 180,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 10,
+    "bedrooms": 4,
+    "bathrooms": 3.0
+  },
+  {
+    "name": "Pop & Granny\u2019s cabin with a fire pit, hot tub, & indoor pool!",
+    "rating": 4.9,
+    "price": 170,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 12,
+    "bedrooms": 4,
+    "bathrooms": 3.0
+  },
+  {
+    "name": "Spacious 6-Bed Luxury Home Near Notre Dame",
+    "rating": 4.9,
+    "price": 137,
+    "location": "Granger",
+    "type": "House",
+    "guests": 10,
+    "bedrooms": 4,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Stone Ledge Refuge with Hot Tub and Gorgeous Views",
+    "rating": 4.9,
+    "price": 176,
+    "location": "Rising Fawn",
+    "type": "Cabin",
+    "guests": 7,
+    "bedrooms": 1,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Summer Breeze at Willow Treehouse -Treetop Escapes",
+    "rating": 4.8,
+    "price": 138,
+    "location": "Wildwood",
+    "type": "House",
+    "guests": 6,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Sweet Seclusion at Cabins in the Clouds!",
+    "rating": 4.5,
+    "price": 66,
+    "location": "Rising Fawn",
+    "type": "Cabin",
+    "guests": 8,
+    "bedrooms": 4,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "TeePee at Paradise Point with a hot tub, fire pit, & grill!",
+    "rating": 4.8,
+    "price": 111,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 2,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "The Atlas Cedar Treehouse at Treetop Escapes!",
+    "rating": 4.8,
+    "price": 66,
+    "location": "Wildwood",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "The Mighty Sycamore Treehouse at Treetop Escapes!",
+    "rating": 4.8,
+    "price": 142,
+    "location": "Wildwood",
+    "type": "House",
+    "guests": 10,
+    "bedrooms": 2,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "The Pines at Signal Mountain with Hot Tub",
+    "rating": 4.7,
+    "price": 486,
+    "location": "Signal Mountain",
+    "type": "House",
+    "guests": 26,
+    "bedrooms": 9,
+    "bathrooms": 7.0
+  },
+  {
+    "name": "Twilight Timber at Saluda Mountain Retreats!",
+    "rating": 4.9,
+    "price": 106,
+    "location": "Saluda",
+    "type": "House",
+    "guests": 8,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Wildflower Cabin \u2013 Hot Tub & Mountain Views",
+    "rating": 4.9,
+    "price": 98,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 2,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Americana Farm Getaway! Hot Tub, Views, Firepit",
+    "rating": 4.9,
+    "price": 149,
+    "location": "Valley Head",
+    "type": "House",
+    "guests": 14,
+    "bedrooms": 5,
+    "bathrooms": 2.5
+  },
+  {
+    "name": "Attitude Adjustment Cabin with hot tub, fire pit, & indoor pool!",
+    "rating": 4.9,
+    "price": 180,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 12,
+    "bedrooms": 4,
+    "bathrooms": 3.0
+  },
+  {
+    "name": "Audubon Acres l pool table & outdoor dining",
+    "rating": 4.8,
+    "price": 215,
+    "location": "Benton Harbor",
+    "type": "House",
+    "guests": 16,
+    "bedrooms": 5,
+    "bathrooms": 4.5
+  },
+  {
+    "name": "Bird\u2019s Nest cabin at Saluda Grade Cabins!",
+    "rating": 4.8,
+    "price": 52,
+    "location": "Saluda",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Bird\u2019s Nest Spruce at Treetop Escapes!",
+    "rating": 4.6,
+    "price": 56,
+    "location": "Wildwood",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Black Diamond at Mentone with Free Internet! Hikes",
+    "rating": 4.7,
+    "price": 52,
+    "location": "Mentone",
+    "type": "House",
+    "guests": 6,
+    "bedrooms": 2,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Blooming Redbud Treehouse with private hot tub!",
+    "rating": 4.8,
+    "price": 116,
+    "location": "Wildwood",
+    "type": "House",
+    "guests": 4,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Blue & Gold Retreat sleeps 14 Minutes from ND",
+    "rating": 4.6,
+    "price": 105,
+    "location": "South Bend",
+    "type": "House",
+    "guests": 14,
+    "bedrooms": 4,
+    "bathrooms": 2.5
+  },
+  {
+    "name": "Blue Bird Spur Outdoor dinning, Fire pit & Games!",
+    "rating": 4.8,
+    "price": 84,
+    "location": "Rossville",
+    "type": "House",
+    "guests": 12,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Bungalow Charmer with private Hot Tub!",
+    "rating": 4.7,
+    "price": 88,
+    "location": "Chattanooga",
+    "type": "Cabin",
+    "guests": 10,
+    "bedrooms": 4,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Christmas Tree Farm \u2013 Evergreen Escape",
+    "rating": 4.9,
+    "price": 113,
+    "location": "Berrien Center Farm",
+    "type": "stay",
+    "guests": 8,
+    "bedrooms": 4,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Classic Pied a Terre",
+    "rating": 4.9,
+    "price": 111,
+    "location": "Benton Harbor",
+    "type": "Loft",
+    "guests": 2,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Cloud 9 Cabin with an indoor pool, hot tub, & fire pit!",
+    "rating": 4.7,
+    "price": 88,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 2,
+    "bathrooms": 1.5
+  },
+  {
+    "name": "Comfy Escape with Lake Chapin views!",
+    "rating": 4.7,
+    "price": 132,
+    "location": "Berrien Springs",
+    "type": "House",
+    "guests": 5,
+    "bedrooms": 3,
+    "bathrooms": 1.5
+  },
+  {
+    "name": "Compass Retreat for large groups",
+    "rating": 4.9,
+    "price": 292,
+    "location": "Buchanan",
+    "type": "House",
+    "guests": 24,
+    "bedrooms": 10,
+    "bathrooms": 5.0
+  },
+  {
+    "name": "Cottage by the lakeshore with a private hot tub!",
+    "rating": 4.3,
+    "price": 61,
+    "location": "Landrum",
+    "type": "Bungalow",
+    "guests": 2,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Country Family Escape! Free wifi, In-house laundry",
+    "rating": 4.9,
+    "price": 79,
+    "location": "Trenton",
+    "type": "House",
+    "guests": 10,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Country Lane Cottage, Privacy & Quiet Neighborhood",
+    "rating": 4.5,
+    "price": 88,
+    "location": "Rossville",
+    "type": "House",
+    "guests": 8,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Countryside Living, Family, Great Outdoor Space!",
+    "rating": 4.7,
+    "price": 69,
+    "location": "Guntersville",
+    "type": "House",
+    "guests": 8,
+    "bedrooms": 3,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Cozy Loft Retreat for Two",
+    "rating": 4.9,
+    "price": 111,
+    "location": "Benton Harbor",
+    "type": "Loft",
+    "guests": 2,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Creek Valley House that\u2019s Cozy, Quiet & Peaceful !",
+    "rating": 4.8,
+    "price": 63,
+    "location": "Walker County",
+    "type": "House",
+    "guests": 10,
+    "bedrooms": 4,
+    "bathrooms": 2.0
+  },
+  {
+    "name": "Critter Corner Cabin \u2013 Cozy Bluffside Retreat",
+    "rating": 4.9,
+    "price": 103,
+    "location": "Bryant",
+    "type": "Cabin",
+    "guests": 4,
+    "bedrooms": 1,
+    "bathrooms": 1.0
+  },
+  {
+    "name": "Crossroads Cottage l Grill & high speed internet",
+    "rating": 4.7,
+    "price": 62,
+    "location": "Chattanooga",
+    "type": "House",
+    "guests": 6,
+    "bedrooms": 3,
+    "bathrooms": 1.5
+  }
+]

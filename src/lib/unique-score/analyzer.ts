@@ -36,7 +36,7 @@ const AnalysisSchema = z.object({
 
 export async function analyzeListing(data: ListingData): Promise<AnalysisResult> {
   const provider = getGoogleProvider()
-  const model = provider('gemini-2.0-flash')
+  const model = provider('gemini-2.5-flash')
 
   const prompt = buildAnalysisPrompt(data)
 
