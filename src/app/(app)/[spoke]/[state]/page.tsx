@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { ArrowRight, ChevronRight } from 'lucide-react'
 import StayCard from '@/components/StayCard'
 import {
@@ -86,10 +87,13 @@ export default async function SpokeStatePage({
 
       <section className="relative overflow-hidden border-b border-[oklch(0.88_0.025_75)]">
         <div className="absolute inset-0">
-          <img
+          <Image
             src={config.heroImage}
             alt=""
-            className="h-full w-full object-cover"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
           />
           <div
             className="absolute inset-0"

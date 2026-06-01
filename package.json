@@ -14,7 +14,9 @@
     "migrate:create": "payload migrate:create",
     "migrate:down": "payload migrate:down",
     "migrate-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-images.ts",
-    "backfill": "node --env-file=.env.local --import tsx/esm scripts/backfill-stays.ts --"
+    "backfill": "node --env-file=.env.local --import tsx/esm scripts/backfill-stays.ts --",
+    "generate-image-variants": "node --env-file=.env.local --import tsx/esm scripts/generate-image-variants.ts",
+    "migrate-external-images": "node --env-file=.env.local --import tsx/esm scripts/migrate-external-images.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.80",
