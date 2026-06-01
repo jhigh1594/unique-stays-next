@@ -75,7 +75,7 @@ export const SPOKES_CONFIG: Record<string, SpokeConfig> = {
     heroEmoji: '🚐',
     accentColor: 'oklch(0.50 0.14 60)',
     accentColorLight: 'oklch(0.93 0.025 60)',
-    heroImage: 'https://pub-b693088e04e14696a9caf041d4221a3a.r2.dev/spokes/rv-ready.jpg?v=2',
+    heroImage: 'https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?w=1920&q=85&fm=jpg&crop=entropy&cs=srgb&fit=crop',
     stats: [
       { value: '120+', label: 'RV Sites' },
       { value: '35', label: 'States' },
