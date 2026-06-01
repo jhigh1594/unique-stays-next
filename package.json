@@ -17,6 +17,7 @@
     "backfill": "node --env-file=.env.local --import tsx/esm scripts/backfill-stays.ts --"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.80",
     "@opentelemetry/resources": "^2.7.1",
     "@opentelemetry/sdk-node": "^0.218.0",
     "@payloadcms/db-postgres": "^3.84.1",

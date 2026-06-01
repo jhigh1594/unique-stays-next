@@ -14,6 +14,8 @@ import { Spokes } from './collections/Spokes'
 import { Stays } from './collections/Stays'
 import { Users } from './collections/Users'
 import { QuizLeads } from './collections/QuizLeads'
+import { ScoreReports } from './collections/ScoreReports'
+import { HostLeads } from './collections/HostLeads'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -81,7 +83,7 @@ export default buildConfig({
       bucket: process.env.R2_BUCKET_NAME || 'uniquestays-media',
     }),
   ],
-  collections: [Users, Media, Categories, Spokes, Stays, BlogPosts, CandidateStays, AuditReports, QuizLeads],
+  collections: [Users, Media, Categories, Spokes, Stays, BlogPosts, CandidateStays, AuditReports, QuizLeads, ScoreReports, HostLeads],
   editor: lexicalEditor(),
   secret: payloadSecret,
   serverURL,
