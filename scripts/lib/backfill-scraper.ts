@@ -8,6 +8,7 @@ export interface StructuralData {
   price: number | null
   sleeps: number | null
   bedrooms: number | null
+  bathrooms: number | null
   rating: number | null
   reviewCount: number | null
   amenities: string[]
@@ -43,6 +44,7 @@ export async function scrapeStructuralData(
               price: { type: 'number' },
               sleeps: { type: 'number' },
               bedrooms: { type: 'number' },
+              bathrooms: { type: 'number' },
               rating: { type: 'number' },
               reviewCount: { type: 'number' },
               amenities: { type: 'array', items: { type: 'string' } },
@@ -66,6 +68,7 @@ export async function scrapeStructuralData(
             price: null,
             sleeps: null,
             bedrooms: null,
+            bathrooms: null,
             rating: null,
             reviewCount: null,
             amenities,
@@ -92,6 +95,7 @@ export async function scrapeStructuralData(
         price: parseNumber(json.price),
         sleeps: parseNumber(json.sleeps),
         bedrooms: parseNumber(json.bedrooms),
+        bathrooms: parseNumber(json.bathrooms),
         rating: parseNumber(json.rating),
         reviewCount: parseNumber(json.reviewCount),
         amenities,
