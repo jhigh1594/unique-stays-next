@@ -1,11 +1,34 @@
 // Unique Score — platform-aware listing scraper
-// Uses Browserless /content for JS-rendered pages, plain fetch as fallback
+// Uses Browserbase Fetch API (fast, cloud), Browserless as fallback, plain fetch last resort
 
 import type { ListingData, Platform, ScrapeResult } from './types'
 
+const BROWSERBASE_API_KEY = process.env.BROWSERBASE_API_KEY
+const BROWSERBASE_FETCH_URL = 'https://api.browserbase.com/v1/fetch'
 const BROWSERLESS_TOKEN = process.env.BROWSERLESS_TOKEN
 const BROWSERLESS_URL = 'https://chrome.browserless.io/content'
 const TIMEOUT_MS = 25000
+
+async function fetchWithBrowserbase(url: string): Promise<string> {
+  if (!BROWSERBASE_API_KEY) throw new Error('BROWSERBASE_API_KEY not configured')
+
+  const res = await fetch(BROWSERBASE_FETCH_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-BB-API-Key': BROWSERBASE_API_KEY,
+    },
+    body: JSON.stringify({ url, allowRedirects: true }),
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  })
+
+  if (!res.ok) {
+    throw new Error(`Browserbase returned ${res.status}`)
+  }
+
+  const data = await res.json()
+  return data.content || data.html || JSON.stringify(data)
+}
 
 async function fetchWithBrowserless(url: string): Promise<string> {
   if (!BROWSERLESS_TOKEN) throw new Error('BROWSERLESS_TOKEN not configured')
@@ -265,13 +288,18 @@ const PARSERS: Record<Platform, (html: string) => ListingData> = {
 
 export async function scrapeListing(url: string, platform: Platform): Promise<ScrapeResult> {
   try {
-    // Try Browserless first for JS-rendered content
+    // Try Browserbase Fetch API first (fast, cloud-based)
     let html: string
     try {
-      html = await fetchWithBrowserless(url)
+      html = await fetchWithBrowserbase(url)
     } catch {
-      // Fallback to plain fetch
-      html = await fetchWithFallback(url)
+      // Fallback to Browserless for JS-rendered content
+      try {
+        html = await fetchWithBrowserless(url)
+      } catch {
+        // Last resort: plain fetch
+        html = await fetchWithFallback(url)
+      }
     }
 
     if (!html || html.length < 500) {
