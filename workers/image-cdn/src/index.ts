@@ -6,6 +6,18 @@ export interface Env {
   R2: R2Bucket
 }
 
+// Allowed R2 key prefixes — block path traversal
+const ALLOWED_PREFIXES = ['stays/', 'hero/', 'spokes/', 'media/']
+const SAFE_KEY_RE = /^[a-zA-Z0-9_\-./]+$/
+
+function sanitizeKey(raw: string): string | null {
+  // Decode, strip traversal, validate charset + prefix
+  const decoded = decodeURIComponent(raw)
+  if (decoded.includes('..') || !SAFE_KEY_RE.test(decoded)) return null
+  if (!ALLOWED_PREFIXES.some((p) => decoded.startsWith(p))) return null
+  return decoded
+}
+
 // Width buckets matching the pre-generation script
 const WIDTH_BUCKETS = [400, 800, 1200, 1600]
 
@@ -38,10 +50,14 @@ export default {
       return new Response('ok', { status: 200 })
     }
 
-    // Extract R2 key from path (strip leading /)
-    const key = decodeURIComponent(url.pathname.slice(1))
-    if (!key) {
+    // Extract and sanitize R2 key from path
+    const rawKey = url.pathname.slice(1) // strip leading /
+    if (!rawKey) {
       return new Response('Missing key', { status: 400 })
+    }
+    const key = sanitizeKey(rawKey)
+    if (!key) {
+      return new Response('Invalid key', { status: 400 })
     }
 
     // Parse width param
