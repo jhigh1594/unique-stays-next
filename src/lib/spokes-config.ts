@@ -96,8 +96,7 @@ export const SPOKES_CONFIG: Record<string, SpokeConfig> = {
     heroEmoji: '⚡',
     accentColor: 'oklch(0.50 0.14 200)',
     accentColorLight: 'oklch(0.93 0.025 200)',
-    heroImage:
-      'https://www.garageliving.com/hs-fs/hubfs/Recharge-Garage-Hero.jpg?width=1620&name=Recharge-Garage-Hero.jpg',
+    heroImage: '/spokes/ev-ready.webp',
     stats: [
       { value: '90+', label: 'EV-Verified Stays' },
       { value: '32', label: 'States' },
