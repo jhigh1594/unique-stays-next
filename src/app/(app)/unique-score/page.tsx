@@ -1,13 +1,13 @@
-// /unique-score — server page with SEO metadata
+// /unique-score: server page with SEO metadata
 
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import UniqueScoreClient from './UniqueScoreClient'
 
 export const metadata: Metadata = {
-  title: 'Unique Score — How Good Is Your Unique Stay Listing?',
+  title: 'Unique Score | Listing Field Report for Hosts',
   description:
-    'Paste your Airbnb, VRBO, or Wander listing URL and get an instant AI-powered quality score. See how your photos, copy, and experience stack up against the best unique stays in America.',
+    'Paste your Airbnb, VRBO, or Wander listing URL and get a host field report on your photos, copy, trust signals, and standout factor.',
   keywords: [
     'airbnb listing grader',
     'unique stay score',
@@ -18,17 +18,17 @@ export const metadata: Metadata = {
     'listing optimization',
   ],
   openGraph: {
-    title: 'Unique Score — How Good Is Your Unique Stay Listing?',
+    title: 'Unique Score | Listing Field Report for Hosts',
     description:
-      'Get an instant AI-powered quality score for your unique stay listing. Free analysis with actionable recommendations.',
+      'See your listing through the eyes of a discerning traveler, with a practical field report for hosts.',
     type: 'website',
     url: '/unique-score',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Unique Score — How Good Is Your Unique Stay Listing?',
+    title: 'Unique Score | Listing Field Report for Hosts',
     description:
-      'Get an instant AI-powered quality score for your unique stay listing. Free analysis with actionable recommendations.',
+      'Paste a listing URL and get an editorial field report for your unique stay.',
   },
   alternates: {
     canonical: '/unique-score',
@@ -47,7 +47,7 @@ export default function UniqueScorePage() {
             '@type': 'WebApplication',
             name: 'Unique Score',
             description:
-              'AI-powered listing quality analyzer for unique vacation rentals. Get an instant score for your Airbnb, VRBO, or Wander listing.',
+              'Listing field report for unique vacation rental hosts. Get a practical score for your Airbnb, VRBO, or Wander listing.',
             url: 'https://www.uniquestaysusa.com/unique-score',
             applicationCategory: 'UtilityApplication',
             operatingSystem: 'Web',
@@ -61,8 +61,8 @@ export default function UniqueScorePage() {
         }}
       />
       <Suspense fallback={
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="w-8 h-8 border-4 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
+        <div className="flex min-h-screen items-center justify-center bg-cream">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-terracotta border-t-transparent" />
         </div>
       }>
         <UniqueScoreClient />

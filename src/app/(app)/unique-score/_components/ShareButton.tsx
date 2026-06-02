@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Check, Copy, Share2 } from 'lucide-react'
 
 interface ShareButtonProps {
   scoreId: number
@@ -25,7 +26,7 @@ export default function ShareButton({ scoreId }: ShareButtonProps) {
         })
         return
       } catch {
-        // User cancelled or not supported — fall through to clipboard
+        // User cancelled or not supported. Fall through to clipboard.
       }
     }
 
@@ -35,12 +36,27 @@ export default function ShareButton({ scoreId }: ShareButtonProps) {
   }
 
   return (
-    <div className="text-center mt-6">
+    <div className="mt-8 flex justify-center">
       <button
         onClick={handleShare}
-        className="px-6 py-3 border-2 border-[var(--color-accent)] text-[var(--color-accent)] rounded-lg font-medium hover:bg-[var(--color-accent)] hover:text-white transition-colors"
+        className="inline-flex min-h-11 items-center gap-2 rounded-[3px] border border-terracotta bg-warm-white px-5 py-3 font-body text-sm font-extrabold uppercase tracking-[0.08em] text-terracotta transition-colors hover:bg-terracotta hover:text-warm-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta"
+        aria-live="polite"
       >
-        {copied ? '✅ Link copied!' : '🔗 Share My Score'}
+        {copied ? (
+          <>
+            <Check className="h-4 w-4" aria-hidden="true" />
+            Link Copied
+          </>
+        ) : (
+          <>
+            {typeof navigator !== 'undefined' && 'share' in navigator ? (
+              <Share2 className="h-4 w-4" aria-hidden="true" />
+            ) : (
+              <Copy className="h-4 w-4" aria-hidden="true" />
+            )}
+            Share Report
+          </>
+        )}
       </button>
     </div>
   )
