@@ -59,17 +59,12 @@ const imageLoader: ImageLoader = ({ src, width, quality }) => {
     return FALLBACK
   }
 
-  // R2-hosted images: route through Worker CDN
+  // R2-hosted images: pass through directly.
+  // CDN worker (img.uniquestaysusa.com) returns 400 — pass R2 public URLs
+  // through unchanged so images actually load. Re-enable CDN routing when
+  // the worker is fixed.
   if (isR2Url(url.hostname)) {
-    const raw = url.pathname.slice(1) // strip leading /
-    if (!/^[\w\-./~]+$/.test(raw)) {
-      console.warn('[image-loader] Blocked malformed R2 path:', raw)
-      return FALLBACK
-    }
-    const key = raw.replace(/\.\.+/g, '') // strip path traversal
-    const v = url.searchParams.get('v')
-    const bust = v ? `&v=${v}` : ''
-    return `https://${CDN_HOST}/${key}?w=${width}&q=${quality || 75}${bust}`
+    return src
   }
 
   // Allowed external CDNs: pass through as-is
