@@ -31,6 +31,7 @@ function stay(overrides: Partial<NormalizedStay> = {}): NormalizedStay {
     reviewCount: 88,
     sleeps: 4,
     bedrooms: 2,
+    bathrooms: 1,
     description: 'A dog-friendly cabin.',
     tags: ['Fenced Yard'],
     galleryImages: [],

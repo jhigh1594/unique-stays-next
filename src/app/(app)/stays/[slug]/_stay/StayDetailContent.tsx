@@ -37,6 +37,30 @@ function generateSerial(id: number, region: string): string {
   return `#${prefix}-${String(id).padStart(4, '0')}`
 }
 
+function formatStayLocation(location: string, state: string): string {
+  const city = location.split(',')[0]?.trim() || location
+  return [city, state].filter(Boolean).join(', ')
+}
+
+function formatBedrooms(count: number): string {
+  return `${count} ${count === 1 ? 'bedroom' : 'bedrooms'}`
+}
+
+function formatBathrooms(count: number): string {
+  return `${count} ${count === 1 ? 'bath' : 'baths'}`
+}
+
+function formatReviewCount(count: number | null | undefined): string | null {
+  if (count == null) return null
+  return `${count} ${count === 1 ? 'review' : 'reviews'}`
+}
+
+function formatRatingLabel(rating: number | null | undefined, reviewCount: number | null | undefined): string | null {
+  if (rating == null) return null
+  const reviews = formatReviewCount(reviewCount)
+  return reviews ? `Rated ${rating} out of 5 from ${reviews}` : `Rated ${rating} out of 5`
+}
+
 // ── Sub-components ──────────────────────────────────────────────
 function RegistrationMark({ position }: { position: 'tl' | 'br' }) {
   const pos = position === 'tl' ? { top: 10, left: 10 } : { bottom: 62, right: 10 }
@@ -181,6 +205,14 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
     Airbnb: 'Airbnb', VRBO: 'VRBO', Wander: 'Wander', Direct: 'Direct',
   }
   const platformLabel = PLATFORM_LABELS[stay.platform] ?? stay.platform
+  const compactLocation = formatStayLocation(stay.location, stay.state)
+  const bedroomLabel = formatBedrooms(stay.bedrooms)
+  const bathroomLabel = formatBathrooms(stay.bathrooms)
+  const sleepsLabel = `Sleeps ${stay.sleeps}`
+  const reviewLabel = formatReviewCount(stay.reviewCount)
+  const ratingLabel = formatRatingLabel(stay.rating, stay.reviewCount)
+  const priceCaveat = `Final price shown on ${platformLabel}`
+  const mobileFactsSummary = `${compactLocation} · ${bedroomLabel} · ${bathroomLabel} · ${sleepsLabel}`
 
   return (
     <div style={{ background: 'oklch(0.90 0.028 75)', minHeight: '100vh', paddingTop: 80 }}>
@@ -744,74 +776,69 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
           </div>
         )}
 
-        <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {/* Mobile CTA */}
-          <div style={{ background: 'oklch(0.985 0.008 80)', border: '1px solid oklch(0.80 0.04 70)', borderRadius: 3, padding: 16 }}>
-            <div style={{ marginBottom: 12 }}>
-              <span style={{ fontFamily: 'Fraunces, serif', fontSize: 28, fontWeight: 700, color: 'oklch(0.18 0.01 60)' }}>${stay.price}</span>
-              <span style={{ fontSize: 13, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>/night</span>
+        <div style={{ padding: '20px 16px 112px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {/* Mobile booking decision */}
+          <section
+            aria-label="Mobile booking details"
+            data-testid="mobile-booking-details"
+            style={{
+              background: 'oklch(0.985 0.008 80)',
+              border: '1px solid oklch(0.80 0.04 70)',
+              borderRadius: 3,
+              padding: 16,
+              boxShadow: '0 1px 0 oklch(0.99 0.005 85) inset, 0 10px 28px oklch(0.42 0.08 55 / 0.10)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14, marginBottom: 12 }}>
+              <div>
+                <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 3 }}>
+                  Nightly fare
+                </div>
+                <div>
+                  <span style={{ fontFamily: 'Fraunces, serif', fontSize: 30, fontWeight: 700, color: 'oklch(0.18 0.01 60)', letterSpacing: '-0.02em', lineHeight: 1 }}>${stay.price}</span>
+                  <span style={{ fontSize: 13, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginLeft: 3 }}>/night</span>
+                </div>
+              </div>
+              {stay.rating != null && (
+                <div aria-label={ratingLabel ?? undefined} style={{ textAlign: 'right', flexShrink: 0, paddingTop: 2 }}>
+                  <div style={{ fontFamily: 'Fraunces, serif', fontSize: 20, fontWeight: 800, color: 'oklch(0.55 0.14 38)', lineHeight: 1, letterSpacing: '-0.04em' }}>
+                    {stay.rating}<span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 11, fontWeight: 800, color: 'oklch(0.55 0.14 38 / 0.78)', marginLeft: 3 }}>★</span>
+                  </div>
+                  {reviewLabel && (
+                    <div style={{ fontSize: 10.5, color: 'oklch(0.52 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, marginTop: 3, whiteSpace: 'nowrap' }}>
+                      {reviewLabel}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
+
             <a
               href={stay.affiliateUrl}
               target="_blank"
               rel="noopener noreferrer sponsored"
               onClick={handleAffiliateClick}
+              aria-label={`Book ${stay.title} on ${platformLabel}`}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                width: '100%', padding: 14,
+                width: '100%', minHeight: 56, padding: '0 14px',
                 background: 'oklch(0.55 0.14 38)', color: 'white',
-                fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase',
+                fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase',
                 borderRadius: 2, textDecoration: 'none', fontFamily: 'Plus Jakarta Sans, sans-serif',
+                boxShadow: '0 2px 0 oklch(0.38 0.12 38), 0 5px 14px oklch(0.55 0.14 38 / 0.24)',
               }}
             >
               Book on {platformLabel} ↗
             </a>
-          </div>
 
-          {/* Mobile listing metadata */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, padding: '4px 0' }}>
-            {[
-              { label: 'Location', value: `${stay.location.split(',')[0]}, ${stay.state}` },
-              { label: 'Bedrooms', value: `${stay.bedrooms} ${stay.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}` },
-              { label: 'Bathrooms', value: `${stay.bathrooms} ${stay.bathrooms === 1 ? 'Bath' : 'Baths'}` },
-              { label: 'Capacity', value: `Sleeps ${stay.sleeps}` },
-            ].map(({ label, value }) => (
-              <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'oklch(0.60 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{label}</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: 'oklch(0.24 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{value}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile reviews */}
-          {stay.rating != null && (
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '10px 14px',
-              background: 'oklch(0.985 0.008 80)',
-              border: '1px solid oklch(0.80 0.04 70)',
-              borderRadius: 3,
-            }}>
-              <div style={{
-                fontFamily: 'Fraunces, serif', fontSize: 22, fontWeight: 800,
-                color: 'oklch(0.55 0.14 38)', lineHeight: 1, letterSpacing: '-0.04em',
-              }}>
-                {stay.rating}
-              </div>
-              <div>
-                <div style={{ display: 'flex', gap: 1.5 }}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span key={star} style={{ fontSize: 12, color: star <= Math.round(stay.rating!) ? 'oklch(0.70 0.14 75)' : 'oklch(0.82 0.02 75)' }}>★</span>
-                  ))}
-                </div>
-                {stay.reviewCount != null && (
-                  <span style={{ fontSize: 11, color: 'oklch(0.52 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                    {stay.reviewCount} reviews
-                  </span>
-                )}
-              </div>
+            <div style={{ marginTop: 8, fontSize: 11, color: 'oklch(0.56 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.5 }}>
+              {priceCaveat}
             </div>
-          )}
+
+            <div style={{ marginTop: 13, paddingTop: 12, borderTop: '1px dashed oklch(0.80 0.04 70)', fontSize: 12, lineHeight: 1.55, color: 'oklch(0.32 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700 }}>
+              <span aria-label={`Stay facts: ${mobileFactsSummary}`}>{mobileFactsSummary}</span>
+            </div>
+          </section>
 
           {/* Mobile description */}
           <p style={{ fontSize: 15, lineHeight: 1.8, color: 'oklch(0.35 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
@@ -912,6 +939,66 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
             </div>
           </section>
         )}
+
+        <div
+          aria-label="Mobile sticky booking bar"
+          data-testid="mobile-sticky-booking"
+          style={{
+            position: 'fixed',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 40,
+            padding: '10px 14px calc(10px + env(safe-area-inset-bottom))',
+            background: 'oklch(0.985 0.008 80 / 0.96)',
+            borderTop: '1px solid oklch(0.80 0.04 70)',
+            boxShadow: '0 -12px 30px oklch(0.30 0.04 55 / 0.16)',
+            backdropFilter: 'blur(12px)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+          }}
+        >
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+              <span style={{ fontFamily: 'Fraunces, serif', fontSize: 22, fontWeight: 750, color: 'oklch(0.18 0.01 60)', lineHeight: 1 }}>${stay.price}</span>
+              <span style={{ fontSize: 10.5, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>/night</span>
+            </div>
+            {stay.rating != null && (
+              <div aria-label={ratingLabel ?? undefined} style={{ marginTop: 2, fontSize: 10.5, color: 'oklch(0.50 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {stay.rating} ★{reviewLabel ? ` · ${reviewLabel}` : ''}
+              </div>
+            )}
+          </div>
+          <a
+            href={stay.affiliateUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            onClick={handleAffiliateClick}
+            aria-label={`Book ${stay.title} on ${platformLabel} from sticky bar`}
+            style={{
+              flexShrink: 0,
+              minHeight: 46,
+              minWidth: 112,
+              padding: '0 18px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'oklch(0.55 0.14 38)',
+              color: 'white',
+              borderRadius: 2,
+              textDecoration: 'none',
+              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontSize: 11,
+              fontWeight: 850,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              boxShadow: '0 2px 0 oklch(0.38 0.12 38)',
+            }}
+          >
+            Book ↗
+          </a>
+        </div>
       </div>
 
     </div>
