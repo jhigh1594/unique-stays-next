@@ -31,10 +31,8 @@ describe('detectPlatform', () => {
     expect(detectPlatform('https://www.booking.com/hotel/us/foo')).toBeNull()
   })
 
-  it('matches URLs without protocol (regex is protocol-agnostic)', () => {
-    // The regex matches domain patterns regardless of protocol.
-    // validateListingUrl enforces the protocol requirement separately.
-    expect(detectPlatform('www.airbnb.com/rooms/12345')).toBe('airbnb')
+  it('rejects URLs without protocol (anchored regex requires https://)', () => {
+    expect(detectPlatform('www.airbnb.com/rooms/12345')).toBeNull()
   })
 })
 

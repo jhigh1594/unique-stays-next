@@ -51,11 +51,11 @@ export interface GenerationResponse {
   cached: boolean
 }
 
-// URL validation patterns (reuse from unique-score)
+// URL validation patterns — anchored to prevent substring matches
 export const URL_PATTERNS: Record<Platform, RegExp> = {
-  airbnb: /airbnb\.(com|co\.uk|ca|com\.au)\/(?:rooms|w)\/(\d+)/i,
-  vrbo: /vrbo\.com\/(\d+)/i,
-  wander: /wander\.com\/stays\/([\w-]+)/i,
+  airbnb: /^https?:\/\/([^/]+\.)?airbnb\.(com|co\.uk|ca|com\.au)\/(?:rooms|w)\/(\d+)/i,
+  vrbo: /^https?:\/\/([^/]+\.)?vrbo\.com\/(\d+)/i,
+  wander: /^https?:\/\/([^/]+\.)?wander\.com\/stays\/([\w-]+)/i,
 }
 
 export function detectPlatform(url: string): Platform | null {
@@ -87,26 +87,29 @@ export function validateManualInput(input: Partial<ListingInput>): { valid: bool
   if (!input.stayType || !(STAY_TYPES as readonly string[]).includes(input.stayType)) {
     return { valid: false, error: 'Please select a valid stay type.' }
   }
-  if (!input.propertyName || input.propertyName.trim().length === 0) {
+  if (!input.propertyName || input.propertyName.trim().length === 0 || input.propertyName.length > 200) {
     return { valid: false, error: 'Please enter a property name or location.' }
   }
-  if (!input.city || input.city.trim().length === 0) {
+  if (!input.city || input.city.trim().length === 0 || input.city.length > 200) {
     return { valid: false, error: 'Please enter a city.' }
   }
-  if (!input.state || input.state.trim().length === 0) {
+  if (!input.state || input.state.trim().length === 0 || input.state.length > 200) {
     return { valid: false, error: 'Please enter a state.' }
   }
-  if (!input.bedrooms || input.bedrooms < 0) {
+  if (typeof input.bedrooms !== 'number' || !Number.isFinite(input.bedrooms) || input.bedrooms < 0 || input.bedrooms > 50) {
     return { valid: false, error: 'Please enter a valid number of bedrooms.' }
   }
-  if (!input.bathrooms || input.bathrooms < 0) {
+  if (typeof input.bathrooms !== 'number' || !Number.isFinite(input.bathrooms) || input.bathrooms < 0 || input.bathrooms > 50) {
     return { valid: false, error: 'Please enter a valid number of bathrooms.' }
   }
-  if (!input.sleeps || input.sleeps < 1) {
+  if (typeof input.sleeps !== 'number' || !Number.isFinite(input.sleeps) || input.sleeps < 1 || input.sleeps > 100) {
     return { valid: false, error: 'Please enter how many guests the property sleeps.' }
   }
   if (!input.standoutFeatures || input.standoutFeatures.length < 3) {
     return { valid: false, error: 'Please provide 3 standout features.' }
+  }
+  if (input.standoutFeatures.some(f => f.length > 100)) {
+    return { valid: false, error: 'Each feature must be under 100 characters.' }
   }
   if (!input.vibe || !(VIBES as readonly string[]).includes(input.vibe)) {
     return { valid: false, error: 'Please select a valid vibe.' }

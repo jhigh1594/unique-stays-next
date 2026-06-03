@@ -3,7 +3,13 @@ import type { GenerationResult } from './types'
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000 // 24 hours
 
 async function hashUrl(url: string): Promise<string> {
-  const parsed = new URL(url)
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    // Invalid URL — hash the raw string as fallback
+    parsed = new URL('https://invalid.local')
+  }
   // Normalize: strip query params + hash, lowercase origin+pathname only
   const normalized = `${parsed.origin}${parsed.pathname}`.toLowerCase()
   const encoder = new TextEncoder()
