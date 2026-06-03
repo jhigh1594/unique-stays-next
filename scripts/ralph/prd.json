@@ -715,7 +715,28 @@
       "priority": 7,
       "passes": true,
       "notes": "Completed Sprint 10"
+    },
+    {
+      "id": "sprint-26",
+      "title": "Best Cool-Weather Summer Escapes in America",
+      "slug": "cool-weather-summer-escapes-america",
+      "status": "published",
+      "postId": 58,
+      "stays": [
+        139,
+        337,
+        43,
+        157,
+        300,
+        365,
+        359,
+        38
+      ],
+      "qualityScore": 9.0,
+      "wordCount": 2400,
+      "publishedAt": "2026-06-04T06:00:00.000Z"
     }
   ],
-  "sprintNumber": 11
+  "sprintNumber": 26,
+  "currentStory": "SYNC-26"
 }

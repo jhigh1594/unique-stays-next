@@ -403,3 +403,45 @@
 - The "October light" lede grounds the article in sensory experience rather than Halloween cliché
 - Mixing high-price castles with sub-$200 caves gives the article booking accessibility across budgets
 - Per-person cost calculations for large-group properties (lighthouse at $495/10 = $49/person) add practical value
+
+---
+
+### Sprint 26: Best Cool-Weather Summer Escapes in America
+
+Article: "Best Cool-Weather Summer Escapes in America"
+Slug: cool-weather-summer-escapes-america
+Post ID: 58
+Status: Published (scheduled 2026-06-04T06:00:00.000Z)
+
+Stays featured (8 stays, 8 states):
+- The Nord Star — Dome on Lake Superior (ID 139) — Two Harbors MN, $856/night, 4.97★ (38 reviews)
+- The Maine Frame (ID 337) — Freeport ME, $408/night, 5.0★ (125 reviews)
+- The Vermont Farmhouse (ID 43) — Bennington VT, $669/night, 5.0★ (43 reviews)
+- Home 'n Barn Grandpa George's Dairy (ID 157) — Bay Port MI, $343/night, 5.0★ (10 reviews)
+- Pacific Bin (ID 300) — Portland OR, $405/night, 4.99★ (236 reviews)
+- Boulder Tree House (ID 365) — Boulder CO, $670/night, 4.99★ (127 reviews)
+- The Dome at Blueberry Hill (ID 359) — Burlington WA, $361/night, 5.0★ (186 reviews)
+- Glamping Tent at Glacier NP (ID 38) — Polebridge MT, $172/night, 4.94★ (89 reviews)
+
+Hero image: Media ID 104 (Nord Star dome — R2 image uploaded)
+Review score: 9.0/10
+Word count: ~2,400
+
+Unique details identified:
+- Nord Star: 2,800 sq ft geodesic dome with 200 ft private Lake Superior shoreline, agate beaches
+- Maine Frame: Fireplace between bed and window — used in July because Maine nights hit 50s
+- Vermont Farmhouse: 1860s restored with hiking + dog trails from the property door
+- Home 'n Barn: Grandpa George's 1956 dairy equipment incorporated as architectural elements
+- Pacific Bin: Complete thermal circuit — sauna + hot tub + steam room in Cascade forest
+- Boulder Tree House: Purpose-built by owner-architects, inhabitable work of art
+- Blueberry Hill Dome: On Shawnee Hills Wine Trail, tasting rooms walkable, 5.0 across 186 reviews
+- Glacier Glamping: Wild & Scenic North Fork River runs through property, off-grid by design
+
+Internal links: 4 related posts linked (Washington State, saunas, under $200, summer stays)
+FAQ: 5 questions added
+Article type: Seasonal Guide
+
+Learned patterns:
+- Payload 3.x media uploads via REST require _payload JSON field with metadata alongside file multipart field. Standard form fields for custom metadata are silently ignored.
+- Cool-weather/heat-escape angle is a strong June content pillar — pairs well with the anti-crowd national park series already running.
+- R2 image URLs with .jpeg extension work; .jpg and bare paths return HTML error pages.
