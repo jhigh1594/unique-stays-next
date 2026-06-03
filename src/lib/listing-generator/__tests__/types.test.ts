@@ -91,12 +91,12 @@ describe('validateManualInput', () => {
   })
 
   it('rejects invalid stay type', () => {
-    const result = validateManualInput({ ...validInput, stayType: 'skyscraper' })
+    const result = validateManualInput({ ...validInput, stayType: 'skyscraper' as any })
     expect(result.valid).toBe(false)
   })
 
   it('rejects invalid vibe', () => {
-    const result = validateManualInput({ ...validInput, vibe: 'chaotic' })
+    const result = validateManualInput({ ...validInput, vibe: 'chaotic' as any })
     expect(result.valid).toBe(false)
   })
 

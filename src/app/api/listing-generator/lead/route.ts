@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         email: normalizedEmail,
         listingUrl: '',
         scoreId: null,
-        source: 'listing-generator',
+        source: 'free',
       },
     })
 
