@@ -51,11 +51,11 @@ export interface GenerationResponse {
   cached: boolean
 }
 
-// URL validation patterns — anchored to prevent substring matches
+// URL validation patterns — anchored, only www or no subdomain
 export const URL_PATTERNS: Record<Platform, RegExp> = {
-  airbnb: /^https?:\/\/([^/]+\.)?airbnb\.(com|co\.uk|ca|com\.au)\/(?:rooms|w)\/(\d+)/i,
-  vrbo: /^https?:\/\/([^/]+\.)?vrbo\.com\/(\d+)/i,
-  wander: /^https?:\/\/([^/]+\.)?wander\.com\/stays\/([\w-]+)/i,
+  airbnb: /^https?:\/\/(?:www\.)?airbnb\.(com|co\.uk|ca|com\.au)\/(?:rooms|w)\/(\d+)/i,
+  vrbo: /^https?:\/\/(?:www\.)?vrbo\.com\/(\d+)/i,
+  wander: /^https?:\/\/(?:www\.)?wander\.com\/stays\/([\w-]+)/i,
 }
 
 export function detectPlatform(url: string): Platform | null {

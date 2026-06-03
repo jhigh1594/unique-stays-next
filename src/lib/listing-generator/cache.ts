@@ -7,8 +7,8 @@ async function hashUrl(url: string): Promise<string> {
   try {
     parsed = new URL(url)
   } catch {
-    // Invalid URL — hash the raw string as fallback
-    parsed = new URL('https://invalid.local')
+    // Invalid URL — don't cache, throw to let caller handle
+    throw new Error('Invalid URL for cache key')
   }
   // Normalize: strip query params + hash, lowercase origin+pathname only
   const normalized = `${parsed.origin}${parsed.pathname}`.toLowerCase()
@@ -40,7 +40,12 @@ export class ListingGeneratorCache {
   }
 
   async get(url: string): Promise<CacheLookup> {
-    const key = await hashUrl(url)
+    let key: string
+    try {
+      key = await hashUrl(url)
+    } catch {
+      return { hit: false }
+    }
     const entry = this.store.get(key)
     if (!entry) return { hit: false }
 
@@ -54,8 +59,12 @@ export class ListingGeneratorCache {
   }
 
   async set(url: string, data: GenerationResult): Promise<void> {
-    const key = await hashUrl(url)
-    this.store.set(key, { data, storedAt: Date.now() })
+    try {
+      const key = await hashUrl(url)
+      this.store.set(key, { data, storedAt: Date.now() })
+    } catch {
+      // Invalid URL — skip caching
+    }
   }
 }
 
