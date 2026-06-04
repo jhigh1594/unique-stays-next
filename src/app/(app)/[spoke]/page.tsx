@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import { ArrowRight, ExternalLink, ChevronRight } from 'lucide-react'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
@@ -139,10 +140,13 @@ export default async function SpokePage({
       {/* HERO */}
       <section className="relative min-h-[480px] flex items-end overflow-hidden">
         <div className="absolute inset-0">
-          <img
+          <Image
             src={config.heroImage}
             alt={config.title}
-            className="w-full h-full object-cover"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
           />
           <div
             className="absolute inset-0"

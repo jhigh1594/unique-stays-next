@@ -24,17 +24,11 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   serverExternalPackages: ['sharp', 'pg'],
   images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'uniquestaysusa.com' },
-      { protocol: 'https', hostname: '**.muscache.com' },
-      { protocol: 'https', hostname: '**.vrboassets.com' },
-      { protocol: 'https', hostname: '**.vacasa.com' },
-      { protocol: 'https', hostname: '**.wander.com' },
-      { protocol: 'https', hostname: '**.cloudfront.net' },
-      { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: '**.r2.dev' },
-      { protocol: 'https', hostname: 'media.uniquestaysusa.com' },
-    ],
+    // Custom loader routes all R2 images through Cloudflare Worker CDN
+    // (img.uniquestaysusa.com) instead of Vercel _next/image optimizer.
+    // See src/lib/image-loader.ts for routing logic.
+    loader: 'custom',
+    loaderFile: './src/lib/image-loader.ts',
   },
 }
 

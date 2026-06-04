@@ -1,0 +1,12 @@
+name = "image-cdn"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+
+# R2 bucket binding — zero egress, direct access
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "uniquestays-media"
+
+# Custom domain: img.uniquestaysusa.com
+# Configure in Cloudflare dashboard: Workers → image-cdn → Settings → Domains & Routes
+# Or via CLI: npx wrangler domains attach img.uniquestaysusa.com

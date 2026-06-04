@@ -45,6 +45,7 @@ interface Stay {
   affiliateUrl: string
   price: number | null
   bedrooms: number | null
+  bathrooms: number | null
   rating: number | null
   reviewCount: number | null
   tags: Array<{ tag: string }> | null
@@ -57,6 +58,8 @@ function isMissingFields(s: Stay): boolean {
     s.price === 0 ||
     s.bedrooms == null ||
     s.bedrooms === 0 ||
+    s.bathrooms == null ||
+    s.bathrooms === 0 ||
     !s.rating ||
     s.rating === 0 ||
     s.reviewCount == null ||
@@ -67,7 +70,7 @@ function isMissingFields(s: Stay): boolean {
 
 function buildUpdate(
   stay: Stay,
-  scraped: { price: number | null; sleeps: number | null; bedrooms: number | null; rating: number | null; reviewCount: number | null; amenities: string[] },
+  scraped: { price: number | null; sleeps: number | null; bedrooms: number | null; bathrooms: number | null; rating: number | null; reviewCount: number | null; amenities: string[] },
 ): { data: Record<string, unknown>; fields: string[] } {
   const data: Record<string, unknown> = {}
   const fields: string[] = []
@@ -79,6 +82,10 @@ function buildUpdate(
   if ((stay.bedrooms == null || stay.bedrooms === 0) && scraped.bedrooms && scraped.bedrooms > 0) {
     data.bedrooms = Math.round(scraped.bedrooms)
     fields.push('bedrooms')
+  }
+  if ((stay.bathrooms == null || stay.bathrooms === 0) && scraped.bathrooms && scraped.bathrooms > 0) {
+    data.bathrooms = Math.round(scraped.bathrooms)
+    fields.push('bathrooms')
   }
   if ((!stay.rating || stay.rating === 0) && scraped.rating && scraped.rating > 0 && scraped.rating <= 5) {
     data.rating = Math.round(scraped.rating * 10) / 10
@@ -139,7 +146,7 @@ async function main() {
   let succeeded = 0
   let failed = 0
   let skipped = 0
-  const fieldCounts: Record<string, number> = { price: 0, bedrooms: 0, rating: 0, reviewCount: 0, tags: 0 }
+  const fieldCounts: Record<string, number> = { price: 0, bedrooms: 0, bathrooms: 0, rating: 0, reviewCount: 0, tags: 0 }
   const flaggedForReview: string[] = []
   const failures: Array<{ slug: string; error: string }> = []
 
@@ -231,6 +238,7 @@ async function main() {
     console.log('\n  Fields filled:')
     console.log(`    price:       ${fieldCounts.price ?? 0}`)
     console.log(`    bedrooms:    ${fieldCounts.bedrooms ?? 0}`)
+    console.log(`    bathrooms:   ${fieldCounts.bathrooms ?? 0}`)
     console.log(`    rating:      ${fieldCounts.rating ?? 0}`)
     console.log(`    reviewCount: ${fieldCounts.reviewCount ?? 0}`)
     console.log(`    tags:        ${fieldCounts.tags ?? 0}`)

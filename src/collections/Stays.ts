@@ -252,6 +252,12 @@ export const Stays: CollectionConfig = {
       required: true,
       min: 0,
     },
+    {
+      name: 'bathrooms',
+      type: 'number',
+      required: true,
+      min: 0,
+    },
 
     // ── Content ───────────────────────────────────────────────
     {
