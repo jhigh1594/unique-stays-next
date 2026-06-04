@@ -12,6 +12,7 @@ const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
 const TOOLS = [
   { slug: 'listing-generator', title: 'The Copy Desk', stamp: 'COPY' },
+  { slug: 'build-cost-calculator', title: 'Build Cost Ledger', stamp: 'COST' },
   { slug: 'unique-score', title: 'Stamp of Approval', stamp: 'GRADE' },
   { slug: 'vacation-quiz', title: 'The Compass', stamp: 'FIND' },
 ] as const
