@@ -194,6 +194,28 @@ export default function Navbar() {
                 )}
               </div>
 
+              {navLinks.filter((l) => l.href === '/journal').map((link) => (
+                <Link key={link.href} href={link.href}>
+                  <span
+                    className={`text-sm font-medium transition-colors duration-200 relative group ${
+                      pathname === link.href
+                        ? 'text-[oklch(0.55_0.14_38)]'
+                        : usesDarkNavText
+                          ? 'text-[oklch(0.40_0.03_60)] hover:text-[oklch(0.55_0.14_38)]'
+                          : 'text-[oklch(0.90_0.01_85)] hover:text-white'
+                    }`}
+                    style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                  >
+                    {link.label}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-0.5 bg-[oklch(0.55_0.14_38)] transition-all duration-300 ${
+                        pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  </span>
+                </Link>
+              ))}
+
               {/* Tools Dropdown */}
               <div ref={dropdownRef} className="relative">
                 <button
@@ -264,7 +286,7 @@ export default function Navbar() {
                 )}
               </div>
 
-              {navLinks.map((link) => (
+              {navLinks.filter((l) => l.href !== '/journal').map((link) => (
                 <Link key={link.href} href={link.href}>
                   <span
                     className={`text-sm font-medium transition-colors duration-200 relative group ${
