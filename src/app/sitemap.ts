@@ -30,6 +30,18 @@ export function buildSitemapEntries({
       priority: 1,
     },
     {
+      url: `${normalizedBaseUrl}/collections`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${normalizedBaseUrl}/tools`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${normalizedBaseUrl}/collection`,
       lastModified,
       changeFrequency: 'weekly',
