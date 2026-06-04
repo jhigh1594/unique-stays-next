@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { getAllJournalPosts } from '@/lib/payload-queries'
 import JournalContent from './_journal/JournalContent'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 export const metadata: Metadata = {
   title: 'The Journal | UniqueStaysUSA',

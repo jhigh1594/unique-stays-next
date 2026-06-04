@@ -10,7 +10,7 @@ import { getStaysBySpoke } from '@/lib/payload-queries'
 import SpokeFilterBar from './_spoke/SpokeFilterBar'
 
 export const dynamicParams = false
-export const revalidate = 3600
+export const revalidate = 86400
 
 export function generateStaticParams() {
   return SPOKE_SLUGS.map((slug) => ({ spoke: slug }))

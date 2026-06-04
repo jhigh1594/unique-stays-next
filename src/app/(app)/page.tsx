@@ -8,7 +8,7 @@ import {
 } from '@/lib/payload-queries'
 import { CATEGORIES_CONFIG } from '@/lib/categories-config'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 export default async function HomePage() {
   const [featuredStays, editorsPickStays, filmstripStays, allStays] =

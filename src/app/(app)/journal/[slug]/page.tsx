@@ -4,7 +4,7 @@ import { getJournalPostBySlug, getAllJournalSlugs, getAllJournalPosts } from '@/
 import JournalPostContent from './_post/JournalPostContent'
 
 export const dynamicParams = true
-export const revalidate = 3600
+export const revalidate = 86400
 
 export async function generateStaticParams() {
   const slugs = await getAllJournalSlugs()

@@ -5,7 +5,7 @@ import StayDetailContent from './_stay/StayDetailContent'
 import { SPOKES_CONFIG } from '@/lib/spokes-config'
 
 export const dynamicParams = false
-export const revalidate = 3600
+export const revalidate = 86400
 
 export async function generateStaticParams() {
   const slugs = await getAllStaySlugs()

@@ -11,10 +11,10 @@ import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
 const TOOLS = [
-  { slug: 'listing-generator', title: 'The Copy Desk', stamp: 'COPY' },
-  { slug: 'build-cost-calculator', title: 'Build Cost Ledger', stamp: 'COST' },
-  { slug: 'unique-score', title: 'Stamp of Approval', stamp: 'GRADE' },
-  { slug: 'vacation-quiz', title: 'The Compass', stamp: 'FIND' },
+  { slug: 'listing-generator', title: 'Listing Description Generator', stamp: 'WRITE' },
+  { slug: 'build-cost-calculator', title: 'Build Cost Calculator', stamp: 'COST' },
+  { slug: 'unique-score', title: 'Listing Score Checker', stamp: 'SCORE' },
+  { slug: 'vacation-quiz', title: 'Vacation Match Quiz', stamp: 'QUIZ' },
 ] as const
 
 /** Pages with a light top section — nav links stay dark before scroll. */
@@ -341,7 +341,7 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              {/* ── Field Kit Dropdown ── */}
+              {/* ── Tools Dropdown ── */}
               <div ref={toolsRef} className="relative">
                 <button
                   ref={toolsButtonRef}
@@ -355,7 +355,7 @@ export default function Navbar() {
                   aria-expanded={toolsOpen}
                   aria-haspopup="menu"
                 >
-                  Field Kit
+                  Tools
                   <ChevronDown
                     className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`}
                     aria-hidden="true"
@@ -371,7 +371,7 @@ export default function Navbar() {
                       boxShadow: DROPDOWN_SHADOW,
                     }}
                     role="menu"
-                    aria-label="Field Kit"
+                    aria-label="Tools"
                   >
                     <div className="px-5 pt-4 pb-2">
                       <span
@@ -379,7 +379,7 @@ export default function Navbar() {
                         style={{ borderColor: INK_MID, color: INK_MID }}
                         role="presentation"
                       >
-                        Supplies
+                        Free Tools
                       </span>
 
                       <div className="flex flex-col" role="group">
@@ -519,13 +519,13 @@ export default function Navbar() {
 
             <Perforation />
 
-            {/* Supplies */}
+            {/* Free Tools */}
             <div className="px-5 mt-3 mb-3">
               <span
                 className="inline-block text-[0.6rem] font-bold tracking-[0.14em] uppercase border-2 px-2 py-0.5 mb-3"
                 style={{ borderColor: INK_MID, color: INK_MID }}
               >
-                Supplies
+                Free Tools
               </span>
               {TOOLS.map((tool) => (
                 <Link key={tool.slug} href={`/${tool.slug}`} onClick={() => setMobileOpen(false)}>

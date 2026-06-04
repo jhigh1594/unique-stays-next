@@ -1,5 +1,24 @@
 # UniqueStaysUSA — Free Tool Strategy
-**Created:** June 3, 2026 | **Author:** Cato + Jon | **Status:** Draft
+**Created:** June 3, 2026 | **Updated:** June 3, 2026 | **Author:** Cato + Jon | **Status:** Active — 4 tools shipped
+
+---
+
+## Shipped Tools (4 of 12)
+
+| Tool | Route | Audience | What it does | Email capture |
+|------|-------|----------|--------------|---------------|
+| **Unique Score** | `/unique-score` | Hosts | Paste Airbnb, VRBO, or Wander URL → AI field report across 5 dimensions (2 free, 3 gated) | Optional; shareable via `?r=` |
+| **Vacation Quiz** | `/vacation-quiz` | Travelers | 5-question quiz → 3–5 matched stays from Payload | Required before results |
+| **Listing Generator** | `/listing-generator` | Hosts | Paste URL or manual form → AI title + description + editorial notes | Optional gate before full results |
+| **Build Cost Calculator** | `/build-cost-calculator` | Hosts / builders | 7 structure types → build cost, revenue, ROI, payback timeline | Planned (UI placeholder) |
+
+All four are linked from the site navbar (editorial names: The Compass, Stamp of Approval, The Copy Desk, Build Cost Ledger). Three also appear in the footer. Each shipped tool has SEO metadata and JSON-LD `WebApplication` schema where applicable.
+
+**Code locations:**
+- Unique Score — `src/app/(app)/unique-score/`, `src/lib/unique-score/`, `src/collections/ScoreReports.ts`
+- Vacation Quiz — `src/app/(app)/vacation-quiz/`, `src/components/VacationQuiz.tsx`, `src/app/api/vacation-quiz/`, `src/collections/QuizLeads.ts`
+- Listing Generator — `src/app/(app)/listing-generator/`, `src/lib/listing-generator/`, `src/app/api/listing-generator/`
+- Build Cost Calculator — `src/app/(app)/build-cost-calculator/`, `src/lib/build-cost-calculator/`
 
 ---
 
@@ -43,11 +62,15 @@ Free tools are the highest-leverage SEO play for a new domain. Here's the logic:
 | isDogFriendly | isdogfriendly.com | "is [restaurant] dog friendly" | Simple concept, high utility |
 | RV Trip Calculator | rvdumpfinder.com/trip-calculator | "rv trip cost calculator" | Niche but targeted |
 
-**What's missing (our opportunity):**
-- **ZERO tools for unique stay hosts.** Everything targets generic Airbnb/VRBO hosts.
-- **ZERO unique stay traveler tools.** No quiz matches you to treehouses, domes, lighthouses.
-- **ZERO "is it worth it" comparison tools** for glamping vs hotels, treehouse vs cabin, etc.
-- **ZERO building/owning cost tools** for unique structures (dome, treehouse, yurt, A-frame).
+**What we've claimed (4 tools live):**
+- **Unique stay host tools** — Unique Score (listing grader), Listing Generator (description writer), Build Cost Calculator (structure ROI)
+- **Unique stay traveler tool** — Vacation Quiz matches quiz answers to real treehouses, domes, cabins, etc. in our database
+
+**What's still missing (remaining opportunity):**
+- **No "is it worth it" comparison tool** for glamping vs hotels, treehouse vs cabin, etc.
+- **No revenue estimator** powered by our real pricing dataset
+- **No traveler tools beyond the quiz** — packing list, pet trip planner, stay matchmaker
+- **Build Cost email capture** — calculator is live but lead capture is not wired yet
 
 ---
 
@@ -57,8 +80,8 @@ Free tools are the highest-leverage SEO play for a new domain. Here's the logic:
 *These target travelers planning trips — high volume, strong social sharing.*
 
 #### T1. Vacation Quiz — "Where Should I Stay?"
-**Status:** Plan exists at `docs/plans/free-tool-vacation-quiz.md`
-- **What:** 5-question quiz → matches to 3-5 curated unique stays
+**Status:** ✅ **LIVE** at `/vacation-quiz` (plan: `docs/plans/free-tool-vacation-quiz.md`)
+- **What:** 5-question quiz (occasion, vibe, distance, budget, must-have + zip) → matches to 3–5 curated unique stays from Payload
 - **Target keywords:** "vacation quiz," "where should I stay quiz," "unique stay finder," "treehouse vacation finder"
 - **Search volume estimate:** 8-15K/mo combined (quiz keywords are popular)
 - **Competition:** Low — no unique stay quiz exists. General travel quizzes exist but don't match to specific listings
@@ -107,18 +130,22 @@ Free tools are the highest-leverage SEO play for a new domain. Here's the logic:
 ### Tier 2: Host Tools (capture emails, drive to Unique Score paid tier)
 *These target STR hosts — lower volume but higher intent and monetizable.*
 
-#### T6. Unique Score — Listing Grader (ALREADY BUILT)
-**Status:** Live at `/unique-score`. Code complete. Needs testing.
-- **What:** Paste Airbnb/VRBO/Wander URL → AI grades listing on 5 dimensions
+#### T6. Unique Score — Listing Grader
+**Status:** ✅ **LIVE** at `/unique-score`
+- **What:** Paste Airbnb/VRBO/Wander URL → AI field report on 5 dimensions: Visual Story, Standout Factor, Written Story, Guest Confidence, Experience Depth
+- **Free tier:** Visual Story + Standout Factor unlocked; remaining dimensions gated
+- **Extras:** Shareable results (`?r=`), cached reports in Payload `score-reports`, cross-linked from Listing Generator
 - **Target keywords:** "airbnb listing score," "listing grader," "unique stay listing optimizer," "airbnb photo score"
 - **Search volume estimate:** 8-15K/mo combined
 - **Competition:** Medium — generic tools exist (Hostmatic, StayScore), none for unique stays
-- **Monetization:** Free tier (2 dimensions) → $19 for full report
+- **Monetization:** Free tier (2 dimensions) → paid unlock for full report (payment flow TBD)
 - **Build complexity:** DONE
 - **Uniqueness:** HIGH — only multimodal grader for unique stays
 
 #### T7. Airbnb Listing Description Generator (Unique Stay Edition)
-- **What:** Enter stay details → AI generates listing title + description optimized for unique stays (not generic apartments)
+**Status:** ✅ **LIVE** at `/listing-generator` (spec: `docs/superpowers/specs/2026-06-03-listing-generator-design.md`)
+- **What:** Paste listing URL (Airbnb/VRBO/Wander) or fill manual form → AI generates title + description + editorial notes optimized for unique stays
+- **Flow:** Scrape or manual input → preview → optional email gate → full results with copy buttons and Unique Score CTA
 - **Target keywords:** "airbnb description generator," "listing description generator," "vrbo listing generator," "airbnb title generator"
 - **Search volume estimate:** 15-25K/mo combined (very high — multiple tools rank for this)
 - **Competition:** HIGH — bnblisting.io, lodgify, automatevacations all have tools
@@ -160,7 +187,10 @@ Free tools are the highest-leverage SEO play for a new domain. Here's the logic:
 *These are less about direct conversion and more about building domain authority and earning backlinks.*
 
 #### T11. Unique Stay Building Cost Calculator
-- **What:** Select structure type (dome, treehouse, yurt, A-frame, tiny house, cabin, glamping tent) → estimates building costs, ROI timeline, and comparable nightly rates
+**Status:** ✅ **LIVE** at `/build-cost-calculator` (plan: `docs/plans/build-cost-calculator-plan.md`)
+- **What:** Select structure type (treehouse, dome, yurt, A-frame, tiny house, cabin, glamping tent) + region, finish level, site complexity, sq ft → estimates hard costs, permits, furnishings, total build, nightly revenue, net revenue, and payback years
+- **Engine:** Client-side calculator with structure cost profiles in `src/lib/build-cost-calculator/` (no AI dependency)
+- **Gap:** Email capture and "send me the estimate" flow are stubbed in UI but not wired yet
 - **Target keywords:** "how much does it cost to build a treehouse," "dome home cost," "yurt cost," "glamping pod cost," "a frame cabin cost"
 - **Search volume estimate:** 15-30K/mo combined (individual "how much does X cost" queries are very popular)
 - **Competition:** Low-Medium — some calculators exist (Rainier Outdoor yurt builder) but no comprehensive tool
@@ -186,11 +216,11 @@ Free tools are the highest-leverage SEO play for a new domain. Here's the logic:
 
 | Tool | Search Volume | Competition | Build Effort | Email Capture | Monetization | TOTAL |
 |------|:------:|:------:|:------:|:------:|:------:|:------:|
-| T6. Unique Score (DONE) | ●●●● | ●●● | ✅ DONE | ●●●● | ●●●●● | ⭐ BUILT |
-| T1. Vacation Quiz | ●●●● | ●●●●● | ●●● | ●●●●● | ●●● | 🥇 NEXT |
-| T7. Listing Generator | ●●●●● | ●● | ●● | ●●●●● | ●●●● | 🥈 HIGH |
-| T11. Build Cost Calculator | ●●●●● | ●●●● | ●●● | ●●● | ●●● | 🥉 HIGH |
-| T3. Stay vs Hotel | ●●● | ●●●●● | ●●● | ●●● | ●●● | Tier 2 |
+| T6. Unique Score | ●●●● | ●●● | ✅ SHIPPED | ●●●● | ●●●●● | ⭐ LIVE |
+| T1. Vacation Quiz | ●●●● | ●●●●● | ✅ SHIPPED | ●●●●● | ●●● | ⭐ LIVE |
+| T7. Listing Generator | ●●●●● | ●● | ✅ SHIPPED | ●●●●● | ●●●● | ⭐ LIVE |
+| T11. Build Cost Calculator | ●●●●● | ●●●● | ✅ SHIPPED | ●● (stub) | ●●● | ⭐ LIVE |
+| T3. Stay vs Hotel | ●●● | ●●●●● | ●●● | ●●● | ●●● | 🥇 NEXT |
 | T8. Revenue Estimator | ●●●● | ●● | ●●● | ●●●● | ●●●●● | Tier 2 |
 | T2. Packing List | ●●●● | ●●● | ● | ●●● | ●● | Tier 2 |
 | T5. Stay Matchmaker | ●●● | ●●●●● | ●● | ●●●● | ●●● | Tier 3 |
@@ -200,12 +230,13 @@ Free tools are the highest-leverage SEO play for a new domain. Here's the logic:
 | T4. Pet Trip Planner | ●●● | ●●●● | ●●●● | ●●● | ●● | Tier 4 |
 
 **Priority order:**
-1. ✅ **Unique Score** — already built, needs testing + traffic
-2. 🥇 **Vacation Quiz** — plan exists, high shareability, drives to stays
-3. 🥈 **Listing Description Generator** — huge search volume, low build effort, unique stay specialization
-4. 🥉 **Building Cost Calculator** — massive long-tail volume, zero competition, backlink magnet
-5. **Stay vs Hotel Comparison** — differentiated, growing search trend
-6. **Revenue Estimator** — leverages our unique dataset
+1. ✅ **Unique Score** — live; drive traffic, test paid unlock path
+2. ✅ **Vacation Quiz** — live; drive traffic, optimize share URLs
+3. ✅ **Listing Generator** — live; drive traffic, measure email gate conversion
+4. ✅ **Build Cost Calculator** — live; wire email capture, add to footer
+5. 🥇 **Stay vs Hotel Comparison** — differentiated, growing search trend
+6. 🥈 **Revenue Estimator** — leverages our unique pricing dataset
+7. 🥉 **Packing List Generator** — low build effort, stay-type-specific angle
 
 ---
 
@@ -219,24 +250,27 @@ All tools share a common stack:
 - **Analytics:** PostHog (already configured)
 - **Deployment:** Vercel (already configured)
 
-**Shared components needed:**
-- Tool layout wrapper (hero, CTA, email capture modal)
-- Email capture form component (reusable across all tools)
-- Results page template (shareable, printable)
-- Tool card component (for homepage /tools directory)
+**Shared components — status:**
+- ✅ Email capture patterns — Unique Score, Vacation Quiz, Listing Generator each have working flows; Build Cost stubbed
+- ✅ URL scraping — shared between Unique Score and Listing Generator (`src/lib/unique-score/scraper.ts`)
+- ✅ JSON-LD + SEO metadata — on all four shipped tools
+- ✅ Navbar tool links — editorial dropdown with all four tools
+- ⬜ `/tools` index page — not built yet
+- ⬜ Reusable tool layout wrapper — each tool has its own hero/results UI today
+- ⬜ Tool card component for homepage promotion
 
 ---
 
 ## Traffic Projection (Conservative)
 
-Assuming 6 tools built by Month 6, each ranking for their target keywords:
+Assuming tools continue shipping and ranking for target keywords:
 
 | Month | Tools Live | Est. Monthly Organic Visits |
 |------:|:----------:|:--------------------------:|
-| 1 | 2 (Score + Quiz) | 200-500 |
-| 3 | 4 | 1,500-3,000 |
-| 6 | 6 | 5,000-15,000 |
-| 9 | 8 | 15,000-40,000 |
+| Now | **4** (Score, Quiz, Listing Gen, Build Cost) | 200-800 (sandbox) |
+| 3 | 5-6 | 1,500-3,000 |
+| 6 | 7-8 | 5,000-15,000 |
+| 9 | 9-10 | 15,000-40,000 |
 | 12 | 10+ | 30,000-80,000 |
 
 *Note: Domain is ~4 weeks old. Google sandbox period = 3-6 months. These are conservative post-sandbox estimates.*
@@ -245,34 +279,35 @@ Assuming 6 tools built by Month 6, each ranking for their target keywords:
 
 ## Naming Convention
 
-All tools live at `/tools/[slug]` or `uniquestaysusa.com/[tool-name]`:
+Shipped tools use top-level routes (`/unique-score`, `/vacation-quiz`, etc.). Future tools may also live at `/tools/[slug]` once the index page exists.
 
-| Tool | URL Path | Page Title |
-|------|----------|------------|
-| Vacation Quiz | /vacation-quiz | "Unique Stay Vacation Quiz — Find Your Perfect Treehouse, Dome, or Castle" |
-| Unique Score | /unique-score | "Unique Score — Free AI Listing Grader for Unique Stay Hosts" |
-| Listing Generator | /listing-generator | "Free Airbnb Description Generator for Unique Stays" |
-| Build Cost Calculator | /build-cost-calculator | "How Much Does It Cost to Build a Treehouse? Free Calculator" |
-| Stay vs Hotel | /stay-vs-hotel | "Unique Stay vs Hotel Cost Comparison — Is It Worth It?" |
-| Revenue Estimator | /revenue-calculator | "Unique Stay Revenue Calculator — Estimate Your Airbnb Income" |
-| Packing List | /packing-list | "Unique Stay Packing List Generator — Treehouse, Dome, Cabin & More" |
-| Stay Matchmaker | /stay-matchmaker | "What Unique Stay Type Are You? Take the Quiz" |
-| Amenity ROI | /amenity-roi | "Which Amenities Increase Bookings Most? Free ROI Calculator" |
-| Welcome Guide | /welcome-guide-generator | "Free Guest Welcome Guide Generator for Unique Stays" |
-| Host Readiness | /host-readiness | "Should You List Your Unique Stay? Free Readiness Score" |
-| Pet Trip Planner | /pet-friendly-trip-planner | "Pet-Friendly Unique Stay Trip Planner" |
+| Tool | URL Path | Page Title | Status |
+|------|----------|------------|--------|
+| Vacation Quiz | /vacation-quiz | "Where Should My Next Vacation Be? — Unique Stays Quiz" | ✅ Live |
+| Unique Score | /unique-score | "Unique Score \| Listing Field Report for Hosts" | ✅ Live |
+| Listing Generator | /listing-generator | "Free Airbnb Description Generator for Unique Stays" | ✅ Live |
+| Build Cost Calculator | /build-cost-calculator | "How Much Does It Cost to Build a Treehouse? Free Calculator" | ✅ Live |
+| Stay vs Hotel | /stay-vs-hotel | "Unique Stay vs Hotel Cost Comparison — Is It Worth It?" | Planned |
+| Revenue Estimator | /revenue-calculator | "Unique Stay Revenue Calculator — Estimate Your Airbnb Income" | Planned |
+| Packing List | /packing-list | "Unique Stay Packing List Generator — Treehouse, Dome, Cabin & More" | Planned |
+| Stay Matchmaker | /stay-matchmaker | "What Unique Stay Type Are You? Take the Quiz" | Planned |
+| Amenity ROI | /amenity-roi | "Which Amenities Increase Bookings Most? Free ROI Calculator" | Planned |
+| Welcome Guide | /welcome-guide-generator | "Free Guest Welcome Guide Generator for Unique Stays" | Planned |
+| Host Readiness | /host-readiness | "Should You List Your Unique Stay? Free Readiness Score" | Planned |
+| Pet Trip Planner | /pet-friendly-trip-planner | "Pet-Friendly Unique Stay Trip Planner" | Planned |
 
 ---
 
 ## Next Steps
 
-1. Jon reviews and prioritizes this list
-2. Build T1 (Vacation Quiz) — plan already exists
-3. Build T7 (Listing Generator) — quick win, huge volume
-4. Build T11 (Build Cost Calculator) — backlink magnet, differentiated
-5. Create `/tools` index page that lists all tools
-6. Add tool CTAs to homepage, footer, and stay detail pages
-7. Set up email sequences for captured leads
+1. **Drive traffic to shipped tools** — internal linking, journal CTAs, social sharing
+2. **Wire Build Cost email capture** — finish the stubbed "email me the estimate" flow
+3. **Add Build Cost to footer** — currently in navbar only
+4. **Create `/tools` index page** — single directory for all four live tools + coming soon
+5. **Add tool CTAs to homepage and stay detail pages** — beyond navbar/footer links
+6. **Set up email sequences** for QuizLeads, listing-generator leads, and Unique Score captures
+7. **Build T3 (Stay vs Hotel)** — next net-new tool in the pipeline
+8. **Measure in PostHog** — tool starts, completions, email capture rates per tool
 
 ---
 
