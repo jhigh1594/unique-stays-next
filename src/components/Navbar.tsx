@@ -3,7 +3,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import {
+  ArrowUpRight,
+  BadgeCheck,
+  Calculator,
+  ChevronDown,
+  Compass,
+  MapPinned,
+  Menu,
+  PenLine,
+  X,
+} from 'lucide-react'
 import LogoMark from '@/components/LogoMark'
 import NewsletterModal from '@/components/NewsletterModal'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
@@ -11,13 +21,37 @@ import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
 const TOOLS = [
-  { slug: 'listing-generator', title: 'Listing Description Generator', stamp: 'WRITE' },
-  { slug: 'build-cost-calculator', title: 'Build Cost Calculator', stamp: 'COST' },
-  { slug: 'unique-score', title: 'Listing Score Checker', stamp: 'SCORE' },
-  { slug: 'vacation-quiz', title: 'Vacation Match Quiz', stamp: 'QUIZ' },
+  {
+    slug: 'listing-generator',
+    title: 'Listing Description Generator',
+    description: 'Turn rough notes into a more bookable stay story.',
+    stamp: 'WRITE',
+    icon: PenLine,
+  },
+  {
+    slug: 'build-cost-calculator',
+    title: 'Build Cost Calculator',
+    description: 'Estimate the real budget for cabins, domes, and glampsites.',
+    stamp: 'COST',
+    icon: Calculator,
+  },
+  {
+    slug: 'unique-score',
+    title: 'Listing Score Checker',
+    description: 'See how distinctive your stay feels to a traveler.',
+    stamp: 'SCORE',
+    icon: BadgeCheck,
+  },
+  {
+    slug: 'vacation-quiz',
+    title: 'Vacation Match Quiz',
+    description: 'Find the kind of escape your next trip is asking for.',
+    stamp: 'QUIZ',
+    icon: Compass,
+  },
 ] as const
 
-/** Pages with a light top section — nav links stay dark before scroll. */
+/** Pages with a light top section. Nav links stay dark before scroll. */
 const LIGHT_HERO_PREFIXES = ['/about', '/submit', '/privacy', '/disclosure'] as const
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V'] as const
@@ -28,7 +62,7 @@ function hasLightHeroPath(pathname: string): boolean {
   )
 }
 
-/** Postmark watermark SVG — positioned behind dropdown content */
+/** Postmark watermark SVG, positioned behind dropdown content. */
 function PostmarkWatermark({ rotation = -12 }: { rotation?: number }) {
   return (
     <svg
@@ -56,7 +90,7 @@ function PostmarkWatermark({ rotation = -12 }: { rotation?: number }) {
   )
 }
 
-/** Perforation edge — dashed SVG line */
+/** Perforation edge with a dashed SVG line. */
 function Perforation() {
   return (
     <div
@@ -76,13 +110,14 @@ function Perforation() {
   )
 }
 
-const DROPDOWN_SHADOW = '0 12px 40px -8px rgba(44, 30, 20, 0.18), 0 2px 8px rgba(44, 30, 20, 0.06)'
+const DROPDOWN_SHADOW = '0 16px 48px -12px rgba(52, 34, 20, 0.16)'
 const TERRACOTTA = 'oklch(0.55 0.14 38)'
 const INK = 'oklch(0.25 0.02 60)'
 const INK_MID = 'oklch(0.50 0.06 60)'
 const PAPER = 'oklch(0.975 0.012 85)'
 const PAPER_ALT = 'oklch(0.96 0.015 85)'
 const RULE = 'oklch(0.72 0.04 75)'
+const FOREST = 'oklch(0.38 0.08 145)'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -209,7 +244,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Skip to content — a11y */}
+      {/* Skip to content */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:bg-[oklch(0.55_0.14_38)] focus:text-[oklch(0.99_0.005_85)] focus:outline-none"
@@ -238,7 +273,7 @@ export default function Navbar() {
               style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
               aria-label="Main navigation"
             >
-              {/* ── Collections Dropdown ── */}
+              {/* Collections Dropdown */}
               <div ref={collectionsRef} className="relative">
                 <button
                   ref={collectionsButtonRef}
@@ -261,28 +296,43 @@ export default function Navbar() {
 
                 {collectionsOpen && (
                   <div
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[380px] overflow-hidden animate-[dropdown-in_0.15s_ease-out]"
+                    className="absolute top-full left-[calc(50%-260px)] mt-4 w-[520px] overflow-hidden animate-[dropdown-in_0.18s_cubic-bezier(0.16,1,0.3,1)]"
                     style={{
                       background: PAPER,
-                      borderTop: `2.5px solid ${TERRACOTTA}`,
+                      border: '1px solid oklch(0.87 0.03 75)',
                       boxShadow: DROPDOWN_SHADOW,
                     }}
                     role="menu"
                     aria-label="Collections"
                   >
-                    <div className="relative" style={{ color: 'oklch(0.40 0.06 38)' }}>
-                      <PostmarkWatermark rotation={-15} />
-
-                      <div className="relative z-10 px-5 pt-4 pb-2">
-                        <span
-                          className="inline-block text-[0.6rem] font-bold tracking-[0.16em] uppercase border-2 px-2 py-0.5 mb-3"
-                          style={{ borderColor: TERRACOTTA, color: TERRACOTTA }}
-                          role="presentation"
+                    <div className="grid grid-cols-[160px_1fr]" style={{ color: 'oklch(0.40 0.06 38)' }}>
+                        <div
+                          className="min-h-full px-5 py-5"
+                          style={{
+                            background: 'oklch(0.96 0.02 80)',
+                            borderRight: '1px solid oklch(0.91 0.025 80)',
+                          }}
                         >
-                          Destinations
-                        </span>
+                          <span
+                            className="inline-flex items-center gap-1.5 text-[0.58rem] font-black tracking-[0.14em] uppercase border-2 px-2 py-1"
+                            style={{ borderColor: TERRACOTTA, color: TERRACOTTA }}
+                            role="presentation"
+                          >
+                            <MapPinned className="h-3 w-3" aria-hidden="true" />
+                            Collections
+                          </span>
+                          <p
+                            className="mt-4 text-[1.55rem] leading-[1.02] font-display font-black"
+                            style={{ color: INK }}
+                          >
+                            Pick the trip by its texture.
+                          </p>
+                          <p className="mt-3 text-[0.72rem] leading-5 font-semibold" style={{ color: INK_MID }}>
+                            Five curated ways into the map.
+                          </p>
+                        </div>
 
-                        <div className="flex flex-col" role="group">
+                        <div className="grid grid-cols-1 p-3" role="group">
                           {SPOKES.map((spoke, i) => (
                             <Link
                               key={spoke.slug}
@@ -292,28 +342,32 @@ export default function Navbar() {
                               onClick={closeAll}
                             >
                               <div
-                                className="flex items-center gap-3 px-2 py-2.5 transition-colors group cursor-pointer rounded-sm outline-none focus-visible:bg-[oklch(0.96_0.015_85)]"
+                                className="flex items-center gap-3 px-3 py-3 transition-[background-color,color] duration-200 group cursor-pointer outline-none focus-visible:bg-[oklch(0.94_0.022_80)]"
                                 style={{ color: INK }}
                               >
                                 <span
-                                  className="text-lg font-display font-black opacity-[0.08] group-hover:opacity-[0.15] transition-opacity w-5 text-right flex-shrink-0 tabular-nums"
+                                  className="flex h-8 w-8 items-center justify-center flex-shrink-0 text-[0.64rem] font-display font-black tabular-nums"
+                                  style={{ color: spoke.accentColor }}
                                   aria-hidden="true"
                                 >
                                   {ROMAN[i]}
                                 </span>
-                                <span
-                                  className="w-2 h-2 rounded-full flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity"
-                                  style={{ background: spoke.accentColor }}
+                                <span className="min-w-0 flex-1">
+                                  <span className="block text-sm font-black group-hover:text-[oklch(0.55_0.14_38)] transition-colors">
+                                    {spoke.title}
+                                  </span>
+                                  <span className="mt-0.5 block text-[0.68rem] leading-4 font-medium" style={{ color: INK_MID }}>
+                                    {spoke.tagline}
+                                  </span>
+                                </span>
+                                <ArrowUpRight
+                                  className="h-3 w-3 shrink-0 opacity-0 transition-[opacity,transform] duration-200 group-hover:opacity-50 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                                   aria-hidden="true"
                                 />
-                                <span className="text-sm font-semibold flex-1 group-hover:text-[oklch(0.55_0.14_38)] transition-colors">
-                                  {spoke.title}
-                                </span>
                               </div>
                             </Link>
                           ))}
                         </div>
-                      </div>
                     </div>
 
                     <Perforation />
@@ -341,7 +395,7 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              {/* ── Tools Dropdown ── */}
+              {/* Tools Dropdown */}
               <div ref={toolsRef} className="relative">
                 <button
                   ref={toolsButtonRef}
@@ -364,50 +418,75 @@ export default function Navbar() {
 
                 {toolsOpen && (
                   <div
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[240px] overflow-hidden animate-[dropdown-in_0.15s_ease-out]"
+                    className="absolute top-full left-[calc(50%-215px)] mt-4 w-[430px] overflow-hidden animate-[dropdown-in_0.18s_cubic-bezier(0.16,1,0.3,1)]"
                     style={{
                       background: PAPER,
-                      borderTop: `2.5px solid ${TERRACOTTA}`,
+                      border: '1px solid oklch(0.87 0.03 75)',
                       boxShadow: DROPDOWN_SHADOW,
                     }}
                     role="menu"
                     aria-label="Tools"
                   >
-                    <div className="px-5 pt-4 pb-2">
-                      <span
-                        className="inline-block text-[0.6rem] font-bold tracking-[0.14em] uppercase border-2 px-2 py-0.5 mb-3"
-                        style={{ borderColor: INK_MID, color: INK_MID }}
-                        role="presentation"
-                      >
-                        Free Tools
-                      </span>
-
-                      <div className="flex flex-col" role="group">
-                        {TOOLS.map((tool, i) => (
-                          <Link
-                            key={tool.slug}
-                            href={`/${tool.slug}`}
-                            role="menuitem"
-                            onKeyDown={(e) => handleItemKeyDown(e, i, TOOLS.length, toolsButtonRef)}
-                            onClick={closeAll}
+                    <div className="px-6 pt-5 pb-3">
+                        <div className="mb-4">
+                          <span
+                            className="inline-flex items-center gap-1.5 text-[0.58rem] font-black tracking-[0.14em] uppercase border-2 px-2 py-1"
+                            style={{ borderColor: FOREST, color: FOREST }}
+                            role="presentation"
                           >
-                            <div
-                              className="flex items-center gap-3 px-2 py-2.5 transition-colors group cursor-pointer rounded-sm outline-none focus-visible:bg-[oklch(0.96_0.015_85)]"
-                              style={{ color: INK }}
-                            >
-                              <span
-                                className="text-[0.55rem] font-bold tracking-[0.08em] uppercase border px-1.5 py-1 flex-shrink-0 opacity-50 group-hover:opacity-80 transition-opacity"
-                                style={{ borderColor: RULE, color: INK_MID }}
+                            <Compass className="h-3 w-3" aria-hidden="true" />
+                            Free Tools
+                          </span>
+                          <p className="mt-2 max-w-[28ch] text-[0.72rem] leading-5 font-semibold" style={{ color: INK_MID }}>
+                            Quick field instruments for guests and hosts.
+                          </p>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2" role="group">
+                          {TOOLS.map((tool, i) => {
+                            const ToolIcon = tool.icon
+
+                            return (
+                              <Link
+                                key={tool.slug}
+                                href={`/${tool.slug}`}
+                                role="menuitem"
+                                onKeyDown={(e) => handleItemKeyDown(e, i, TOOLS.length, toolsButtonRef)}
+                                onClick={closeAll}
                               >
-                                {tool.stamp}
-                              </span>
-                              <span className="text-sm font-semibold flex-1 group-hover:text-[oklch(0.55_0.14_38)] transition-colors">
-                                {tool.title}
-                              </span>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
+                                <div
+                                  className="group border p-3.5 transition-[background-color,transform,border-color] duration-200 hover:-translate-y-0.5 outline-none focus-visible:bg-[oklch(0.94_0.022_80)]"
+                                  style={{
+                                    color: INK,
+                                    borderColor: 'oklch(0.88 0.03 75)',
+                                  }}
+                                >
+                                  <div className="mb-2.5 flex items-center justify-between gap-2">
+                                    <span
+                                      className="inline-flex h-7 w-7 items-center justify-center transition-colors duration-200 group-hover:text-[oklch(0.55_0.14_38)]"
+                                      style={{ color: INK_MID }}
+                                      aria-hidden="true"
+                                    >
+                                      <ToolIcon className="h-4 w-4" />
+                                    </span>
+                                    <span
+                                      className="text-[0.52rem] font-black tracking-[0.10em] uppercase"
+                                      style={{ color: 'oklch(0.68 0.04 75)' }}
+                                    >
+                                      {tool.stamp}
+                                    </span>
+                                  </div>
+                                  <span className="block text-sm leading-5 font-black group-hover:text-[oklch(0.55_0.14_38)] transition-colors">
+                                    {tool.title}
+                                  </span>
+                                  <span className="mt-1.5 block text-[0.68rem] leading-4 font-medium" style={{ color: INK_MID }}>
+                                    {tool.description}
+                                  </span>
+                                </div>
+                              </Link>
+                            )
+                          })}
+                        </div>
                     </div>
 
                     <Perforation />
@@ -468,7 +547,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ── Mobile Menu ── */}
+      {/* Mobile Menu */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 md:hidden" role="dialog" aria-label="Navigation menu">
           {/* Backdrop */}
@@ -479,39 +558,44 @@ export default function Navbar() {
           />
           {/* Drawer */}
           <div
-            className="absolute top-0 right-0 bottom-0 w-80 flex flex-col pt-20 pb-8 overflow-y-auto animate-[slide-in-right_0.2s_ease-out]"
+            className="absolute top-0 right-0 bottom-0 w-[min(22rem,calc(100vw-2rem))] flex flex-col pt-20 pb-8 overflow-y-auto animate-[slide-in-right_0.2s_ease-out]"
             style={{
-              background: PAPER,
-              borderTop: `3px solid ${TERRACOTTA}`,
-              boxShadow: '-8px 0 32px rgba(44, 30, 20, 0.12)',
+              background: `linear-gradient(180deg, ${PAPER}, oklch(0.96 0.016 84))`,
+              borderTop: `4px solid ${TERRACOTTA}`,
+              boxShadow: '-18px 0 54px rgba(44, 30, 20, 0.18)',
             }}
           >
             {/* Destinations */}
-            <div className="px-5 mb-3">
+            <div className="px-5 mb-4">
               <span
-                className="inline-block text-[0.6rem] font-bold tracking-[0.16em] uppercase border-2 px-2 py-0.5 mb-3"
+                className="inline-flex items-center gap-1.5 text-[0.6rem] font-black tracking-[0.14em] uppercase border-2 px-2 py-1 mb-3"
                 style={{ borderColor: TERRACOTTA, color: TERRACOTTA }}
               >
-                Destinations
+                <MapPinned className="h-3 w-3" aria-hidden="true" />
+                Collections
               </span>
+              <p className="mb-3 text-lg leading-5 font-display font-black" style={{ color: INK }}>
+                Pick the trip by its texture.
+              </p>
               {SPOKES.map((spoke, i) => (
                 <Link key={spoke.slug} href={`/${spoke.slug}`} onClick={() => setMobileOpen(false)}>
                   <div
-                    className="flex items-center gap-3 px-2 py-2.5 transition-colors cursor-pointer rounded-sm"
+                    className="flex items-center gap-3 px-1 py-2.5 transition-colors cursor-pointer"
                     style={{ color: INK }}
                   >
                     <span
-                      className="text-base font-display font-black opacity-[0.08] w-5 text-right flex-shrink-0 tabular-nums"
+                      className="flex h-8 w-8 items-center justify-center text-[0.62rem] font-display font-black flex-shrink-0 tabular-nums"
+                      style={{ color: spoke.accentColor }}
                       aria-hidden="true"
                     >
                       {ROMAN[i]}
                     </span>
-                    <span
-                      className="w-2 h-2 rounded-full flex-shrink-0 opacity-60"
-                      style={{ background: spoke.accentColor }}
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm font-semibold">{spoke.title}</span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-black">{spoke.title}</span>
+                      <span className="mt-0.5 block text-[0.68rem] leading-4 font-medium" style={{ color: INK_MID }}>
+                        {spoke.tagline}
+                      </span>
+                    </span>
                   </div>
                 </Link>
               ))}
@@ -520,29 +604,50 @@ export default function Navbar() {
             <Perforation />
 
             {/* Free Tools */}
-            <div className="px-5 mt-3 mb-3">
+            <div className="px-5 mt-4 mb-4">
               <span
-                className="inline-block text-[0.6rem] font-bold tracking-[0.14em] uppercase border-2 px-2 py-0.5 mb-3"
-                style={{ borderColor: INK_MID, color: INK_MID }}
+                className="inline-flex items-center gap-1.5 text-[0.6rem] font-black tracking-[0.14em] uppercase border-2 px-2 py-1 mb-3"
+                style={{ borderColor: FOREST, color: FOREST }}
               >
+                <Compass className="h-3 w-3" aria-hidden="true" />
                 Free Tools
               </span>
-              {TOOLS.map((tool) => (
-                <Link key={tool.slug} href={`/${tool.slug}`} onClick={() => setMobileOpen(false)}>
-                  <div
-                    className="flex items-center gap-3 px-2 py-2.5 transition-colors cursor-pointer rounded-sm"
-                    style={{ color: INK }}
-                  >
-                    <span
-                      className="text-[0.55rem] font-bold tracking-[0.08em] uppercase border px-1.5 py-1 flex-shrink-0 opacity-50"
-                      style={{ borderColor: RULE, color: INK_MID }}
-                    >
-                      {tool.stamp}
-                    </span>
-                    <span className="text-sm font-semibold">{tool.title}</span>
-                  </div>
-                </Link>
-              ))}
+              <div className="grid grid-cols-1 gap-1.5">
+                {TOOLS.map((tool) => {
+                  const ToolIcon = tool.icon
+
+                  return (
+                    <Link key={tool.slug} href={`/${tool.slug}`} onClick={() => setMobileOpen(false)}>
+                      <div
+                        className="flex items-center gap-3 py-2.5 transition-colors cursor-pointer"
+                        style={{ color: INK }}
+                      >
+                        <span
+                          className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center"
+                          style={{ color: INK_MID }}
+                          aria-hidden="true"
+                        >
+                          <ToolIcon className="h-4 w-4" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="flex items-center gap-2">
+                            <span className="text-sm font-black">{tool.title}</span>
+                            <span
+                              className="text-[0.52rem] font-black tracking-[0.10em] uppercase"
+                              style={{ color: 'oklch(0.68 0.04 75)' }}
+                            >
+                              {tool.stamp}
+                            </span>
+                          </span>
+                          <span className="mt-0.5 block text-[0.68rem] leading-4 font-medium" style={{ color: INK_MID }}>
+                            {tool.description}
+                          </span>
+                        </span>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
 
             <div className="h-px mx-5 mb-3" style={{ background: 'oklch(0.88 0.025 75)' }} />
@@ -586,11 +691,11 @@ export default function Navbar() {
 
       <NewsletterModal open={newsletterOpen} onClose={() => setNewsletterOpen(false)} />
 
-      {/* Keyframe animations — scoped to nav, respect reduced-motion */}
+      {/* Keyframe animations scoped to nav, with reduced-motion support. */}
       <style jsx global>{`
         @keyframes dropdown-in {
-          from { opacity: 0; transform: translateX(-50%) translateY(-4px); }
-          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+          from { opacity: 0; transform: translateY(-4px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes slide-in-right {
           from { transform: translateX(100%); }
