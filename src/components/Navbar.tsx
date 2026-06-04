@@ -10,6 +10,27 @@ import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
+const TOOLS = [
+  {
+    slug: 'listing-generator',
+    title: 'Listing Generator',
+    tagline: 'AI-crafted descriptions for your unique stay',
+    emoji: '✍️',
+  },
+  {
+    slug: 'unique-score',
+    title: 'Unique Score',
+    tagline: 'AI listing grader with editorial field report',
+    emoji: '📊',
+  },
+  {
+    slug: 'vacation-quiz',
+    title: 'Vacation Finder',
+    tagline: 'Find your perfect unique stay in 5 questions',
+    emoji: '🧭',
+  },
+] as const
+
 /** Pages with a light top section — nav links stay dark before scroll. */
 const LIGHT_HERO_PREFIXES = ['/about', '/submit', '/privacy', '/disclosure'] as const
 
@@ -23,6 +44,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [collectionsOpen, setCollectionsOpen] = useState(false)
+  const [toolsOpen, setToolsOpen] = useState(false)
   const [newsletterOpen, setNewsletterOpen] = useState(false)
   const pathname = usePathname()
   const isHome = pathname === '/'
@@ -40,6 +62,7 @@ export default function Navbar() {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setCollectionsOpen(false)
+        setToolsOpen(false)
       }
     }
     document.addEventListener('mousedown', handler)
@@ -47,6 +70,7 @@ export default function Navbar() {
   }, [])
 
   const isOnSpoke = SPOKE_SLUGS.some((s) => pathname === `/${s}`)
+  const isOnTool = TOOLS.some((t) => pathname === `/${t.slug}`)
   const isDetailPage = pathname.startsWith('/stays/')
   const usesLightHeader = scrolled || isDetailPage
   const usesDarkNavText = usesLightHeader || hasLightHeroPath(pathname)
@@ -90,7 +114,7 @@ export default function Navbar() {
                         : 'text-[oklch(0.90_0.01_85)] hover:text-white'
                   }`}
                   style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                  onClick={() => setCollectionsOpen(!collectionsOpen)}
+                  onClick={() => { setCollectionsOpen(!collectionsOpen); setToolsOpen(false) }}
                 >
                   Collections
                   <ChevronDown
@@ -165,6 +189,76 @@ export default function Navbar() {
                           <span>→</span>
                         </div>
                       </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Tools Dropdown */}
+              <div ref={dropdownRef} className="relative">
+                <button
+                  className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 ${
+                    isOnTool
+                      ? 'text-[oklch(0.55_0.14_38)]'
+                      : usesDarkNavText
+                        ? 'text-[oklch(0.40_0.03_60)] hover:text-[oklch(0.55_0.14_38)]'
+                        : 'text-[oklch(0.90_0.01_85)] hover:text-white'
+                  }`}
+                  style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                  onClick={() => { setToolsOpen(!toolsOpen); setCollectionsOpen(false) }}
+                >
+                  Tools
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {toolsOpen && (
+                  <div
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[280px] rounded-2xl shadow-2xl overflow-hidden"
+                    style={{
+                      background: 'oklch(0.99 0.005 85)',
+                      border: '1.5px solid oklch(0.88 0.025 75)',
+                    }}
+                  >
+                    <div className="p-4">
+                      <p
+                        className="text-xs font-bold uppercase tracking-widest mb-3 px-2"
+                        style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                      >
+                        Free Tools
+                      </p>
+                      <div className="grid grid-cols-1 gap-1">
+                        {TOOLS.map((tool) => (
+                          <Link key={tool.slug} href={`/${tool.slug}`}>
+                            <div
+                              className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[oklch(0.97_0.012_85)] transition-colors group cursor-pointer"
+                              onClick={() => setToolsOpen(false)}
+                            >
+                              <div
+                                className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                                style={{ background: 'oklch(0.97 0.04 75)' }}
+                              >
+                                {tool.emoji}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div
+                                  className="text-sm font-semibold"
+                                  style={{ color: 'oklch(0.22 0.01 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                                >
+                                  {tool.title}
+                                </div>
+                                <div
+                                  className="text-xs truncate"
+                                  style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                                >
+                                  {tool.tagline}
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -256,6 +350,39 @@ export default function Navbar() {
                         style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                       >
                         {spoke.tagline}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="px-4 mb-4">
+              <p
+                className="text-xs font-bold uppercase tracking-widest mb-2 px-2"
+                style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+              >
+                Free Tools
+              </p>
+              {TOOLS.map((tool) => (
+                <Link key={tool.slug} href={`/${tool.slug}`}>
+                  <div
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[oklch(0.93_0.025_75)] transition-colors cursor-pointer"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <span className="text-xl">{tool.emoji}</span>
+                    <div>
+                      <div
+                        className="text-sm font-semibold"
+                        style={{ color: 'oklch(0.22 0.01 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                      >
+                        {tool.title}
+                      </div>
+                      <div
+                        className="text-xs"
+                        style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                      >
+                        {tool.tagline}
                       </div>
                     </div>
                   </div>

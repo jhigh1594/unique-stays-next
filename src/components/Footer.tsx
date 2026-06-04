@@ -113,6 +113,7 @@ export default function Footer() {
                 { label: 'About Us', href: '/about' },
                 { label: 'How It Works', href: '/about#how-it-works' },
                 { label: 'Unique Score', href: '/unique-score' },
+                { label: 'Listing Generator', href: '/listing-generator' },
                 { label: 'Vacation Finder', href: '/vacation-quiz' },
                 { label: 'Submit a Stay', href: '/submit' },
                 { label: 'Affiliate Disclosure', href: '/disclosure' },
