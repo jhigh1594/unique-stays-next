@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import ListingGeneratorClient from './ListingGeneratorClient'
+import ToolCrossLinks from '@/components/ToolCrossLinks'
 
 export const metadata: Metadata = {
   title: 'Free Airbnb Description Generator for Unique Stays',
@@ -58,6 +59,7 @@ export default function ListingGeneratorPage() {
       <Suspense fallback={<LoadingFallback />}>
         <ListingGeneratorClient />
       </Suspense>
+      <ToolCrossLinks currentSlug="listing-generator" />
     </>
   )
 }

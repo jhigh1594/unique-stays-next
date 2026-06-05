@@ -368,6 +368,21 @@ export default async function SpokePage({
               </Link>
             ))}
           </div>
+
+          <div className="text-center mt-8">
+            <Link href="/collections">
+              <span
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors hover:bg-[oklch(0.22_0.01_60)] hover:text-[oklch(0.99_0.005_85)]"
+                style={{
+                  background: 'oklch(0.22 0.01 60)',
+                  color: 'oklch(0.99 0.005 85)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                View all collections <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
     </div>

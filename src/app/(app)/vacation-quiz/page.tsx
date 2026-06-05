@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import VacationQuizClient from './VacationQuizClient'
+import ToolCrossLinks from '@/components/ToolCrossLinks'
 
 export const metadata: Metadata = {
   title: 'Where Should My Next Vacation Be? — Unique Stays Quiz',
@@ -18,5 +19,10 @@ export const metadata: Metadata = {
 }
 
 export default function VacationQuizPage() {
-  return <VacationQuizClient />
+  return (
+    <>
+      <VacationQuizClient />
+      <ToolCrossLinks currentSlug="vacation-quiz" />
+    </>
+  )
 }

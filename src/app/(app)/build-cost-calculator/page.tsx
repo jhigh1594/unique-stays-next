@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import BuildCostCalculatorClient from './BuildCostCalculatorClient'
+import ToolCrossLinks from '@/components/ToolCrossLinks'
 
 export const metadata: Metadata = {
   title: 'How Much Does It Cost to Build a Treehouse? Free Calculator',
@@ -58,6 +59,7 @@ export default function BuildCostCalculatorPage() {
       <Suspense fallback={<LoadingFallback />}>
         <BuildCostCalculatorClient />
       </Suspense>
+      <ToolCrossLinks currentSlug="build-cost-calculator" />
     </>
   )
 }

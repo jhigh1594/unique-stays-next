@@ -3,6 +3,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import UniqueScoreClient from './UniqueScoreClient'
+import ToolCrossLinks from '@/components/ToolCrossLinks'
 
 export const metadata: Metadata = {
   title: 'Unique Score | Listing Field Report for Hosts',
@@ -67,6 +68,7 @@ export default function UniqueScorePage() {
       }>
         <UniqueScoreClient />
       </Suspense>
+      <ToolCrossLinks currentSlug="unique-score" />
     </>
   )
 }
