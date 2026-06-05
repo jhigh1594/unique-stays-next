@@ -10,15 +10,14 @@ const BASE_URL = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Curated Vacation Rental Collections — Unique Stays USA',
+    title: 'Unique Vacation Rental Collections — Unique Stays USA',
     description:
       'Explore five curated collections of extraordinary vacation rentals across America. From treehouses and domes to pet-friendly retreats and EV-charged escapes.',
     alternates: { canonical: '/collections' },
     openGraph: {
-      title: 'Curated Vacation Rental Collections — Unique Stays USA',
+      title: 'Unique Vacation Rental Collections — Unique Stays USA',
       description:
         'Explore five curated collections of extraordinary vacation rentals across America.',
-      images: [{ url: `${BASE_URL}/og-collections.jpg`, width: 1200, height: 630 }],
     },
   }
 }
@@ -36,7 +35,7 @@ export default function CollectionsPage() {
       'Five curated collections of extraordinary vacation rentals across America.',
     url: `${BASE_URL}/collections`,
     hasPart: spokes.map((s) => ({
-      '@type': 'WebPage',
+      '@type': 'CollectionPage',
       name: s.title,
       url: `${BASE_URL}/${s.slug}`,
     })),
@@ -95,6 +94,15 @@ export default function CollectionsPage() {
       {/* COLLECTION CARDS */}
       <section className="py-16 md:py-20">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+          <h2
+            className="text-3xl font-bold mb-8"
+            style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+          >
+            Five ways to explore{' '}
+            <span style={{ fontStyle: 'italic', color: 'oklch(0.55 0.14 38)' }}>
+              unique stays
+            </span>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {spokes.map((spoke, i) => (
               <Link key={spoke.slug} href={`/${spoke.slug}`}>

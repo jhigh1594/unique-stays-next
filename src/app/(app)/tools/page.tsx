@@ -17,15 +17,14 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Free Tools for Hosts & Travelers — Unique Stays USA',
+    title: 'Free Vacation Rental Tools — Unique Stays USA',
     description:
       'Free vacation rental tools: listing description generator, build cost calculator, listing score checker, and vacation match quiz. Built for hosts and travelers by Unique Stays USA.',
     alternates: { canonical: '/tools' },
     openGraph: {
-      title: 'Free Tools for Hosts & Travelers — Unique Stays USA',
+      title: 'Free Vacation Rental Tools — Unique Stays USA',
       description:
         'Free vacation rental tools: listing generator, build cost calculator, score checker, and vacation quiz.',
-      images: [{ url: `${BASE_URL}/og-tools.jpg`, width: 1200, height: 630 }],
     },
   }
 }
@@ -109,6 +108,15 @@ export default function ToolsPage() {
       {/* TOOL CARDS */}
       <section className="py-16 md:py-20">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+          <h2
+            className="text-3xl font-bold mb-8"
+            style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+          >
+            Free tools for every{' '}
+            <span style={{ fontStyle: 'italic', color: 'oklch(0.55 0.14 38)' }}>
+              host & traveler
+            </span>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {TOOLS.map((tool, i) => {
               const Icon = ICON_MAP[tool.iconName]
