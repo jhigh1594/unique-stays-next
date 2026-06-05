@@ -1,19 +1,11 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { ArrowRight, PenLine, Calculator, BadgeCheck, Compass } from 'lucide-react'
+import { ArrowRight, Calculator, BadgeCheck, Compass } from 'lucide-react'
 import { TOOLS } from '@/lib/tools-config'
 
 export const dynamic = 'force-static'
 
 const BASE_URL = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com').replace(/\/$/, '')
-
-/** Map icon name strings from config to Lucide components. */
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  PenLine,
-  Calculator,
-  BadgeCheck,
-  Compass,
-}
 
 export function generateMetadata(): Metadata {
   return {
@@ -29,20 +21,12 @@ export function generateMetadata(): Metadata {
   }
 }
 
-const TOOL_COLORS = [
-  { accent: 'oklch(0.55 0.14 38)', light: 'oklch(0.95 0.025 75)' },    // terracotta
-  { accent: 'oklch(0.38 0.08 145)', light: 'oklch(0.93 0.025 145)' },  // forest
-  { accent: 'oklch(0.50 0.14 200)', light: 'oklch(0.93 0.025 200)' },  // blue
-  { accent: 'oklch(0.50 0.14 60)', light: 'oklch(0.93 0.025 60)' },    // amber
-] as const
-
 export default function ToolsPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Free Tools for Hosts & Travelers',
-    description:
-      'Free vacation rental tools built by Unique Stays USA.',
+    description: 'Free vacation rental tools built by Unique Stays USA.',
     url: `${BASE_URL}/tools`,
     hasPart: TOOLS.map((t) => ({
       '@type': 'WebApplication',
@@ -62,172 +46,393 @@ export default function ToolsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden" style={{ background: 'oklch(0.22 0.01 60)' }}>
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div className="flex items-center gap-2 mb-5">
-            <Link href="/">
+      {/* ── THE FIELD KIT ── */}
+      <section className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-14 md:pb-20">
+        {/* Stamp badge */}
+        <div
+          className="inline-flex items-center gap-2.5 px-3 py-1.5 mb-8"
+          style={{ border: '2px solid oklch(0.55 0.14 38)', borderRadius: '2px' }}
+        >
+          <span style={{ color: 'oklch(0.55 0.14 38)', fontSize: '0.7rem' }}>✦</span>
+          <span
+            className="text-[0.65rem] font-black uppercase tracking-[0.14em]"
+            style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+          >
+            FIELD KIT
+          </span>
+        </div>
+
+        <h1
+          className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] max-w-xl"
+          style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+        >
+          Tools for the road
+          <br />
+          <span style={{ fontStyle: 'italic', color: 'oklch(0.55 0.14 38)' }}>
+            &amp; the rental
+          </span>
+        </h1>
+
+        <p
+          className="mt-5"
+          style={{
+            fontFamily: 'Caveat, cursive',
+            color: 'oklch(0.50 0.04 60)',
+            fontSize: '1.15rem',
+          }}
+        >
+          free, no signup
+        </p>
+      </section>
+
+      {/* ── PERFORATION ── */}
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div style={{ borderTop: '2px dashed oklch(0.85 0.02 85)' }} />
+      </div>
+
+      {/* ── INSTRUMENTS ── */}
+      <section className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-5 md:gap-6">
+          {/* ── I. Listing Description Generator ── */}
+          <Link href={`/${TOOLS[0].slug}`} className="md:w-[57%] group block">
+            <div
+              className="relative h-full p-7 md:p-9 transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'oklch(0.99 0.005 85)',
+                border: '1px solid oklch(0.88 0.02 75)',
+                boxShadow: '0 1px 4px oklch(0.22 0.01 60 / 0.05)',
+              }}
+            >
+              {/* Ghost numeral */}
               <span
-                className="text-xs font-semibold uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity"
-                style={{ color: 'oklch(0.99 0.005 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                className="absolute top-2 right-5 text-7xl font-black opacity-[0.04] select-none pointer-events-none"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.55 0.14 38)' }}
+                aria-hidden="true"
               >
-                Unique Stays USA
+                I
               </span>
-            </Link>
-          </div>
 
-          <div className="max-w-3xl">
-            <p
-              className="text-xs font-bold uppercase tracking-widest mb-4"
-              style={{ color: 'oklch(0.92 0.08 75)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-            >
-              Free field instruments
-            </p>
+              {/* Stamp label */}
+              <div
+                className="inline-flex items-center gap-2 px-2 py-0.5 mb-6"
+                style={{ border: '1.5px solid oklch(0.55 0.14 38)', borderRadius: '1px' }}
+              >
+                <span style={{ color: 'oklch(0.55 0.14 38)', fontSize: '0.6rem' }}>✎</span>
+                <span
+                  className="text-[0.55rem] font-black tracking-[0.14em] uppercase"
+                  style={{
+                    color: 'oklch(0.55 0.14 38)',
+                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  }}
+                >
+                  {TOOLS[0].stamp}
+                </span>
+              </div>
 
-            <h1
-              className="text-5xl md:text-6xl font-bold leading-tight mb-5"
-              style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.99 0.005 85)' }}
-            >
-              Tools for hosts{' '}
-              <span style={{ fontStyle: 'italic', color: 'oklch(0.92 0.08 75)' }}>
-                & travelers
-              </span>
-            </h1>
+              <h2
+                className="text-2xl md:text-3xl font-bold mb-3 max-w-md group-hover:text-[oklch(0.55_0.14_38)] transition-colors duration-200"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+              >
+                {TOOLS[0].title}
+              </h2>
 
-            <p
-              className="text-lg leading-relaxed max-w-xl"
-              style={{ color: 'oklch(0.78 0.01 85)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-            >
-              Quick, free instruments for the road and the rental. No sign-up, no paywall — just
-              useful tools built by people who know short-term rentals.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* TOOL CARDS */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-          <h2
-            className="text-3xl font-bold mb-8"
-            style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
-          >
-            Free tools for every{' '}
-            <span style={{ fontStyle: 'italic', color: 'oklch(0.55 0.14 38)' }}>
-              host & traveler
-            </span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {TOOLS.map((tool, i) => {
-              const Icon = ICON_MAP[tool.iconName]
-              const colors = TOOL_COLORS[i % TOOL_COLORS.length]
-
-              return (
-                <Link key={tool.slug} href={`/${tool.slug}`}>
-                  <div
-                    className="group relative overflow-hidden rounded-2xl p-6 md:p-8 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg"
-                    style={{
-                      background: 'oklch(0.99 0.005 85)',
-                      border: `1.5px solid ${colors.accent}25`,
-                    }}
-                  >
-                    {/* Ghost section number */}
-                    <span
-                      className="absolute top-3 right-4 text-5xl font-black opacity-[0.06]"
-                      style={{ fontFamily: 'Fraunces, serif', color: colors.accent }}
-                      aria-hidden="true"
-                    >
-                      {['I', 'II', 'III', 'IV'][i]}
-                    </span>
-
-                    <div className="flex items-start gap-5">
-                      {/* Icon + stamp */}
-                      <div
-                        className="flex-shrink-0 flex flex-col items-center gap-2"
-                      >
-                        <span
-                          className="flex h-12 w-12 items-center justify-center rounded-xl transition-colors group-hover:text-[oklch(0.55_0.14_38)]"
-                          style={{ background: colors.light, color: colors.accent }}
-                        >
-                          {Icon && <Icon className="h-5 w-5" />}
-                        </span>
-                        <span
-                          className="text-[0.52rem] font-black tracking-[0.10em] uppercase"
-                          style={{ color: 'oklch(0.65 0.04 75)' }}
-                        >
-                          {tool.stamp}
-                        </span>
-                      </div>
-
-                      {/* Text */}
-                      <div className="min-w-0 flex-1">
-                        <h2
-                          className="text-xl font-bold mb-2 group-hover:text-[oklch(0.55_0.14_38)] transition-colors"
-                          style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
-                        >
-                          {tool.title}
-                        </h2>
-                        <p
-                          className="text-sm leading-relaxed mb-4"
-                          style={{ color: 'oklch(0.45 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                        >
-                          {tool.description}
-                        </p>
-                        <div
-                          className="flex items-center gap-1 text-xs font-semibold group-hover:gap-2 transition-all"
-                          style={{ color: colors.accent, fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                        >
-                          Try it free <ArrowRight className="w-3 h-3" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CROSS-LINKS */}
-      <section
-        className="py-14 border-t border-[oklch(0.88_0.025_75)]"
-        style={{ background: 'oklch(0.96 0.015 85)' }}
-      >
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p
-            className="text-sm mb-6"
-            style={{ color: 'oklch(0.45 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-          >
-            Have a unique property? We&apos;d love to feature it.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/submit">
-              <span
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border-2 transition-colors hover:bg-[oklch(0.55_0.14_38)] hover:text-[oklch(0.99_0.005_85)] hover:border-[oklch(0.55_0.14_38)]"
+              <p
+                className="text-sm leading-relaxed max-w-md mb-8"
                 style={{
-                  borderColor: 'oklch(0.55 0.14 38)',
+                  color: 'oklch(0.40 0.03 60)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                {TOOLS[0].description}
+              </p>
+
+              <span
+                className="inline-flex items-center gap-1.5 text-xs font-semibold group-hover:gap-2.5 transition-all duration-200"
+                style={{
                   color: 'oklch(0.55 0.14 38)',
                   fontFamily: 'Plus Jakarta Sans, sans-serif',
                 }}
               >
-                Submit a Stay
+                Open this <ArrowRight className="w-3 h-3" />
               </span>
-            </Link>
-            <Link href="/collections">
+            </div>
+          </Link>
+
+          {/* ── II. Build Cost Calculator ── */}
+          <Link href={`/${TOOLS[1].slug}`} className="md:w-[39%] md:mt-16 group block">
+            <div
+              className="relative h-full p-7 md:p-9 transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'oklch(0.99 0.005 85)',
+                border: '1px solid oklch(0.88 0.02 145)',
+                boxShadow: '0 1px 4px oklch(0.22 0.01 60 / 0.05)',
+              }}
+            >
+              {/* Ghost numeral */}
               <span
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors hover:bg-[oklch(0.22_0.01_60)] hover:text-[oklch(0.99_0.005_85)]"
+                className="absolute top-2 right-5 text-7xl font-black opacity-[0.04] select-none pointer-events-none"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.38 0.08 145)' }}
+                aria-hidden="true"
+              >
+                II
+              </span>
+
+              {/* Ledger ruled lines */}
+              <div
+                className="absolute inset-x-7 md:inset-x-9 bottom-20 flex flex-col gap-[1.7rem] pointer-events-none"
+                style={{ opacity: 0.06 }}
+                aria-hidden="true"
+              >
+                <div style={{ borderTop: '1px solid oklch(0.38 0.08 145)' }} />
+                <div style={{ borderTop: '1px solid oklch(0.38 0.08 145)' }} />
+                <div style={{ borderTop: '1px solid oklch(0.38 0.08 145)' }} />
+              </div>
+
+              {/* Icon seal */}
+              <div
+                className="inline-flex items-center justify-center w-11 h-11 rounded-full mb-5"
                 style={{
-                  background: 'oklch(0.22 0.01 60)',
-                  color: 'oklch(0.99 0.005 85)',
+                  background: 'oklch(0.93 0.025 145)',
+                  color: 'oklch(0.38 0.08 145)',
+                }}
+              >
+                <Calculator className="w-4.5 h-4.5" />
+              </div>
+
+              <span
+                className="block text-[0.55rem] font-black tracking-[0.14em] uppercase mb-3"
+                style={{
+                  color: 'oklch(0.38 0.08 145)',
                   fontFamily: 'Plus Jakarta Sans, sans-serif',
                 }}
               >
-                Browse Collections
+                {TOOLS[1].stamp}
               </span>
-            </Link>
-          </div>
+
+              <h2
+                className="text-xl md:text-2xl font-bold mb-3 group-hover:text-[oklch(0.38_0.08_145)] transition-colors duration-200"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+              >
+                {TOOLS[1].title}
+              </h2>
+
+              <p
+                className="text-sm leading-relaxed mb-8"
+                style={{
+                  color: 'oklch(0.40 0.03 60)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                {TOOLS[1].description}
+              </p>
+
+              <span
+                className="inline-flex items-center gap-1.5 text-xs font-semibold group-hover:gap-2.5 transition-all duration-200"
+                style={{
+                  color: 'oklch(0.38 0.08 145)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                Open this <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </Link>
+
+          {/* ── III. Listing Score Checker ── */}
+          <Link href={`/${TOOLS[2].slug}`} className="md:w-[40%] group block">
+            <div
+              className="relative h-full p-7 md:p-9 transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'oklch(0.99 0.005 85)',
+                border: '1px solid oklch(0.88 0.02 200)',
+                boxShadow: '0 1px 4px oklch(0.22 0.01 60 / 0.05)',
+              }}
+            >
+              {/* Ghost numeral */}
+              <span
+                className="absolute top-2 right-5 text-7xl font-black opacity-[0.04] select-none pointer-events-none"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.50 0.12 200)' }}
+                aria-hidden="true"
+              >
+                III
+              </span>
+
+              {/* Badge seal */}
+              <div
+                className="inline-flex items-center justify-center mb-5"
+                style={{
+                  width: '3rem',
+                  height: '3rem',
+                  border: '1.5px solid oklch(0.50 0.12 200)',
+                  borderRadius: '50%',
+                  color: 'oklch(0.50 0.12 200)',
+                }}
+              >
+                <BadgeCheck className="w-4 h-4" />
+              </div>
+
+              <span
+                className="block text-[0.55rem] font-black tracking-[0.14em] uppercase mb-3"
+                style={{
+                  color: 'oklch(0.50 0.12 200)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                {TOOLS[2].stamp}
+              </span>
+
+              <h2
+                className="text-xl md:text-2xl font-bold mb-3 group-hover:text-[oklch(0.50_0.12_200)] transition-colors duration-200"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+              >
+                {TOOLS[2].title}
+              </h2>
+
+              <p
+                className="text-sm leading-relaxed mb-8"
+                style={{
+                  color: 'oklch(0.40 0.03 60)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                {TOOLS[2].description}
+              </p>
+
+              <span
+                className="inline-flex items-center gap-1.5 text-xs font-semibold group-hover:gap-2.5 transition-all duration-200"
+                style={{
+                  color: 'oklch(0.50 0.12 200)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                Open this <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </Link>
+
+          {/* ── IV. Vacation Match Quiz ── */}
+          <Link href={`/${TOOLS[3].slug}`} className="md:w-[56%] group block">
+            <div
+              className="relative h-full p-7 md:p-9 transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'oklch(0.99 0.005 85)',
+                border: '1px solid oklch(0.88 0.02 60)',
+                boxShadow: '0 1px 4px oklch(0.22 0.01 60 / 0.05)',
+              }}
+            >
+              {/* Ghost numeral */}
+              <span
+                className="absolute top-2 right-5 text-7xl font-black opacity-[0.04] select-none pointer-events-none"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.50 0.12 60)' }}
+                aria-hidden="true"
+              >
+                IV
+              </span>
+
+              <div className="flex items-center gap-3 mb-5">
+                <Compass className="w-5 h-5" style={{ color: 'oklch(0.50 0.12 60)' }} />
+                <span
+                  className="text-[0.55rem] font-black tracking-[0.14em] uppercase"
+                  style={{
+                    color: 'oklch(0.50 0.12 60)',
+                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  }}
+                >
+                  {TOOLS[3].stamp}
+                </span>
+              </div>
+
+              <h2
+                className="text-2xl md:text-3xl font-bold mb-2 max-w-md group-hover:text-[oklch(0.50_0.12_60)] transition-colors duration-200"
+                style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)' }}
+              >
+                {TOOLS[3].title}
+              </h2>
+
+              {/* Handwritten annotation */}
+              <p
+                className="mb-3"
+                style={{
+                  fontFamily: 'Caveat, cursive',
+                  color: 'oklch(0.50 0.06 60)',
+                  fontSize: '0.95rem',
+                }}
+              >
+                find your kind of escape
+              </p>
+
+              <p
+                className="text-sm leading-relaxed max-w-md mb-8"
+                style={{
+                  color: 'oklch(0.40 0.03 60)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                {TOOLS[3].description}
+              </p>
+
+              <span
+                className="inline-flex items-center gap-1.5 text-xs font-semibold group-hover:gap-2.5 transition-all duration-200"
+                style={{
+                  color: 'oklch(0.50 0.12 60)',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                }}
+              >
+                Open this <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </Link>
         </div>
+      </section>
+
+      {/* ── PERFORATION ── */}
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div style={{ borderTop: '2px dashed oklch(0.85 0.02 85)' }} />
+      </div>
+
+      {/* ── POSTSCRIPT ── */}
+      <section className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-16">
+        <p
+          className="mb-3"
+          style={{
+            fontFamily: 'Caveat, cursive',
+            color: 'oklch(0.45 0.06 60)',
+            fontSize: '1.25rem',
+          }}
+        >
+          P.S.
+        </p>
+        <p
+          className="text-sm leading-relaxed"
+          style={{
+            color: 'oklch(0.40 0.03 60)',
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
+          }}
+        >
+          Have a unique property?{' '}
+          <Link
+            href="/submit"
+            className="underline underline-offset-2 transition-colors duration-200"
+            style={{
+              color: 'oklch(0.55 0.14 38)',
+              textDecorationColor: 'oklch(0.55 0.14 38 / 0.3)',
+            }}
+          >
+            Submit a stay
+          </Link>{' '}
+          or{' '}
+          <Link
+            href="/collections"
+            className="underline underline-offset-2 transition-colors duration-200"
+            style={{
+              color: 'oklch(0.55 0.14 38)',
+              textDecorationColor: 'oklch(0.55 0.14 38 / 0.3)',
+            }}
+          >
+            browse the collections
+          </Link>
+          .
+        </p>
       </section>
     </div>
   )
