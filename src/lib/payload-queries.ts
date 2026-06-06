@@ -127,7 +127,8 @@ export const getEditorsPickStays = unstable_cache(
     const result = await payload.find({
       collection: 'stays',
       where: { and: [{ editorsPick: { equals: true } }, ...PUBLIC_STAY_FILTER.and] },
-      limit: 8,
+      limit: 9,
+      sort: 'slug',
       depth: 1,
     })
     return result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))

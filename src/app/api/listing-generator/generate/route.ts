@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { generateObject } from 'ai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { recordSpanError, withSpan } from '@superlog/otel-helpers'
 import { z } from 'zod'
 import { scrapeListing } from '@/lib/unique-score/scraper'
 import { validateListingUrl } from '@/lib/listing-generator/types'
 import { buildGenerationPrompt } from '@/lib/listing-generator/prompt'
+import { runGeminiListingGeneration } from '@/lib/listing-generator/run-gemini-generation'
 import { generatorCache } from '@/lib/listing-generator/cache'
+import { listingDescriptionGenerated, tracer } from '@/lib/telemetry'
 import type { ListingInput, GenerationResult } from '@/lib/listing-generator/types'
 
 export const maxDuration = 60
@@ -58,95 +60,105 @@ function getGoogleProvider() {
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const ip = getClientIp(req)
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { error: 'Rate limit exceeded. Please wait a few minutes before generating another description.' },
-        { status: 429 },
-      )
-    }
+  return withSpan('listing.description.generate', async (span) => {
+    try {
+      const ip = getClientIp(req)
+      span.setAttribute('client.ip_hash', ip === 'unknown' ? 'unknown' : 'present')
 
-    const body = await req.json()
-    const { url } = body as { url?: string }
+      if (!checkRateLimit(ip)) {
+        listingDescriptionGenerated.add(1, { outcome: 'rate_limited', source: 'url' })
+        return NextResponse.json(
+          { error: 'Rate limit exceeded. Please wait a few minutes before generating another description.' },
+          { status: 429 },
+        )
+      }
 
-    if (!url || typeof url !== 'string') {
-      return NextResponse.json({ error: 'Please provide a listing URL.' }, { status: 400 })
-    }
+      const body = await req.json()
+      const { url } = body as { url?: string }
 
-    const validation = validateListingUrl(url)
-    if (!validation.valid) {
-      return NextResponse.json({ error: validation.error }, { status: 400 })
-    }
+      if (!url || typeof url !== 'string') {
+        listingDescriptionGenerated.add(1, { outcome: 'invalid_request', source: 'url' })
+        return NextResponse.json({ error: 'Please provide a listing URL.' }, { status: 400 })
+      }
 
-    // Check cache
-    const cached = await generatorCache.get(url)
-    if (cached.hit && cached.data) {
+      const validation = validateListingUrl(url)
+      if (!validation.valid) {
+        listingDescriptionGenerated.add(1, { outcome: 'invalid_request', source: 'url' })
+        return NextResponse.json({ error: validation.error }, { status: 400 })
+      }
+
+      span.setAttribute('listing.platform', validation.platform ?? 'unknown')
+
+      const cached = await generatorCache.get(url)
+      if (cached.hit && cached.data) {
+        listingDescriptionGenerated.add(1, { outcome: 'cache_hit', source: 'url' })
+        return NextResponse.json({
+          id: crypto.randomUUID(),
+          result: cached.data,
+          platform: validation.platform,
+          cached: true,
+        })
+      }
+
+      const scrapeResult = await scrapeListing(url, validation.platform!)
+      if (!scrapeResult.success || !scrapeResult.data) {
+        listingDescriptionGenerated.add(1, { outcome: 'scrape_failed', source: 'url' })
+        return NextResponse.json(
+          { error: scrapeResult.error || 'Failed to read that listing. Try the manual form instead.' },
+          { status: 422 },
+        )
+      }
+
+      const listingData = scrapeResult.data
+
+      const input: ListingInput = {
+        stayType: inferStayType(listingData.propertyType, listingData.title),
+        propertyName: listingData.title || 'Unique Stay',
+        city: listingData.location?.split(',')[0]?.trim() || '',
+        state: listingData.location?.split(',')?.[1]?.trim() || '',
+        bedrooms: 1,
+        bathrooms: 1,
+        sleeps: 2,
+        standoutFeatures: inferFeatures(listingData),
+        vibe: 'romantic',
+        currentDescription: listingData.description || undefined,
+      }
+
+      const provider = getGoogleProvider()
+      const model = provider('gemini-2.5-flash')
+      const prompt = buildGenerationPrompt(input)
+
+      const result = await runGeminiListingGeneration({
+        model,
+        schema: GenerationSchema,
+        prompt,
+        callSite: 'api.listing-generator.generate',
+      })
+
+      const generationResult: GenerationResult = {
+        title: result.object.title,
+        description: result.object.description,
+        editorialNotes: result.object.editorialNotes,
+        stayTypeAffinity: result.object.stayTypeAffinity,
+      }
+
+      await generatorCache.set(url, generationResult)
+      listingDescriptionGenerated.add(1, { outcome: 'success', source: 'url' })
+
       return NextResponse.json({
         id: crypto.randomUUID(),
-        result: cached.data,
+        result: generationResult,
         platform: validation.platform,
-        cached: true,
+        listingTitle: listingData.title || null,
+        cached: false,
       })
+    } catch (err) {
+      recordSpanError(span, err)
+      listingDescriptionGenerated.add(1, { outcome: 'error', source: 'url' })
+      const message = err instanceof Error ? err.message : 'Generation failed. Please try again.'
+      return NextResponse.json({ error: message }, { status: 500 })
     }
-
-    // Scrape listing
-    const scrapeResult = await scrapeListing(url, validation.platform!)
-    if (!scrapeResult.success || !scrapeResult.data) {
-      return NextResponse.json(
-        { error: scrapeResult.error || 'Failed to read that listing. Try the manual form instead.' },
-        { status: 422 },
-      )
-    }
-
-    const listingData = scrapeResult.data
-
-    const input: ListingInput = {
-      stayType: inferStayType(listingData.propertyType, listingData.title),
-      propertyName: listingData.title || 'Unique Stay',
-      city: listingData.location?.split(',')[0]?.trim() || '',
-      state: listingData.location?.split(',')?.[1]?.trim() || '',
-      bedrooms: 1,
-      bathrooms: 1,
-      sleeps: 2,
-      standoutFeatures: inferFeatures(listingData),
-      vibe: 'romantic',
-      currentDescription: listingData.description || undefined,
-    }
-
-    // Generate with Gemini
-    const provider = getGoogleProvider()
-    const model = provider('gemini-2.5-flash')
-    const prompt = buildGenerationPrompt(input)
-
-    const result = await generateObject({
-      model,
-      schema: GenerationSchema,
-      messages: [{ role: 'user', content: prompt }],
-      maxRetries: 2,
-    })
-
-    const generationResult: GenerationResult = {
-      title: result.object.title,
-      description: result.object.description,
-      editorialNotes: result.object.editorialNotes,
-      stayTypeAffinity: result.object.stayTypeAffinity,
-    }
-
-    await generatorCache.set(url, generationResult)
-
-    return NextResponse.json({
-      id: crypto.randomUUID(),
-      result: generationResult,
-      platform: validation.platform,
-      listingTitle: listingData.title || null,
-      cached: false,
-    })
-  } catch (err) {
-    console.error('[listing-generator/generate] Error:', err)
-    const message = err instanceof Error ? err.message : 'Generation failed. Please try again.'
-    return NextResponse.json({ error: message }, { status: 500 })
-  }
+  }, { tracer })
 }
 
 function inferStayType(propertyType: string | null, title: string): ListingInput['stayType'] {

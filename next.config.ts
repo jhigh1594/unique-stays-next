@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
     ]
   },
   skipTrailingSlashRedirect: true,
-  serverExternalPackages: ['sharp', 'pg', '@aws-sdk/client-s3', '@opentelemetry/sdk-node', '@opentelemetry/resources'],
+  serverExternalPackages: ['sharp', 'pg', '@aws-sdk/client-s3'],
   images: {
     // Custom loader routes all R2 images through Cloudflare Worker CDN
     // (img.uniquestaysusa.com) instead of Vercel _next/image optimizer.

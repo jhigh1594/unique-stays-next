@@ -818,7 +818,7 @@ export default function HomeContent({
       ══════════════════════════════════════════════════════ */}
       <section
         id="newsletter"
-        className="py-24 relative overflow-hidden grain-overlay"
+        className="scroll-mt-24 py-24 relative overflow-hidden grain-overlay"
         style={{ background: 'oklch(0.33 0.10 38)' }}
         data-dark-section
       >

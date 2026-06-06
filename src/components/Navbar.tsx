@@ -64,12 +64,32 @@ const INK_MID = 'oklch(0.50 0.06 60)'
 const PAPER = 'oklch(0.975 0.012 85)'
 const FOREST = 'oklch(0.38 0.08 145)'
 
+function isHomePath(pathname: string): boolean {
+  return pathname === '/' || pathname === ''
+}
+
+function scrollToNewsletterSection() {
+  document.getElementById('newsletter')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  window.history.replaceState(null, '', '#newsletter')
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [newsletterOpen, setNewsletterOpen] = useState(false)
   const pathname = usePathname()
-  const isHome = pathname === '/'
+  const isHome = isHomePath(pathname)
+
+  const handleNewsletterNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setMobileOpen(false)
+    if (isHome) {
+      e.preventDefault()
+      scrollToNewsletterSection()
+      return
+    }
+    e.preventDefault()
+    setNewsletterOpen(true)
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -151,8 +171,8 @@ export default function Navbar() {
             {/* CTA + Mobile Toggle */}
             <div className="flex items-center gap-3">
               <a
-                href={isHome ? '#newsletter' : undefined}
-                onClick={isHome ? undefined : (e) => { e.preventDefault(); setNewsletterOpen(true) }}
+                href="/#newsletter"
+                onClick={handleNewsletterNavClick}
                 className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[oklch(0.55_0.14_38)]"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
               >
@@ -306,13 +326,10 @@ export default function Navbar() {
 
             <div className="mt-auto px-5 pt-4">
               <a
-                href={isHome ? '#newsletter' : undefined}
+                href="/#newsletter"
                 className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-full text-sm font-semibold bg-[oklch(0.55_0.14_38)] text-[oklch(0.99_0.005_85)] hover:bg-[oklch(0.48_0.14_38)] transition-colors cursor-pointer"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                onClick={() => {
-                  setMobileOpen(false)
-                  if (!isHome) setNewsletterOpen(true)
-                }}
+                onClick={handleNewsletterNavClick}
               >
                 Get Weekly Picks
               </a>

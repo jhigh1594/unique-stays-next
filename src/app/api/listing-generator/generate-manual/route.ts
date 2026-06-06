@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { generateObject } from 'ai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { recordSpanError, withSpan } from '@superlog/otel-helpers'
 import { z } from 'zod'
 import { validateManualInput } from '@/lib/listing-generator/types'
 import { buildGenerationPrompt } from '@/lib/listing-generator/prompt'
+import { runGeminiListingGeneration } from '@/lib/listing-generator/run-gemini-generation'
+import { listingDescriptionGenerated, tracer } from '@/lib/telemetry'
 import type { ListingInput, GenerationResult } from '@/lib/listing-generator/types'
 
 export const maxDuration = 60
@@ -53,50 +55,58 @@ function getGoogleProvider() {
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const ip = getClientIp(req)
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { error: 'Rate limit exceeded. Please wait a few minutes.' },
-        { status: 429 },
-      )
+  return withSpan('listing.description.generate_manual', async (span) => {
+    try {
+      const ip = getClientIp(req)
+      if (!checkRateLimit(ip)) {
+        listingDescriptionGenerated.add(1, { outcome: 'rate_limited', source: 'manual' })
+        return NextResponse.json(
+          { error: 'Rate limit exceeded. Please wait a few minutes.' },
+          { status: 429 },
+        )
+      }
+
+      const body = await req.json()
+      const validation = validateManualInput(body)
+
+      if (!validation.valid) {
+        listingDescriptionGenerated.add(1, { outcome: 'invalid_request', source: 'manual' })
+        return NextResponse.json({ error: validation.error }, { status: 400 })
+      }
+
+      const input = body as ListingInput
+      span.setAttribute('listing.stay_type', input.stayType)
+
+      const provider = getGoogleProvider()
+      const model = provider('gemini-2.5-flash')
+      const prompt = buildGenerationPrompt(input)
+
+      const result = await runGeminiListingGeneration({
+        model,
+        schema: GenerationSchema,
+        prompt,
+        callSite: 'api.listing-generator.generate-manual',
+      })
+
+      const generationResult: GenerationResult = {
+        title: result.object.title,
+        description: result.object.description,
+        editorialNotes: result.object.editorialNotes,
+        stayTypeAffinity: result.object.stayTypeAffinity,
+      }
+
+      listingDescriptionGenerated.add(1, { outcome: 'success', source: 'manual' })
+
+      return NextResponse.json({
+        id: crypto.randomUUID(),
+        result: generationResult,
+        cached: false,
+      })
+    } catch (err) {
+      recordSpanError(span, err)
+      listingDescriptionGenerated.add(1, { outcome: 'error', source: 'manual' })
+      const message = err instanceof Error ? err.message : 'Generation failed. Please try again.'
+      return NextResponse.json({ error: message }, { status: 500 })
     }
-
-    const body = await req.json()
-    const validation = validateManualInput(body)
-
-    if (!validation.valid) {
-      return NextResponse.json({ error: validation.error }, { status: 400 })
-    }
-
-    const input = body as ListingInput
-
-    const provider = getGoogleProvider()
-    const model = provider('gemini-2.5-flash')
-    const prompt = buildGenerationPrompt(input)
-
-    const result = await generateObject({
-      model,
-      schema: GenerationSchema,
-      messages: [{ role: 'user', content: prompt }],
-      maxRetries: 2,
-    })
-
-    const generationResult: GenerationResult = {
-      title: result.object.title,
-      description: result.object.description,
-      editorialNotes: result.object.editorialNotes,
-      stayTypeAffinity: result.object.stayTypeAffinity,
-    }
-
-    return NextResponse.json({
-      id: crypto.randomUUID(),
-      result: generationResult,
-      cached: false,
-    })
-  } catch (err) {
-    console.error('[listing-generator/generate-manual] Error:', err)
-    const message = err instanceof Error ? err.message : 'Generation failed. Please try again.'
-    return NextResponse.json({ error: message }, { status: 500 })
-  }
+  }, { tracer })
 }
