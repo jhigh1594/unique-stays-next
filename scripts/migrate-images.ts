@@ -34,19 +34,19 @@ async function fetchWithRetry(url: string, retries = RETRY_COUNT): Promise<Respo
 }
 
 async function migrateImage(slug: string, imageUrl: string): Promise<string> {
-  const ext = imageUrl.split('.').pop()?.split('?')[0] ?? 'jpg'
-  const cleanExt = ext.length <= 4 ? ext : 'jpg'
-  const key = `stays/${slug}.${cleanExt}`
-
   const res = await fetchWithRetry(imageUrl)
   const buffer = Buffer.from(await res.arrayBuffer())
+  const contentType = res.headers.get('content-type') ?? 'image/jpeg'
+  const ext = contentType.split('/')[1]?.replace('jpeg', 'jpg') ?? 'jpg'
+  const key = `stays/${slug}/hero.${ext}`
 
-  const uploaded = await uploadToR2(key, buffer, res.headers.get('content-type') ?? 'image/jpeg')
+  const uploaded = await uploadToR2(key, buffer, contentType)
 
   return uploaded.url
 }
 
 async function processBatch(
+  payload: Awaited<ReturnType<typeof getPayload>>,
   stays: Array<{ id: number; slug: string; imageUrl: string }>,
   onProgress: (slug: string, status: 'migrated' | 'skipped' | 'failed', err?: string) => void,
 ) {
@@ -59,11 +59,11 @@ async function processBatch(
         }
 
         const r2Url = await migrateImage(stay.slug, stay.imageUrl)
-        const payload = await getPayload({ config })
         await payload.update({
           collection: 'stays',
           id: stay.id,
           data: { imageUrl: r2Url },
+          overrideAccess: true,
         })
         onProgress(stay.slug, 'migrated')
       } catch (err) {
@@ -120,7 +120,7 @@ async function main() {
   // Process in batches
   for (let i = 0; i < toMigrate.length; i += CONCURRENCY) {
     const batch = toMigrate.slice(i, i + CONCURRENCY)
-    await processBatch(batch, (slug, status, err) => {
+    await processBatch(payload, batch, (slug, status, err) => {
       if (status === 'migrated') {
         migrated++
         process.stdout.write('+')
@@ -152,7 +152,11 @@ async function main() {
     failures.forEach(f => console.error(`  ✗ ${f.slug}: ${f.error}`))
   }
 
-  await payload.db.pool.end()
+  try {
+    await (payload.db as { disconnect?: () => Promise<void> }).disconnect?.()
+  } catch {
+    try { await (payload.db as { pool?: { end: () => Promise<void> } }).pool?.end() } catch { /* ignore */ }
+  }
   process.exit(failures.length > 0 ? 1 : 0)
 }
 
