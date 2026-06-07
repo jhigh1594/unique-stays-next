@@ -137,19 +137,104 @@ export const getEditorsPickStays = unstable_cache(
   { tags: ['stays', 'stays:editors-pick'], revalidate: 3600 }
 )
 
+function hasDisplayImage(stay: NormalizedStay): boolean {
+  return Boolean(stay.imageUrl || stay.galleryImages[0])
+}
+
 export const getFilmstripStays = unstable_cache(
   async (): Promise<NormalizedStay[]> => {
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
       where: PUBLIC_STAY_FILTER,
-      limit: 30,
+      limit: 60,
       depth: 1,
     })
-    return result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))
+    const stays = result.docs.map((doc) => normalizeStay(doc as unknown as Record<string, unknown>))
+    const withImages = stays.filter(hasDisplayImage)
+    const pool = withImages.length >= 16 ? withImages : stays
+    return pool.slice(0, 30)
   },
   ['stays-filmstrip'],
   { tags: ['stays'], revalidate: 3600 }
+)
+
+export interface HomepageSpokeStat {
+  count: number
+  states: number
+}
+
+export interface HomepageInventory {
+  totalCount: number
+  categoryCounts: Record<string, number>
+  spokeStats: Record<string, HomepageSpokeStat>
+}
+
+export const getHomepageInventory = unstable_cache(
+  async (): Promise<HomepageInventory> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'stays',
+      where: PUBLIC_STAY_FILTER,
+      limit: 500,
+      depth: 1,
+    })
+
+    const categoryCounts: Record<string, number> = {}
+    const spokeStates: Record<string, Set<string>> = {
+      unique: new Set(),
+      'work-friendly': new Set(),
+      'pet-friendly': new Set(),
+      'rv-ready': new Set(),
+      'ev-ready': new Set(),
+    }
+    const spokeCounts: Record<string, number> = {
+      unique: 0,
+      'work-friendly': 0,
+      'pet-friendly': 0,
+      'rv-ready': 0,
+      'ev-ready': 0,
+    }
+
+    for (const doc of result.docs) {
+      const record = doc as unknown as Record<string, unknown>
+      const category = record.category as Record<string, unknown> | null
+      const categorySlug =
+        typeof category === 'object' && category !== null ? (category.slug as string) : ''
+      if (categorySlug) {
+        categoryCounts[categorySlug] = (categoryCounts[categorySlug] ?? 0) + 1
+      }
+
+      const state = record.state as string
+      const spokes = (record.spokes ?? []) as Array<Record<string, unknown> | string>
+      const spokeSlugs = spokes.map((s) =>
+        typeof s === 'object' && s !== null ? (s.slug as string) : (s as string),
+      )
+
+      spokeCounts.unique += 1
+      if (state) spokeStates.unique.add(state)
+
+      for (const slug of ['work-friendly', 'pet-friendly', 'rv-ready', 'ev-ready'] as const) {
+        if (spokeSlugs.includes(slug)) {
+          spokeCounts[slug] += 1
+          if (state) spokeStates[slug].add(state)
+        }
+      }
+    }
+
+    return {
+      totalCount: result.totalDocs,
+      categoryCounts,
+      spokeStats: Object.fromEntries(
+        Object.keys(spokeCounts).map((slug) => [
+          slug,
+          { count: spokeCounts[slug], states: spokeStates[slug].size },
+        ]),
+      ),
+    }
+  },
+  ['homepage-inventory'],
+  { tags: ['stays'], revalidate: 3600 },
 )
 
 export const getAllStays = unstable_cache(

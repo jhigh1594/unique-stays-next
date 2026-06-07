@@ -42,6 +42,8 @@ export default function StayCard({
   const tilt = TILTS[index % TILTS.length]
   const shadowX = tilt > 0 ? 3 : -3
   const linkHref = href ?? `/stays/${stay.slug}`
+  const heroImage = stay.imageUrl || stay.galleryImages[0] || ''
+  const caption = stay.subtitle?.trim() || stay.description?.trim() || ''
 
   const card = (
     <>
@@ -65,9 +67,9 @@ export default function StayCard({
           className={`relative overflow-hidden ${featured ? 'h-44 sm:h-64' : 'h-36 sm:h-52'}`}
           style={{ borderRadius: '1px' }}
         >
-          {stay.imageUrl ? (
+          {heroImage ? (
             <Image
-              src={stay.imageUrl}
+              src={heroImage}
               alt={stay.title}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
@@ -75,7 +77,18 @@ export default function StayCard({
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full bg-[oklch(0.88_0.025_75)]" />
+            <div
+              className="w-full h-full flex items-center justify-center px-4 text-center"
+              style={{
+                background: 'linear-gradient(145deg, oklch(0.90 0.03 75), oklch(0.78 0.05 55))',
+                fontFamily: 'Fraunces, serif',
+                fontStyle: 'italic',
+                fontSize: '0.85rem',
+                color: 'oklch(0.45 0.04 55)',
+              }}
+            >
+              Photo coming soon
+            </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
@@ -203,6 +216,15 @@ export default function StayCard({
                 {stay.location}
               </span>
             </div>
+
+            {caption && (
+              <p
+                className="text-xs leading-snug mb-1.5 sm:mb-2 line-clamp-2"
+                style={{ color: 'oklch(0.48 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+              >
+                {caption}
+              </p>
+            )}
 
             {stay.tags.length > 0 && (
               <div className="hidden sm:flex flex-wrap gap-1 mb-2.5">

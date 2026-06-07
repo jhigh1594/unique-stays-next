@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -20,7 +20,8 @@ const CorkboardTestimonials = dynamic(() => import('@/components/CorkboardTestim
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 import type { NormalizedStay } from '@/lib/types'
 import type { CategoryConfig } from '@/lib/categories-config'
-import Hero from './Hero'
+import type { HomepageSpokeStat } from '@/lib/payload-queries'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 const SPOKES = SPOKE_SLUGS.map((slug) => SPOKES_CONFIG[slug])
 
@@ -28,29 +29,9 @@ interface HomeContentProps {
   featuredStays: NormalizedStay[]
   editorsPickStays: NormalizedStay[]
   filmstripStays: NormalizedStay[]
-  allStays: NormalizedStay[]
+  spokeStats: Record<string, HomepageSpokeStat>
   categories: CategoryConfig[]
   totalCount: number
-}
-
-// ── Intersection-based clip-reveal observer ────────────────
-function useClipReveal() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
-    )
-    document.querySelectorAll('.fade-up, .clip-reveal').forEach((el) =>
-      observer.observe(el)
-    )
-    return () => observer.disconnect()
-  }, [])
 }
 
 // ── Ghost section number ──────────────────────────────────
@@ -86,21 +67,8 @@ const SPOKE_SHADOWS = [
   '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
 ]
 
-function SpokeHubSection({ allStays }: { allStays: NormalizedStay[] }) {
-  // Derive real per-spoke counts from allStays — no new DB queries
-  const spokeLiveStats = useMemo(() => {
-    const map = new Map<string, { count: number; states: number }>()
-    for (const slug of SPOKE_SLUGS) {
-      const matched = slug === 'unique'
-        ? allStays
-        : allStays.filter((s) => s.spokes?.includes(slug))
-      map.set(slug, {
-        count: matched.length,
-        states: new Set(matched.map((s) => s.state)).size,
-      })
-    }
-    return map
-  }, [allStays])
+function SpokeHubSection({ spokeStats }: { spokeStats: Record<string, HomepageSpokeStat> }) {
+  const spokeLiveStats = useMemo(() => new Map(Object.entries(spokeStats)), [spokeStats])
   return (
     <section className="py-20" style={{ background: 'oklch(0.22 0.01 60)' }} data-dark-section>
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -246,31 +214,18 @@ export default function HomeContent({
   featuredStays,
   editorsPickStays,
   filmstripStays,
-  allStays,
+  spokeStats,
   categories,
   totalCount,
 }: HomeContentProps) {
-  useClipReveal()
+  useScrollReveal()
 
   const [newsletterDone, setNewsletterDone] = useState(false)
   const [newsletterLoading, setNewsletterLoading] = useState(false)
   const [newsletterError, setNewsletterError] = useState<string | null>(null)
 
   return (
-    <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
-
-      {/* ══════════════════════════════════════════════════════
-          HERO — Cinematic slideshow · Ken Burns · Film strip
-      ══════════════════════════════════════════════════════ */}
-      <Hero
-        categories={categories}
-        stats={[
-          { value: totalCount, suffix: '+', label: 'Curated Stays' },
-          { value: 10, suffix: '', label: 'Unique Categories' },
-          { value: 12000, suffix: '+', label: 'Weekly Readers' },
-        ]}
-      />
-
+    <>
       {/* ══════════════════════════════════════════════════════
           01 — FEATURED STAYS
       ══════════════════════════════════════════════════════ */}
@@ -772,7 +727,7 @@ export default function HomeContent({
       {/* ══════════════════════════════════════════════════════
           HUB & SPOKE COLLECTIONS
       ══════════════════════════════════════════════════════ */}
-      <SpokeHubSection allStays={allStays} />
+      <SpokeHubSection spokeStats={spokeStats} />
 
       {/* ══════════════════════════════════════════════════════
           03 — FILMSTRIP
@@ -1102,6 +1057,6 @@ export default function HomeContent({
           overflow: hidden;
         }
       `}</style>
-    </div>
+    </>
   )
 }
