@@ -150,6 +150,7 @@ export async function POST(req: NextRequest) {
         result: generationResult,
         platform: validation.platform,
         listingTitle: listingData.title || null,
+        photoUrls: listingData.photoUrls ?? [],
         cached: false,
       })
     } catch (err) {

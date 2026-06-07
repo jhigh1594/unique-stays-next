@@ -9,7 +9,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { scrapeListing } from './lib/scraper'
 import { generateEditorialContent, type StayMetadata, type ScrapedInput } from './lib/generator'
-import { processGalleryImages } from './lib/images'
+import { downloadAndUploadImage, processGalleryImages } from './lib/images'
 
 // ── CLI arg parsing ──────────────────────────────────────────────
 const args = process.argv.slice(2)
@@ -117,9 +117,25 @@ async function main() {
 
       // Step 4: Download and upload gallery images
       let galleryImages: Array<{ imageUrl: string }> = []
-      if (scraped.photoUrls && scraped.photoUrls.length > 0) {
+      const photoUrls = scraped.photoUrls ?? []
+      if (photoUrls.length > 0) {
         const imageLimit = tier === 1 ? 5 : 3
-        galleryImages = await processGalleryImages(scraped.photoUrls, slug, imageLimit)
+
+        // Fix missing/broken hero image — download first photo to R2
+        const currentImageUrl = (stay.imageUrl as string) ?? ''
+        const heroNeedsFix = !currentImageUrl || (!currentImageUrl.includes('.r2.dev') && !currentImageUrl.includes('media.uniquestaysusa.com'))
+        if (heroNeedsFix) {
+          const heroEntry = await downloadAndUploadImage(photoUrls[0], slug, -1)
+          if (heroEntry) {
+            updateData.imageUrl = heroEntry.imageUrl
+            process.stdout.write(`  → Hero fixed: ${heroEntry.imageUrl.slice(-40)}\n`)
+          }
+        }
+
+        // Gallery images (skip first photo if used for hero)
+        const galleryStartIdx = heroNeedsFix ? 1 : 0
+        const galleryPhotos = photoUrls.slice(galleryStartIdx)
+        galleryImages = await processGalleryImages(galleryPhotos, slug, imageLimit)
       }
 
       // Step 5: Write to Payload

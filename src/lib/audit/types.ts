@@ -35,6 +35,7 @@ export interface AuditStay {
   platform: string
   affiliateUrl: string
   imageUrl: string
+  galleryImages: string[]
   price: number
 }
 

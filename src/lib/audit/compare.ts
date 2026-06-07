@@ -1,4 +1,5 @@
 import type { AuditStay, Finding, LivenessResult, ScrapedListing, Severity } from './types'
+import { checkImageUrlLiveness, isR2Url } from '../image-validation'
 
 // Title similarity threshold — below this is considered drift
 const TITLE_SIMILARITY_THRESHOLD = 0.6
@@ -43,12 +44,12 @@ function trigramSimilarity(a: string, b: string): number {
 
 export { trigramSimilarity }
 
-// Compare stored stay data against scraped data
-export function compareData(
+// Compare stored stay data against scraped data, including image health
+export async function compareData(
   stay: AuditStay,
   liveness: LivenessResult,
   scraped: ScrapedListing | null,
-): Finding[] {
+): Promise<Finding[]> {
   const findings: Finding[] = []
 
   // Liveness findings
@@ -62,6 +63,50 @@ export function compareData(
     // If URL is dead, skip content comparison
     return findings
   }
+
+  // ── Image health checks ──────────────────────────────────────────
+
+  // Hero image missing
+  if (!stay.imageUrl) {
+    findings.push({
+      field: 'imageUrl',
+      expected: 'valid image URL',
+      actual: 'empty',
+      severity: 'critical',
+    })
+  } else {
+    // Check hero image liveness
+    const heroLiveness = await checkImageUrlLiveness(stay.imageUrl)
+    if (!heroLiveness.live) {
+      findings.push({
+        field: 'imageUrl',
+        expected: '200 OK with image content',
+        actual: heroLiveness.error ?? `HTTP ${heroLiveness.statusCode}`,
+        severity: 'critical',
+      })
+    } else if (!isR2Url(stay.imageUrl)) {
+      // Non-R2 URLs may expire (especially muscache.com)
+      findings.push({
+        field: 'imageUrl',
+        expected: 'R2-hosted URL',
+        actual: stay.imageUrl,
+        severity: 'warning',
+      })
+    }
+  }
+
+  // Gallery image count drift
+  const galleryCount = stay.galleryImages.length
+  if (scraped?.imageUrl && galleryCount === 0 && stay.imageUrl) {
+    findings.push({
+      field: 'galleryImages',
+      expected: 'at least 1 gallery image',
+      actual: 'empty gallery',
+      severity: 'info',
+    })
+  }
+
+  // ── Content comparison (requires scrape data) ────────────────────
 
   // No scrape data — cannot compare content
   if (!scraped) {
@@ -111,9 +156,8 @@ export function compareData(
     })
   }
 
-  // Hero image change
+  // Hero image change (filename comparison)
   if (scraped.imageUrl && stay.imageUrl) {
-    // Compare filename portion of URLs (CDN params and host may change)
     const getFilename = (u: string) => {
       try {
         const parsed = new URL(u)

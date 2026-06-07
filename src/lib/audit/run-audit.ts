@@ -45,8 +45,8 @@ export async function runAudit(
         await scrapeDelay()
       }
 
-      // Step 3: Compare stored vs scraped
-      findings = compareData(stay, liveness, scraped)
+      // Step 3: Compare stored vs scraped (includes image liveness)
+      findings = await compareData(stay, liveness, scraped)
 
       const severity = overallSeverity(findings)
 

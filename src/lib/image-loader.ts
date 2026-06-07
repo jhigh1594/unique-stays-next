@@ -72,8 +72,10 @@ const imageLoader: ImageLoader = ({ src, width, quality }) => {
     return src
   }
 
-  console.warn('[image-loader] Blocked unallowed domain:', url.hostname)
-  return FALLBACK
+  // Pass through instead of blocking — showing a potentially broken image is better
+  // than hiding it with a placeholder. The audit system flags non-R2 URLs for migration.
+  console.warn('[image-loader] Unknown domain, passing through:', url.hostname)
+  return src
 }
 
 export default imageLoader

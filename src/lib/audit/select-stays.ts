@@ -38,15 +38,19 @@ export async function selectStays(payload: Payload, limit = 10): Promise<AuditSt
 
   const candidates = allStays.docs
     .filter((s) => !recentStayIds.has(String(s.id)))
-    .map((s): AuditStay => ({
-      id: String(s.id),
-      title: (s.title as string) ?? '',
-      slug: (s.slug as string) ?? '',
-      platform: (s.platform as string) ?? '',
-      affiliateUrl: (s.affiliateUrl as string) ?? '',
-      imageUrl: (s.imageUrl as string) ?? '',
-      price: (s.price as number) ?? 0,
-    }))
+    .map((s): AuditStay => {
+      const gallery = (s.galleryImages as Array<{ imageUrl?: string }>) ?? []
+      return {
+        id: String(s.id),
+        title: (s.title as string) ?? '',
+        slug: (s.slug as string) ?? '',
+        platform: (s.platform as string) ?? '',
+        affiliateUrl: (s.affiliateUrl as string) ?? '',
+        imageUrl: (s.imageUrl as string) ?? '',
+        galleryImages: gallery.map((g) => g.imageUrl ?? '').filter(Boolean),
+        price: (s.price as number) ?? 0,
+      }
+    })
 
   // Shuffle then take limit — avoids predictable scraping patterns
   for (let i = candidates.length - 1; i > 0; i--) {

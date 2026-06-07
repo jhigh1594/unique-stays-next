@@ -36,6 +36,20 @@ export const Stays: CollectionConfig = {
     listSearchableFields: ['title', 'location', 'state'],
   },
   hooks: {
+    beforeChange: [
+      ({ data, operation }) => {
+        // Flag stays with non-R2 hero image URLs for review
+        // R2 URLs are durable; external CDN URLs (muscache.com, etc.) can expire
+        if (operation === 'create' || operation === 'update') {
+          const url = data.imageUrl as string | undefined
+          if (url && !url.includes('.r2.dev') && !url.includes('media.uniquestaysusa.com')) {
+            data.needsReview = true
+            data.reviewReason = `Hero image not on R2: ${url.slice(0, 80)}`
+          }
+        }
+        return data
+      },
+    ],
     afterChange: [
       async ({ doc }) => {
         await revalidateTag('stays')
