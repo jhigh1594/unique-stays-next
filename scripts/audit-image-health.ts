@@ -91,7 +91,7 @@ async function main() {
     for (const r of reports) {
       const fields = [
         r.slug,
-        `"${r.title.replace(/"/g, '""')}"`,
+        `"${r.title.replace(/"/g, '""').replace(/^([+=\-@\t\r])/gm, "'$1")}"`,
         r.platform,
         `"${r.heroUrl}"`,
         r.heroStatus,
