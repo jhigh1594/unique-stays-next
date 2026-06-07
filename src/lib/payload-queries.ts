@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { resolveStayCapacity } from './stay-capacity'
 import type { NormalizedJournalPost, NormalizedStay } from './types'
 
 async function getPayloadInstance() {
@@ -56,9 +57,14 @@ function normalizeStay(doc: Record<string, unknown>): NormalizedStay {
     price: doc.price as number,
     rating: (doc.rating as number | null) ?? null,
     reviewCount: (doc.reviewCount as number | null) ?? null,
-    sleeps: doc.sleeps as number,
-    bedrooms: doc.bedrooms as number,
-    bathrooms: (doc.bathrooms as number) ?? 1,
+    ...resolveStayCapacity({
+      bedrooms: (doc.bedrooms as number) ?? 0,
+      bathrooms: (doc.bathrooms as number) ?? 1,
+      sleeps: (doc.sleeps as number) ?? 1,
+      description: doc.description as string,
+      body: (doc.body as string) ?? undefined,
+      subtitle: (doc.subtitle as string) ?? undefined,
+    }),
     description: doc.description as string,
     body: (doc.body as string) ?? undefined,
     areaGuide: (doc.areaGuide as string) ?? undefined,

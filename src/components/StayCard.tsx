@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Star, MapPin, Users, ExternalLink } from 'lucide-react'
 import type { CSSProperties, ReactNode } from 'react'
 import { getPostHog } from '@/lib/posthog-lazy'
+import { formatCapacitySummary } from '@/lib/stay-capacity'
 import type { NormalizedStay } from '@/lib/types'
 
 interface StayCardProps {
@@ -257,7 +258,7 @@ export default function StayCard({
                   className="text-xs"
                   style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                 >
-                  {stay.bedrooms}bd · {stay.bathrooms}ba · Sleeps {stay.sleeps}
+                  {formatCapacitySummary(stay.bedrooms, stay.bathrooms, stay.sleeps)}
                 </span>
               </div>
               <span
