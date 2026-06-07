@@ -45,7 +45,8 @@ next-env.d.ts
 src/payload-types.ts
 .env*.local
 
-# Python crawl venv
+# Python venvs
+.venv/
 .venv-crawl/
 __pycache__/
 **/__pycache__/
