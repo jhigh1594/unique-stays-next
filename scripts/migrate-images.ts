@@ -90,12 +90,11 @@ async function main() {
   const pageSize = 100
 
   while (true) {
-    const { docs, totalDocs } = await payload.find({
+    const { docs, totalDocs, totalPages } = await payload.find({
       collection: 'stays',
       limit: pageSize,
       page,
       depth: 0,
-      select: { slug: true, imageUrl: true },
     })
 
     for (const s of docs) {
@@ -104,7 +103,7 @@ async function main() {
       }
     }
 
-    if (allStays.length >= totalDocs) break
+    if (page >= (totalPages ?? Math.ceil(totalDocs / pageSize))) break
     page++
   }
 
