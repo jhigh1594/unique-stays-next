@@ -53,12 +53,11 @@ export default function StayCard({
         className="stay-card"
         style={{
           '--card-tilt': `${tilt}deg`,
-          padding: '6px 6px 20px 6px',
+          padding: '6px 6px 14px 6px',
           borderRadius: '3px',
           background: 'white',
           backgroundImage: MAT_GRAIN,
           boxShadow: `${shadowX}px 5px 14px rgba(44, 30, 20, 0.16), ${shadowX * 1.5}px 18px 44px -6px rgba(44, 30, 20, 0.20)`,
-          height: '100%',
           display: 'flex',
           flexDirection: 'column',
         } as CSSProperties}
@@ -156,7 +155,7 @@ export default function StayCard({
         </div>
 
         {/* Caption zone */}
-        <div className="polaroid-caption relative pt-2 sm:pt-3 px-0.5 sm:px-1" style={{ flex: '1 1 0%', display: 'flex', flexDirection: 'column' }}>
+        <div className="polaroid-caption relative pt-2 sm:pt-2.5 px-0.5 sm:px-1 flex flex-col">
           <div
             className="absolute bottom-1 right-1 pointer-events-none select-none"
             style={{ opacity: 0.07, color: 'oklch(0.30 0.06 50)' }}
@@ -170,7 +169,7 @@ export default function StayCard({
               <path d="M4 40 Q13 35 22 40 Q31 45 40 40 Q49 35 58 40" stroke="currentColor" strokeWidth="1.5" fill="none"/>
             </svg>
           </div>
-          <div className="relative" style={{ zIndex: 1, flex: '1 1 0%', display: 'flex', flexDirection: 'column' }}>
+          <div className="relative z-[1] flex flex-col">
             <div className="flex items-center justify-between mb-1.5">
               <span
                 className="text-xs font-semibold uppercase tracking-widest"
@@ -251,7 +250,7 @@ export default function StayCard({
               </div>
             )}
 
-            <div className="hidden sm:flex items-center justify-between mt-auto pt-2">
+            <div className="hidden sm:flex items-center justify-between pt-2">
               <div className="flex items-center gap-1">
                 <Users className="w-3 h-3" style={{ color: 'oklch(0.60 0.03 60)' }} />
                 <span

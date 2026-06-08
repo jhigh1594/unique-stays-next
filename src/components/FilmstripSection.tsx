@@ -125,7 +125,7 @@ export default function FilmstripSection({ stays }: Props) {
         className="overflow-hidden pl-4 sm:pl-6 lg:pl-[calc((100vw-1320px)/2+2rem)] pb-8 -mb-8"
         data-cursor="drag"
       >
-        <div className="flex gap-5 select-none">
+        <div className="flex items-start gap-5 select-none">
           {stays.map((stay, i) => (
             <motion.div
               key={stay.id}
@@ -141,7 +141,6 @@ export default function FilmstripSection({ stays }: Props) {
                 href={stay.affiliateUrl}
                 external
                 index={i + 10}
-                featured
               />
             </motion.div>
           ))}
