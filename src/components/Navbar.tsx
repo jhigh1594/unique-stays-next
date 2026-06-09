@@ -102,7 +102,7 @@ export default function Navbar() {
     setMobileOpen(false)
   }, [pathname])
 
-  const isOnCollections = pathname === '/collections' || SPOKE_SLUGS.some((s) => pathname === `/${s}`)
+  const isOnCollections = pathname === '/collection' || SPOKE_SLUGS.some((s) => pathname === `/${s}`)
   const isOnToolsPage = pathname === '/tools' || TOOLS.some((t) => pathname === `/${t.slug}`)
   const isDetailPage = pathname.startsWith('/stays/')
   const usesLightHeader = scrolled || isDetailPage
@@ -161,7 +161,7 @@ export default function Navbar() {
               style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
               aria-label="Main navigation"
             >
-              {flatNavLink('/collections', 'Collections', isOnCollections)}
+              {flatNavLink('/collection', 'Collections', isOnCollections)}
               {flatNavLink('/journal', 'Journal', pathname === '/journal')}
               {flatNavLink('/tools', 'Tools', isOnToolsPage)}
               {flatNavLink('/about', 'About', pathname === '/about')}

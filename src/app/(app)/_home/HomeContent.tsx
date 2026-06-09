@@ -58,34 +58,30 @@ function GhostNumber({ n, light = false }: { n: string; light?: boolean }) {
 }
 
 // ── Hub & Spoke Collections ────────────────────────────────
+const ROMAN = ['I', 'II', 'III', 'IV', 'V'] as const
 const SPOKE_TILTS = [-1.5, 1.2, -0.8, 1.8, -1.1]
-const SPOKE_SHADOWS = [
-  '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
-  '3px 5px 14px rgba(44,30,20,0.20), 4px 22px 52px -6px rgba(44,30,20,0.26)',
-  '-2px 5px 14px rgba(44,30,20,0.20), -3px 22px 52px -6px rgba(44,30,20,0.26)',
-  '4px 5px 14px rgba(44,30,20,0.20), 5px 22px 52px -6px rgba(44,30,20,0.26)',
-  '-3px 5px 14px rgba(44,30,20,0.20), -4px 22px 52px -6px rgba(44,30,20,0.26)',
-]
+const POLAROID_GRAIN = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")`
 
 function SpokeHubSection({ spokeStats }: { spokeStats: Record<string, HomepageSpokeStat> }) {
   const spokeLiveStats = useMemo(() => new Map(Object.entries(spokeStats)), [spokeStats])
   return (
-    <section className="py-20" style={{ background: 'oklch(0.22 0.01 60)' }} data-dark-section>
+    <section className="py-24" style={{ background: 'oklch(0.22 0.01 60)' }} data-dark-section>
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 fade-up">
+        {/* Section header — stamp + ruled lines */}
+        <div className="mb-16 fade-up">
           <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.18)' }} />
+            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.15)' }} />
             <span
               className="stamp-badge"
               style={{ color: 'oklch(0.72 0.10 40)', borderColor: 'oklch(0.72 0.10 40)', fontFamily: 'Plus Jakarta Sans, sans-serif', padding: '5px 16px' }}
             >
               Five Collections
             </span>
-            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.18)' }} />
+            <div className="flex-1 h-px" style={{ background: 'oklch(0.99 0.005 85 / 0.15)' }} />
           </div>
           <p
             className="text-sm text-center max-w-md mx-auto"
-            style={{ color: 'oklch(0.99 0.005 85)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.7 }}
+            style={{ color: 'oklch(0.80 0.02 75)', fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.7 }}
           >
             Some travelers know exactly what they need. A desk, strong wifi, no distractions.
             Some know only that they need to go somewhere with the dog.
@@ -93,113 +89,158 @@ function SpokeHubSection({ spokeStats }: { spokeStats: Record<string, HomepageSp
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 py-4 items-stretch">
-          {SPOKES.map((spoke, i) => (
-            <Link key={spoke.slug} href={`/${spoke.slug}`} className="block h-full">
-              <motion.div
-                className="group cursor-pointer flex flex-col h-full"
-                initial={{ opacity: 0, y: 24, rotate: SPOKE_TILTS[i] }}
-                whileInView={{ opacity: 1, y: 0, rotate: SPOKE_TILTS[i] }}
-                viewport={{ once: true, margin: '-60px' }}
-                whileHover={{ y: -10, rotate: 0, boxShadow: '0 28px 64px -8px rgba(0,0,0,0.55)' }}
-                transition={{ type: 'spring', stiffness: 280, damping: 22, delay: i * 0.08 }}
-                style={{
-                  padding: '9px 9px 28px 9px',
-                  borderRadius: '3px',
-                  background: 'oklch(0.98 0.010 85)',
-                  border: '1px solid oklch(0.78 0.025 75)',
-                  boxShadow: SPOKE_SHADOWS[i],
-                }}
-                data-cursor="view"
-              >
-                {/* Photo */}
-                <div className="relative h-52 overflow-hidden flex-shrink-0" style={{ borderRadius: '1px' }}>
-                  <Image
-                    src={spoke.heroImage}
-                    alt={spoke.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }}
-                  />
-                </div>
-
-                {/* Caption — ruled lines via polaroid-caption */}
-                <div className="polaroid-caption relative pt-3 px-1 flex flex-col flex-1">
-                  {/* Globe watermark — bottom-right postcard stamp */}
-                  <div
-                    className="absolute bottom-1 right-1 pointer-events-none select-none"
-                    style={{ opacity: 0.07, color: 'oklch(0.30 0.06 50)' }}
-                    aria-hidden="true"
-                  >
-                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="2"/>
-                      <circle cx="32" cy="32" r="23" stroke="currentColor" strokeWidth="1"/>
-                      <path d="M4 24 Q13 19 22 24 Q31 29 40 24 Q49 19 58 24" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                      <path d="M4 32 Q13 27 22 32 Q31 37 40 32 Q49 27 58 32" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                      <path d="M4 40 Q13 35 22 40 Q31 45 40 40 Q49 35 58 40" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                    </svg>
+        {/* Polaroid pinboard grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-7 xl:gap-5 items-start">
+          {SPOKES.map((spoke, i) => {
+            const tilt = SPOKE_TILTS[i]
+            const shadowX = tilt > 0 ? 3 : -3
+            return (
+              <Link key={spoke.slug} href={`/${spoke.slug}`} className="block h-full">
+                <motion.div
+                  className="stay-card group cursor-pointer flex flex-col h-full"
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  whileHover={{ y: -10 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 22, delay: i * 0.08 }}
+                  style={{
+                    '--card-tilt': `${tilt}deg`,
+                    padding: '7px 7px 20px 7px',
+                    borderRadius: '2px',
+                    background: 'white',
+                    backgroundImage: POLAROID_GRAIN,
+                    boxShadow: `${shadowX}px 5px 16px rgba(44,30,20,0.22), ${shadowX * 1.5}px 20px 48px -4px rgba(44,30,20,0.28)`,
+                  } as React.CSSProperties}
+                  data-cursor="view"
+                >
+                  {/* Photo with vignette */}
+                  <div className="relative overflow-hidden flex-shrink-0" style={{ borderRadius: '1px', height: '200px' }}>
+                    <Image
+                      src={spoke.heroImage}
+                      alt={spoke.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    {/* Film-grain vignette overlay */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(44,30,20,0.25) 100%)' }}
+                    />
+                    {/* Roman numeral stamp — top-right */}
+                    <motion.div
+                      className="absolute top-2 right-2"
+                      initial={{ opacity: 0, rotate: -8, scale: 0.7 }}
+                      whileInView={{ opacity: 1, rotate: -6, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.08, type: 'spring', stiffness: 260, damping: 18 }}
+                    >
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '26px',
+                          height: '26px',
+                          border: '2px solid oklch(0.99 0.005 85 / 0.6)',
+                          borderRadius: '50%',
+                          fontFamily: 'Fraunces, serif',
+                          fontWeight: 900,
+                          fontSize: '0.55rem',
+                          color: 'oklch(0.99 0.005 85 / 0.85)',
+                          background: 'rgba(44,30,20,0.45)',
+                          backdropFilter: 'blur(2px)',
+                        }}
+                      >
+                        {ROMAN[i]}
+                      </span>
+                    </motion.div>
+                    {/* Spoke accent dot — top-left */}
+                    <div
+                      className="absolute top-2 left-2"
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        background: spoke.accentColor,
+                        boxShadow: `0 0 6px ${spoke.accentColor}`,
+                      }}
+                    />
                   </div>
-                  <div className="relative flex flex-col flex-1" style={{ zIndex: 1 }}>
-                    <p
-                      className="text-[10px] font-bold uppercase tracking-widest mb-1"
-                      style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+
+                  {/* Caption zone — ruled paper + compass watermark */}
+                  <div className="polaroid-caption relative pt-2.5 px-1 flex flex-col flex-1">
+                    {/* Compass watermark — bottom-right */}
+                    <div
+                      className="absolute bottom-0 right-0 pointer-events-none select-none"
+                      style={{ opacity: 0.05, color: 'oklch(0.30 0.06 50)' }}
+                      aria-hidden="true"
                     >
-                      Collection
-                    </p>
-                    <h3
-                      className="font-bold leading-tight mb-1"
-                      style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)', fontSize: '1rem' }}
-                    >
-                      {spoke.title}
-                    </h3>
-                    <p
-                      className="text-[11px] leading-snug mb-2.5 flex-1"
-                      style={{ color: 'oklch(0.50 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                    >
-                      {spoke.tagline}
-                    </p>
-                    <div className="flex items-center justify-between mt-auto" style={{ paddingBottom: '6px' }}>
-                      <div className="flex gap-3">
-                        {(spoke.slug === 'unique'
-                          ? [
-                              { value: `${spokeLiveStats.get(spoke.slug)?.count ?? 0}+`, label: spoke.stats[0].label },
-                              { value: `${spokeLiveStats.get(spoke.slug)?.states ?? 0}`, label: spoke.stats[1].label },
-                            ]
-                          : [
-                              { value: `${spokeLiveStats.get(spoke.slug)?.count ?? 0}+`, label: spoke.stats[0].label },
-                              { value: `${spokeLiveStats.get(spoke.slug)?.states ?? 0}`, label: spoke.stats[1].label },
-                            ]
-                        ).map((stat, j) => (
-                          <div key={j}>
-                            <div className="text-sm font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.30 0.02 60)' }}>
-                              {stat.value}
+                      <svg width="56" height="56" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="2"/>
+                        <circle cx="32" cy="32" r="23" stroke="currentColor" strokeWidth="1"/>
+                        <path d="M4 24 Q13 19 22 24 Q31 29 40 24 Q49 19 58 24" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                        <path d="M4 32 Q13 27 22 32 Q31 37 40 32 Q49 27 58 32" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                        <path d="M4 40 Q13 35 22 40 Q31 45 40 40 Q49 35 58 40" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                      </svg>
+                    </div>
+                    <div className="relative flex flex-col flex-1" style={{ zIndex: 1 }}>
+                      {/* Category stamp */}
+                      <p
+                        className="text-[9px] font-bold uppercase tracking-[0.14em] mb-1"
+                        style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                      >
+                        {ROMAN[i]} · Collection
+                      </p>
+                      <h3
+                        className="font-bold leading-tight mb-1"
+                        style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.22 0.01 60)', fontSize: '0.95rem' }}
+                      >
+                        {spoke.title}
+                      </h3>
+                      <p
+                        className="text-[10.5px] leading-snug mb-2 flex-1"
+                        style={{ color: 'oklch(0.48 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                      >
+                        {spoke.tagline}
+                      </p>
+                      {/* Stats row */}
+                      <div className="flex items-center justify-between mt-auto pt-1.5" style={{ borderTop: '1px solid oklch(0.85 0.02 75)' }}>
+                        <div className="flex gap-3">
+                          <div>
+                            <div className="text-xs font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.30 0.02 60)' }}>
+                              {spokeLiveStats.get(spoke.slug)?.count ?? 0}+
                             </div>
-                            <div className="text-[10px]" style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                              {stat.label}
+                            <div className="text-[9px]" style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                              {spoke.stats[0].label}
                             </div>
                           </div>
-                        ))}
+                          <div>
+                            <div className="text-xs font-bold" style={{ fontFamily: 'Fraunces, serif', color: 'oklch(0.30 0.02 60)' }}>
+                              {spokeLiveStats.get(spoke.slug)?.states ?? 0}
+                            </div>
+                            <div className="text-[9px]" style={{ color: 'oklch(0.55 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                              {spoke.stats[1].label}
+                            </div>
+                          </div>
+                        </div>
+                        <span
+                          className="text-[9px] font-bold uppercase tracking-[0.12em] flex items-center gap-0.5"
+                          style={{ color: spoke.accentColor, fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                        >
+                          Go <ArrowRight className="w-2 h-2" />
+                        </span>
                       </div>
-                      <motion.span
-                        className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
-                        style={{ color: 'oklch(0.55 0.14 38)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}
-                        whileHover={{ gap: '6px' }}
-                      >
-                        Explore <ArrowRight className="w-2.5 h-2.5" />
-                      </motion.span>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            </Link>
-          ))}
+                </motion.div>
+              </Link>
+            )
+          })}
         </div>
 
-        <div className="text-center mt-10 fade-up">
+        {/* Domain redirect note */}
+        <div className="text-center mt-12 fade-up">
           <p className="text-xs" style={{ color: 'oklch(0.48 0.02 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
             workfriendlystays.com · stayswithpets.com · rvreadystays.com · evreadystays.com — all redirect here
           </p>
