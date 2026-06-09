@@ -12,7 +12,11 @@ export default function Hero({ categories, stats }: HeroProps) {
   const first = HERO_FIRST_SLIDE
 
   return (
-    <div className="relative min-h-[100svh] w-full" style={{ background: 'oklch(0.13 0.02 40)' }}>
+    <div
+      id="main-content"
+      className="relative min-h-[100svh] w-full"
+      style={{ background: 'oklch(0.13 0.02 40)' }}
+    >
       {/* SSR LCP candidate — painted in initial HTML before client JS */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <Image

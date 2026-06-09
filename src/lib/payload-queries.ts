@@ -176,15 +176,46 @@ export interface HomepageInventory {
   spokeStats: Record<string, HomepageSpokeStat>
 }
 
+function relationId(value: unknown): number | null {
+  if (typeof value === 'number') return value
+  if (typeof value === 'object' && value !== null && 'id' in value) {
+    const id = (value as { id: unknown }).id
+    return typeof id === 'number' ? id : null
+  }
+  return null
+}
+
+function relationIds(value: unknown): number[] {
+  if (!Array.isArray(value)) return []
+  return value.map(relationId).filter((id): id is number => id !== null)
+}
+
 export const getHomepageInventory = unstable_cache(
   async (): Promise<HomepageInventory> => {
     const payload = await getPayloadInstance()
-    const result = await payload.find({
-      collection: 'stays',
-      where: PUBLIC_STAY_FILTER,
-      limit: 500,
-      depth: 1,
-    })
+
+    const [categoryResult, spokeResult, stayResult] = await Promise.all([
+      payload.find({ collection: 'categories', limit: 50, depth: 0 }),
+      payload.find({ collection: 'spokes', limit: 10, depth: 0 }),
+      payload.find({
+        collection: 'stays',
+        where: PUBLIC_STAY_FILTER,
+        limit: 500,
+        depth: 0,
+      }),
+    ])
+
+    const categoryIdToSlug = new Map<number, string>()
+    for (const doc of categoryResult.docs) {
+      const record = doc as unknown as Record<string, unknown>
+      categoryIdToSlug.set(record.id as number, record.slug as string)
+    }
+
+    const spokeIdToSlug = new Map<number, string>()
+    for (const doc of spokeResult.docs) {
+      const record = doc as unknown as Record<string, unknown>
+      spokeIdToSlug.set(record.id as number, record.slug as string)
+    }
 
     const categoryCounts: Record<string, number> = {}
     const spokeStates: Record<string, Set<string>> = {
@@ -202,20 +233,17 @@ export const getHomepageInventory = unstable_cache(
       'ev-ready': 0,
     }
 
-    for (const doc of result.docs) {
+    for (const doc of stayResult.docs) {
       const record = doc as unknown as Record<string, unknown>
-      const category = record.category as Record<string, unknown> | null
-      const categorySlug =
-        typeof category === 'object' && category !== null ? (category.slug as string) : ''
+      const categorySlug = categoryIdToSlug.get(relationId(record.category) ?? -1) ?? ''
       if (categorySlug) {
         categoryCounts[categorySlug] = (categoryCounts[categorySlug] ?? 0) + 1
       }
 
       const state = record.state as string
-      const spokes = (record.spokes ?? []) as Array<Record<string, unknown> | string>
-      const spokeSlugs = spokes.map((s) =>
-        typeof s === 'object' && s !== null ? (s.slug as string) : (s as string),
-      )
+      const spokeSlugs = relationIds(record.spokes)
+        .map((id) => spokeIdToSlug.get(id))
+        .filter((slug): slug is string => Boolean(slug))
 
       spokeCounts.unique += 1
       if (state) spokeStates.unique.add(state)
@@ -229,7 +257,7 @@ export const getHomepageInventory = unstable_cache(
     }
 
     return {
-      totalCount: result.totalDocs,
+      totalCount: stayResult.totalDocs,
       categoryCounts,
       spokeStats: Object.fromEntries(
         Object.keys(spokeCounts).map((slug) => [
@@ -239,7 +267,7 @@ export const getHomepageInventory = unstable_cache(
       ),
     }
   },
-  ['homepage-inventory'],
+  ['homepage-inventory-v2'],
   { tags: ['stays'], revalidate: 3600 },
 )
 
