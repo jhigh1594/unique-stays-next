@@ -1,6 +1,7 @@
 import HomeContent from './_home/HomeContent'
 import Hero from './_home/Hero'
 import { HERO_FIRST_IMAGE } from './_home/hero-slides'
+import { buildR2CdnUrl } from '@/lib/image-loader'
 import {
   getFeaturedStays,
   getEditorsPickStays,
@@ -33,7 +34,12 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
-      <link rel="preload" as="image" href={HERO_FIRST_IMAGE} fetchPriority="high" />
+      <link
+        rel="preload"
+        as="image"
+        href={buildR2CdnUrl(HERO_FIRST_IMAGE, 1920) ?? HERO_FIRST_IMAGE}
+        fetchPriority="high"
+      />
       <Hero categories={categories} stats={heroStats} />
       <HomeContent
         featuredStays={featuredStays}

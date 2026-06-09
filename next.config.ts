@@ -24,9 +24,8 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   serverExternalPackages: ['sharp', 'pg', '@aws-sdk/client-s3'],
   images: {
-    // Custom loader routes all R2 images through Cloudflare Worker CDN
-    // (img.uniquestaysusa.com) instead of Vercel _next/image optimizer.
-    // See src/lib/image-loader.ts for routing logic.
+    // Custom loader routes R2 images through img.uniquestaysusa.com ({key}?w=).
+    // See src/lib/image-loader.ts and workers/image-cdn/.
     loader: 'custom',
     loaderFile: './src/lib/image-loader.ts',
   },
