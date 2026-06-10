@@ -102,7 +102,7 @@ export default function Navbar() {
     setMobileOpen(false)
   }, [pathname])
 
-  const isOnCollections = pathname === '/collection' || SPOKE_SLUGS.some((s) => pathname === `/${s}`)
+  const isOnCollections = pathname === '/collections' || pathname === '/collection' || SPOKE_SLUGS.some((s) => pathname === `/${s}`)
   const isOnToolsPage = pathname === '/tools' || TOOLS.some((t) => pathname === `/${t.slug}`)
   const isDetailPage = pathname.startsWith('/stays/')
   const usesLightHeader = scrolled || isDetailPage
@@ -161,7 +161,8 @@ export default function Navbar() {
               style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
               aria-label="Main navigation"
             >
-              {flatNavLink('/collection', 'Collections', isOnCollections)}
+              {flatNavLink('/collections', 'Collections', isOnCollections)}
+              {flatNavLink('/collection', 'All Stays', pathname === '/collection')}
               {flatNavLink('/journal', 'Journal', pathname === '/journal')}
               {flatNavLink('/tools', 'Tools', isOnToolsPage)}
               {flatNavLink('/about', 'About', pathname === '/about')}
@@ -311,7 +312,8 @@ export default function Navbar() {
             >
               {[
                 { href: '/', label: 'Home' },
-                { href: '/collection', label: 'The Collection' },
+                { href: '/collections', label: 'Collections' },
+                { href: '/collection', label: 'All Stays' },
                 { href: '/journal', label: 'Journal' },
                 { href: '/about', label: 'About' },
                 { href: '/submit', label: 'Submit a Stay' },
