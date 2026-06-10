@@ -1,42 +1,32 @@
 import { Suspense } from 'react'
-import HomeBody from './_home/HomeBody'
 import Hero from './_home/Hero'
+import HeroSection from './_home/HeroSection'
+import HomeBody from './_home/HomeBody'
+import { HERO_FALLBACK_CATEGORIES, HERO_FALLBACK_STATS } from './_home/home-fallback'
 import { HERO_FIRST_IMAGE } from './_home/hero-slides'
 import { buildR2CdnUrl } from '@/lib/image-loader'
-import { getHomepageInventory } from '@/lib/payload-queries'
-import { CATEGORIES_CONFIG } from '@/lib/categories-config'
 
 export const revalidate = 86400
 
-export default async function HomePage() {
-  const inventory = await getHomepageInventory()
+const HERO_PRELOAD_WIDTH = 1200
 
-  const categories = CATEGORIES_CONFIG.map((cat) => ({
-    ...cat,
-    count: inventory.categoryCounts[cat.id] ?? 0,
-  }))
-
-  const heroStats = [
-    { value: inventory.totalCount, suffix: '+', label: 'Curated Stays' },
-    { value: 10, suffix: '', label: 'Unique Categories' },
-    { value: 12000, suffix: '+', label: 'Weekly Readers' },
-  ]
+export default function HomePage() {
+  const heroPreload =
+    buildR2CdnUrl(HERO_FIRST_IMAGE, HERO_PRELOAD_WIDTH) ?? HERO_FIRST_IMAGE
 
   return (
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
-      <link
-        rel="preload"
-        as="image"
-        href={buildR2CdnUrl(HERO_FIRST_IMAGE, 1920) ?? HERO_FIRST_IMAGE}
-        fetchPriority="high"
-      />
-      <Hero categories={categories} stats={heroStats} />
+      <link rel="preconnect" href="https://img.uniquestaysusa.com" crossOrigin="" />
+      <link rel="preload" as="image" href={heroPreload} fetchPriority="high" />
+      <Suspense
+        fallback={
+          <Hero categories={HERO_FALLBACK_CATEGORIES} stats={HERO_FALLBACK_STATS} />
+        }
+      >
+        <HeroSection />
+      </Suspense>
       <Suspense fallback={null}>
-        <HomeBody
-          categories={categories}
-          spokeStats={inventory.spokeStats}
-          totalCount={inventory.totalCount}
-        />
+        <HomeBody />
       </Suspense>
     </div>
   )

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Fraunces, Plus_Jakarta_Sans, Caveat, Newsreader } from 'next/font/google'
@@ -95,6 +96,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       className={`${fraunces.variable} ${newsreader.variable} ${plusJakartaSans.variable} ${caveat.variable}`}
     >
       <head>
+        <link rel="preconnect" href="https://img.uniquestaysusa.com" crossOrigin="" />
         <meta
           name="impact-site-verification"
           content="6aeda553-2b8f-415e-b0fc-cff364c52b61"
@@ -102,26 +104,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgAndWebSiteJsonLd) }}
-        />
-        <script
-          {...{
-            nowprocket: '',
-            'data-noptimize': '1',
-            'data-cfasync': 'false',
-            'data-wpfc-render': 'false',
-            'seraph-accel-crit': '1',
-            'data-no-defer': '1',
-          }}
-          dangerouslySetInnerHTML={{
-            __html: `
-  (function () {
-      var script = document.createElement("script");
-      script.async = 1;
-      script.src = 'https://emrld.ltd/NTI2OTk1.js?t=526995';
-      document.head.appendChild(script);
-  })();
-`,
-          }}
         />
       </head>
       <body>
@@ -131,6 +113,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Footer />
         <Analytics />
         <SpeedInsights />
+        <Script
+          id="emrld-affiliate"
+          src="https://emrld.ltd/NTI2OTk1.js?t=526995"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

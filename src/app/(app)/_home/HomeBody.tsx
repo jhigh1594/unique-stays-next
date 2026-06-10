@@ -1,23 +1,20 @@
 import HomeContent from './HomeContent'
+import { CATEGORIES_CONFIG } from '@/lib/categories-config'
 import {
   getFeaturedStays,
   getEditorsPickStays,
   getFilmstripStays,
-  type HomepageSpokeStat,
+  getHomepageInventory,
 } from '@/lib/payload-queries'
-import type { CategoryConfig } from '@/lib/categories-config'
 
-interface HomeBodyProps {
-  categories: CategoryConfig[]
-  spokeStats: Record<string, HomepageSpokeStat>
-  totalCount: number
-}
+export default async function HomeBody() {
+  const inventory = await getHomepageInventory()
 
-export default async function HomeBody({
-  categories,
-  spokeStats,
-  totalCount,
-}: HomeBodyProps) {
+  const categories = CATEGORIES_CONFIG.map((cat) => ({
+    ...cat,
+    count: inventory.categoryCounts[cat.id] ?? 0,
+  }))
+
   const [featuredStays, editorsPickStays, filmstripStays] = await Promise.all([
     getFeaturedStays(),
     getEditorsPickStays(),
@@ -29,9 +26,9 @@ export default async function HomeBody({
       featuredStays={featuredStays}
       editorsPickStays={editorsPickStays}
       filmstripStays={filmstripStays}
-      spokeStats={spokeStats}
+      spokeStats={inventory.spokeStats}
       categories={categories}
-      totalCount={totalCount}
+      totalCount={inventory.totalCount}
     />
   )
 }
