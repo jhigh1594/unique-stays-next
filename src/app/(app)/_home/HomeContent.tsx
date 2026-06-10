@@ -356,7 +356,7 @@ export default function HomeContent({
                       fill
                       sizes="(max-width: 1024px) 100vw, 66vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      priority
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/15 to-transparent" />
                     <div className="absolute top-5 left-5 flex gap-2">

@@ -6,6 +6,9 @@ import type { ImageLoader } from 'next/image'
 const CDN_HOST = process.env.NEXT_PUBLIC_IMAGE_CDN_HOST || 'img.uniquestaysusa.com'
 const FALLBACK = '/api/placeholder-image.svg'
 
+/** Largest pre-generated WebP bucket on the image CDN worker. */
+export const CDN_MAX_WIDTH = 1600
+
 const ALLOWED_R2_PREFIXES = ['stays/', 'hero/', 'spokes/', 'media/']
 const SAFE_KEY_RE = /^[a-zA-Z0-9_\-./]+$/
 
@@ -67,7 +70,9 @@ export function buildR2CdnUrl(src: string, width: number): string | null {
   if (!key) return null
 
   const params = new URLSearchParams()
-  if (width > 0) params.set('w', String(Math.round(width)))
+  if (width > 0) {
+    params.set('w', String(Math.min(Math.round(width), CDN_MAX_WIDTH)))
+  }
 
   const query = params.toString()
   return `https://${CDN_HOST}/${key}${query ? `?${query}` : ''}`

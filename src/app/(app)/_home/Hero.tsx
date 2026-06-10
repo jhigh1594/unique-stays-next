@@ -27,7 +27,7 @@ export default function Hero({ categories, stats }: HeroProps) {
           priority
           fetchPriority="high"
           sizes="100vw"
-          quality={80}
+          quality={75}
           className="object-cover"
         />
       </div>

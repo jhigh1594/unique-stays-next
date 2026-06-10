@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
     // See src/lib/image-loader.ts and workers/image-cdn/.
     loader: 'custom',
     loaderFile: './src/lib/image-loader.ts',
+    // Match CDN WebP buckets — avoid srcset entries >1600 that fall back to original JPEG.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1600],
   },
 }
 

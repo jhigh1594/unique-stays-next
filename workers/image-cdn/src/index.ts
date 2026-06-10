@@ -64,13 +64,14 @@ export default {
     const widthParam = url.searchParams.get('w')
     const width = widthParam ? parseInt(widthParam, 10) : 0
 
-    // If no width or width > max bucket, serve original
-    if (!width || width > WIDTH_BUCKETS[WIDTH_BUCKETS.length - 1]) {
+    // No width → original. Oversized requests clamp to max WebP bucket (not full JPEG).
+    if (!width) {
       return serveFromR2(env, key, 'original')
     }
 
-    // Map to nearest bucket
-    const bucket = nearestBucket(width)
+    const maxBucket = WIDTH_BUCKETS[WIDTH_BUCKETS.length - 1]
+    const clampedWidth = Math.min(width, maxBucket)
+    const bucket = nearestBucket(clampedWidth)
     if (bucket === 0) {
       return serveFromR2(env, key, 'original')
     }
