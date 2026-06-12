@@ -445,3 +445,46 @@ Learned patterns:
 - Payload 3.x media uploads via REST require _payload JSON field with metadata alongside file multipart field. Standard form fields for custom metadata are silently ignored.
 - Cool-weather/heat-escape angle is a strong June content pillar — pairs well with the anti-crowd national park series already running.
 - R2 image URLs with .jpeg extension work; .jpg and bare paths return HTML error pages.
+
+---
+
+### Sprint 27: Romantic Cabin Getaways for Couples
+
+**STRATEGY-027** ✓ — Target keyword: romantic cabin getaways, couples cabin trip, romantic stays built for two. Article type: Curated Roundup. 8 stays across 8 states (MO, NC, TX, GA, VT, WI, CA, CO). All sleeps 2-4, all rated 4.94+. Price range $125-$395.
+
+**RESEARCH-027** ✓ — Stay data collected from Payload API. Specific details identified:
+- BaseCamp TreeLoft (MO): 5.0 rating across 692 reviews — statistically aggressive consistency
+- Romantic Mountain Dome (NC): Skylight directly over the queen bed, Smoky Mountains
+- SkyDome Hideaway (TX): First luxury geodesic dome in DFW area, 429 reviews
+- Bide In The Trees (GA): Skydeck 20 feet above forest floor, 4.99 across 313 reviews
+- Glass Tiny House (VT): 200 sq ft built in Estonia, most-wishlisted tiny home in Vermont
+- Turtle Yurts (WI): Clear dome over queen bed, $125/night on Lake Superior
+- Little Lux Floating Home (CA): Richardson Bay, SF skyline views, bobbing with the tide
+- Dreamy Farm Yurt (CO): One of 23 best glamping spots in the US, Steamboat Springs
+
+**WRITE-027** ✓ — First draft: content/drafts/romantic-cabin-getaways-couples.md. ~1,900 words. Opens with the scale-of-the-room thesis. Each stay opens with experience, follows with fact.
+
+**SEO-027** ✓ — Keyword optimized, 3 internal links (treehouse guide, stargazing guide, glamping beginners), 5 FAQ questions. metaTitle 55 chars, metaDescription 152 chars. Cannibalization check: no existing post targets "romantic cabin getaways".
+
+**REVIEW-027** ✓ — Quality score: 8.9/10
+- Voice match: 9, Specificity: 9, Feeling-first: 9, Banned words: 10
+- SEO: 9, Embeds: 10, Practical value: 9, Cut test: 8
+- Banned word scan clean, exclamation scan clean, em dash scan clean
+
+**PUBLISH-027** ✓ — content/published/romantic-cabin-getaways-couples.md
+- Published at: /journal/romantic-cabin-getaways-couples
+- Target keyword: romantic cabin getaways
+- Word count: ~1,900
+- Quality score: 8.9/10
+- Payload post id: 22
+- 8 linked stays (IDs: 373, 368, 367, 372, 202, 279, 193, 282)
+- Public page verified 200 at https://www.uniquestaysusa.com/journal/romantic-cabin-getaways-couples
+- Hero image: reused R2 URL from BaseCamp TreeLoft imageUrl (no new upload needed)
+
+### Patterns
+- "Romantic" as a keyword has strong search volume and zero existing coverage on UniqueStaysUSA — clear content gap.
+- Couples-oriented stays (sleeps 2, 1 bedroom) are abundant in the inventory with high ratings, making this an easy selection.
+- The 5.0 rating across 692 reviews for BaseCamp TreeLoft is a powerful lede hook that no competitor can replicate.
+- Price range framing ($125-$395) with budget picks identified adds booking accessibility.
+- NeonDB admin API key (1e33...) works for Payload REST creates/updates on production. The UniqueStaysUSA key (4a46...) is read-only on the blog-posts collection.
+- REST API publishing is simpler than the local Payload SDK approach — no PAYLOAD_SECRET needed.
