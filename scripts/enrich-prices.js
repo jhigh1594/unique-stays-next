@@ -4,7 +4,7 @@
 
 const BASE = 'https://www.uniquestaysusa.com/api/stays';
 const ADMIN_BASE = 'https://www.uniquestaysusa.com/api/stays';
-const API_KEY = '4a46b8b5d09bebf8bec3238dbffebce514fe55af3798cca3';
+const API_KEY = '1e3398df-433c-4019-8971-8eb0c067149d';
 const DELAY = 2000;
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }

@@ -21,6 +21,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { uploadToR2 } from './lib/r2-upload'
+import { extractJsonLdImageUrls } from './lib/jsonld-images'
+import { extractImages as extractAirbnbImages, extractListingId } from './lib/airbnb-pp-cli'
 
 const execFileAsync = promisify(execFile)
 
@@ -79,6 +81,18 @@ interface ProcessResult {
   status: 'updated' | 'skipped' | 'failed' | 'no-photos'
   imageCount?: number
   reason?: string
+}
+
+// ── JSON-LD fast path (plain HTTP, no browser needed) ──────────────
+async function scrapePhotosJsonLd(affiliateUrl: string): Promise<string[] | null> {
+  try {
+    const res = await fetchWithRetry(affiliateUrl)
+    const html = await res.text()
+    const urls = extractJsonLdImageUrls(html)
+    return urls.length > 0 ? urls : null
+  } catch {
+    return null
+  }
 }
 
 // ── crawl4ai scraper ──────────────────────────────────────────────
@@ -171,11 +185,41 @@ async function processStay(
     return { id, slug, status: 'skipped', reason: 'VRBO IP-blocked' }
   }
 
-  // Scrape listing page
+  // Scrape listing page — try airbnb-pp-cli first, then JSON-LD, then crawl4ai
   process.stdout.write(`  Scraping: ${affiliateUrl}\n`)
   let photoUrls: string[]
+  let scrapeMethod = 'crawl4ai'
   try {
-    photoUrls = await scrapePhotos(affiliateUrl)
+    // 1. Airbnb-pp-cli (primary — 40+ captioned images + structured data)
+    if (affiliateUrl.includes('airbnb.com')) {
+      const airbnbImages = await extractAirbnbImages(affiliateUrl)
+      if (airbnbImages && airbnbImages.length > 0) {
+        photoUrls = airbnbImages.map(img => img.url)
+        scrapeMethod = `airbnb-pp-cli (${photoUrls.length} images)`
+        process.stdout.write(`  ${scrapeMethod}\n`)
+      } else {
+        // 2. JSON-LD fast path (plain HTTP, no browser needed)
+        const jsonLdPhotos = await scrapePhotosJsonLd(affiliateUrl)
+        if (jsonLdPhotos && jsonLdPhotos.length > 0) {
+          photoUrls = jsonLdPhotos
+          scrapeMethod = `JSON-LD (${photoUrls.length} images)`
+          process.stdout.write(`  ${scrapeMethod}\n`)
+        } else {
+          // 3. crawl4ai (heavy — requires Python/browser)
+          photoUrls = await scrapePhotos(affiliateUrl)
+        }
+      }
+    } else {
+      // Non-Airbnb: try JSON-LD then crawl4ai
+      const jsonLdPhotos = await scrapePhotosJsonLd(affiliateUrl)
+      if (jsonLdPhotos && jsonLdPhotos.length > 0) {
+        photoUrls = jsonLdPhotos
+        scrapeMethod = `JSON-LD (${photoUrls.length} images)`
+        process.stdout.write(`  ${scrapeMethod}\n`)
+      } else {
+        photoUrls = await scrapePhotos(affiliateUrl)
+      }
+    }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     process.stdout.write(`  ✗ Scrape failed: ${msg}\n`)

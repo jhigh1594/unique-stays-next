@@ -13,7 +13,28 @@ import sys
 import os
 import re
 
-# Scroll to load lazy images, then extract all image srcs via JS
+# Extract image URLs from JSON-LD structured data (primary — 100% accurate for Airbnb)
+JS_JSONLD_IMAGES = """
+const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+const images = [];
+const seen = new Set();
+for (const s of scripts) {
+    try {
+        const data = JSON.parse(s.textContent);
+        const type = data['@type'] || '';
+        if (type === 'VacationRental' || type === 'Product') {
+            const imgs = Array.isArray(data.image) ? data.image : data.image ? [data.image] : [];
+            for (const img of imgs) {
+                const url = typeof img === 'string' ? img : (img.url || '');
+                if (url && !seen.has(url)) { seen.add(url); images.push(url); }
+            }
+        }
+    } catch(e) {}
+}
+return JSON.stringify(images.slice(0, 30));
+"""
+
+# Fallback: scroll to load lazy images, then extract all image srcs via JS
 JS_SCROLL_AND_COLLECT = """
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const delay = 300;
@@ -63,7 +84,7 @@ async def main():
         wait_for_images=True,
         scan_full_page=True,
         scroll_delay=0.3,
-        js_code=JS_SCROLL_AND_COLLECT,
+        js_code=[JS_JSONLD_IMAGES, JS_SCROLL_AND_COLLECT],
         delay_before_return_html=1.0,
         verbose=False,
     )
@@ -81,20 +102,31 @@ async def main():
 
         photo_urls = []
 
-        # 1. From JS execution result (scrolled page, best quality)
-        #    js_execution_result is a dict: {'success': bool, 'results': [str, ...]}
+        # 1. From JSON-LD JS extraction (primary — 100% accurate for Airbnb)
         js_result = result.js_execution_result
         if js_result and isinstance(js_result, dict):
             js_returns = js_result.get('results', [])
-            if js_returns:
+            if js_returns and len(js_returns) >= 1:
+                # First JS snippet is JSON-LD — try it first
                 raw = str(js_returns[0])
+                try:
+                    jsonld_urls = json.loads(raw)
+                    if isinstance(jsonld_urls, list) and len(jsonld_urls) > 0:
+                        photo_urls = jsonld_urls
+                except (json.JSONDecodeError, TypeError):
+                    pass
+
+        # 2. From scroll+collect JS (fallback — img tags from rendered page)
+        if not photo_urls and js_result and isinstance(js_result, dict):
+            js_returns = js_result.get('results', [])
+            if js_returns and len(js_returns) >= 2:
+                raw = str(js_returns[1])
                 try:
                     photo_urls = json.loads(raw)
                 except (json.JSONDecodeError, TypeError):
-                    # Fallback: regex extract from the string
                     photo_urls = re.findall(r'https?://[^\s"\'\\]+?\.(?:jpg|jpeg|png|webp|avif)', raw)
 
-        # 2. From crawl4ai's media extraction
+        # 3. From crawl4ai's media extraction
         if not photo_urls:
             media = result.media
             if media and media.get('images'):
@@ -105,7 +137,7 @@ async def main():
                         if clean not in photo_urls:
                             photo_urls.append(clean)
 
-        # 3. Fallback: extract from HTML img tags
+        # 4. Fallback: extract from HTML img tags
         if not photo_urls:
             html = result.html or ""
             img_tags = re.findall(r'<img[^>]+>', html)

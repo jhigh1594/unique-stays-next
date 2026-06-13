@@ -3,7 +3,7 @@
 import Image from 'next/image'
 
 const ASSET_BASE = '/prototypes/journal-hero-pixel-match'
-const HERO_IMAGE = `${ASSET_BASE}/background.png`
+const HERO_IMAGE = `${ASSET_BASE}/background.webp`
 
 const EYEBROW = 'The Wayfinder Journal · Vol. 2 · 2026'
 const LINE1 = 'Slow mornings.'
@@ -15,7 +15,7 @@ const POLAROIDS = [
   {
     className: 'journal-hero__polaroid--lighthouse',
     pinClassName: 'journal-hero__pin--lighthouse',
-    src: `${ASSET_BASE}/polaroid-lighthouse.png`,
+    src: `${ASSET_BASE}/polaroid-lighthouse.webp`,
     alt: 'A lighthouse on a rocky coast at sunset',
     caption: (
       <>
@@ -29,7 +29,7 @@ const POLAROIDS = [
   {
     className: 'journal-hero__polaroid--treehouse',
     pinClassName: 'journal-hero__pin--treehouse',
-    src: `${ASSET_BASE}/polaroid-treehouse.png`,
+    src: `${ASSET_BASE}/polaroid-treehouse.webp`,
     alt: 'A warm treehouse tucked into a forest',
     caption: (
       <>
@@ -43,7 +43,7 @@ const POLAROIDS = [
   {
     className: 'journal-hero__polaroid--dome',
     pinClassName: 'journal-hero__pin--dome',
-    src: `${ASSET_BASE}/polaroid-dome.png`,
+    src: `${ASSET_BASE}/polaroid-dome.webp`,
     alt: 'A glowing geodesic dome beneath mountains',
     caption: (
       <>

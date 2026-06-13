@@ -2,6 +2,7 @@
 // Primary: Firecrawl. Fallback: raw HTTP fetch when credits exhausted.
 
 import Firecrawl from '@mendable/firecrawl-js'
+import { extractJsonLdImageUrls } from './jsonld-images'
 
 export interface ScrapedData {
   description: string
@@ -215,10 +216,13 @@ function extractNeighborhood(markdown: string): string {
 }
 
 function extractPhotoUrls(html: string, markdown: string): string[] {
+  // PRIMARY: JSON-LD structured data (100% accurate for Airbnb)
+  const jsonLdImages = extractJsonLdImageUrls(html)
+  if (jsonLdImages.length > 0) return jsonLdImages
+
+  // FALLBACK: extract from HTML img src attributes (noisy — avatars, logos, etc.)
   const urls: string[] = []
   const seen = new Set<string>()
-
-  // Extract from HTML img src attributes
   const imgRegex = /src="(https:\/\/[^"]+\.(?:jpg|jpeg|png|webp)[^"]*)"/gi
   let match: RegExpExecArray | null
   while ((match = imgRegex.exec(html)) !== null) {

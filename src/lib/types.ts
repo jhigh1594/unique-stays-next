@@ -58,6 +58,13 @@ export type NormalizedJournalPost = {
   content: unknown
 }
 
+/**
+ * Lightweight journal post for list/index views. Omits the Lexical `content`
+ * body and populated `linkedStays` so list pages don't serialize full article
+ * bodies across the RSC boundary or into client hydration data.
+ */
+export type JournalPostSummary = Omit<NormalizedJournalPost, 'content' | 'linkedStays'>
+
 export type SpokeStatItem = {
   value: string
   label: string

@@ -20,7 +20,7 @@ import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 
 const ADMIN_BASE = 'https://www.uniquestaysusa.com/api/stays';
-const API_KEY = '4a46b8b5d09bebf8bec3238dbffebce514fe55af3798cca3';
+const API_KEY = '1e3398df-433c-4019-8971-8eb0c067149d';
 const BIN_PATH = `${process.env.HOME}/bin:${process.env.HOME}/go/bin`;
 
 const args = process.argv.slice(2);

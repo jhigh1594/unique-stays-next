@@ -2,7 +2,7 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { resolveStayCapacity } from './stay-capacity'
-import type { NormalizedJournalPost, NormalizedStay } from './types'
+import type { JournalPostSummary, NormalizedJournalPost, NormalizedStay } from './types'
 
 async function getPayloadInstance() {
   return getPayload({ config })
@@ -483,17 +483,32 @@ function normalizeJournalPost(doc: Record<string, unknown>): NormalizedJournalPo
   }
 }
 
+/**
+ * List-view normalizer. Reuses the full normalizer then drops the Lexical
+ * `content` body and populated `linkedStays`, which list/index pages never
+ * render but would otherwise serialize into the RSC payload and client data.
+ */
+function normalizeJournalPostSummary(doc: Record<string, unknown>): JournalPostSummary {
+  const { content: _content, linkedStays: _linkedStays, ...summary } = normalizeJournalPost(doc)
+  return summary
+}
+
 export const getAllJournalPosts = unstable_cache(
-  async (): Promise<NormalizedJournalPost[]> => {
+  async (): Promise<JournalPostSummary[]> => {
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'blog-posts',
       where: { status: { equals: 'published' } },
       sort: '-publishedAt',
       limit: 50,
+      // depth 1 populates heroImage (needed for the URL). linkedStays and the
+      // Lexical content body come along for the ride but are stripped by the
+      // summary normalizer so they never reach the client.
       depth: 1,
     })
-    return result.docs.map((doc) => normalizeJournalPost(doc as unknown as Record<string, unknown>))
+    return result.docs.map((doc) =>
+      normalizeJournalPostSummary(doc as unknown as Record<string, unknown>)
+    )
   },
   ['journal-all'],
   { tags: ['journal'], revalidate: 3600 }

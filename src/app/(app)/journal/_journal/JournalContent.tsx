@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, MapPin, Newspaper } from 'lucide-react'
 import type { CSSProperties } from 'react'
-import type { NormalizedJournalPost } from '@/lib/types'
+import type { JournalPostSummary } from '@/lib/types'
 import JournalHero from './JournalHero'
 
 function formatPostmarkDate(dateStr: string): string {
@@ -22,11 +22,11 @@ function formatTelegramDate(dateStr: string): string {
   }).format(new Date(dateStr))
 }
 
-function locationLabel(post: NormalizedJournalPost) {
+function locationLabel(post: JournalPostSummary) {
   return [post.city, post.state].filter(Boolean).join(', ') || 'Undisclosed location'
 }
 
-function coordinateLabel(post: NormalizedJournalPost) {
+function coordinateLabel(post: JournalPostSummary) {
   if (post.latitude && post.longitude) return `${post.latitude} N / ${post.longitude} W`
   return locationLabel(post)
 }
@@ -123,7 +123,7 @@ function DispatchCard({
   post,
   index,
 }: {
-  post: NormalizedJournalPost
+  post: JournalPostSummary
   index: number
 }) {
   const hasImage = Boolean(post.heroImageUrl)
@@ -195,7 +195,7 @@ function DispatchCard({
   )
 }
 
-export default function JournalContent({ posts }: { posts: NormalizedJournalPost[] }) {
+export default function JournalContent({ posts }: { posts: JournalPostSummary[] }) {
   const featured = posts[0] ?? null
   const rest = posts.slice(1)
 

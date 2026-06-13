@@ -1,5 +1,5 @@
 const BASE = 'https://unique-stays-usa.vercel.app/api/stays';
-const API_KEY = '4a46b8b5d09bebf8bec3238dbffebce514fe55af3798cca3';
+const API_KEY = '1e3398df-433c-4019-8971-8eb0c067149d';
 
 async function run() {
   const res = await fetch(`${BASE}?where[price][equals]=1&limit=500&depth=0`);

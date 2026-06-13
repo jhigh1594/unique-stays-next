@@ -10,6 +10,7 @@ import config from '@payload-config'
 import { scrapeListing } from './lib/scraper'
 import { generateEditorialContent, type StayMetadata, type ScrapedInput } from './lib/generator'
 import { downloadAndUploadImage, processGalleryImages } from './lib/images'
+import { extractListingData as extractAirbnbListing, extractListingId } from './lib/airbnb-pp-cli'
 
 // ── CLI arg parsing ──────────────────────────────────────────────
 const args = process.argv.slice(2)
@@ -84,16 +85,44 @@ async function main() {
     const tier = (stay.featured as boolean) || (stay.editorsPick as boolean) ? 1 : 2
 
     try {
-      // Step 1: Scrape
+      // Step 1: Scrape — prefer airbnb-pp-cli for Airbnb listings (richer data)
       const affiliateUrl = stay.affiliateUrl as string
-      const scrapeResult = await scrapeListing(affiliateUrl)
+      let scraped: ScrapedInput
+      let photoUrls: string[] = []
 
-      const scraped: ScrapedInput = scrapeResult.success && scrapeResult.data
-        ? scrapeResult.data
-        : { description: '', amenities: [], neighborhood: '' }
-
-      if (!scrapeResult.success) {
-        process.stdout.write(`⚠ ${slug}: scrape failed (${scrapeResult.error})\n`)
+      if (affiliateUrl.includes('airbnb.com')) {
+        // Primary: airbnb-pp-cli (structured data + 40+ captioned images)
+        const airbnbData = await extractAirbnbListing(affiliateUrl)
+        if (airbnbData) {
+          scraped = {
+            description: airbnbData.hostBio || '',
+            amenities: airbnbData.policies || [],
+            neighborhood: `${airbnbData.city}, ${airbnbData.region}`,
+            photoUrls: airbnbData.images.map(img => img.url),
+          }
+          photoUrls = scraped.photoUrls
+          process.stdout.write(`  airbnb-pp-cli: ${airbnbData.images.length} images\n`)
+        } else {
+          // Fallback: Firecrawl/raw HTTP
+          const scrapeResult = await scrapeListing(affiliateUrl)
+          scraped = scrapeResult.success && scrapeResult.data
+            ? scrapeResult.data
+            : { description: '', amenities: [], neighborhood: '' }
+          photoUrls = scraped.photoUrls ?? []
+          if (!scrapeResult.success) {
+            process.stdout.write(`⚠ ${slug}: scrape failed (${scrapeResult.error})\n`)
+          }
+        }
+      } else {
+        // Non-Airbnb: existing Firecrawl scraper
+        const scrapeResult = await scrapeListing(affiliateUrl)
+        scraped = scrapeResult.success && scrapeResult.data
+          ? scrapeResult.data
+          : { description: '', amenities: [], neighborhood: '' }
+        photoUrls = scraped.photoUrls ?? []
+        if (!scrapeResult.success) {
+          process.stdout.write(`⚠ ${slug}: scrape failed (${scrapeResult.error})\n`)
+        }
       }
 
       // Step 2: Generate editorial content
@@ -117,7 +146,6 @@ async function main() {
 
       // Step 4: Download and upload gallery images
       let galleryImages: Array<{ imageUrl: string }> = []
-      const photoUrls = scraped.photoUrls ?? []
       if (photoUrls.length > 0) {
         const imageLimit = tier === 1 ? 5 : 3
 

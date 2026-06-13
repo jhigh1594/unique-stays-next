@@ -470,7 +470,7 @@
   pointer-events: none;
   background:
     linear-gradient(180deg, rgba(8, 10, 8, 0), rgba(8, 10, 8, 0.2) 46%, rgba(21, 18, 11, 0.42) 100%),
-    url('/prototypes/journal-hero-pixel-match/background.png') center bottom / cover no-repeat;
+    url('/prototypes/journal-hero-pixel-match/background.webp') center bottom / cover no-repeat;
   filter: saturate(1.04) brightness(0.92) sepia(0.04);
   opacity: 0.86;
 }

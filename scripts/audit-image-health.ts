@@ -13,6 +13,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { auditStayImages, isR2Url } from '../src/lib/image-validation'
+import { auditStayImageSemantics, getAirbnbReals, listingIdFromUrl } from './lib/image-semantic'
 
 const args = process.argv.slice(2)
 function getArg(name: string): string | undefined {
@@ -25,12 +26,17 @@ const shouldFix = hasFlag('fix')
 const outputJson = hasFlag('json')
 const outputCsv = hasFlag('csv')
 const limit = getArg('limit') ? parseInt(getArg('limit')!, 10) : undefined
+// Semantic check (opt-in): for Airbnb stays, compare hero/gallery to the listing's
+// real photo set via airbnb-pp-cli + dHash. Catches live images of the WRONG property
+// that the liveness pass cannot. Slow (one airbnb-pp-cli call per Airbnb stay).
+const shouldSemantic = hasFlag('semantic')
 
 interface Stay {
   id: number
   slug: string
   title: string
   platform: string
+  affiliateUrl?: string | null
   imageUrl: string | null
   galleryImages: Array<{ imageUrl: string }>
 }
@@ -50,12 +56,37 @@ async function main() {
   const stays = result.docs as Stay[]
   console.log(`Auditing ${stays.length} stays...\n`)
 
-  const reports: Array<Awaited<ReturnType<typeof auditStayImages>> & { id: number }> = []
+  interface Report extends Awaited<ReturnType<typeof auditStayImages>> {
+    id: number
+    heroSemantic?: string
+    heroSemanticDist?: number
+    gallerySemanticBad?: number[]
+  }
+  const reports: Report[] = []
 
   for (let i = 0; i < stays.length; i++) {
     const stay = stays[i]
-    const report = await auditStayImages(stay)
-    reports.push({ ...report, id: stay.id })
+    const report: Report = { ...(await auditStayImages(stay)), id: stay.id }
+
+    // Semantic check (Airbnb only, opt-in) — detects live images of the wrong property
+    if (shouldSemantic && stay.platform === 'Airbnb') {
+      const listingId = listingIdFromUrl(stay.affiliateUrl ?? '')
+      if (listingId) {
+        try {
+          const reals = await getAirbnbReals(listingId)
+          const sem = await auditStayImageSemantics(stay, reals)
+          if (sem.heroSemantic === 'mismatch') report.issues.push('hero_semantic_mismatch')
+          if (sem.galleryBadIndices.length > 0) report.issues.push('gallery_semantic_mismatch')
+          report.heroSemantic = sem.heroSemantic
+          report.heroSemanticDist = sem.heroDist
+          report.gallerySemanticBad = sem.galleryBadIndices
+        } catch (err) {
+          report.heroSemantic = `error: ${err instanceof Error ? err.message : String(err)}`
+        }
+      }
+    }
+
+    reports.push(report)
 
     // Progress indicator
     const statusIcon = report.issues.length === 0 ? '✓' : '⚠'
@@ -69,6 +100,8 @@ async function main() {
   const brokenHero = reports.filter((r) => r.issues.includes('broken_hero'))
   const atRiskHero = reports.filter((r) => r.issues.includes('at_risk_hero'))
   const brokenGallery = reports.filter((r) => r.issues.includes('broken_gallery'))
+  const heroSemantic = reports.filter((r) => r.issues.includes('hero_semantic_mismatch'))
+  const gallerySemantic = reports.filter((r) => r.issues.includes('gallery_semantic_mismatch'))
 
   console.log(`\n${'═'.repeat(60)}`)
   console.log(`  Total stays:      ${reports.length}`)
@@ -77,6 +110,10 @@ async function main() {
   console.log(`  Broken hero:      ${brokenHero.length}`)
   console.log(`  At-risk hero:     ${atRiskHero.length} (non-R2 external URL)`)
   console.log(`  Broken gallery:   ${brokenGallery.length}`)
+  if (shouldSemantic) {
+    console.log(`  Hero wrong-prop:  ${heroSemantic.length} (live img, wrong property — --semantic)`)
+    console.log(`  Gallery wrong:    ${gallerySemantic.length} (live img, wrong property — --semantic)`)
+  }
 
   const totalProblems = reports.length - healthy.length
   console.log(`  Total problems:   ${totalProblems}`)
@@ -141,11 +178,25 @@ async function main() {
         console.log(`    • [${r.id}] ${r.slug} (${r.platform}) — ${r.galleryBrokenCount}/${r.galleryCount} broken`)
       }
     }
+
+    if (heroSemantic.length > 0) {
+      console.log('\n  Hero depicts WRONG property (live but incorrect):')
+      for (const r of heroSemantic) {
+        console.log(`    • [${r.id}] ${r.slug} (${r.platform}) — hero dist ${r.heroSemanticDist ?? '?'} vs real set`)
+      }
+    }
+
+    if (gallerySemantic.length > 0) {
+      console.log('\n  Gallery depicts WRONG property (live but incorrect):')
+      for (const r of gallerySemantic) {
+        console.log(`    • [${r.id}] ${r.slug} (${r.platform}) — bad idx ${JSON.stringify(r.gallerySemanticBad)}`)
+      }
+    }
   }
 
   // Flag broken stays for review in Payload
   if (!hasFlag('dry-run')) {
-    const toFlag = [...missingHero, ...brokenHero]
+    const toFlag = [...missingHero, ...brokenHero, ...heroSemantic, ...gallerySemantic]
     if (toFlag.length > 0) {
       console.log(`\nFlagging ${toFlag.length} stays for review...`)
       for (const r of toFlag) {

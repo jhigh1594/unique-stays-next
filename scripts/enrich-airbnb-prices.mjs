@@ -18,7 +18,7 @@
 import puppeteer from 'puppeteer-core';
 
 const ADMIN_BASE = 'https://www.uniquestaysusa.com/api/stays';
-const API_KEY = '4a46b8b5d09bebf8bec3238dbffebce514fe55af3798cca3';
+const API_KEY = '1e3398df-433c-4019-8971-8eb0c067149d';
 const BL_TOKEN = '2UTr21YzqiZEcVBf67740acb023d9657bcc7b9a3408d631a8';
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }

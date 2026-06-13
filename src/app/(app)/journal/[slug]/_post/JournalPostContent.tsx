@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import posthog from 'posthog-js'
 import FilmstripSection from '@/components/FilmstripSection'
 import RichTextRenderer from '@/components/RichTextRenderer'
-import type { NormalizedJournalPost } from '@/lib/types'
+import type { JournalPostSummary, NormalizedJournalPost } from '@/lib/types'
 
 function ReadingCompass() {
   const [progress, setProgress] = useState(0)
@@ -157,18 +157,18 @@ function formatLongDate(dateStr: string): string {
   }).format(new Date(dateStr))
 }
 
-function locationLabel(post: NormalizedJournalPost) {
+function locationLabel(post: JournalPostSummary) {
   return [post.city, post.state].filter(Boolean).join(', ') || 'Undisclosed location'
 }
 
-function coordinateLabel(post: NormalizedJournalPost) {
+function coordinateLabel(post: JournalPostSummary) {
   if (post.latitude && post.longitude) return `${post.latitude} N / ${post.longitude} W`
   return 'Coordinates withheld'
 }
 
 interface JournalPostContentProps {
   post: NormalizedJournalPost
-  relatedPosts: NormalizedJournalPost[]
+  relatedPosts: JournalPostSummary[]
 }
 
 export default function JournalPostContent({ post, relatedPosts }: JournalPostContentProps) {

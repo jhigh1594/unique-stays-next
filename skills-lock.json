@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "compare-travel-options": {
+      "source": "/Users/jon.high/.config/browserbase/skills/expedia.com/compare-travel-options-v05jqc",
+      "sourceType": "local",
+      "computedHash": "efb82bc3e79937a06bb90dc342728215dbc9c547d23ad94067c23bbd448deab0"
+    },
     "higgsfield-generate": {
       "source": "higgsfield-ai/skills",
       "sourceType": "github",
@@ -90,6 +95,11 @@
       "sourceType": "github",
       "skillPath": "skills/remotion/SKILL.md",
       "computedHash": "006f8413941b59eff54a7ce64851b8a2fb79e7a3a5f1a895e97a48f01482553d"
+    },
+    "search-and-extract-listings": {
+      "source": "/Users/jon.high/.config/browserbase/skills/wander.com/search-and-extract-listings-d6fgrc",
+      "sourceType": "local",
+      "computedHash": "fcdd1e4cb625c2f1969e2efd0424bb532df7dce11982a17da657fbab2d1275b9"
     },
     "superlog-debug": {
       "source": "superloglabs/skills",

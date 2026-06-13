@@ -96,6 +96,7 @@ async function main() {
           reviewCount: (s.reviewCount as number) ?? 0,
           sleeps: (s.sleeps as number) ?? 0,
           bedrooms: (s.bedrooms as number) ?? 0,
+          bathrooms: (s.bathrooms as number) ?? 1,
           description: (s.description as string) ?? '',
           tags: Array.isArray(s.tags) ? s.tags : [],
           featured: (s.featured as boolean) ?? false,

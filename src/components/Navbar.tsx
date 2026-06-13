@@ -27,15 +27,40 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Compass,
 }
 
-/** Pages with a light top section. Nav links stay dark before scroll. */
-const LIGHT_HERO_PREFIXES = ['/about', '/submit', '/privacy', '/disclosure'] as const
+/** Static routes whose hero band is light; nav links stay dark before scroll. */
+const LIGHT_HERO_PREFIXES = [
+  '/about',
+  '/submit',
+  '/privacy',
+  '/disclosure',
+  '/ai-instructions',
+  '/tools',
+] as const
+
+const LIGHT_HERO_TOOL_SLUGS = new Set(TOOLS.map((tool) => tool.slug))
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V'] as const
 
 function hasLightHeroPath(pathname: string): boolean {
-  return LIGHT_HERO_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-  )
+  if (
+    LIGHT_HERO_PREFIXES.some(
+      (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+    )
+  ) {
+    return true
+  }
+
+  // Journal index uses a dark hero; individual posts use light paper.
+  if (pathname.startsWith('/journal/')) {
+    return true
+  }
+
+  const [rootSegment] = pathname.split('/').filter(Boolean)
+  if (rootSegment && LIGHT_HERO_TOOL_SLUGS.has(rootSegment)) {
+    return true
+  }
+
+  return false
 }
 
 /** Perforation edge with a dashed SVG line. */
@@ -102,7 +127,9 @@ export default function Navbar() {
     setMobileOpen(false)
   }, [pathname])
 
-  const isOnCollections = pathname === '/collections' || pathname === '/collection' || SPOKE_SLUGS.some((s) => pathname === `/${s}`)
+  const isOnCollectionsHub =
+    pathname === '/collections' || SPOKE_SLUGS.some((s) => pathname === `/${s}`)
+  const isOnAllStays = pathname === '/collection'
   const isOnToolsPage = pathname === '/tools' || TOOLS.some((t) => pathname === `/${t.slug}`)
   const isDetailPage = pathname.startsWith('/stays/')
   const usesLightHeader = scrolled || isDetailPage
@@ -114,7 +141,7 @@ export default function Navbar() {
       <span
         className={`text-sm font-medium transition-colors duration-200 relative group ${
           isActive
-            ? `text-[${TERRACOTTA}]`
+            ? 'text-[oklch(0.55_0.14_38)]'
             : usesDarkNavText
               ? 'text-[oklch(0.40_0.03_60)] hover:text-[oklch(0.55_0.14_38)]'
               : 'text-[oklch(0.90_0.01_85)] hover:text-white'
@@ -161,8 +188,8 @@ export default function Navbar() {
               style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
               aria-label="Main navigation"
             >
-              {flatNavLink('/collections', 'Collections', isOnCollections)}
-              {flatNavLink('/collection', 'All Stays', pathname === '/collection')}
+              {flatNavLink('/collections', 'Collections', isOnCollectionsHub)}
+              {flatNavLink('/collection', 'All Stays', isOnAllStays)}
               {flatNavLink('/journal', 'Journal', pathname === '/journal')}
               {flatNavLink('/tools', 'Tools', isOnToolsPage)}
               {flatNavLink('/about', 'About', pathname === '/about')}

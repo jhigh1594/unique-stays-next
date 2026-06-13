@@ -93,8 +93,13 @@ export async function uploadHeroImage(opts: UploadHeroOptions) {
   })
   console.log(`  Linked hero image (media id=${media.id}) to post "${postSlug}" (id=${post.id})`)
 
-  // 4. Revalidate ISR cache
-  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://www.uniquestaysusa.com'
+  // 4. Revalidate ISR cache.
+  // Honor REVALIDATE_BASE_URL (project convention, see src/collections/BlogPosts.ts),
+  // else NEXT_PUBLIC_SERVER_URL — but only if it points at a real host. When this
+  // script runs locally via --env-file=.env.local, NEXT_PUBLIC_SERVER_URL is
+  // http://localhost:3000, which silently no-ops prod cache; fall back to prod www.
+  const candidate = process.env.REVALIDATE_BASE_URL ?? process.env.NEXT_PUBLIC_SERVER_URL
+  const serverUrl = candidate && !candidate.includes('localhost') ? candidate : 'https://www.uniquestaysusa.com'
   const revalRes = await fetch(`${serverUrl}/api/revalidate`, {
     method: 'POST',
     headers: {
@@ -104,7 +109,18 @@ export async function uploadHeroImage(opts: UploadHeroOptions) {
     body: JSON.stringify({ tag: `journal:${postSlug}` }),
   })
   const revalText = await revalRes.text()
-  console.log(`  ISR revalidation: ${revalText}`)
+  console.log(`  ISR revalidation (journal:${postSlug}): ${revalText}`)
+
+  // Also bust the journal index — the hero shows on listing cards.
+  const indexRes = await fetch(`${serverUrl}/api/revalidate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-revalidate-secret': process.env.REVALIDATE_SECRET || '',
+    },
+    body: JSON.stringify({ tag: 'journal' }),
+  })
+  console.log(`  ISR revalidation (journal index): ${await indexRes.text()}`)
 
   // 5. Verify final state
   const finalCheck = await payload.find({

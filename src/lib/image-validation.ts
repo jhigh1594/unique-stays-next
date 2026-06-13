@@ -104,6 +104,8 @@ export type ImageHealthStatus =
   | 'at_risk_hero' // non-R2 external URL that may expire
   | 'missing_gallery'
   | 'broken_gallery'
+  | 'hero_semantic_mismatch' // live image, wrong property (Airbnb only, --semantic)
+  | 'gallery_semantic_mismatch' // live image, wrong property (Airbnb only, --semantic)
 
 export interface ImageHealthReport {
   slug: string
