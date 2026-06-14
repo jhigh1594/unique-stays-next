@@ -48,13 +48,26 @@ export function listingIdFromUrl(url: string): string | null {
   return url?.match(/airbnb\.com\/rooms\/(\d+)/)?.[1] ?? null
 }
 
-async function dl(url: string): Promise<Buffer | null> {
-  try {
-    const r = await fetch(url, { signal: AbortSignal.timeout(30_000), headers: { 'User-Agent': 'Mozilla/5.0' } })
-    if (!r.ok) return null
-    const ab = await r.arrayBuffer()
-    return ab.byteLength > 5120 ? Buffer.from(ab) : null
-  } catch { return null }
+async function dl(url: string, retries = 2): Promise<Buffer | null> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(30_000), headers: { 'User-Agent': 'Mozilla/5.0' } })
+      if (r.ok) {
+        const ab = await r.arrayBuffer()
+        if (ab.byteLength > 5120) return Buffer.from(ab)
+        return null
+      }
+      if (r.status === 429 || r.status >= 500) {
+        await new Promise(res => setTimeout(res, 500 * (attempt + 1)))
+        continue
+      }
+      return null // 4xx (except 429) is a real dead URL — don't retry
+    } catch {
+      if (attempt === retries) return null
+      await new Promise(res => setTimeout(res, 500 * (attempt + 1)))
+    }
+  }
+  return null
 }
 
 /** Fetch a listing's real photo URLs via airbnb-pp-cli, cached to tmpdir. */
@@ -115,12 +128,14 @@ export async function auditStayImageSemantics(stay: {
     }
   }
 
-  // gallery
+  // gallery — unreachable images are NOT flagged as semantic mismatches
+  // (a dead URL is a liveness issue, handled by auditStayImages). Only flag
+  // images that download fine but depict the wrong property.
   const gallery = stay.galleryImages ?? []
   const galleryBadIndices: number[] = []
   for (let i = 0; i < gallery.length; i++) {
     const gb = await dl(gallery[i].imageUrl ?? '')
-    if (!gb) { galleryBadIndices.push(i); continue }
+    if (!gb) continue
     if (bestDist(await dHash(gb)) > SEMANTIC_THRESH) galleryBadIndices.push(i)
   }
 

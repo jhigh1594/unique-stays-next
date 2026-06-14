@@ -93,5 +93,8 @@ swim-in-the-ancestral-waters-hidden-underground-4-98.
 2. **the-highland-grainbin** — re-run `fetch-gallery-images.ts` on that slug.
 3. **6 delisted** — confirm affiliate links 404; remove or re-source listings.
 4. **4 malformed URLs** — fix `affiliateUrl` to real `/rooms/<id>` (or drop).
-5. **Prevention** — add this semantic dHash-vs-`airbnb-pp-cli` check into `audit-image-health.ts`
-   so wrong-property heroes are caught on future runs, not just dead URLs.
+5. **Prevention** — DONE. Semantic check folded into `scripts/audit-image-health.ts`
+   (`--semantic` flag) backed by `scripts/lib/image-semantic.ts`. Compares hero/gallery to
+   `airbnb-pp-cli` ground truth via muscache-UUID or dHash; flags `hero_semantic_mismatch` /
+   `gallery_semantic_mismatch`. Post-fix re-audit: **0 hero + 0 gallery semantic mismatches.**
+   Fixer for any future finds: `scripts/tmp-fix-heroes.ts --pilot <slug,slug>`.
