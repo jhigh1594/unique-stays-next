@@ -64,6 +64,26 @@ export function extractR2Key(src: string): string | null {
   return key
 }
 
+// Version query param forwarded from the source imageUrl to the CDN URL.
+// Re-publishing an image uploads new bytes to the SAME R2 key — the worker replies
+// with `Cache-Control: immutable`, so the CDN edge + browsers cache the old bytes
+// for a year under that identical URL. Appending a content version (`?v=<hash>`)
+// changes the request URL on every real change, forcing a cache miss at the edge
+// and in browsers. Without this, overwriting bytes in place is an invisible update.
+const VERSION_PARAM = 'v'
+const VERSION_RE = /^[A-Za-z0-9_.\-]{1,40}$/
+
+function extractVersion(src: string): string | null {
+  let url: URL
+  try {
+    url = new URL(src)
+  } catch {
+    return null
+  }
+  const v = url.searchParams.get(VERSION_PARAM) ?? url.searchParams.get('rev')
+  return v && VERSION_RE.test(v) ? v : null
+}
+
 /** Build a CDN URL for a known R2 key (used by next/image loader and LCP preloads). */
 export function buildR2CdnUrl(src: string, width: number): string | null {
   const key = extractR2Key(src)
@@ -72,6 +92,10 @@ export function buildR2CdnUrl(src: string, width: number): string | null {
   const params = new URLSearchParams()
   if (width > 0) {
     params.set('w', String(Math.min(Math.round(width), CDN_MAX_WIDTH)))
+  }
+  const version = extractVersion(src)
+  if (version) {
+    params.set(VERSION_PARAM, version)
   }
 
   const query = params.toString()

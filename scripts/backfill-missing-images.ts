@@ -11,6 +11,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { uploadToR2 } from './lib/r2-upload'
+import { withVersion } from './lib/stay-images'
+import { purgeImageKeys } from './lib/cloudflare-purge'
 
 const execFileAsync = promisify(execFile)
 
@@ -129,15 +131,17 @@ async function fixStay(payload: Awaited<ReturnType<typeof getPayload>>, id: numb
       const key = `stays/${slug}.${ext}`
 
       const uploaded = await uploadToR2(key, buffer, contentType)
+      await purgeImageKeys([key]) // bust CF edge for the bare key (versioning covers ?w= variants)
+      const imageUrl = withVersion(uploaded.url, buffer)
 
       // Update stay in Payload
       await payload.update({
         collection: 'stays',
         id,
-        data: { imageUrl: uploaded.url },
+        data: { imageUrl },
       })
 
-      console.log(`  ✓ Updated: ${uploaded.url}`)
+      console.log(`  ✓ Updated: ${imageUrl}`)
       return { id, slug, status: 'fixed', newUrl: uploaded.url }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
