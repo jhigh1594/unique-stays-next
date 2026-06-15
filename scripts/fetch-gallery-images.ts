@@ -21,6 +21,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { uploadToR2 } from './lib/r2-upload'
+import { withVersion } from './lib/stay-images'
+import { purgeImageKeys } from './lib/cloudflare-purge'
 import { extractJsonLdImageUrls } from './lib/jsonld-images'
 import { extractImages as extractAirbnbImages, extractListingId } from './lib/airbnb-pp-cli'
 
@@ -156,7 +158,8 @@ async function downloadAndUpload(
     const key = `stays/${slug}/gallery-${index}.${ext}`
 
     const uploaded = await uploadToR2(key, buffer, contentType)
-    return { imageUrl: uploaded.url }
+    await purgeImageKeys([key]) // bust CF edge for the bare key (versioning covers ?w= variants)
+    return { imageUrl: withVersion(uploaded.url, buffer) }
   } catch {
     return null
   }

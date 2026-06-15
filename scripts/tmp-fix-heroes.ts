@@ -10,6 +10,8 @@ import config from '@payload-config'
 import sharp from 'sharp'
 import { readFileSync } from 'node:fs'
 import { uploadToR2 } from './lib/r2-upload'
+import { withVersion } from './lib/stay-images'
+import { purgeImageKeys } from './lib/cloudflare-purge'
 
 const REALS_DIR = '/tmp/audit_reals'
 const SLUGS = [
@@ -73,8 +75,10 @@ async function main() {
       continue
     }
     const up = await uploadToR2(key, picked.buf, contentType)
-    await payload.update({ collection: 'stays', id: stay.id, data: { imageUrl: up.url }, overrideAccess: true })
-    console.log(`✓ ${slug}: ${up.url}  (real#${reals.indexOf(picked.url)})`)
+    await purgeImageKeys([key]) // bust CF edge for the bare key (versioning covers ?w= variants)
+    const imageUrl = withVersion(up.url, picked.buf)
+    await payload.update({ collection: 'stays', id: stay.id, data: { imageUrl }, overrideAccess: true })
+    console.log(`✓ ${slug}: ${imageUrl}  (real#${reals.indexOf(picked.url)})`)
     done.push(slug)
   }
 
