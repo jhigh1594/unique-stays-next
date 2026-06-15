@@ -13,6 +13,7 @@ import sharp from 'sharp'
 import { uploadToR2 } from './lib/r2-upload'
 import { withVersion } from './lib/stay-images'
 import { purgeImageKeys } from './lib/cloudflare-purge'
+import { regenVariants } from './lib/regen-variants'
 
 const execFileAsync = promisify(execFile)
 
@@ -131,6 +132,7 @@ async function fixStay(payload: Awaited<ReturnType<typeof getPayload>>, id: numb
       const key = `stays/${slug}.${ext}`
 
       const uploaded = await uploadToR2(key, buffer, contentType)
+      await regenVariants(key, buffer) // refresh -w{N}.webp variants the worker serves
       await purgeImageKeys([key]) // bust CF edge for the bare key (versioning covers ?w= variants)
       const imageUrl = withVersion(uploaded.url, buffer)
 
