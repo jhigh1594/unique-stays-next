@@ -12,6 +12,7 @@ import { readFileSync } from 'node:fs'
 import { uploadToR2 } from './lib/r2-upload'
 import { withVersion } from './lib/stay-images'
 import { purgeImageKeys } from './lib/cloudflare-purge'
+import { regenVariants } from './lib/regen-variants'
 
 const REALS_DIR = '/tmp/audit_reals'
 const SLUGS = [
@@ -75,6 +76,7 @@ async function main() {
       continue
     }
     const up = await uploadToR2(key, picked.buf, contentType)
+    await regenVariants(key, picked.buf) // refresh -w{N}.webp variants the worker serves
     await purgeImageKeys([key]) // bust CF edge for the bare key (versioning covers ?w= variants)
     const imageUrl = withVersion(up.url, picked.buf)
     await payload.update({ collection: 'stays', id: stay.id, data: { imageUrl }, overrideAccess: true })
