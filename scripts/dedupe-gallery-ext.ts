@@ -29,7 +29,8 @@ const DEFAULT_SLUGS = [
 
 const args = process.argv.slice(2)
 const getArg = (n: string) => { const i = args.indexOf(`--${n}`); return i >= 0 && i < args.length - 1 ? args[i + 1] : undefined }
-const slugs = getArg('slugs')?.split(',').map((s) => s.trim()).filter(Boolean) ?? DEFAULT_SLUGS
+const allMode = args.includes('--all')
+const slugs = allMode ? null : (getArg('slugs')?.split(',').map((s) => s.trim()).filter(Boolean) ?? DEFAULT_SLUGS)
 const dryRun = args.includes('--dry-run')
 
 const s3 = new S3Client({
@@ -74,7 +75,34 @@ function partition(keys: string[]): { keep: string[]; stray: string[] } {
 async function main() {
   let delCount = 0
   let regenCount = 0
-  for (const slug of slugs) {
+
+  if (allMode) {
+    console.log('Scanning all originals under stays/ ...')
+    const keys = await listPrefix('stays/')
+    const { keep, stray } = partition(keys)
+    console.log(`Found ${keys.length} originals across ${new Set(keys.map((k) => k.split('/')[1])).size} stays; ${stray.length} strays to delete`)
+    if (stray.length) {
+      for (const s of stray) console.log(`  ✗ ${s} (${s.split('/').pop()})`)
+    }
+    if (!dryRun && stray.length) {
+      for (let i = 0; i < stray.length; i += 1000) {
+        const batch = stray.slice(i, i + 1000)
+        await s3.send(new DeleteObjectsCommand({ Bucket: BUCKET, Delete: { Objects: batch.map((Key) => ({ Key })) } }))
+      }
+      delCount = stray.length
+    }
+    // regen variants for slots that HAD a stray (others already correct); simplest = regen the keep set that shared a slot with a stray
+    const strayBases = new Set(stray.map((k) => k.replace(/\.(jpe?g|png)$/i, '')))
+    const toRegen = keep.filter((k) => strayBases.has(k.replace(/\.(jpe?g|png)$/i, '')))
+    if (!dryRun) for (const k of toRegen) {
+      try { const n = await regenVariants(k); regenCount += n; console.log(`  ✓ regen ${k.split('/').pop()} → ${n}`) }
+      catch (e) { console.log(`  ✗ regen ${k} — ${(e as Error).message}`) }
+    }
+    console.log(`\n${'═'.repeat(40)}\n${dryRun ? '[DRY RUN] ' : ''}Deleted ${delCount} strays, regenerated ${regenCount} variants`)
+    return
+  }
+
+  for (const slug of slugs!) {
     const keys = new Set<string>([...(await listPrefix(`stays/${slug}.`)), ...(await listPrefix(`stays/${slug}/`))])
     const hero = [...keys].filter((k) => k.startsWith(`stays/${slug}.`))
     const gallery = [...keys].filter((k) => k.startsWith(`stays/${slug}/gallery-`))
@@ -87,8 +115,8 @@ async function main() {
       }
     }
     // regen variants from the surviving canonical originals
-    for (const k of keep) {
-      try { const n = await regenVariants(k); regenCount += n; if (!dryRun) console.log(`  ✓ regen ${k.split('/').pop()} → ${n}`) }
+    if (!dryRun) for (const k of keep) {
+      try { const n = await regenVariants(k); regenCount += n; console.log(`  ✓ regen ${k.split('/').pop()} → ${n}`) }
       catch (e) { console.log(`  ✗ regen ${k} — ${(e as Error).message}`) }
     }
   }
