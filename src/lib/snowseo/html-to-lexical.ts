@@ -1,11 +1,11 @@
 import { convertHTMLToLexical, editorConfigFactory } from '@payloadcms/richtext-lexical'
-import { JSDOM } from 'jsdom'
 import type { SanitizedConfig } from 'payload'
 
 export async function htmlToLexicalContent(
   config: SanitizedConfig,
   html: string,
 ): Promise<Record<string, unknown>> {
+  const { JSDOM } = await import('jsdom')
   const editorConfig = await editorConfigFactory.default({ config })
 
   return convertHTMLToLexical({

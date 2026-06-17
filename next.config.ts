@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
     ]
   },
   skipTrailingSlashRedirect: true,
-  serverExternalPackages: ['sharp', 'pg', '@aws-sdk/client-s3'],
+  serverExternalPackages: ['sharp', 'pg', '@aws-sdk/client-s3', 'jsdom'],
   images: {
     // Custom loader routes R2 images through img.uniquestaysusa.com ({key}?w=).
     // See src/lib/image-loader.ts and workers/image-cdn/.

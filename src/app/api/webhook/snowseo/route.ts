@@ -1,13 +1,8 @@
 import { NextResponse } from 'next/server'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import { maskWebhookHeaders, validateSnowseoAuth } from '@/lib/snowseo/auth'
-import { journalUrl, snowseoConfig } from '@/lib/snowseo/config'
-import { persistWebhookLog, updateWebhookLogStatus } from '@/lib/snowseo/log'
+import { snowseoConfig } from '@/lib/snowseo/config'
 import { resolveArticleSlug } from '@/lib/snowseo/slug'
 import type { SnowSEOWebhookPayload, SnowSEOWebhookResult } from '@/lib/snowseo/types'
-import { unpublishSnowseoArticle } from '@/lib/snowseo/unpublish-article'
-import { upsertSnowseoArticle } from '@/lib/snowseo/upsert-article'
 
 export const maxDuration = 60
 
@@ -40,6 +35,13 @@ export async function POST(request: Request) {
       ? resolveArticleSlug({ slug: payload.article.slug, title: payload.article.title })
       : null
 
+    const { getPayload } = await import('payload')
+    const { default: config } = await import('@payload-config')
+    const { persistWebhookLog, updateWebhookLogStatus } = await import('@/lib/snowseo/log')
+    const { journalUrl } = await import('@/lib/snowseo/config')
+    const { upsertSnowseoArticle } = await import('@/lib/snowseo/upsert-article')
+    const { unpublishSnowseoArticle } = await import('@/lib/snowseo/unpublish-article')
+
     const cms = await getPayload({ config })
     const logId = await persistWebhookLog(cms, {
       event: payload.event,
@@ -49,7 +51,11 @@ export async function POST(request: Request) {
       headers: maskWebhookHeaders(request.headers),
     })
 
-    const result = await handleEvent(cms, payload)
+    const result = await handleEvent(cms, payload, {
+      upsertSnowseoArticle,
+      unpublishSnowseoArticle,
+      journalUrl,
+    })
 
     await updateWebhookLogStatus(
       cms,
@@ -85,8 +91,13 @@ export async function GET() {
 }
 
 async function handleEvent(
-  cms: Awaited<ReturnType<typeof getPayload>>,
+  cms: Awaited<ReturnType<(typeof import('payload'))['getPayload']>>,
   payload: SnowSEOWebhookPayload,
+  deps: {
+    upsertSnowseoArticle: typeof import('@/lib/snowseo/upsert-article').upsertSnowseoArticle
+    unpublishSnowseoArticle: typeof import('@/lib/snowseo/unpublish-article').unpublishSnowseoArticle
+    journalUrl: typeof import('@/lib/snowseo/config').journalUrl
+  },
 ): Promise<SnowSEOWebhookResult> {
   switch (payload.event) {
     case 'article.published':
@@ -97,7 +108,7 @@ async function handleEvent(
       }
 
       const published = payload.event === 'article.published'
-      const saved = await upsertSnowseoArticle(cms, cms.config, {
+      const saved = await deps.upsertSnowseoArticle(cms, cms.config, {
         article,
         published,
       })
@@ -108,7 +119,7 @@ async function handleEvent(
         action: published ? 'published' : 'drafted',
         message: `Post "${article.title}" saved successfully`,
         cmsArticleId: saved.id,
-        cmsUrl: published ? journalUrl(saved.slug) : undefined,
+        cmsUrl: published ? deps.journalUrl(saved.slug) : undefined,
       }
     }
 
@@ -118,7 +129,7 @@ async function handleEvent(
         return { success: false, message: 'No article in payload' }
       }
 
-      const unpublish = await unpublishSnowseoArticle(cms, article)
+      const unpublish = await deps.unpublishSnowseoArticle(cms, article)
 
       return {
         success: true,
