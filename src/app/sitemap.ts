@@ -4,7 +4,12 @@ import { SPOKE_SLUGS } from '@/lib/spokes-config'
 import { getPseoInventoryCounts, getPseoSitemapPaths } from '@/lib/pseo'
 
 export function normalizeBaseUrl(baseUrl: string) {
-  return baseUrl.replace(/\/$/, '')
+  const trimmed = baseUrl.replace(/\/$/, '')
+  // Canonicalize apex → www so sitemap URLs are www-regardless of the env value.
+  return trimmed.replace(
+    /^(https?:\/\/)uniquestaysusa\.com/,
+    '$1www.uniquestaysusa.com'
+  )
 }
 
 export function buildSitemapEntries({
@@ -100,7 +105,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ])
 
   return buildSitemapEntries({
-    baseUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com',
+    baseUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com',
     journalSlugs,
     staySlugs,
     pseoPaths: getPseoSitemapPaths(getPseoInventoryCounts(pseoInventory)),

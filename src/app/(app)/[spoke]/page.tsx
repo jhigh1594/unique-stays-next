@@ -6,6 +6,7 @@ import { ArrowRight, ExternalLink, ChevronRight } from 'lucide-react'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 import type { SpokeSlug } from '@/lib/spokes-config'
 import { getSpokeHubJsonLd, getPseoStateLinks } from '@/lib/pseo'
+import { toCdnUrlOrRaw } from '@/lib/image-loader'
 import { getStaysBySpoke } from '@/lib/payload-queries'
 import SpokeFilterBar from './_spoke/SpokeFilterBar'
 
@@ -34,7 +35,7 @@ export async function generateMetadata({
       title: config.seoTitle,
       description: config.seoDescription,
       images: config.heroImage
-        ? [{ url: config.heroImage, width: 1200, height: 630 }]
+        ? [{ url: toCdnUrlOrRaw(config.heroImage, { width: 1200 }) as string, width: 1200, height: 630 }]
         : [],
     },
   }
@@ -123,7 +124,7 @@ export default async function SpokePage({
     { value: `${uniqueStates}`, label: config.stats[1].label },
     ...config.stats.slice(2),
   ]
-  const baseUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com').replace(/\/$/, '')
+  const baseUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com').replace(/\/$/, '')
   const hubJsonLd = getSpokeHubJsonLd({ baseUrl, config, stays })
   const spokeSlug = spoke as SpokeSlug
   const siblings = SPOKE_SLUGS.filter((s) => s !== spoke).map((s) => SPOKES_CONFIG[s])

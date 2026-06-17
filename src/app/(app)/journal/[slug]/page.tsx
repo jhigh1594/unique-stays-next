@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getJournalPostBySlug, getAllJournalSlugs, getAllJournalPosts } from '@/lib/payload-queries'
+import { toCdnUrlOrRaw } from '@/lib/image-loader'
 import JournalPostContent from './_post/JournalPostContent'
 
 export const dynamicParams = true
@@ -22,7 +23,8 @@ export async function generateMetadata({
 
   const title = post.metaTitle || `${post.title} | UniqueStaysUSA`
   const description = post.metaDescription || post.excerpt
-  const canonical = `${process.env.NEXT_PUBLIC_SERVER_URL}/journal/${slug}`
+  // Relative path resolves against layout.metadataBase (www) → self-referential.
+  const canonical = `/journal/${slug}`
 
   return {
     title,
@@ -34,7 +36,7 @@ export async function generateMetadata({
       url: canonical,
       type: 'article',
       publishedTime: post.publishedAt || undefined,
-      images: post.heroImageUrl ? [{ url: post.heroImageUrl, width: 1200, height: 630 }] : [],
+      images: post.heroImageUrl ? [{ url: toCdnUrlOrRaw(post.heroImageUrl, { width: 1200 }) as string, width: 1200, height: 630 }] : [],
     },
   }
 }
@@ -51,13 +53,13 @@ export default async function JournalPostPage({
   const allPosts = await getAllJournalPosts()
   const relatedPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 2)
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
   const blogPostingJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
-    image: post.heroImageUrl || undefined,
+    image: toCdnUrlOrRaw(post.heroImageUrl, { width: 1200 }),
     url: `${baseUrl}/journal/${slug}`,
     datePublished: post.publishedAt || undefined,
     publisher: {

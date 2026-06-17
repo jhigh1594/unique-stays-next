@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getStayBySlug, getRelatedStays, getAllStaySlugs } from '@/lib/payload-queries'
+import { toCdnUrlOrRaw } from '@/lib/image-loader'
 import StayDetailContent from './_stay/StayDetailContent'
 import { SPOKES_CONFIG } from '@/lib/spokes-config'
 
@@ -13,7 +14,7 @@ export async function generateStaticParams() {
 }
 
 function getStayJsonLd(stay: NonNullable<Awaited<ReturnType<typeof getStayBySlug>>>) {
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
   const primarySpoke = stay.spokes.map((s) => SPOKES_CONFIG[s]).find(Boolean)
 
   return {
@@ -23,7 +24,7 @@ function getStayJsonLd(stay: NonNullable<Awaited<ReturnType<typeof getStayBySlug
         '@type': 'LodgingBusiness',
         name: stay.title,
         description: stay.description,
-        image: stay.imageUrl || undefined,
+        image: toCdnUrlOrRaw(stay.imageUrl, { width: 1200 }),
         url: `${baseUrl}/stays/${stay.slug}`,
         address: {
           '@type': 'PostalAddress',
@@ -36,12 +37,16 @@ function getStayJsonLd(stay: NonNullable<Awaited<ReturnType<typeof getStayBySlug
           ratingValue: stay.rating,
           reviewCount: stay.reviewCount ?? undefined,
         },
-        offers: {
-          '@type': 'Offer',
-          price: stay.price,
-          priceCurrency: 'USD',
-          availability: 'https://schema.org/InStock',
-        },
+        ...(stay.price != null && stay.price > 0
+          ? {
+              offers: {
+                '@type': 'Offer',
+                price: stay.price,
+                priceCurrency: 'USD',
+                availability: 'https://schema.org/InStock',
+              },
+            }
+          : {}),
       },
       {
         '@type': 'BreadcrumbList',
@@ -81,7 +86,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: stay.imageUrl ? [{ url: stay.imageUrl, width: 1200, height: 630 }] : [],
+      images: stay.imageUrl ? [{ url: toCdnUrlOrRaw(stay.imageUrl, { width: 1200 }) as string, width: 1200, height: 630 }] : [],
     },
   }
 }

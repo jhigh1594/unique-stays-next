@@ -9,6 +9,9 @@ import StayCard from '@/components/StayCard'
 import { SPOKES_CONFIG } from '@/lib/spokes-config'
 import type { NormalizedStay } from '@/lib/types'
 
+/** price=0/null means "scraped price unavailable" — render as such, never "$0". */
+const hasStayPrice = (price: number | null | undefined): boolean => price != null && price > 0
+
 // ── Sticker design tokens ───────────────────────────────────────
 const STICKER_VARIANTS = [
   { bg: 'oklch(0.965 0.018 78)', color: 'oklch(0.36 0.05 60)', border: 'oklch(0.82 0.03 72)' },
@@ -444,8 +447,8 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   <div>
                     <div style={{ fontSize: 6.5, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Nightly Fare</div>
                     <div>
-                      <span style={{ fontFamily: 'Fraunces, serif', fontSize: 30, fontWeight: 700, color: 'oklch(0.18 0.01 60)', letterSpacing: '-0.02em', lineHeight: 1 }}>${stay.price}</span>
-                      <span style={{ fontSize: 11, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginLeft: 3 }}>/night</span>
+                      <span style={{ fontFamily: 'Fraunces, serif', fontSize: 30, fontWeight: 700, color: 'oklch(0.18 0.01 60)', letterSpacing: '-0.02em', lineHeight: 1 }}>{hasStayPrice(stay.price) ? `$${stay.price}` : 'Price unavailable'}</span>
+                      {hasStayPrice(stay.price) && <span style={{ fontSize: 11, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginLeft: 3 }}>/night</span>}
                     </div>
                   </div>
                   <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'oklch(0.62 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
@@ -795,8 +798,8 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   Nightly fare
                 </div>
                 <div>
-                  <span style={{ fontFamily: 'Fraunces, serif', fontSize: 30, fontWeight: 700, color: 'oklch(0.18 0.01 60)', letterSpacing: '-0.02em', lineHeight: 1 }}>${stay.price}</span>
-                  <span style={{ fontSize: 13, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginLeft: 3 }}>/night</span>
+                  <span style={{ fontFamily: 'Fraunces, serif', fontSize: 30, fontWeight: 700, color: 'oklch(0.18 0.01 60)', letterSpacing: '-0.02em', lineHeight: 1 }}>{hasStayPrice(stay.price) ? `$${stay.price}` : 'Price unavailable'}</span>
+                  {hasStayPrice(stay.price) && <span style={{ fontSize: 13, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', marginLeft: 3 }}>/night</span>}
                 </div>
               </div>
               {stay.rating != null && (
@@ -961,8 +964,8 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
         >
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-              <span style={{ fontFamily: 'Fraunces, serif', fontSize: 22, fontWeight: 750, color: 'oklch(0.18 0.01 60)', lineHeight: 1 }}>${stay.price}</span>
-              <span style={{ fontSize: 10.5, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>/night</span>
+              <span style={{ fontFamily: 'Fraunces, serif', fontSize: 22, fontWeight: 750, color: 'oklch(0.18 0.01 60)', lineHeight: 1 }}>{hasStayPrice(stay.price) ? `$${stay.price}` : 'Price unavailable'}</span>
+              {hasStayPrice(stay.price) && <span style={{ fontSize: 10.5, color: 'oklch(0.58 0.03 60)', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>/night</span>}
             </div>
             {stay.rating != null && (
               <div aria-label={ratingLabel ?? undefined} style={{ marginTop: 2, fontSize: 10.5, color: 'oklch(0.50 0.04 60)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
