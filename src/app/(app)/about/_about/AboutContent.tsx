@@ -539,7 +539,7 @@ export default function AboutContent() {
             </p>
             <div className="flex flex-wrap gap-3">
               {['Unique', 'Work-friendly', 'Pet-friendly', 'RV-ready', 'EV-ready'].map((name) => (
-                <Link key={name} href={`/collection/${name.toLowerCase()}`}>
+                <Link key={name} href={`/${name.toLowerCase()}`}>
                   <span
                     className="stamp-badge cursor-pointer transition-transform hover:scale-105"
                     style={{ color: C.terra, borderColor: C.terra }}
