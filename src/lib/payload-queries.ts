@@ -377,7 +377,7 @@ export const getStayBySlug = unstable_cache(
     const payload = await getPayloadInstance()
     const result = await payload.find({
       collection: 'stays',
-      where: { slug: { equals: slug } },
+      where: { and: [{ slug: { equals: slug } }, ...PUBLIC_STAY_FILTER.and] },
       limit: 1,
       depth: 1,
     })
