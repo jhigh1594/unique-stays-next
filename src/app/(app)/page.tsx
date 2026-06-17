@@ -4,6 +4,9 @@ import Hero from './_home/Hero'
 import HeroSection from './_home/HeroSection'
 import HomeBody from './_home/HomeBody'
 import { HERO_FALLBACK_CATEGORIES, HERO_FALLBACK_STATS } from './_home/home-fallback'
+import { getEditorsPickStays } from '@/lib/payload-queries'
+import { buildHomepageJsonLd, serializeJsonLd } from '@/lib/jsonld'
+
 export const revalidate = 86400
 
 export const metadata: Metadata = {
@@ -11,9 +14,17 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Top stays feed the homepage ItemList. Real Payload data; cached.
+  const topStays = await getEditorsPickStays()
+  const homeJsonLd = buildHomepageJsonLd(topStays)
+
   return (
     <div className="min-h-screen" style={{ background: 'oklch(0.975 0.012 85)' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd) }}
+      />
       <link rel="preconnect" href="https://img.uniquestaysusa.com" crossOrigin="" />
       <Suspense
         fallback={

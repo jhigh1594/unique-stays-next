@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getStayBySlug, getRelatedStays, getAllStaySlugs } from '@/lib/payload-queries'
 import { toCdnUrlOrRaw } from '@/lib/image-loader'
+import { buildStayJsonLd, serializeJsonLd } from '@/lib/jsonld'
 import StayDetailContent from './_stay/StayDetailContent'
-import { SPOKES_CONFIG } from '@/lib/spokes-config'
 
 export const dynamicParams = false
 export const revalidate = 86400
@@ -11,56 +11,6 @@ export const revalidate = 86400
 export async function generateStaticParams() {
   const slugs = await getAllStaySlugs()
   return slugs.map((slug) => ({ slug }))
-}
-
-function getStayJsonLd(stay: NonNullable<Awaited<ReturnType<typeof getStayBySlug>>>) {
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
-  const primarySpoke = stay.spokes.map((s) => SPOKES_CONFIG[s]).find(Boolean)
-
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'LodgingBusiness',
-        name: stay.title,
-        description: stay.description,
-        image: toCdnUrlOrRaw(stay.imageUrl, { width: 1200 }),
-        url: `${baseUrl}/stays/${stay.slug}`,
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: stay.location,
-          addressRegion: stay.state,
-          addressCountry: 'US',
-        },
-        aggregateRating: stay.rating == null ? undefined : {
-          '@type': 'AggregateRating',
-          ratingValue: stay.rating,
-          reviewCount: stay.reviewCount ?? undefined,
-        },
-        ...(stay.price != null && stay.price > 0
-          ? {
-              offers: {
-                '@type': 'Offer',
-                price: stay.price,
-                priceCurrency: 'USD',
-                availability: 'https://schema.org/InStock',
-              },
-            }
-          : {}),
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-          ...(primarySpoke
-            ? [{ '@type': 'ListItem' as const, position: 2, name: primarySpoke.title, item: `${baseUrl}/${primarySpoke.slug}` }]
-            : [{ '@type': 'ListItem' as const, position: 2, name: 'Collection', item: `${baseUrl}/collection` }]
-          ),
-          { '@type': 'ListItem', position: 3, name: stay.title, item: `${baseUrl}/stays/${stay.slug}` },
-        ],
-      },
-    ],
-  }
 }
 
 export async function generateMetadata({
@@ -101,13 +51,13 @@ export default async function StayPage({
   if (!stay) notFound()
 
   const related = await getRelatedStays(stay.category, slug)
-  const jsonLd = getStayJsonLd(stay)
+  const jsonLd = buildStayJsonLd(stay)
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <StayDetailContent stay={stay} related={related} />
     </>

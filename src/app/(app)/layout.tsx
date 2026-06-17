@@ -7,6 +7,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import GlobalShell from '@/components/GlobalShell'
+import { buildOrganizationGraph, serializeJsonLd } from '@/lib/jsonld'
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -59,36 +60,7 @@ export const metadata: Metadata = {
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
-
-  const orgAndWebSiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Organization',
-        name: 'UniqueStaysUSA',
-        url: baseUrl,
-        logo: `${baseUrl}/logo-illustrated.png`,
-        description: 'Curated directory of unique vacation rentals across the USA — treehouses, domes, cabins, houseboats, and more.',
-        sameAs: [],
-        contactPoint: {
-          '@type': 'ContactPoint',
-          email: 'hello@uniquestaysusa.com',
-          contactType: 'customer service',
-        },
-      },
-      {
-        '@type': 'WebSite',
-        name: 'UniqueStaysUSA',
-        url: baseUrl,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: `${baseUrl}/collection?q={search_term_string}`,
-          'query-input': 'required name=search_term_string',
-        },
-      },
-    ],
-  }
+  const orgAndWebSiteJsonLd = buildOrganizationGraph()
 
   return (
     <html
@@ -103,7 +75,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgAndWebSiteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(orgAndWebSiteJsonLd) }}
         />
       </head>
       <body>

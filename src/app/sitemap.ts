@@ -49,14 +49,25 @@ export function buildSitemapEntries({
   //     the freshest stay updatedAt.
   //   - /journal index is built from every published post → freshest post
   //     updatedAt.
-  //   - Home, /tools, /collections (5-spoke hub): no single Payload doc backs
-  //     them, so no lastmod is emitted rather than fabricating one.
+  //   - Home, /tools: no single Payload doc backs them, so no lastmod is
+  //     emitted rather than fabricating one.
   const staysLastmod = latestUpdatedAt(stayEntries)
   const journalIndexLastmod = latestUpdatedAt(journalEntries)
 
+  // COLLECTION DEDUPE (sitemap-only, reversible):
+  // /collection ("All Stays" directory) and /collections (5-spoke hub) are a
+  // singular/plural collision on the "collection" head term. Internal equity
+  // decisively favors /collection — /directory already 301s to it and it is
+  // linked sitewide (footer, hero, every stay-detail page) vs /collections
+  // (navbar/tools/[spoke] only). So only /collection is declared here.
+  //
+  // NO 301 and NO noindex is applied — both pages stay live, self-canonical,
+  // and internally linked, so /collections remains crawlable/indexed. Dropping
+  // it from the sitemap is the non-destructive lever; the permanent 301
+  // question waits on an external-backlink check (GSC/Ahrefs) — see project
+  // memory sitemap-lastmod-and-collection-dedup-2026-06.
   const staticEntries: MetadataRoute.Sitemap = [
     { url: normalizedBaseUrl },
-    { url: `${normalizedBaseUrl}/collections` },
     { url: `${normalizedBaseUrl}/tools` },
     { url: `${normalizedBaseUrl}/collection`, ...(staysLastmod ? { lastModified: staysLastmod } : {}) },
     { url: `${normalizedBaseUrl}/journal`, ...(journalIndexLastmod ? { lastModified: journalIndexLastmod } : {}) },

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getJournalPostBySlug, getAllJournalSlugs, getAllJournalPosts } from '@/lib/payload-queries'
 import { toCdnUrlOrRaw } from '@/lib/image-loader'
+import { buildJournalPostJsonLd, serializeJsonLd } from '@/lib/jsonld'
 import JournalPostContent from './_post/JournalPostContent'
 
 export const dynamicParams = true
@@ -53,35 +54,13 @@ export default async function JournalPostPage({
   const allPosts = await getAllJournalPosts()
   const relatedPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 2)
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
-  const blogPostingJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.excerpt,
-    image: toCdnUrlOrRaw(post.heroImageUrl, { width: 1200 }),
-    url: `${baseUrl}/journal/${slug}`,
-    datePublished: post.publishedAt || undefined,
-    publisher: {
-      '@type': 'Organization',
-      name: 'UniqueStaysUSA',
-      url: baseUrl,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${baseUrl}/logo-illustrated.png`,
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${baseUrl}/journal/${slug}`,
-    },
-  }
+  const blogPostingJsonLd = buildJournalPostJsonLd(post)
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(blogPostingJsonLd) }}
       />
       <JournalPostContent post={post} relatedPosts={relatedPosts} />
     </>

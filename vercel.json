@@ -1,5 +1,5 @@
 {
-  "buildCommand": "next build",
+  "buildCommand": "pnpm build",
   "crons": [
     {
       "path": "/keep-alive",

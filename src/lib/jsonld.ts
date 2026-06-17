@@ -21,6 +21,18 @@ export function siteBaseUrl(): string {
   return process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
 }
 
+/**
+ * Serialize a JSON-LD object for safe embedding inside a <script> tag.
+ *
+ * `JSON.stringify` alone does not escape `<`, so admin-authored text containing
+ * `</script>` could break out of the tag. Escape `<` so the serialized payload
+ * can never escape its container. JSON parsers read `<` back as `<`, so
+ * semantics are preserved.
+ */
+export function serializeJsonLd(obj: unknown): string {
+  return JSON.stringify(obj).replace(/</g, '\\u003c')
+}
+
 // ── Constants (schema.org vocabulary defaults) ──────────────────────────────
 const BEST_RATING = 5 // CONSTANT
 const WORST_RATING = 1 // CONSTANT

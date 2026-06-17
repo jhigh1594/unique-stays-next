@@ -1,4 +1,14 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+
+// buildSitemapEntries is pure, but the module imports @/lib/payload-queries →
+// @payload-config, which throws on missing PAYLOAD_SECRET at import time. Stub
+// the queries so the config never loads.
+vi.mock('@/lib/payload-queries', () => ({
+  getAllJournalSitemapEntries: vi.fn(),
+  getAllStaySitemapEntries: vi.fn(),
+  getPseoSitemapInventory: vi.fn(),
+}))
+
 import { buildSitemapEntries, normalizeBaseUrl } from './sitemap'
 import type { SitemapEntry } from './sitemap'
 
@@ -98,7 +108,7 @@ describe('sitemap entries', () => {
     expect(byUrl.get('https://www.uniquestaysusa.com/collections')?.lastModified).toBeUndefined()
   })
 
-  it('includes both /collection and /collections (dedupe flagged for human, no blind 301)', () => {
+  it('declares only /collection in the sitemap; /collections excluded but not de-indexed', () => {
     const entries = buildSitemapEntries({
       baseUrl: 'https://uniquestaysusa.com',
       journalEntries: [],
@@ -107,10 +117,11 @@ describe('sitemap entries', () => {
     })
     const urls = entries.map((e) => e.url)
 
-    // Both distinct hubs remain indexed until external inbound equity is
-    // verified (GSC/Ahrefs). They are separate pages (all-stays directory vs
-    // 5-spoke hub), not duplicates, so neither is dropped blindly.
+    // Singular/plural collision: only the internally-canonical directory hub
+    // /collection is declared. /collections stays live + internally linked
+    // (so still indexable) — the sitemap is the non-destructive dedupe lever,
+    // not a 301 or noindex. The permanent 301 waits on a backlink check.
     expect(urls).toContain('https://www.uniquestaysusa.com/collection')
-    expect(urls).toContain('https://www.uniquestaysusa.com/collections')
+    expect(urls).not.toContain('https://www.uniquestaysusa.com/collections')
   })
 })
