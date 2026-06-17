@@ -33,8 +33,15 @@ if (existsSync(envLocal)) {
 async function warm() {
   if (!process.env.PAYLOAD_SECRET || !process.env.DATABASE_URI) {
     console.log('[warm-cache] skipping (PAYLOAD_SECRET or DATABASE_URI not set)')
+    process.exit(0)
     return
   }
+
+  const hardTimeout = setTimeout(() => {
+    console.warn('[warm-cache] hard timeout after 45s — continuing build')
+    process.exit(0)
+  }, 45_000)
+  hardTimeout.unref()
 
   const started = Date.now()
   console.log('[warm-cache] booting Payload...')
@@ -67,11 +74,15 @@ async function warm() {
     `[warm-cache] done in ${elapsed}s ` +
       `(stays: ${stays?.totalDocs ?? 'err'}, journal: ${journal?.totalDocs ?? 'err'})`
   )
+
+  // Payload's Postgres pool keeps the Node event loop alive unless we exit
+  // explicitly — without this, `pnpm build` hangs for minutes before next build.
+  clearTimeout(hardTimeout)
+  process.exit(0)
 }
 
 warm().catch((err) => {
   console.error('[warm-cache] failed (continuing):', err?.message ?? err)
-  // Fail open — never block the build.
   process.exit(0)
 })
 
