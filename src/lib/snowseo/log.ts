@@ -30,7 +30,7 @@ export async function persistWebhookLog(
         status: 'received',
         message: `Received ${input.event} event`,
         rawBody: input.rawBody,
-        payload: input.payload as Record<string, unknown>,
+        payload: input.payload as unknown as Record<string, unknown>,
         headers: input.headers,
         receivedAt: new Date().toISOString(),
       },

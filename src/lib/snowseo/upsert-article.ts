@@ -1,4 +1,5 @@
 import type { Payload } from 'payload'
+import type { BlogPost } from '@/payload-types'
 import type { SnowSEOArticle } from './types'
 import { htmlToLexicalContent, fallbackLexicalFromText } from './html-to-lexical'
 import { resolveArticleSlug } from './slug'
@@ -26,11 +27,11 @@ export async function upsertSnowseoArticle(
     article.markdown?.split('\n\n').find((block) => block.trim() && !block.startsWith('#'))?.trim() ||
     article.title
 
-  let content: Record<string, unknown>
+  let content: BlogPost['content']
   try {
-    content = await htmlToLexicalContent(config, article.html)
+    content = (await htmlToLexicalContent(config, article.html)) as BlogPost['content']
   } catch {
-    content = fallbackLexicalFromText(article.markdown || article.title)
+    content = fallbackLexicalFromText(article.markdown || article.title) as BlogPost['content']
   }
 
   const data = {
@@ -43,7 +44,6 @@ export async function upsertSnowseoArticle(
     metaTitle: meta?.metaTitle,
     metaDescription: meta?.metaDescription,
     snowseoArticleId: article.id,
-    archivedAt: null,
   }
 
   const existing = await findExistingPost(payload, slug, article.id)

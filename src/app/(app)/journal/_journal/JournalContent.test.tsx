@@ -50,6 +50,7 @@ function journalPost(overrides: Partial<NormalizedJournalPost> = {}): Normalized
     excerpt: `Field notes for dispatch ${id}.`,
     heroImageUrl: `https://example.com/dispatch-${id}.jpg`,
     publishedAt: '2026-05-10T12:00:00.000Z',
+    updatedAt: '2026-05-10T12:00:00.000Z',
     city: 'Joshua Tree',
     state: 'California',
     latitude: '34.1347',
