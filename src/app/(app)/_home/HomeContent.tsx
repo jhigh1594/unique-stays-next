@@ -429,7 +429,7 @@ export default function HomeContent({
             <div className="flex flex-col gap-7">
               {featuredStays.slice(1, 3).map((stay, i) => (
                 <div key={stay.id} className="fade-up" style={{ transitionDelay: `${180 + i * 100}ms` }}>
-                  <StayCard stay={stay} href={stay.affiliateUrl} external index={i} />
+                  <StayCard stay={stay} affiliateCta index={i} />
                 </div>
               ))}
             </div>
@@ -687,7 +687,7 @@ export default function HomeContent({
                 className="fade-up"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <StayCard stay={stay} href={stay.affiliateUrl} external index={i + 3} />
+                <StayCard stay={stay} affiliateCta index={i + 3} />
               </div>
             ))}
           </div>

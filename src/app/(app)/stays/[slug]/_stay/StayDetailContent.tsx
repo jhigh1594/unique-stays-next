@@ -717,7 +717,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                     {related.map((r, i) => (
                       <div key={r.id} className="fade-up" style={{ transitionDelay: `${i * 80}ms` }}>
-                        <StayCard stay={r} href={r.affiliateUrl} external index={i} />
+                        <StayCard stay={r} affiliateCta index={i} />
                       </div>
                     ))}
                   </div>
@@ -936,7 +936,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {related.map((r, i) => (
                 <div key={r.id}>
-                  <StayCard stay={r} href={r.affiliateUrl} external index={i} />
+                  <StayCard stay={r} affiliateCta index={i} />
                 </div>
               ))}
             </div>
