@@ -432,6 +432,28 @@ export const getAllStaySlugs = unstable_cache(
   { tags: ['stays'], revalidate: 3600 }
 )
 
+// Sitemap-only: slug + real Payload `updatedAt` per public stay. `updatedAt` is
+// the doc's last-write timestamp — used verbatim for <lastmod>, never synthesized.
+export const getAllStaySitemapEntries = unstable_cache(
+  async (): Promise<Array<{ slug: string; updatedAt: string }>> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'stays',
+      where: PUBLIC_STAY_FILTER,
+      limit: 500,
+      depth: 0,
+    })
+    return result.docs
+      .map((doc) => ({
+        slug: doc.slug as string,
+        updatedAt: doc.updatedAt as string,
+      }))
+      .filter((entry) => entry.slug && entry.updatedAt)
+  },
+  ['stays-sitemap-entries'],
+  { tags: ['stays'], revalidate: 3600 }
+)
+
 export const getCategories = unstable_cache(
   async (): Promise<Array<{ id: number; name: string; slug: string; emoji: string }>> => {
     const payload = await getPayloadInstance()
@@ -477,6 +499,7 @@ function normalizeJournalPost(doc: Record<string, unknown>): NormalizedJournalPo
     excerpt: (doc.excerpt as string) ?? '',
     heroImageUrl,
     publishedAt: (doc.publishedAt as string) ?? '',
+    updatedAt: (doc.updatedAt as string) ?? '',
     city: (doc.city as string) ?? '',
     state: (doc.state as string) ?? '',
     latitude: (doc.latitude as string) ?? '',
@@ -552,5 +575,27 @@ export const getAllJournalSlugs = unstable_cache(
     return result.docs.map((doc) => doc.slug as string).filter(Boolean)
   },
   ['journal-all-slugs'],
+  { tags: ['journal'], revalidate: 3600 }
+)
+
+// Sitemap-only: slug + real Payload `updatedAt` per published post. `updatedAt`
+// is used verbatim for <lastmod>, never synthesized.
+export const getAllJournalSitemapEntries = unstable_cache(
+  async (): Promise<Array<{ slug: string; updatedAt: string }>> => {
+    const payload = await getPayloadInstance()
+    const result = await payload.find({
+      collection: 'blog-posts',
+      where: { status: { equals: 'published' } },
+      limit: 500,
+      depth: 0,
+    })
+    return result.docs
+      .map((doc) => ({
+        slug: doc.slug as string,
+        updatedAt: doc.updatedAt as string,
+      }))
+      .filter((entry) => entry.slug && entry.updatedAt)
+  },
+  ['journal-sitemap-entries'],
   { tags: ['journal'], revalidate: 3600 }
 )

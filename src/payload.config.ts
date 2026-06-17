@@ -16,6 +16,7 @@ import { Users } from './collections/Users'
 import { QuizLeads } from './collections/QuizLeads'
 import { ScoreReports } from './collections/ScoreReports'
 import { HostLeads } from './collections/HostLeads'
+import { SnowWebhookLogs } from './collections/SnowWebhookLogs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -87,7 +88,7 @@ export default buildConfig({
       bucket: process.env.R2_BUCKET_NAME || 'uniquestays-media',
     }),
   ],
-  collections: [Users, Media, Categories, Spokes, Stays, BlogPosts, CandidateStays, AuditReports, QuizLeads, ScoreReports, HostLeads],
+  collections: [Users, Media, Categories, Spokes, Stays, BlogPosts, CandidateStays, AuditReports, QuizLeads, ScoreReports, HostLeads, SnowWebhookLogs],
   editor: lexicalEditor(),
   secret: payloadSecret,
   serverURL,

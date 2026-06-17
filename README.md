@@ -53,9 +53,14 @@ Requires `DATABASE_URI` and `PAYLOAD_SECRET` in `.env.local`. Idempotent — ski
 | `/api/stays` | Stays collection REST API |
 | `/api/categories` | Categories REST API |
 | `/api/spokes` | Spokes REST API |
+| `/api/webhook/snowseo` | SnowSEO content webhook (see `docs/snowseo-webhook.md`) |
+
+## SnowSEO Webhook
+
+Journal posts can be pushed from SnowSEO. Set `SNOWSEO_WEBHOOK_SECRET` in `.env.local` (see `.env.local.example`) to the same bearer token configured in SnowSEO. Full setup: [docs/snowseo-webhook.md](docs/snowseo-webhook.md).
 
 ## Deployment
 
 Deployed on Vercel with automatic previews. Production uses a daily cron to keep the Neon database warm.
 
-Required env vars on Vercel: `DATABASE_URI`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SERVER_URL`, `CRON_SECRET`.
+Required env vars on Vercel: `DATABASE_URI`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SERVER_URL`, `CRON_SECRET`, `SNOWSEO_WEBHOOK_SECRET` (if using SnowSEO webhooks).

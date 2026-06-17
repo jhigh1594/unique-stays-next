@@ -149,6 +149,22 @@ Use Payload's Lexical JSON shape for `content`. A simple paragraph can be sent l
    ```
 7. Verify the public page loads at `/journal/{slug}`. The public journal index and sitemap include only `status: "published"` posts.
 
+## SnowSEO webhook integration
+
+SnowSEO can push journal articles to this site via `POST /api/webhook/snowseo`.
+
+**Setup:**
+1. Set `SNOWSEO_WEBHOOK_SECRET` in `.env.local` / Vercel to match SnowSEO's webhook bearer token.
+2. Run `pnpm migrate` after schema changes (adds `snow-webhook-logs` collection).
+3. Configure SnowSEO webhook URL: `{NEXT_PUBLIC_SERVER_URL}/api/webhook/snowseo`
+
+**Unpublish behavior** — controlled by `SNOWSEO_UNPUBLISH_ACTION`:
+- `draft` (default): set blog post status to draft
+- `archive`: draft + set `archivedAt`
+- `delete`: hard delete from Payload
+
+See [docs/snowseo-webhook.md](../docs/snowseo-webhook.md) for payload shapes, curl examples, and response fields (`cmsArticleId`, `cmsUrl`).
+
 ### Create-and-publish example
 
 ```bash

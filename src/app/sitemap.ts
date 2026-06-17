@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getAllJournalSlugs, getAllStaySlugs, getPseoSitemapInventory } from '@/lib/payload-queries'
+import { getAllJournalSitemapEntries, getAllStaySitemapEntries, getPseoSitemapInventory } from '@/lib/payload-queries'
 import { SPOKE_SLUGS } from '@/lib/spokes-config'
 import { getPseoInventoryCounts, getPseoSitemapPaths } from '@/lib/pseo'
 
@@ -12,103 +12,94 @@ export function normalizeBaseUrl(baseUrl: string) {
   )
 }
 
+/**
+ * <lastmod> policy: every lastmod MUST come from a real Payload `updatedAt`.
+ * Never synthesize timestamps (no build-time `new Date()` for content URLs).
+ * Where no real source exists, omit lastmod entirely — it is optional in the
+ * sitemap spec and an absent lastmod is more honest than a fabricated one.
+ */
+function latestUpdatedAt(entries: Array<{ updatedAt: string }>): Date | undefined {
+  const times = entries.map((e) => e.updatedAt).filter(Boolean)
+  if (times.length === 0) return undefined
+  // ISO-8601 strings sort chronologically; take the most recent.
+  times.sort()
+  return new Date(times[times.length - 1])
+}
+
+export interface SitemapEntry {
+  slug: string
+  updatedAt: string
+}
+
 export function buildSitemapEntries({
   baseUrl,
-  journalSlugs,
-  staySlugs,
+  journalEntries,
+  stayEntries,
   pseoPaths,
-  lastModified,
 }: {
   baseUrl: string
-  journalSlugs: string[]
-  staySlugs: string[]
+  journalEntries: SitemapEntry[]
+  stayEntries: SitemapEntry[]
   pseoPaths: string[]
-  lastModified: Date
 }): MetadataRoute.Sitemap {
   const normalizedBaseUrl = normalizeBaseUrl(baseUrl)
 
+  // Static hubs. lastmod only where a real content source backs the URL:
+  //   - /collection ("All Stays" directory) is built from every public stay →
+  //     the freshest stay updatedAt.
+  //   - /journal index is built from every published post → freshest post
+  //     updatedAt.
+  //   - Home, /tools, /collections (5-spoke hub): no single Payload doc backs
+  //     them, so no lastmod is emitted rather than fabricating one.
+  const staysLastmod = latestUpdatedAt(stayEntries)
+  const journalIndexLastmod = latestUpdatedAt(journalEntries)
+
   const staticEntries: MetadataRoute.Sitemap = [
-    {
-      url: normalizedBaseUrl,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: `${normalizedBaseUrl}/collections`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${normalizedBaseUrl}/tools`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${normalizedBaseUrl}/collection`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${normalizedBaseUrl}/journal`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
+    { url: normalizedBaseUrl },
+    { url: `${normalizedBaseUrl}/collections` },
+    { url: `${normalizedBaseUrl}/tools` },
+    { url: `${normalizedBaseUrl}/collection`, ...(staysLastmod ? { lastModified: staysLastmod } : {}) },
+    { url: `${normalizedBaseUrl}/journal`, ...(journalIndexLastmod ? { lastModified: journalIndexLastmod } : {}) },
   ]
 
   const spokeEntries: MetadataRoute.Sitemap = SPOKE_SLUGS.map((spoke) => ({
     url: `${normalizedBaseUrl}/${spoke}`,
-    lastModified,
-    changeFrequency: 'weekly',
-    priority: 0.9,
   }))
 
   const programmaticEntries: MetadataRoute.Sitemap = pseoPaths.map((path) => ({
     url: `${normalizedBaseUrl}${path}`,
-    lastModified,
-    changeFrequency: 'weekly',
-    priority: 0.75,
   }))
 
-  const stayEntries: MetadataRoute.Sitemap = staySlugs.map((slug) => ({
+  const stayDetailEntries: MetadataRoute.Sitemap = stayEntries.map(({ slug, updatedAt }) => ({
     url: `${normalizedBaseUrl}/stays/${slug}`,
-    lastModified,
-    changeFrequency: 'weekly',
-    priority: 0.8,
+    lastModified: new Date(updatedAt),
   }))
 
-  const journalEntries: MetadataRoute.Sitemap = journalSlugs.map((slug) => ({
+  const journalDetailEntries: MetadataRoute.Sitemap = journalEntries.map(({ slug, updatedAt }) => ({
     url: `${normalizedBaseUrl}/journal/${slug}`,
-    lastModified,
-    changeFrequency: 'weekly',
-    priority: 0.7,
+    lastModified: new Date(updatedAt),
   }))
 
   return [
     ...staticEntries,
     ...spokeEntries,
     ...programmaticEntries,
-    ...stayEntries,
-    ...journalEntries,
+    ...stayDetailEntries,
+    ...journalDetailEntries,
   ]
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [journalSlugs, staySlugs, pseoInventory] = await Promise.all([
-    getAllJournalSlugs(),
-    getAllStaySlugs(),
+  const [journalEntries, stayEntries, pseoInventory] = await Promise.all([
+    getAllJournalSitemapEntries(),
+    getAllStaySitemapEntries(),
     getPseoSitemapInventory(),
   ])
 
   return buildSitemapEntries({
     baseUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com',
-    journalSlugs,
-    staySlugs,
+    journalEntries,
+    stayEntries,
     pseoPaths: getPseoSitemapPaths(getPseoInventoryCounts(pseoInventory)),
-    lastModified: new Date(),
   })
 }

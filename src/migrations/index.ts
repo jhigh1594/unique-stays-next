@@ -15,6 +15,7 @@ import * as migration_20260601_043022 from './20260601_043022';
 import * as migration_20260601_unique_score_collections from './20260601_unique_score_collections';
 import * as migration_20260617_022630 from './20260617_022630';
 import * as migration_20260617_034839 from './20260617_034839';
+import * as migration_20260617_045405_snowseo_webhook from './20260617_045405_snowseo_webhook';
 
 export const migrations = [
   {
@@ -100,6 +101,11 @@ export const migrations = [
   {
     up: migration_20260617_034839.up,
     down: migration_20260617_034839.down,
-    name: '20260617_034839'
+    name: '20260617_034839',
+  },
+  {
+    up: migration_20260617_045405_snowseo_webhook.up,
+    down: migration_20260617_045405_snowseo_webhook.down,
+    name: '20260617_045405_snowseo_webhook'
   },
 ];

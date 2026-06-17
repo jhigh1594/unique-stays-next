@@ -48,6 +48,7 @@ export type NormalizedJournalPost = {
   excerpt: string
   heroImageUrl: string
   publishedAt: string
+  updatedAt: string
   city: string
   state: string
   latitude: string

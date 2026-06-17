@@ -166,5 +166,25 @@ export const BlogPosts: CollectionConfig = {
         description: 'Falls back to excerpt if empty',
       },
     },
+
+    // ── SnowSEO sync ──────────────────────────────────────────
+    {
+      name: 'snowseoArticleId',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'SnowSEO article ID — used to link webhook updates',
+        readOnly: true,
+      },
+    },
+    {
+      name: 'archivedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        description: 'Set when SnowSEO unpublish action is archive',
+        readOnly: true,
+      },
+    },
   ],
 }
