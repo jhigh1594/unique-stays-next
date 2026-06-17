@@ -6,7 +6,7 @@ import { SPOKES_CONFIG, SPOKE_SLUGS } from '@/lib/spokes-config'
 
 export const dynamic = 'force-static'
 
-const BASE_URL = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com').replace(/\/$/, '')
+const BASE_URL = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com').replace(/\/$/, '')
 
 export function generateMetadata(): Metadata {
   return {

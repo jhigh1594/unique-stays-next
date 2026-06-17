@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { toCdnUrlOrRaw } from './image-loader'
 import { SPOKES_CONFIG, SPOKE_SLUGS } from './spokes-config'
 import type { SpokeSlug } from './spokes-config'
 import { STATES, STATES_BY_SLUG, getRelatedStates } from './states'
@@ -144,7 +145,7 @@ export function getPseoMetadata(context: PseoRouteContext, stayCount: number): M
       title,
       description,
       images: context.config.heroImage
-        ? [{ url: context.config.heroImage, width: 1200, height: 630 }]
+        ? [{ url: toCdnUrlOrRaw(context.config.heroImage, { width: 1200 }) as string, width: 1200, height: 630 }]
         : [],
     },
   }
@@ -173,7 +174,7 @@ export function getPseoItemListJsonLd({
       item: {
         '@type': 'LodgingBusiness',
         name: stay.title,
-        image: stay.imageUrl || undefined,
+        image: toCdnUrlOrRaw(stay.imageUrl, { width: 1200 }),
         address: {
           '@type': 'PostalAddress',
           addressRegion: stay.state,
@@ -244,6 +245,7 @@ export function getSpokeHubJsonLd({
     '@type': 'CollectionPage',
     name: config.seoTitle,
     description: config.seoDescription,
+    image: toCdnUrlOrRaw(config.heroImage, { width: 1200 }),
     url: `${baseUrl}/${config.slug}`,
     mainEntity: {
       '@type': 'ItemList',

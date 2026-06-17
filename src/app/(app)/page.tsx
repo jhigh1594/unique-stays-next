@@ -1,9 +1,15 @@
 import { Suspense } from 'react'
+import type { Metadata } from 'next'
 import Hero from './_home/Hero'
 import HeroSection from './_home/HeroSection'
 import HomeBody from './_home/HomeBody'
 import { HERO_FALLBACK_CATEGORIES, HERO_FALLBACK_STATS } from './_home/home-fallback'
 export const revalidate = 86400
+
+export const metadata: Metadata = {
+  // Resolved against layout.metadataBase (www) → https://www.uniquestaysusa.com/
+  alternates: { canonical: '/' },
+}
 
 export default function HomePage() {
   return (

@@ -55,7 +55,7 @@ export default async function SpokeStatePage({
   if (!context) notFound()
 
   const stays = await getStaysBySpokeAndState(context.spoke, context.stateConfig.name)
-  const baseUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com').replace(/\/$/, '')
+  const baseUrl = (process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com').replace(/\/$/, '')
   const { config, stateConfig } = context
   const relatedStates = getPseoRelatedStates(context.state, 6)
   const relatedSpokes = getPseoRelatedSpokes(context.spoke)

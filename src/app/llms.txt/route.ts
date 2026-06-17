@@ -11,7 +11,7 @@ export async function GET() {
     getAllJournalSlugs(),
   ])
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
 
   const states = [...new Set(stays.map((s) => s.state).filter(Boolean))].sort()
   const spokeSections = SPOKE_SLUGS.map((slug) => {

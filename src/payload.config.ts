@@ -66,10 +66,14 @@ export default buildConfig({
       collections: {
         media: {
           disablePayloadAccessControl: true,
-          generateFileURL: ({ filename, prefix }) => {
-            const key = prefix ? `${prefix}/${filename}` : filename
-            return `${r2PublicUrl}/${key}`
-          },
+          // New uploads store under `media/` (collectionPrefix) so the image-cdn
+          // worker can serve them — it only accepts keys under allowed prefixes
+          // (stays/ hero/ spokes/ media/). Existing bare objects were copied
+          // under media/ by scripts/migrate-media-to-prefix.ts. Custom
+          // generateFileURL hardcodes `media/` because the plugin only passes
+          // the *document* prefix here, not the collection prefix.
+          prefix: 'media',
+          generateFileURL: ({ filename }) => `${r2PublicUrl}/media/${filename}`,
         },
       },
       config: {

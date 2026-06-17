@@ -84,8 +84,35 @@ function extractVersion(src: string): string | null {
   return v && VERSION_RE.test(v) ? v : null
 }
 
-/** Build a CDN URL for a known R2 key (used by next/image loader and LCP preloads). */
-export function buildR2CdnUrl(src: string, width: number): string | null {
+export type ToCdnUrlOptions = {
+  /** Desired render width. 0 (default) omits `?w` and serves the original bytes. */
+  width?: number
+  /** Forward the source `?v`/`?rev` content-version param. Default true. */
+  keepVersion?: boolean
+}
+
+/**
+ * Map a stored image URL to the image CDN (img.uniquestaysusa.com).
+ *
+ * THE shared R2→CDN rewrite — used by the next/image loader, every OpenGraph
+ * `images[].url`, and every JSON-LD `image` field. Other teams reuse this;
+ * do NOT re-implement R2→CDN mapping per page.
+ *
+ * Returns the CDN URL when `src` is an R2-hosted image whose object key lives
+ * under an allowed prefix (`stays/` `hero/` `spokes/` `media/`) — i.e. a key
+ * the Cloudflare worker can serve. Returns `null` otherwise; callers should
+ * then keep the original `src` (it is either an allowed external CDN, or an
+ * R2 image whose bare key still needs manual migration to an allowed prefix —
+ * the worker rejects bare keys with HTTP 400, so we never rewrite them).
+ *
+ * @example
+ *   toCdnUrl('https://pub-…r2.dev/spokes/unique.jpg', { width: 1200 })
+ *   // → 'https://img.uniquestaysusa.com/spokes/unique.jpg?w=1200'
+ */
+export function toCdnUrl(
+  src: string,
+  { width = 0, keepVersion = true }: ToCdnUrlOptions = {},
+): string | null {
   const key = extractR2Key(src)
   if (!key) return null
 
@@ -93,13 +120,31 @@ export function buildR2CdnUrl(src: string, width: number): string | null {
   if (width > 0) {
     params.set('w', String(Math.min(Math.round(width), CDN_MAX_WIDTH)))
   }
-  const version = extractVersion(src)
-  if (version) {
-    params.set(VERSION_PARAM, version)
+  if (keepVersion) {
+    const version = extractVersion(src)
+    if (version) params.set(VERSION_PARAM, version)
   }
 
   const query = params.toString()
   return `https://${CDN_HOST}/${key}${query ? `?${query}` : ''}`
+}
+
+/**
+ * toCdnUrl, falling back to the original `src` when mapping isn't possible.
+ * Use for OG/JSON-LD fields that must always carry a URL. Returns `undefined`
+ * for empty/null input so the field is simply omitted.
+ */
+export function toCdnUrlOrRaw(
+  src: string | null | undefined,
+  opts?: ToCdnUrlOptions,
+): string | undefined {
+  if (!src) return undefined
+  return toCdnUrl(src, opts) ?? src
+}
+
+/** Build a CDN URL for a known R2 key (used by next/image loader and LCP preloads). */
+export function buildR2CdnUrl(src: string, width: number): string | null {
+  return toCdnUrl(src, { width })
 }
 
 const imageLoader: ImageLoader = ({ src, width, quality }) => {
@@ -121,6 +166,15 @@ const imageLoader: ImageLoader = ({ src, width, quality }) => {
 
   const cdnUrl = buildR2CdnUrl(src, width)
   if (cdnUrl) return cdnUrl
+
+  if (isR2Host(url.hostname)) {
+    // Known R2 host, but the object key isn't under an allowed prefix — the
+    // worker would reply 400. Serve the raw URL and flag it for manual
+    // migration to an allowed prefix (see toCdnUrl). This is NOT an unknown
+    // domain; it is a known-host / unmappable-key case.
+    console.warn('[image-loader] R2 image has unmappable key, serving raw:', src)
+    return src
+  }
 
   if (isAllowedExternal(url.hostname)) {
     return src

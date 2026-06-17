@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   description:
     'Discover treehouses, geodesic domes, cave dwellings, houseboats, and more extraordinary stays across the USA.',
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com'
+    process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
   ),
   icons: {
     icon: [
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://uniquestaysusa.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://www.uniquestaysusa.com'
 
   const orgAndWebSiteJsonLd = {
     '@context': 'https://schema.org',
