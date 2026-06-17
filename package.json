@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "payload generate:types && payload generate:importmap && node --import tsx/esm scripts/warm-cache.ts && next build",
+    "build": "payload generate:types && payload generate:importmap && payload migrate && node --import tsx/esm scripts/warm-cache.ts && next build",
     "start": "next start",
     "test": "vitest run",
     "generate:types": "payload generate:types",
