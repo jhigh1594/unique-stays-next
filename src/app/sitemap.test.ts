@@ -1,13 +1,10 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { buildSitemapEntries, normalizeBaseUrl } from './sitemap'
+import type { SitemapEntry } from './sitemap'
 
-vi.mock('@/lib/payload-queries', () => ({
-  getAllJournalSlugs: vi.fn(),
-  getAllStaySlugs: vi.fn(),
-  getPseoSitemapInventory: vi.fn(),
-}))
-
-const lastModified = new Date('2026-05-10T12:00:00.000Z')
+function entry(slug: string, updatedAt: string): SitemapEntry {
+  return { slug, updatedAt }
+}
 
 describe('sitemap entries', () => {
   it('normalizes a trailing slash and canonicalizes apex to www', () => {
@@ -21,12 +18,11 @@ describe('sitemap entries', () => {
   it('emits www self-canonical URLs for static, spoke, stay, journal, and eligible pSEO routes', () => {
     const entries = buildSitemapEntries({
       baseUrl: 'https://uniquestaysusa.com/',
-      journalSlugs: ['best-unique-stays-in-vermont'],
-      staySlugs: ['california-dog-cabin'],
+      journalEntries: [entry('best-unique-stays-in-vermont', '2026-05-10T12:00:00.000Z')],
+      stayEntries: [entry('california-dog-cabin', '2026-06-01T09:00:00.000Z')],
       pseoPaths: ['/pet-friendly/california'],
-      lastModified,
     })
-    const urls = entries.map((entry) => entry.url)
+    const urls = entries.map((e) => e.url)
 
     expect(urls).toContain('https://www.uniquestaysusa.com')
     expect(urls).toContain('https://www.uniquestaysusa.com/pet-friendly')
@@ -40,14 +36,81 @@ describe('sitemap entries', () => {
   it('omits thin pSEO URLs when no eligible pSEO paths are supplied', () => {
     const entries = buildSitemapEntries({
       baseUrl: 'https://uniquestaysusa.com',
-      journalSlugs: [],
-      staySlugs: [],
+      journalEntries: [],
+      stayEntries: [],
       pseoPaths: [],
-      lastModified,
     })
-    const urls = entries.map((entry) => entry.url)
+    const urls = entries.map((e) => e.url)
 
     expect(urls).toContain('https://www.uniquestaysusa.com/pet-friendly')
     expect(urls).not.toContain('https://www.uniquestaysusa.com/pet-friendly/california')
+  })
+
+  it('never emits deprecated <priority> or <changefreq> tags', () => {
+    const entries = buildSitemapEntries({
+      baseUrl: 'https://uniquestaysusa.com',
+      journalEntries: [entry('a-post', '2026-05-10T12:00:00.000Z')],
+      stayEntries: [entry('a-stay', '2026-06-01T09:00:00.000Z')],
+      pseoPaths: ['/pet-friendly/california'],
+    })
+
+    expect(entries.every((e) => !('priority' in e))).toBe(true)
+    expect(entries.every((e) => !('changeFrequency' in e))).toBe(true)
+  })
+
+  it('derives per-URL lastmod from real updatedAt, not build time', () => {
+    const entries = buildSitemapEntries({
+      baseUrl: 'https://uniquestaysusa.com',
+      journalEntries: [
+        entry('post-one', '2026-05-10T12:00:00.000Z'),
+        entry('post-two', '2026-06-12T08:30:00.000Z'),
+      ],
+      stayEntries: [
+        entry('stay-one', '2026-06-01T09:00:00.000Z'),
+        entry('stay-two', '2026-06-15T18:00:00.000Z'),
+      ],
+      pseoPaths: [],
+    })
+
+    const byUrl = new Map(entries.map((e) => [e.url, e]))
+    expect(byUrl.get('https://www.uniquestaysusa.com/stays/stay-one')?.lastModified).toEqual(
+      new Date('2026-06-01T09:00:00.000Z'),
+    )
+    expect(byUrl.get('https://www.uniquestaysusa.com/stays/stay-two')?.lastModified).toEqual(
+      new Date('2026-06-15T18:00:00.000Z'),
+    )
+    expect(byUrl.get('https://www.uniquestaysusa.com/journal/post-two')?.lastModified).toEqual(
+      new Date('2026-06-12T08:30:00.000Z'),
+    )
+
+    // Index backed by the full stay set takes the freshest stay updatedAt;
+    // the journal index takes the freshest post updatedAt.
+    expect(byUrl.get('https://www.uniquestaysusa.com/collection')?.lastModified).toEqual(
+      new Date('2026-06-15T18:00:00.000Z'),
+    )
+    expect(byUrl.get('https://www.uniquestaysusa.com/journal')?.lastModified).toEqual(
+      new Date('2026-06-12T08:30:00.000Z'),
+    )
+
+    // Pages with no backing doc carry no lastmod (never synthesized).
+    expect(byUrl.get('https://www.uniquestaysusa.com')?.lastModified).toBeUndefined()
+    expect(byUrl.get('https://www.uniquestaysusa.com/tools')?.lastModified).toBeUndefined()
+    expect(byUrl.get('https://www.uniquestaysusa.com/collections')?.lastModified).toBeUndefined()
+  })
+
+  it('includes both /collection and /collections (dedupe flagged for human, no blind 301)', () => {
+    const entries = buildSitemapEntries({
+      baseUrl: 'https://uniquestaysusa.com',
+      journalEntries: [],
+      stayEntries: [],
+      pseoPaths: [],
+    })
+    const urls = entries.map((e) => e.url)
+
+    // Both distinct hubs remain indexed until external inbound equity is
+    // verified (GSC/Ahrefs). They are separate pages (all-stays directory vs
+    // 5-spoke hub), not duplicates, so neither is dropped blindly.
+    expect(urls).toContain('https://www.uniquestaysusa.com/collection')
+    expect(urls).toContain('https://www.uniquestaysusa.com/collections')
   })
 })
