@@ -16,6 +16,13 @@ interface StayCardProps {
   index?: number
   href?: string
   external?: boolean
+  /**
+   * Hybrid mode: whole card links to the internal /stays/{slug} page (crawlable,
+   * passes internal link equity) while the bottom-right affordance becomes an
+   * external "View on {platform}" CTA to the affiliate URL. Used on related /
+   * featured / linked-stay cards so they no longer leak all equity off-site.
+   */
+  affiliateCta?: boolean
 }
 
 const PLATFORM_STYLES: Record<string, { bg: string; text: string; label: string }> = {
@@ -40,12 +47,15 @@ export default function StayCard({
   index = 0,
   href,
   external = false,
+  affiliateCta = false,
 }: StayCardProps) {
   void accentColor
   const platform = PLATFORM_STYLES[stay.platform] || PLATFORM_STYLES.Direct
   const tilt = TILTS[index % TILTS.length]
   const shadowX = tilt > 0 ? 3 : -3
   const linkHref = href ?? `/stays/${stay.slug}`
+  // Affiliate CTA target — only valid https:// URLs. Empty string = no CTA.
+  const bookUrl = stay.affiliateUrl?.startsWith('https://') ? stay.affiliateUrl : ''
   const heroImage = stay.imageUrl || stay.galleryImages[0] || ''
   const caption = stay.subtitle?.trim() || stay.description?.trim() || ''
 
@@ -290,11 +300,76 @@ export default function StayCard({
     })
   }
 
+  const captureCta = async () => {
+    const ph = await getPostHog()
+    ph.capture('stay_card_cta_clicked', {
+      stay_slug: stay.slug,
+      stay_title: stay.title,
+      stay_platform: stay.platform,
+      destination: bookUrl,
+    })
+  }
+
   const linkProps = {
     className: 'group block h-full',
     style,
     'data-cursor': 'view',
     onClick: handleClick,
+  }
+
+  if (affiliateCta) {
+    // Hybrid: the card itself is an internal <Link> to /stays/{slug} (crawlable,
+    // keeps link equity on-site), and the affiliate CTA is a separate sibling
+    // anchor rendered directly below the card. Never nested inside the card link,
+    // so it is fully clickable with no z-index/stacking-context fights (the
+    // .stay-card tilt uses transform, which creates its own stacking context and
+    // would otherwise trap an overlay-based CTA).
+    return (
+      <div style={style}>
+        <Link
+          href={`/stays/${stay.slug}`}
+          aria-label={`View stay details: ${stay.title}`}
+          onClick={handleClick}
+          className="group block h-full"
+          data-cursor="view"
+        >
+          {card as ReactNode}
+        </Link>
+        {bookUrl && (
+          // Matches the canonical "Book on {platform}" CTA on the stay detail
+          // page (ticket stub + primary): terracotta field, white ink, Plus
+          // Jakarta 800 uppercase, and the stamped-depth hard shadow that is the
+          // site's rubber-stamp / letterpress motif. See .impeccable.md.
+          <a
+            href={bookUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            data-cursor="view"
+            onClick={() => {
+              void captureCta()
+            }}
+            aria-label={`Book ${stay.title} on ${platform.label}`}
+            className="mt-2.5 flex w-full items-center justify-center transition-[filter] hover:brightness-[1.06]"
+            style={{
+              gap: 6,
+              padding: '9px 12px',
+              background: 'oklch(0.55 0.14 38)',
+              color: 'white',
+              fontSize: '0.62rem',
+              fontWeight: 800,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              borderRadius: 2,
+              textDecoration: 'none',
+              boxShadow: '0 2px 0 oklch(0.38 0.12 38), 0 4px 12px oklch(0.55 0.14 38 / 0.26)',
+            }}
+          >
+            Book on {platform.label} ↗
+          </a>
+        )}
+      </div>
+    )
   }
 
   if (external) {

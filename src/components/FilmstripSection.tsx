@@ -138,8 +138,7 @@ export default function FilmstripSection({ stays }: Props) {
             >
               <StayCard
                 stay={stay}
-                href={stay.affiliateUrl}
-                external
+                affiliateCta
                 index={i + 10}
               />
             </motion.div>
