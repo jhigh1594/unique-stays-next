@@ -8,12 +8,17 @@ async function getPayloadInstance() {
   return getPayload({ config })
 }
 
+// Publish gate for the public site. A stay is public unless explicitly `hidden`
+// or its location failed to parse ('' / 'Unknown' sentinel). Price is intentionally
+// NOT gated — price=0 means "scraped price unavailable", and those listings still
+// render (price block shows "Price unavailable"). Out-of-scope/junk listings are
+// excluded via the explicit `hidden` flag rather than derived heuristics.
 const PUBLIC_STAY_FILTER = {
   and: [
-    { price: { greater_than: 0 } },
+    { hidden: { not_equals: true } },
     { location: { not_equals: '' } },
     { location: { not_equals: 'Unknown' } },
-  ] as { price: { greater_than: number } }[] & { location: { not_equals: string } }[],
+  ] as { hidden: { not_equals: boolean } }[] & { location: { not_equals: string } }[],
 }
 
 function resolveImageUrl(doc: Record<string, unknown>): string {

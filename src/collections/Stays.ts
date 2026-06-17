@@ -361,6 +361,15 @@ export const Stays: CollectionConfig = {
         description: 'Why this stay needs review (e.g. dead listing, wrong image)',
       },
     },
+    {
+      name: 'hidden',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Hides this stay from the public site, sitemap, and static route params. Use for out-of-scope or broken listings instead of relying on the price/location heuristics.',
+      },
+    },
 
     // ── Work-Friendly ─────────────────────────────────────────
     {

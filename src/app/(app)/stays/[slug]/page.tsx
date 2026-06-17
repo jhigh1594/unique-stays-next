@@ -36,12 +36,16 @@ function getStayJsonLd(stay: NonNullable<Awaited<ReturnType<typeof getStayBySlug
           ratingValue: stay.rating,
           reviewCount: stay.reviewCount ?? undefined,
         },
-        offers: {
-          '@type': 'Offer',
-          price: stay.price,
-          priceCurrency: 'USD',
-          availability: 'https://schema.org/InStock',
-        },
+        ...(stay.price != null && stay.price > 0
+          ? {
+              offers: {
+                '@type': 'Offer',
+                price: stay.price,
+                priceCurrency: 'USD',
+                availability: 'https://schema.org/InStock',
+              },
+            }
+          : {}),
       },
       {
         '@type': 'BreadcrumbList',

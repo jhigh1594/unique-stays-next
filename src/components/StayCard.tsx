@@ -27,6 +27,9 @@ const PLATFORM_STYLES: Record<string, { bg: string; text: string; label: string 
 
 const TILTS = [-1.5, 1.2, -0.8, 1.8, -1.1, 0.7, -1.9, 1.4, -0.6, 2.0, -1.3, 0.9]
 
+/** price=0/null means "scraped price unavailable" — render as such, never "$0". */
+const hasStayPrice = (price: number | null | undefined): boolean => price != null && price > 0
+
 const MAT_GRAIN = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")`
 
 export default function StayCard({
@@ -149,7 +152,7 @@ export default function StayCard({
                 borderRadius: '2px',
               }}
             >
-              ${stay.price}<span className="font-normal text-white/80 text-xs">/night</span>
+              {hasStayPrice(stay.price) ? `$${stay.price}` : 'Price unavailable'}{hasStayPrice(stay.price) && <span className="font-normal text-white/80 text-xs">/night</span>}
             </span>
           </div>
         </div>
