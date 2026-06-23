@@ -2606,6 +2606,96 @@ body:has(.journal-hero) nextjs-portal {
   background: oklch(0.55 0.14 38 / 0.06);
 }
 
+/* ── Stay detail: Book CTA (letterpress stamp) ── */
+.stay-book-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: oklch(0.55 0.14 38);
+  color: white;
+  font-family: var(--font-body);
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow:
+    0 2px 0 oklch(0.38 0.12 38),
+    0 5px 14px oklch(0.55 0.14 38 / 0.24);
+  transition:
+    transform 0.22s cubic-bezier(0.25, 1, 0.5, 1),
+    filter 0.22s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.22s cubic-bezier(0.25, 1, 0.5, 1),
+    background 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.stay-book-cta:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  background: oklch(0.58 0.15 38);
+  box-shadow:
+    0 3px 0 oklch(0.38 0.12 38),
+    0 8px 18px oklch(0.55 0.14 38 / 0.3);
+}
+
+.stay-book-cta:active {
+  transform: translateY(1px);
+  filter: brightness(0.97);
+  box-shadow:
+    0 1px 0 oklch(0.38 0.12 38),
+    0 2px 6px oklch(0.55 0.14 38 / 0.18);
+  transition-duration: 0.1s;
+}
+
+.stay-book-cta:focus-visible {
+  outline: 2px solid oklch(0.55 0.14 38);
+  outline-offset: 3px;
+}
+
+.stay-book-cta--stub {
+  display: flex;
+  width: 100%;
+  padding: 12px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  border-radius: 1px;
+  box-shadow:
+    0 2px 0 oklch(0.38 0.12 38),
+    0 4px 12px oklch(0.55 0.14 38 / 0.28);
+}
+
+.stay-book-cta--stub:hover {
+  box-shadow:
+    0 3px 0 oklch(0.38 0.12 38),
+    0 7px 16px oklch(0.55 0.14 38 / 0.32);
+}
+
+.stay-book-cta--primary {
+  width: 100%;
+  min-height: 56px;
+  padding: 0 14px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.stay-book-cta--sticky {
+  flex-shrink: 0;
+  min-height: 46px;
+  min-width: 112px;
+  padding: 0 18px;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  box-shadow: 0 2px 0 oklch(0.38 0.12 38);
+}
+
+.stay-book-cta--sticky:hover {
+  box-shadow:
+    0 3px 0 oklch(0.38 0.12 38),
+    0 6px 14px oklch(0.55 0.14 38 / 0.26);
+}
+
 /* ── Price Inputs ── */
 .price-input {
   font-family: var(--font-display);
@@ -2891,8 +2981,15 @@ body:has(.journal-hero) nextjs-portal {
   .postmark-circle,
   .category-index__item,
   .category-index__item::after,
-  .platform-stamp {
+  .platform-stamp,
+  .stay-book-cta {
     transition: none !important;
     transform: none !important;
+  }
+
+  .stay-book-cta:hover,
+  .stay-book-cta:active {
+    filter: none !important;
+    background: oklch(0.58 0.15 38) !important;
   }
 }

@@ -464,14 +464,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
                     rel="noopener noreferrer sponsored"
                     data-cursor="view"
                     onClick={handleAffiliateClick}
-                    style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                      width: '100%', padding: 12,
-                      background: 'oklch(0.55 0.14 38)', color: 'white',
-                      fontSize: 9, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif', borderRadius: 1, textDecoration: 'none',
-                      boxShadow: '0 2px 0 oklch(0.38 0.12 38), 0 4px 12px oklch(0.55 0.14 38 / 0.28)',
-                    }}
+                    className="stay-book-cta stay-book-cta--stub"
                   >
                     Book on {platformLabel} &nbsp; ↗
                   </a>
@@ -822,14 +815,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
               rel="noopener noreferrer sponsored"
               onClick={handleAffiliateClick}
               aria-label={`Book ${stay.title} on ${platformLabel}`}
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                width: '100%', minHeight: 56, padding: '0 14px',
-                background: 'oklch(0.55 0.14 38)', color: 'white',
-                fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase',
-                borderRadius: 2, textDecoration: 'none', fontFamily: 'Plus Jakarta Sans, sans-serif',
-                boxShadow: '0 2px 0 oklch(0.38 0.12 38), 0 5px 14px oklch(0.55 0.14 38 / 0.24)',
-              }}
+              className="stay-book-cta stay-book-cta--primary"
             >
               Book on {platformLabel} ↗
             </a>
@@ -979,25 +965,7 @@ export default function StayDetailContent({ stay, related }: StayDetailContentPr
             rel="noopener noreferrer sponsored"
             onClick={handleAffiliateClick}
             aria-label={`Book ${stay.title} on ${platformLabel} from sticky bar`}
-            style={{
-              flexShrink: 0,
-              minHeight: 46,
-              minWidth: 112,
-              padding: '0 18px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'oklch(0.55 0.14 38)',
-              color: 'white',
-              borderRadius: 2,
-              textDecoration: 'none',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-              fontSize: 11,
-              fontWeight: 850,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              boxShadow: '0 2px 0 oklch(0.38 0.12 38)',
-            }}
+            className="stay-book-cta stay-book-cta--sticky"
           >
             Book ↗
           </a>
