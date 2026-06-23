@@ -136,11 +136,7 @@ export default function FilmstripSection({ stays }: Props) {
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.5, delay: i * 0.06, ease: 'easeOut' }}
             >
-              <StayCard
-                stay={stay}
-                affiliateCta
-                index={i + 10}
-              />
+              <StayCard stay={stay} index={i + 10} />
             </motion.div>
           ))}
           <div className="flex-shrink-0 w-6 lg:w-[calc((100vw-1320px)/2+2rem)]" />

@@ -337,10 +337,8 @@ export default function HomeContent({
             {/* Large featured card */}
             <div className="lg:col-span-2 fade-up" style={{ transitionDelay: '80ms' }}>
               {featuredStays[0] && (
-                <a
-                  href={featuredStays[0].affiliateUrl}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
+                <Link
+                  href={`/stays/${featuredStays[0].slug}`}
                   className="group block"
                   data-cursor="view"
                 >
@@ -421,7 +419,7 @@ export default function HomeContent({
                       </div>
                     </div>
                   </motion.div>
-                </a>
+                </Link>
               )}
             </div>
 
@@ -429,7 +427,7 @@ export default function HomeContent({
             <div className="flex flex-col gap-7">
               {featuredStays.slice(1, 3).map((stay, i) => (
                 <div key={stay.id} className="fade-up" style={{ transitionDelay: `${180 + i * 100}ms` }}>
-                  <StayCard stay={stay} affiliateCta index={i} />
+                  <StayCard stay={stay} index={i} />
                 </div>
               ))}
             </div>
@@ -687,7 +685,7 @@ export default function HomeContent({
                 className="fade-up"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <StayCard stay={stay} affiliateCta index={i + 3} />
+                <StayCard stay={stay} index={i + 3} />
               </div>
             ))}
           </div>
