@@ -63,3 +63,5 @@ __pycache__/
 
 # graphify skill build output
 graphify-out/
+.firecrawl/
+.impeccable/
