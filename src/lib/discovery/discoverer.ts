@@ -7,6 +7,7 @@ export interface DiscoveredListing {
   title: string
   location: string
   state: string
+  region?: 'West' | 'Southwest' | 'South' | 'Midwest' | 'Northeast' | 'Southeast'
   description: string
   imageUrl: string
   price: number | null
@@ -205,9 +206,8 @@ function cleanUrl(url: string, platform: 'Airbnb' | 'VRBO' | 'Wander'): string {
     if (match) return `https://www.vrbo.com/${match[1]}`
     return ''
   } else if (platform === 'Wander') {
-    // Must be a property page, not homepage or search
-    const match = cleaned.match(/wander\.com\/(property\/[a-z0-9-]+)/)
-      ?? cleaned.match(/wander\.com\/([a-z0-9-]+)/)
+    // Must be a property page, not homepage/search/editorial paths.
+    const match = cleaned.match(/wander\.com\/(property\/wander-[a-z0-9-]+)/)
     if (match) return `https://www.wander.com/${match[1]}`
     return ''
   }

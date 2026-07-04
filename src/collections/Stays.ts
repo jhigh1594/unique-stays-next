@@ -3,9 +3,12 @@ import type { CollectionConfig } from 'payload'
 async function revalidateTag(tag: string) {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
   const secret = process.env.REVALIDATE_SECRET
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 5000)
   try {
     await fetch(`${baseUrl}/api/revalidate`, {
       method: 'POST',
+      signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
         'x-revalidate-secret': secret ?? '',
@@ -14,6 +17,8 @@ async function revalidateTag(tag: string) {
     })
   } catch {
     // revalidation failure must never block the save
+  } finally {
+    clearTimeout(timeout)
   }
 }
 

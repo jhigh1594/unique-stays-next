@@ -5,6 +5,7 @@
 //        --force            Re-discover even if candidates exist
 //        --delay <ms>       Delay between scrapes (default 2000)
 //        --limit <n>        Max candidates to write (default 50)
+//        --source-limit <n> Max raw listings to discover per source (pilot defaults to 5)
 //        --source <list>    Comma-separated sources: airbnb,vrbo,wander
 //        --min-score <n>    Minimum novelty score threshold (default 4)
 //        --no-notify        Skip email notification
@@ -12,6 +13,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { discoverAll } from '../src/lib/discovery/discoverer'
+import { hydrateListingsFromPlatformCli } from '../src/lib/discovery/platform-cli'
 import { scoreBatch } from '../src/lib/discovery/scorer'
 import { sendDiscoveryNotification } from '../src/lib/discovery/notify'
 
@@ -27,7 +29,8 @@ const pilot = hasFlag('pilot')
 const force = hasFlag('force')
 const delay = parseInt(getArg('delay') ?? '2000', 10)
 const limit = parseInt(getArg('limit') ?? '50', 10)
-const minScore = parseInt(getArg('minScore') ?? '4', 10)
+const sourceLimit = getArg('source-limit') ? parseInt(getArg('source-limit')!, 10) : undefined
+const minScore = parseInt(getArg('min-score') ?? getArg('minScore') ?? '4', 10)
 const noNotify = hasFlag('no-notify')
 const sourceArg = getArg('source')
 const sources = sourceArg
@@ -57,12 +60,13 @@ async function main() {
   console.log('═══ Stay Discovery Pipeline ═══')
   console.log(`  Sources: ${sources?.join(', ') ?? 'all'}`)
   console.log(`  Limit: ${limit}`)
+  console.log(`  Source limit: ${sourceLimit ?? (pilot ? 5 : 'default')}`)
   console.log(`  Min score: ${minScore}`)
   console.log(`  Pilot: ${pilot}`)
 
   // Step 1: Discover listings from platforms
   console.log('\n── Phase 1: Crawling platforms ──')
-  const rawListings = await discoverAll(sources, pilot ? 5 : undefined)
+  const rawListings = await discoverAll(sources, sourceLimit ?? (pilot ? 5 : undefined))
   console.log(`  Raw listings discovered: ${rawListings.length}`)
 
   if (rawListings.length === 0) {
@@ -87,22 +91,35 @@ async function main() {
   })
   const candidateUrls = new Set(existingCandidates.docs.map((c) => c.sourceUrl as string))
 
-  const newListings = rawListings.filter((l) => {
+  const seenRunUrls = new Set<string>()
+  const dedupedListings = rawListings.filter((l) => {
+    if (!l.sourceUrl) return false
     if (existingUrls.has(l.sourceUrl)) return false
     if (!force && candidateUrls.has(l.sourceUrl)) return false
+    if (seenRunUrls.has(l.sourceUrl)) return false
+    seenRunUrls.add(l.sourceUrl)
     return true
   })
 
-  console.log(`  After dedup: ${newListings.length} new listings`)
+  console.log(`  After dedup: ${dedupedListings.length} new listings`)
 
-  if (newListings.length === 0) {
+  if (dedupedListings.length === 0) {
     console.log('\nNo new listings after dedup. Exiting.')
     process.exit(0)
   }
 
-  // Step 3: Score with LLM for novelty
-  console.log('\n── Phase 3: Scoring novelty ──')
+  // Step 3: Hydrate platform listings through the printing-press CLIs.
+  console.log('\n── Phase 3: Hydrating platform details ──')
+  const newListings = await hydrateListingsFromPlatformCli(dedupedListings)
+  console.log(`  CLI-backed listings: ${newListings.length}`)
 
+  if (newListings.length === 0) {
+    console.log('\nNo CLI-backed listings after hydration. Exiting.')
+    process.exit(0)
+  }
+
+  // Step 4: Score with LLM for novelty
+  console.log('\n── Phase 4: Scoring novelty ──')
   const scored = await scoreBatch(newListings, MODEL_ID, delay)
 
   // Merge scored results with original listing data (sourceUrl, rating, etc)
@@ -110,6 +127,8 @@ async function main() {
     ...s,
     sourceUrl: newListings[i].sourceUrl,
     platform: newListings[i].platform,
+    state: newListings[i].state,
+    region: newListings[i].region,
     rating: newListings[i].rating,
     reviewCount: newListings[i].reviewCount,
   }))
@@ -152,6 +171,7 @@ async function main() {
           title: item.title,
           location: item.location,
           state: extractState(item.location),
+          region: item.region,
           price: item.price,
           rating: item.rating,
           reviewCount: item.reviewCount,
@@ -199,7 +219,8 @@ async function main() {
   // ── Report ──────────────────────────────────────────────────────
   console.log('\n═══ Discovery Report ═══')
   console.log(`  Raw discovered:  ${rawListings.length}`)
-  console.log(`  After dedup:     ${newListings.length}`)
+  console.log(`  After dedup:     ${dedupedListings.length}`)
+  console.log(`  CLI-backed:      ${newListings.length}`)
   console.log(`  Scored:          ${scored.length}`)
   console.log(`  Passing filter:  ${passing.length}`)
   console.log(`  Written:         ${written}`)

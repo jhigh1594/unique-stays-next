@@ -15,6 +15,7 @@ const MODEL_MAP: Record<string, string> = {
 const DEFAULT_MODEL = 'meta/llama-3.3-70b-instruct'
 const NVIDIA_BASE_URL = 'https://integrate.api.nvidia.com/v1'
 const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1'
+const DEFAULT_PROVIDER_TIMEOUT_MS = 20_000
 
 function cleanKey(envVar: string): string {
   return (process.env[envVar] || '').replace(/^["']|["']$/g, '')
@@ -63,6 +64,25 @@ function is429(err: unknown): boolean {
   return msg.includes('429') || msg.includes('Too Many Requests')
 }
 
+function isFailoverError(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err)
+  return (
+    is429(err) ||
+    msg.includes('timeout') ||
+    msg.includes('Timeout') ||
+    msg.includes('aborted') ||
+    msg.includes('AbortError') ||
+    msg.includes('fetch failed') ||
+    msg.includes('ECONNRESET') ||
+    msg.includes('ETIMEDOUT')
+  )
+}
+
+function getProviderTimeoutMs(): number {
+  const configured = Number(process.env.LLM_PROVIDER_TIMEOUT_MS)
+  return Number.isFinite(configured) && configured > 0 ? configured : DEFAULT_PROVIDER_TIMEOUT_MS
+}
+
 export type { LLMProvider, LLMPurpose }
 
 export interface FailoverResult {
@@ -89,6 +109,7 @@ async function callProvider(
     prompt: options.prompt,
     maxOutputTokens: options.maxOutputTokens,
     temperature: options.temperature,
+    timeout: { totalMs: getProviderTimeoutMs() },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     experimental_telemetry: options.experimental_telemetry as any,
   })
@@ -109,7 +130,7 @@ export async function generateWithFailover(
       const text = await callProvider(nvidia, modelId, options)
       return { text, provider: 'nvidia-nim' }
     } catch (err) {
-      if (!is429(err)) throw err
+      if (!isFailoverError(err)) throw err
       // Fall through to OpenRouter
     }
   }
@@ -127,6 +148,6 @@ export async function generateWithFailover(
     throw new Error('No LLM provider configured. Set NVIDIA_NIM_API_KEY or OPENROUTER_API_KEY.')
   }
 
-  // NVIDIA failed with 429 but no OpenRouter available
-  throw new Error('NVIDIA NIM rate limited and no OpenRouter fallback configured. Set OPENROUTER_API_KEY.')
+  // NVIDIA failed with a transient provider error but no OpenRouter is available.
+  throw new Error('NVIDIA NIM failed and no OpenRouter fallback configured. Set OPENROUTER_API_KEY.')
 }

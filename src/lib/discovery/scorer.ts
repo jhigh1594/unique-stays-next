@@ -19,6 +19,7 @@ export interface NoveltyScore {
   score: number // 0-10
   reason: string
   category: string // e.g. "treehouse", "dome", "cabin", "generic"
+  source?: 'llm' | 'rules'
 }
 
 const SYSTEM_PROMPT = `You are an expert curator for UniqueStaysUSA, a directory of unique vacation rentals.
@@ -87,8 +88,8 @@ const NON_US_INDICATORS = [
   'Malaysia','South Korea','China','Taiwan','Singapore',
 ]
 
-function isUsListing(location: string): boolean {
-  const loc = location || ''
+function isUsListing(listing: ScorableListing): boolean {
+  const loc = [listing.title, listing.location, listing.description].filter(Boolean).join(' ')
   const hasUsState = US_STATES.some(
     (s) => loc.includes(`, ${s}`) || loc.includes(`, ${s},`) || loc.endsWith(`, ${s}`) || loc === s,
   )
@@ -101,11 +102,104 @@ function isUsListing(location: string): boolean {
 const MAX_RETRIES = 5
 const RETRY_BASE_MS = 2000
 
+const RULE_PATTERNS: Array<{
+  category: string
+  score: number
+  pattern: RegExp
+  reason: string
+}> = [
+  {
+    category: 'treehouse',
+    score: 9,
+    pattern: /\b(treehouse|tree house|elevated treehouse|canopy stay)\b/i,
+    reason: 'Rule-scored: treehouse or elevated structure signal.',
+  },
+  {
+    category: 'dome',
+    score: 8,
+    pattern: /\b(geodesic dome|bubble dome|stargazing dome|dome cabin)\b/i,
+    reason: 'Rule-scored: distinctive dome stay format.',
+  },
+  {
+    category: 'a-frame',
+    score: 7,
+    pattern: /\b(a-frame|aframe)\b/i,
+    reason: 'Rule-scored: distinctive A-frame architecture.',
+  },
+  {
+    category: 'glamping',
+    score: 7,
+    pattern: /\b(glamp|glamping|safari tent|yurt|canvas tent)\b/i,
+    reason: 'Rule-scored: glamping or tented stay format.',
+  },
+  {
+    category: 'converted',
+    score: 8,
+    pattern: /\b(caboose|train car|silo|barn|church|fire tower|lighthouse|cave|hobbit|shipping container)\b/i,
+    reason: 'Rule-scored: converted or unusual structure signal.',
+  },
+  {
+    category: 'architectural',
+    score: 7,
+    pattern: /\b(architectural retreat|architect-designed|iconic|clifftop|360 views|high desert|black desert|pioneertown|joshua tree|red rocks)\b/i,
+    reason: 'Rule-scored: memorable architecture or setting signal.',
+  },
+  {
+    category: 'cabin',
+    score: 5,
+    pattern: /\b(private creek|creekfront|riverfront|waterfall|stargazing|mountain view|forest view|blue ridge|smoky mountains)\b/i,
+    reason: 'Rule-scored: above-average cabin setting or nature feature.',
+  },
+]
+
+export function scoreNoveltyWithRules(listing: ScorableListing): NoveltyScore {
+  if (!isUsListing(listing)) {
+    return { score: 0, reason: 'Non-US listing', category: 'filtered', source: 'rules' }
+  }
+
+  const content = [
+    listing.title,
+    listing.location,
+    listing.description,
+    listing.amenities?.join(' '),
+  ].filter(Boolean).join('\n')
+
+  let best: NoveltyScore = {
+    score: 3,
+    reason: 'Rule-scored: nice property but no strong structural novelty signal found.',
+    category: 'generic',
+    source: 'rules',
+  }
+
+  for (const rule of RULE_PATTERNS) {
+    if (rule.pattern.test(content) && rule.score > best.score) {
+      best = {
+        score: rule.score,
+        reason: rule.reason,
+        category: rule.category,
+        source: 'rules',
+      }
+    }
+  }
+
+  const amenityBoost = /\b(hot tub|sauna|ev charger|desk|workstation|fiber|pool|fire pit)\b/i.test(content) ? 0.5 : 0
+  const settingBoost = /\b(private|secluded|remote|national park|desert|mountain|forest|lake)\b/i.test(content) ? 0.5 : 0
+  const luxuryPenalty = best.score <= 5 && /\b(luxury vacation rental|luxury home|estate)\b/i.test(content) ? 0.5 : 0
+
+  const score = Math.max(0, Math.min(10, Math.round((best.score + amenityBoost + settingBoost - luxuryPenalty) * 10) / 10))
+
+  return {
+    ...best,
+    score,
+    reason: `${best.reason} Needs editorial review when LLM scoring is unavailable.`,
+  }
+}
+
 export async function scoreNovelty(
   listing: ScorableListing,
   modelId?: string,
 ): Promise<NoveltyScore> {
-  if (!isUsListing(listing.location)) {
+  if (!isUsListing(listing)) {
     return { score: 0, reason: 'Non-US listing', category: 'filtered' }
   }
 
@@ -142,6 +236,7 @@ export async function scoreNovelty(
       score: Math.max(0, Math.min(10, Number(parsed.score ?? 0))),
       reason: String(parsed.reason ?? '').slice(0, 500),
       category: String(parsed.category ?? 'generic').slice(0, 50),
+      source: 'llm',
     }
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
@@ -151,11 +246,11 @@ export async function scoreNovelty(
         await new Promise((r) => setTimeout(r, backoff))
         continue
       }
-      process.stdout.write(`  Scoring failed for "${listing.title}": ${message}\n`)
-      return { score: 0, reason: 'Scoring failed', category: 'unknown' }
+      process.stdout.write(`  LLM scoring unavailable for "${listing.title}"; using rule score: ${message}\n`)
+      return scoreNoveltyWithRules(listing)
     }
   }
-  return { score: 0, reason: 'Scoring failed', category: 'unknown' }
+  return scoreNoveltyWithRules(listing)
 }
 
 export async function scoreBatch(
