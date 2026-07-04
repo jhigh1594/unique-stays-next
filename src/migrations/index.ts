@@ -16,6 +16,7 @@ import * as migration_20260601_unique_score_collections from './20260601_unique_
 import * as migration_20260617_022630 from './20260617_022630';
 import * as migration_20260617_034839 from './20260617_034839';
 import * as migration_20260617_045405_snowseo_webhook from './20260617_045405_snowseo_webhook';
+import * as migration_20260702_023140_candidate_stays_spoke_fields from './20260702_023140_candidate_stays_spoke_fields';
 
 export const migrations = [
   {
@@ -107,5 +108,10 @@ export const migrations = [
     up: migration_20260617_045405_snowseo_webhook.up,
     down: migration_20260617_045405_snowseo_webhook.down,
     name: '20260617_045405_snowseo_webhook'
+  },
+  {
+    up: migration_20260702_023140_candidate_stays_spoke_fields.up,
+    down: migration_20260702_023140_candidate_stays_spoke_fields.down,
+    name: '20260702_023140_candidate_stays_spoke_fields'
   },
 ];

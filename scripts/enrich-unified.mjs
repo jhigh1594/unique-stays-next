@@ -16,12 +16,17 @@
  *   node enrich-unified.mjs --dry-run          # Show what would change
  */
 
-import { execSync } from 'child_process';
-import { readFileSync } from 'fs';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 
-const ADMIN_BASE = 'https://www.uniquestaysusa.com/api/stays';
-const API_KEY = '1e3398df-433c-4019-8971-8eb0c067149d';
+const execFileAsync = promisify(execFile);
+
+const SERVER_URL = (process.env.NEXT_PUBLIC_SERVER_URL || 'https://www.uniquestaysusa.com').replace(/\/$/, '');
+const ADMIN_BASE = `${SERVER_URL}/api/stays`;
+const API_KEY = process.env.PAYLOAD_ADMIN_API_KEY;
 const BIN_PATH = `${process.env.HOME}/bin:${process.env.HOME}/go/bin`;
+const WANDER_CLI = process.env.WANDER_PP_CLI_PATH || 'wander-pp-cli';
+const AIRBNB_CLI = process.env.AIRBNB_PP_CLI_PATH || 'airbnb-pp-cli';
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
@@ -32,19 +37,43 @@ const platformFilter = args.find(a => a.startsWith('--platform='))?.split('=')[1
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-function exec(cmd) {
+async function execJson(bin, args) {
   try {
-    return execSync(cmd, { 
+    const { stdout } = await execFileAsync(bin, args, {
       encoding: 'utf8', 
       timeout: 60000,
+      maxBuffer: 20 * 1024 * 1024,
       env: { ...process.env, PATH: `${BIN_PATH}:${process.env.PATH}` }
-    }).trim();
-  } catch (e) {
+    });
+    return JSON.parse(stdout.trim());
+  } catch {
     return null;
   }
 }
 
+function findValue(input, key, seen = new Set()) {
+  if (!input || typeof input !== 'object') return null;
+  if (seen.has(input)) return null;
+  seen.add(input);
+
+  if (Object.prototype.hasOwnProperty.call(input, key)) {
+    const value = input[key];
+    if (typeof value === 'string' || typeof value === 'number') return String(value);
+  }
+
+  for (const value of Object.values(input)) {
+    const found = findValue(value, key, seen);
+    if (found !== null) return found;
+  }
+
+  return null;
+}
+
 async function apiFetch(path, opts = {}) {
+  if (!API_KEY) {
+    throw new Error('PAYLOAD_ADMIN_API_KEY is required for enrichment reads and writes');
+  }
+
   const url = `${ADMIN_BASE}${path}`;
   const res = await fetch(url, {
     ...opts,
@@ -70,17 +99,9 @@ async function enrichWanderStay(stay) {
   }
 
   console.log(`  Fetching Wander data for ${slug}...`);
-  const json = exec(`wander-pp-cli get ${slug} --agent`);
-  if (!json) {
+  const prop = await execJson(WANDER_CLI, ['get', slug, '--agent']);
+  if (!prop) {
     console.error(`  ✗ Failed to fetch ${slug}`);
-    return null;
-  }
-
-  let prop;
-  try {
-    prop = JSON.parse(json);
-  } catch {
-    console.error(`  ✗ Invalid JSON for ${slug}`);
     return null;
   }
 
@@ -174,17 +195,13 @@ async function enrichAirbnbStay(stay) {
   }
 
   console.log(`  Fetching Airbnb data for room ${roomId}...`);
-  const json = exec(`airbnb-pp-cli airbnb-listing get ${roomId} --agent`);
-  if (!json) {
+  const data = await execJson(AIRBNB_CLI, ['airbnb-listing', 'get', roomId, '--agent']);
+  if (!data) {
     console.error(`  ✗ Failed to fetch room ${roomId}`);
     return null;
   }
 
-  // Parse the JSON — it may have duplicate keys, so we extract what we need via string ops
-  const extract = (key) => {
-    const m = json.match(new RegExp(`"${key}"\\s*:\\s*"?([^",\\n}]+)"?`));
-    return m ? m[1].replace(/"/g, '') : null;
-  };
+  const extract = (key) => findValue(data, key);
   const extractNum = (key) => {
     const v = extract(key);
     return v ? parseFloat(v.replace(/[^0-9.]/g, '')) || 0 : 0;

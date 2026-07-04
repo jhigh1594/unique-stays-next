@@ -5,6 +5,8 @@ import { NextResponse } from 'next/server'
 export const maxDuration = 60
 
 import { discoverAll } from '@/lib/discovery/discoverer'
+import type { DiscoveredListing } from '@/lib/discovery/discoverer'
+import { hydrateListingsFromPlatformCli } from '@/lib/discovery/platform-cli'
 import { scoreBatch } from '@/lib/discovery/scorer'
 import { sendDiscoveryNotification } from '@/lib/discovery/notify'
 
@@ -20,19 +22,7 @@ export async function POST(req: Request) {
     const minScore = 4
 
     // Phase 1: Crawl
-    const rawListings: Array<{
-      title: string
-      location: string
-      state: string
-      description: string
-      imageUrl: string
-      price: number | null
-      rating: number | null
-      reviewCount: number | null
-      sourceUrl: string
-      platform: string
-      amenities: string[]
-    }> = await discoverAll()
+    const rawListings: DiscoveredListing[] = await discoverAll()
 
     if (rawListings.length === 0) {
       return NextResponse.json({ ok: true, discovered: 0, written: 0 })
@@ -47,13 +37,26 @@ export async function POST(req: Request) {
     const existingUrls = new Set(existingStays.docs.map((s) => s.affiliateUrl as string))
     const candidateUrls = new Set(existingCandidates.docs.map((c) => c.sourceUrl as string))
 
-    const newListings = rawListings.filter((l) => !existingUrls.has(l.sourceUrl) && !candidateUrls.has(l.sourceUrl))
+    const dedupedListings = rawListings.filter((l) => !existingUrls.has(l.sourceUrl) && !candidateUrls.has(l.sourceUrl))
 
-    if (newListings.length === 0) {
+    if (dedupedListings.length === 0) {
       return NextResponse.json({ ok: true, discovered: rawListings.length, written: 0 })
     }
 
-    // Phase 3: Score
+    // Phase 3: Hydrate platform listings through the printing-press CLIs.
+    const newListings = await hydrateListingsFromPlatformCli(dedupedListings)
+
+    if (newListings.length === 0) {
+      return NextResponse.json({
+        ok: true,
+        discovered: rawListings.length,
+        deduped: dedupedListings.length,
+        cliBacked: 0,
+        written: 0,
+      })
+    }
+
+    // Phase 4: Score
     const scored = await scoreBatch(newListings)
 
     // Merge scored results with original listing data
@@ -61,6 +64,8 @@ export async function POST(req: Request) {
       ...s,
       sourceUrl: newListings[i].sourceUrl,
       platform: newListings[i].platform as 'Airbnb' | 'VRBO' | 'Wander',
+      state: newListings[i].state,
+      region: newListings[i].region,
       rating: newListings[i].rating,
       reviewCount: newListings[i].reviewCount,
     }))
@@ -74,7 +79,8 @@ export async function POST(req: Request) {
       return NextResponse.json({
         ok: true,
         discovered: rawListings.length,
-        deduped: newListings.length,
+        deduped: dedupedListings.length,
+        cliBacked: newListings.length,
         scored: scored.length,
         written: 0,
       })
@@ -100,7 +106,8 @@ export async function POST(req: Request) {
             platform: item.platform,
             title: item.title,
             location: item.location,
-            state: '',
+            state: item.state,
+            region: item.region,
             price: item.price,
             rating: item.rating,
             reviewCount: item.reviewCount,
@@ -139,7 +146,8 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       discovered: rawListings.length,
-      deduped: newListings.length,
+      deduped: dedupedListings.length,
+      cliBacked: newListings.length,
       scored: scored.length,
       written,
     })

@@ -38,7 +38,14 @@ export const CandidateStays: CollectionConfig = {
           depth: 0,
         })
 
-        if (existing.totalDocs > 0) return
+        if (existing.totalDocs > 0) {
+          await req.payload.delete({
+            collection: 'candidate-stays',
+            id: doc.id,
+            overrideAccess: true,
+          })
+          return
+        }
 
         // Look up category and spoke(s) for auto-promotion
         const targetSpokeSlug = (doc.targetSpoke as string) || 'unique'
@@ -87,12 +94,14 @@ export const CandidateStays: CollectionConfig = {
           rating: doc.rating ?? undefined,
           reviewCount: doc.reviewCount ?? undefined,
           sleeps: 1,
-          bedrooms: 0,
+          bedrooms: 1,
+          bathrooms: 1,
           description: (doc.scrapedDescription as string) ?? '',
           tags: (doc.scrapedAmenities as Array<{ amenity: string }>)?.map((a) => ({ tag: a.amenity })) ?? [],
           featured: false,
           editorsPick: false,
           isNew: true,
+          hidden: true,
           needsReview: true,
           reviewReason: 'Auto-promoted from candidate — needs category/spoke assignment before publishing',
         }
@@ -128,11 +137,10 @@ export const CandidateStays: CollectionConfig = {
           data: stayData as any,
         })
 
-        // Set reviewedAt on the candidate
-        await req.payload.update({
+        // Remove the reviewed candidate from the queue once promotion succeeds.
+        await req.payload.delete({
           collection: 'candidate-stays',
           id: doc.id,
-          data: { reviewedAt: new Date().toISOString() },
           overrideAccess: true,
         })
       },
