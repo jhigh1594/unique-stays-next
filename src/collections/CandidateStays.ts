@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { toWanderAffiliateUrl } from '@/lib/affiliate/wander'
+
 export const CandidateStays: CollectionConfig = {
   slug: 'candidate-stays',
   labels: {
@@ -24,6 +26,10 @@ export const CandidateStays: CollectionConfig = {
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-|-$/g, '')
           .slice(0, 80)
+        const sourceUrl = doc.sourceUrl as string
+        const affiliateUrl = doc.platform === 'Wander'
+          ? toWanderAffiliateUrl(sourceUrl) ?? sourceUrl
+          : sourceUrl
 
         // Check if stay already exists by slug or source URL
         const existing = await req.payload.find({
@@ -31,7 +37,8 @@ export const CandidateStays: CollectionConfig = {
           where: {
             or: [
               { slug: { equals: slug } },
-              { affiliateUrl: { equals: doc.sourceUrl } },
+              { affiliateUrl: { equals: sourceUrl } },
+              { affiliateUrl: { equals: affiliateUrl } },
             ],
           },
           limit: 1,
@@ -87,7 +94,7 @@ export const CandidateStays: CollectionConfig = {
           category: categoryId,
           spokes: spokeIds,
           platform: doc.platform,
-          affiliateUrl: doc.sourceUrl,
+          affiliateUrl,
           image: doc.heroImage ?? undefined,
           imageUrl: doc.imageUrl ?? '',
           price: doc.price ?? 0,

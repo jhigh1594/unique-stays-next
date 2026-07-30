@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { normalizeWanderAffiliateUrl } from '@/lib/affiliate/wander'
+
 async function revalidateTag(tag: string) {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'
   const secret = process.env.REVALIDATE_SECRET
@@ -42,7 +44,13 @@ export const Stays: CollectionConfig = {
   },
   hooks: {
     beforeChange: [
-      ({ data, operation }) => {
+      ({ data, operation, originalDoc }) => {
+        const platform = data.platform ?? originalDoc?.platform
+        if (platform === 'Wander' && typeof data.affiliateUrl === 'string') {
+          const affiliateUrl = normalizeWanderAffiliateUrl(data.affiliateUrl)
+          if (affiliateUrl) data.affiliateUrl = affiliateUrl
+        }
+
         // Flag stays with non-R2 hero image URLs for review
         // R2 URLs are durable; external CDN URLs (muscache.com, etc.) can expire
         if (operation === 'create' || operation === 'update') {
